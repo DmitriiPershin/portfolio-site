@@ -1,0 +1,85 @@
+---
+import GlowIcon from "./GlowIcon.astro";
+
+const inputs = [
+  { label: "Референсы", icon: "/assets/icon-references.svg", nodeId: "358:652" },
+  { label: "Пожелания", icon: "/assets/icon-wishes.svg", nodeId: "358:658" },
+  { label: "Сайт", icon: "/assets/icon-site.svg", nodeId: "358:665" },
+  { label: "Брендбук", icon: "/assets/icon-brandbook.svg", nodeId: "358:672" },
+];
+
+const tools = [
+  { id: "claude-context", title: "Claude", icon: "/assets/logo-claude.svg", incoming: "Контекст", area: "claudeContext", nodeId: "358:686" },
+  { id: "magnific", title: "Magnific", icon: "/assets/logo-magnific.svg", incoming: "Интерпретация контекста", area: "magnific", nodeId: "358:680" },
+  { id: "claude-style", title: "Claude", icon: "/assets/logo-claude.svg", incoming: "Стили", area: "claudeStyle", nodeId: "358:692" },
+  { id: "figma", title: "Figma", icon: "/assets/logo-figma.svg", incoming: "Variables.json · Styles.json", area: "figma", nodeId: "358:697" },
+  { id: "designer", title: "Designer", icon: "/assets/logo-designer.svg", incoming: "Template", area: "designer", nodeId: "358:711" },
+  { id: "frontend", title: "Frontend", icon: "/assets/logo-frontend.png", incoming: "Design Assets · JSON", area: "frontend", nodeId: "358:708" },
+];
+---
+
+<section class="ai-workflow section-shell section-shell--wide" id="ai-workflow" data-section="ai-workflow" data-node-id="358:631">
+  <div data-reveal="icon">
+    <GlowIcon variant="workflow" nodeId="358:632" />
+  </div>
+
+  <div class="section-copy ai-workflow__copy" data-node-id="358:644">
+    <div class="display-heading-mask" data-reveal="heading">
+      <h2 class="sr-only">AI Workflow</h2>
+      <picture>
+        <source media="(max-width: 640px)" srcset="/assets/heading-ai-workflow-mobile.png" />
+        <img
+          class="display-heading display-heading--workflow"
+          src="/assets/heading-ai-workflow.png"
+          alt=""
+          width="761"
+          height="42"
+          data-node-id="358:645"
+        />
+      </picture>
+    </div>
+
+    <p class="section-headline" data-reveal="copy" data-node-id="358:646">
+      Создал AI ферму по производству стилей,<br /> иллюстраций, фонов и иконок
+    </p>
+  </div>
+
+  <div class="workflow-scene" data-workflow-scene data-node-id="358:647">
+    <svg class="workflow-connectors" data-workflow-connectors aria-hidden="true">
+      <defs>
+        <marker id="flow-arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto" markerUnits="strokeWidth">
+          <path d="M0,0 L8,4 L0,8 Z" fill="#4058f4"></path>
+        </marker>
+      </defs>
+      <g data-flow-paths></g>
+    </svg>
+
+    <div class="workflow-grid">
+      <article class="workflow-context workflow-card" data-workflow-node="context" data-node-id="358:649">
+        <h3>Контекст клиента</h3>
+        <div class="workflow-inputs" data-node-id="358:651">
+          {inputs.map((input) => (
+            <div class="workflow-input" data-workflow-input data-node-id={input.nodeId}>
+              <img src={input.icon} alt="" width="60" height="60" />
+              <span>{input.label}</span>
+            </div>
+          ))}
+        </div>
+      </article>
+
+      {tools.map((tool) => (
+        <div class="tool-wrap" style={`--tool-area: ${tool.area}`}>
+          <span class="flow-label">{tool.incoming}</span>
+          <article
+            class="workflow-tool workflow-card"
+            data-workflow-node={tool.id}
+            data-node-id={tool.nodeId}
+          >
+            <img src={tool.icon} alt="" width="150" height="150" />
+            <h3>{tool.title}</h3>
+          </article>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

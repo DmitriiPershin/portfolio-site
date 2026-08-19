@@ -1,0 +1,13 @@
+---
+interface Props {
+  variant: "focus" | "workflow";
+  nodeId?: string;
+}
+
+const { variant, nodeId } = Astro.props;
+---
+
+<div class:list={["glow-icon", `glow-icon--${variant}`]} data-icon-drift data-node-id={nodeId} aria-hidden="true">
+  <span class="glow-icon__layer glow-icon__layer--back"></span>
+  <span class="glow-icon__layer glow-icon__layer--front"></span>
+</div>

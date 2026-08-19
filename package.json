@@ -1,0 +1,29 @@
+{
+  "name": "dmitrii-pershin-portfolio",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro check && astro build",
+    "start": "node ./dist/server/entry.mjs",
+    "preview": "node ./dist/server/entry.mjs",
+    "test": "playwright test",
+    "test:smoke": "playwright test --project=chromium",
+    "check": "astro check",
+    "qa:screenshots": "node scripts/capture-qa.mjs"
+  },
+  "dependencies": {
+    "@astrojs/node": "^11.1.4",
+    "astro": "^7.2.4",
+    "gsap": "^3.15.0"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.10",
+    "@playwright/test": "^1.62.1",
+    "typescript": "^5.9.2"
+  },
+  "engines": {
+    "node": ">=22 <26"
+  }
+}

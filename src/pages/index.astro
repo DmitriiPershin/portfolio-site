@@ -1,0 +1,29 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import GlobalNav from "../components/GlobalNav.astro";
+import Hero from "../components/Hero.astro";
+import FocusSection from "../components/FocusSection.astro";
+import AiWorkflow from "../components/AiWorkflow.astro";
+---
+
+<BaseLayout
+  title="Dmitrii Pershin — Senior Product Designer"
+  description="Портфолио Дмитрия Першина: design systems, white-label продукты и AI workflow."
+>
+  <GlobalNav />
+  <main>
+    <Hero />
+    <FocusSection />
+    <AiWorkflow />
+  </main>
+  <footer class="site-footer">
+    <p>Production slice · Hero / Focus / AI Workflow</p>
+    <a href="#top">Наверх</a>
+  </footer>
+</BaseLayout>
+
+<script>
+  import { initPortfolioMotion } from "../scripts/motion";
+
+  initPortfolioMotion();
+</script>

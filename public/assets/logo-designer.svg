@@ -1,0 +1,18 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="49.9388" height="53.9486" viewBox="0 0 49.9388 53.9486" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Mobile / Pipeline / Logo" filter="url(#filter0_d_0_41)">
+<path d="M12.7552 48.9352L3.01174 4.10955C2.72132 2.77345 4.14591 1.72145 5.33742 2.39214L46.1589 25.3702C47.4297 26.0855 47.1412 27.9926 45.7157 28.3L27.8618 32.1502C27.4623 32.2364 27.1116 32.4735 26.8828 32.8121L15.6166 49.4858C14.8359 50.6411 13.0514 50.2977 12.7552 48.9352Z" fill="#8B2F75"/>
+<path d="M12.7552 48.9352L3.01174 4.10955C2.72132 2.77345 4.14591 1.72145 5.33742 2.39214L46.1589 25.3702C47.4297 26.0855 47.1412 27.9926 45.7157 28.3L27.8618 32.1502C27.4623 32.2364 27.1116 32.4735 26.8828 32.8121L15.6166 49.4858C14.8359 50.6411 13.0514 50.2977 12.7552 48.9352Z" stroke="white" stroke-width="3.96143"/>
+</g>
+<defs>
+<filter id="filter0_d_0_41" x="-5.96046e-08" y="1.19209e-07" width="49.9388" height="53.9486" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feOffset dy="0.792286"/>
+<feGaussianBlur stdDeviation="0.495179"/>
+<feComposite in2="hardAlpha" operator="out"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.19 0"/>
+<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_0_41"/>
+<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_0_41" result="shape"/>
+</filter>
+</defs>
+</svg>
