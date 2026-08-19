@@ -2,6 +2,9 @@
 
 Production portfolio based on the current Figma layouts. The first validated slice contains Hero, Focus, and AI Workflow in desktop and mobile layouts, with a shared spacing system and accessible scroll animation.
 
+- Live site: https://portfolio-production-e2d0.up.railway.app
+- GitHub: https://github.com/DmitriiPershin/portfolio-site
+
 ## Current state
 
 - Astro + TypeScript application.
@@ -96,6 +99,7 @@ LINE Seed JP is self-hosted under SIL Open Font License 1.1. Joyride is not comm
 ## Railway deployment
 
 The repository includes `railway.json` and a reproducible `Dockerfile`.
+The current production service is `portfolio` in the Railway project `dmitrii-pershin-portfolio`.
 
 1. Push changes to GitHub `main`.
 2. Connect the GitHub repository to Railway, or link the local folder once with `railway link`.
