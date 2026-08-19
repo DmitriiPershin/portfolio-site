@@ -61,6 +61,7 @@ npm run qa:screenshots
 ```
 
 The complete checklist and Dmitrii's product review steps are in `checks.md`.
+The latest recorded verification is in `docs/test-log-2026-08-19.md`.
 
 Committed reduced-motion review renders are stored in `artifacts/qa/`. They make layout comparison repeatable even when scroll reveals are intentionally disabled.
 
