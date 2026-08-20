@@ -1,13 +1,21 @@
 ---
 interface Props {
-  variant: "focus" | "workflow";
+  variant: "focus" | "skills" | "workflow" | "process" | "theme" | "interfaces" | "pet";
   nodeId?: string;
 }
 
 const { variant, nodeId } = Astro.props;
+const assets = {
+  focus: "/assets/icon-focus.png",
+  skills: "/assets/icon-skills.png",
+  workflow: "/assets/icon-ai-workflow.png",
+  process: "/assets/icon-process-ai.png",
+  theme: "/assets/icon-theme-builders.png",
+  interfaces: "/assets/icon-interfaces.png",
+  pet: "/assets/icon-pet-project.png",
+};
 ---
 
 <div class:list={["glow-icon", `glow-icon--${variant}`]} data-icon-drift data-node-id={nodeId} aria-hidden="true">
-  <span class="glow-icon__layer glow-icon__layer--back"></span>
-  <span class="glow-icon__layer glow-icon__layer--front"></span>
+  <img src={assets[variant]} alt="" width="300" height="300" />
 </div>

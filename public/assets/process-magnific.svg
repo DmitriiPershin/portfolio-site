@@ -1,0 +1,17 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="150" height="150" viewBox="0 0 150 150" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Frame 37184">
+<rect x="0.5" y="0.5" width="149" height="149" rx="38.5" stroke="url(#paint0_linear_0_5)"/>
+<g id="Mobile / Process / Logo">
+<path d="M9 65.4103C9 38.8182 9 25.5222 17.2611 17.2611C25.5222 9 38.8182 9 65.4103 9H84.5897C111.182 9 124.478 9 132.739 17.2611C141 25.5222 141 38.8182 141 65.4103V84.5897C141 111.182 141 124.478 132.739 132.739C124.478 141 111.182 141 84.5897 141H65.4103C38.8182 141 25.5222 141 17.2611 132.739C9 124.478 9 111.182 9 84.5897V65.4103Z" fill="#151515"/>
+<path d="M65.2476 42.5705L74.8091 65.6474L84.3657 42.5705H103.489L122.611 109.497C122.868 109.497 98.7103 109.497 98.7103 109.497L74.8091 79.494L50.9079 109.497C50.9079 109.497 26.7504 109.497 27.0067 109.497L46.1247 42.5705H65.2476Z" fill="white"/>
+</g>
+</g>
+<defs>
+<linearGradient id="paint0_linear_0_5" x1="81.3689" y1="-3.26871" x2="153.631" y2="153.207" gradientUnits="userSpaceOnUse">
+<stop stop-color="#35BF27"/>
+<stop offset="0.269231" stop-color="#B0FFBD" stop-opacity="0.1"/>
+<stop offset="0.634615" stop-color="#73DF72" stop-opacity="0"/>
+<stop offset="1" stop-color="#35BF27"/>
+</linearGradient>
+</defs>
+</svg>

@@ -1,27 +1,52 @@
 <header class="floating-header" aria-label="Быстрая навигация">
-  <span class="language-mark" aria-label="Русская версия">
-    <img src="/assets/globe.svg" alt="" width="48" height="48" />
-  </span>
+  <button class="language-button" type="button" aria-label="Switch to English" data-language-toggle>
+    <img src="/assets/globe-figma.svg" alt="" width="48" height="48" />
+    <span class="language-code" aria-hidden="true">RU</span>
+  </button>
 
-  <button
-    class="menu-button"
-    type="button"
-    aria-label="Открыть меню"
-    aria-expanded="false"
-    aria-controls="site-menu"
-    data-menu-toggle
-  >
-    <span></span>
-    <span></span>
-    <span></span>
+  <button class="menu-button" type="button" aria-label="Открыть меню" aria-expanded="false" aria-controls="site-menu" data-menu-toggle>
+    <span></span><span></span><span></span>
   </button>
 </header>
 
 <div class="menu-overlay" id="site-menu" aria-hidden="true" data-menu-overlay>
   <nav aria-label="Разделы портфолио">
-    <a href="#focus">FOCUS</a>
-    <a href="#ai-workflow">AI WORKFLOW</a>
-    <span>PROCESS &amp; AI — NEXT</span>
-    <span>THEME BUILDERS — NEXT</span>
+    <a href="#focus">Focus</a>
+    <a href="#hard-skills">Hardskills</a>
+    <a href="#soft-skills">Softskills</a>
+    <a href="#ai-workflow">AI Workflow</a>
+    <a href="#process-ai">Process &amp; AI</a>
+    <a href="#theme-builders">Theme Builders</a>
+    <a href="#interfaces">Interfaces</a>
+    <a href="#pet-project">Pet Project</a>
   </nav>
+</div>
+
+<button class="avatar-button" type="button" aria-label="Открыть контакты" aria-expanded="false" aria-controls="contact-overlay" data-contact-toggle>
+  <img class="avatar-button__photo" src="/assets/avatar.png" alt="Dmitrii Pershin" width="120" height="120" />
+  <img class="avatar-button__ring" src="/assets/avatar-ring.svg" alt="" width="120" height="120" />
+  <span class="avatar-button__status" aria-hidden="true"></span>
+</button>
+
+<div class="contact-overlay" id="contact-overlay" aria-hidden="true" data-contact-overlay>
+  <div class="contact-dialog" role="dialog" aria-modal="true" aria-labelledby="contact-title">
+    <h2 id="contact-title">Nice to meet you</h2>
+    <p>
+      <span data-locale="ru">Напишите мне — отвечу и буду рад познакомиться.</span>
+      <span data-locale="en" hidden>Send me a message — I will be happy to connect.</span>
+    </p>
+    <div class="contact-links">
+      <a href="https://t.me/dmitrii_pershin" target="_blank" rel="noreferrer">
+        <img src="/assets/contact-telegram.svg" alt="" width="48" height="48" />
+        <span>Telegram</span><strong>@dmitrii_pershin</strong>
+      </a>
+      <a href="mailto:pershindmitrii@gmail.com">
+        <img src="/assets/contact-email.svg" alt="" width="48" height="48" />
+        <span>Email</span><strong>pershindmitrii@gmail.com</strong>
+      </a>
+    </div>
+    <button class="contact-close" type="button" data-contact-close>
+      <span data-locale="ru">Закрыть</span><span data-locale="en" hidden>Close</span>
+    </button>
+  </div>
 </div>

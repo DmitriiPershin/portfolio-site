@@ -1,0 +1,82 @@
+---
+import GlowIcon from "./GlowIcon.astro";
+
+const hardSkills = [
+  ["Полный цикл продуктового дизайна", "Full-cycle product design"],
+  ["White-label дизайн", "White-label design"],
+  ["Multibrand дизайн-системы", "Multibrand design systems"],
+  ["Архитектура AI-процессов", "AI process architecture"],
+  ["Автоматизация дизайн процессов", "Design process automation"],
+  ["Вайбкодинг", "Vibe coding"],
+  ["Архитектура Figma", "Figma architecture"],
+  ["Автоматизация Figma", "Figma automation"],
+  ["JSON-to-Figma", "JSON to Figma"],
+  ["UI/UX", "UI/UX"],
+  ["AI-прототипирование", "AI prototyping"],
+  ["AI-генерация графики и видео", "AI image and video generation"],
+  ["Исследования с помощью AI", "AI-assisted research"],
+  ["Финтех", "Fintech"],
+  ["Криптовалюты", "Crypto"],
+];
+
+const softSkills = [
+  ["Автономность", "Autonomy"],
+  ["Погружение в контекст", "Context immersion"],
+  ["Продуктовая инициативность", "Product initiative"],
+  ["Постановка правильных вопросов", "Asking the right questions"],
+  ["Формулирование проблемы", "Problem framing"],
+  ["Видение продукта целиком", "Holistic product vision"],
+  ["Ответственность за результат", "Ownership of outcomes"],
+  ["Ориентация на масштабирование", "Scaling mindset"],
+  ["Документирование решений", "Decision documentation"],
+  ["Работа со стейкхолдерами", "Stakeholder collaboration"],
+  ["Системное мышление", "Systems thinking"],
+  ["Стратегическое мышление", "Strategic thinking"],
+  ["Предпринимательское мышление", "Entrepreneurial thinking"],
+  ["Итеративное мышление", "Iterative thinking"],
+  ["Процессное мышление", "Process thinking"],
+  ["Быстрое освоение инструментов", "Fast tool adoption"],
+  ["Дизайн-ревью", "Design reviews"],
+  ["Визуальный вкус", "Visual taste"],
+  ["Технологическое любопытство", "Technology curiosity"],
+  ["Эксперименты", "Experimentation"],
+];
+---
+
+<section class="skills section-shell section-shell--wide" id="hard-skills" data-section="skills" data-node-id="358:537">
+  <div data-reveal="icon"><GlowIcon variant="skills" nodeId="358:538" /></div>
+
+  <div class="skill-group" data-node-id="358:555">
+    <div class="display-heading-mask" data-reveal="heading">
+      <h2 class="sr-only">Hard Skills</h2>
+      <picture>
+        <source media="(max-width: 640px)" srcset="/assets/heading-hard-skills-mobile.png" />
+        <img class="display-heading display-heading--hard" src="/assets/heading-hard-skills.png" alt="" width="665" height="42" />
+      </picture>
+    </div>
+    <div class="skill-chips skill-chips--hard" data-reveal="copy">
+      {hardSkills.map(([ru, en]) => (
+        <span class="skill-chip interactive-card">
+          <span data-locale="ru">{ru}</span><span data-locale="en" hidden>{en}</span>
+        </span>
+      ))}
+    </div>
+  </div>
+
+  <div class="skill-group" id="soft-skills" data-node-id="358:588">
+    <div class="display-heading-mask" data-reveal="heading">
+      <h2 class="sr-only">Soft Skills</h2>
+      <picture>
+        <source media="(max-width: 640px)" srcset="/assets/heading-soft-skills-mobile.png" />
+        <img class="display-heading display-heading--soft" src="/assets/heading-soft-skills.png" alt="" width="655" height="46" />
+      </picture>
+    </div>
+    <div class="skill-chips skill-chips--soft" data-reveal="copy">
+      {softSkills.map(([ru, en]) => (
+        <span class="skill-chip interactive-card">
+          <span data-locale="ru">{ru}</span><span data-locale="en" hidden>{en}</span>
+        </span>
+      ))}
+    </div>
+  </div>
+</section>

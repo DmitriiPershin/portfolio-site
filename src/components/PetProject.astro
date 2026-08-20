@@ -1,0 +1,39 @@
+---
+import GlowIcon from "./GlowIcon.astro";
+
+const platforms = [
+  { icon: "/assets/platform-chrome.svg", title: "Google Chrome", url: "https://chromewebstore.google.com/" },
+  { icon: "/assets/platform-web.svg", title: "Web", url: "#" },
+  { icon: "/assets/platform-openai.svg", title: "ChatGPT", url: "https://chatgpt.com/" },
+];
+---
+
+<section class="pet section-shell section-shell--wide" id="pet-project" data-section="pet" data-node-id="358:892">
+  <div data-reveal="icon"><GlowIcon variant="pet" nodeId="358:893" /></div>
+  <div class="display-heading-mask" data-reveal="heading">
+    <h2 class="sr-only">Pet Project</h2>
+    <picture>
+      <source media="(max-width: 640px)" srcset="/assets/heading-pet-project-mobile.png" />
+      <img class="display-heading display-heading--pet" src="/assets/heading-pet-project.png" alt="" width="729" height="42" />
+    </picture>
+  </div>
+  <p class="section-headline localized-copy pet__headline" data-reveal="copy">
+    <span data-locale="ru">Запустил таймер на трёх платформах</span>
+    <span data-locale="en" hidden>Launched a timer on three platforms</span>
+  </p>
+
+  <article class="pet-card interactive-card" data-card-reveal>
+    <picture>
+      <img class="pet-card__visual" src="/assets/pet-project.webp" alt="Интерфейс визуального таймера" width="985" height="554" />
+    </picture>
+    <div class="pet-platforms">
+      {platforms.map((platform) => (
+        <a class="pet-platform" href={platform.url} target={platform.url === "#" ? undefined : "_blank"} rel={platform.url === "#" ? undefined : "noreferrer"}>
+          <img src={platform.icon} alt="" width="50" height="50" />
+          <span>{platform.title}</span>
+          <span aria-hidden="true">↗</span>
+        </a>
+      ))}
+    </div>
+  </article>
+</section>

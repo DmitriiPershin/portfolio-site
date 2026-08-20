@@ -10,29 +10,34 @@ Hiring managers, design leaders, founders, and product teams evaluating senior p
 
 ## Current scope
 
-The first production slice implements three Russian-language sections from Figma:
+The full Russian desktop and mobile portfolio is implemented, with an English content layer:
 
 1. Hero.
 2. Focus.
-3. AI Workflow.
-
-The slice is intentionally used to validate visual fidelity, responsive behavior, spacing tokens, and the motion direction before building the remaining sections.
+3. Hard Skills and Soft Skills.
+4. AI Workflow.
+5. Process & AI.
+6. Theme Builders.
+7. Interfaces.
+8. Pet Project.
+9. Closing and contact.
 
 ## Design source
 
 - Figma file: `RohXp9xh64xj3NpvNcCe4j`.
 - Desktop frame: `358:434`.
 - Mobile frame: `372:928`.
-- Implemented desktop nodes: `358:512`, `358:519`, `358:631`.
-- Implemented mobile nodes: `372:932`, `372:935`, `372:1042`.
+- Section node IDs are recorded in `README.md` and on the matching DOM sections.
 
 ## Constraints
 
 - Astro + TypeScript.
 - CSS for layout, hover/focus, and ambient motion.
-- GSAP + ScrollTrigger as the only animation library.
-- No React, smooth-scroll library, WebGL, or second animation runtime in this slice.
+- GSAP + ScrollTrigger as the only animation runtime.
+- No React, smooth-scroll library, WebGL, or second motion library.
 - Essential content is visible without JavaScript.
-- `prefers-reduced-motion` disables transforms, drawing, and ambient drift.
-- Joyride is represented by exported Figma artwork; the locally installed desktop font is not redistributed as a webfont.
-- LINE Seed JP is distributed under SIL OFL 1.1 and is self-hosted.
+- `prefers-reduced-motion` disables reveals and ambient drift while preserving layout and connector geometry.
+- Joyride is represented by exported Figma artwork; desktop font binaries are not redistributed.
+- LINE Seed JP is self-hosted under SIL OFL 1.1.
+- No database is required.
+- GitHub `main` is the deployment source for Railway.

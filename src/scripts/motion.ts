@@ -3,150 +3,154 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const workflowLinks = [
-  ["context", "claude-context"],
-  ["claude-context", "magnific"],
-  ["magnific", "claude-style"],
-  ["claude-style", "figma"],
-  ["figma", "designer"],
-  ["designer", "frontend"],
-] as const;
+type Language = "ru" | "en";
 
 const select = <T extends Element>(selector: string, scope: ParentNode = document) =>
   scope.querySelector<T>(selector);
-
 const selectAll = <T extends Element>(selector: string, scope: ParentNode = document) =>
   Array.from(scope.querySelectorAll<T>(selector));
 
-function initMenu() {
-  const toggle = select<HTMLButtonElement>("[data-menu-toggle]");
-  const overlay = select<HTMLElement>("[data-menu-overlay]");
+function setBodyLocked() {
+  const openOverlay = select<HTMLElement>('[data-menu-overlay][aria-hidden="false"], [data-contact-overlay][aria-hidden="false"]');
+  document.body.classList.toggle("overlay-open", Boolean(openOverlay));
+}
 
-  if (!toggle || !overlay) return;
+function initOverlays() {
+  const menuToggle = select<HTMLButtonElement>("[data-menu-toggle]");
+  const menuOverlay = select<HTMLElement>("[data-menu-overlay]");
+  const contactToggle = select<HTMLButtonElement>("[data-contact-toggle]");
+  const contactOverlay = select<HTMLElement>("[data-contact-overlay]");
+  const contactClose = select<HTMLButtonElement>("[data-contact-close]");
 
-  const setOpen = (open: boolean) => {
-    toggle.setAttribute("aria-expanded", String(open));
-    toggle.setAttribute("aria-label", open ? "Закрыть меню" : "Открыть меню");
-    overlay.setAttribute("aria-hidden", String(!open));
-    document.body.classList.toggle("menu-open", open);
-
-    if (open) {
-      select<HTMLAnchorElement>("a", overlay)?.focus();
-    } else {
-      toggle.focus();
-    }
+  const setMenu = (open: boolean) => {
+    if (!menuToggle || !menuOverlay) return;
+    menuToggle.setAttribute("aria-expanded", String(open));
+    menuOverlay.setAttribute("aria-hidden", String(!open));
+    if (open && contactOverlay?.getAttribute("aria-hidden") === "false") setContact(false);
+    setBodyLocked();
+    if (open) select<HTMLAnchorElement>("a", menuOverlay)?.focus();
   };
 
-  toggle.addEventListener("click", () => setOpen(toggle.getAttribute("aria-expanded") !== "true"));
-  selectAll<HTMLAnchorElement>("a", overlay).forEach((link) => link.addEventListener("click", () => setOpen(false)));
+  const setContact = (open: boolean) => {
+    if (!contactToggle || !contactOverlay) return;
+    contactToggle.setAttribute("aria-expanded", String(open));
+    contactOverlay.setAttribute("aria-hidden", String(!open));
+    if (open && menuOverlay?.getAttribute("aria-hidden") === "false") setMenu(false);
+    setBodyLocked();
+    if (open) select<HTMLAnchorElement>("a", contactOverlay)?.focus();
+  };
+
+  menuToggle?.addEventListener("click", () => setMenu(menuToggle.getAttribute("aria-expanded") !== "true"));
+  selectAll<HTMLAnchorElement>("a", menuOverlay ?? document).forEach((link) => link.addEventListener("click", () => setMenu(false)));
+  contactToggle?.addEventListener("click", () => setContact(contactToggle.getAttribute("aria-expanded") !== "true"));
+  contactClose?.addEventListener("click", () => {
+    setContact(false);
+    contactToggle?.focus();
+  });
+
   document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape" && toggle.getAttribute("aria-expanded") === "true") setOpen(false);
+    if (event.key !== "Escape") return;
+    if (menuToggle?.getAttribute("aria-expanded") === "true") {
+      setMenu(false);
+      menuToggle.focus();
+    }
+    if (contactToggle?.getAttribute("aria-expanded") === "true") {
+      setContact(false);
+      contactToggle.focus();
+    }
   });
 }
 
-function makeConnectorPath(source: HTMLElement, target: HTMLElement, scene: HTMLElement) {
-  const sceneRect = scene.getBoundingClientRect();
-  const sourceRect = source.getBoundingClientRect();
-  const targetRect = target.getBoundingClientRect();
-  const isMobile = window.matchMedia("(max-width: 640px)").matches;
+function initLanguage() {
+  const toggle = select<HTMLButtonElement>("[data-language-toggle]");
+  const code = select<HTMLElement>(".language-code", toggle ?? document);
+  if (!toggle) return;
 
-  if (!isMobile && Math.abs(targetRect.top - sourceRect.top) < 60) {
-    const travelsLeft = targetRect.left < sourceRect.left;
-    const x1 = (travelsLeft ? sourceRect.left : sourceRect.right) - sceneRect.left;
-    const y1 = sourceRect.top + sourceRect.height / 2 - sceneRect.top;
-    const x2 = (travelsLeft ? targetRect.right : targetRect.left) - sceneRect.left;
-    const y2 = targetRect.top + targetRect.height / 2 - sceneRect.top;
-    const bend = Math.max(48, Math.abs(x2 - x1) * 0.42);
-    const c1 = x1 + (travelsLeft ? -bend : bend);
-    const c2 = x2 + (travelsLeft ? bend : -bend);
-    return `M ${x1} ${y1} C ${c1} ${y1}, ${c2} ${y2}, ${x2} ${y2}`;
+  let language: Language = "ru";
+  try {
+    const saved = window.localStorage.getItem("portfolio-language");
+    if (saved === "ru" || saved === "en") language = saved;
+  } catch {
+    // The default Russian content remains usable when storage is unavailable.
   }
 
-  const x1 = sourceRect.left + sourceRect.width / 2 - sceneRect.left;
-  const y1 = sourceRect.bottom - sceneRect.top;
-  const x2 = targetRect.left + targetRect.width / 2 - sceneRect.left;
-  const y2 = targetRect.top - sceneRect.top;
-  const midpoint = y1 + (y2 - y1) * 0.5;
-  return `M ${x1} ${y1} C ${x1} ${midpoint}, ${x2} ${midpoint}, ${x2} ${y2}`;
+  const apply = (next: Language) => {
+    language = next;
+    document.documentElement.lang = next;
+    selectAll<HTMLElement>("[data-locale]").forEach((element) => {
+      element.hidden = element.dataset.locale !== next;
+    });
+    if (code) code.textContent = next.toUpperCase();
+    toggle.setAttribute("aria-label", next === "ru" ? "Switch to English" : "Переключить на русский");
+    const menuButton = select<HTMLButtonElement>("[data-menu-toggle]");
+    const contactButton = select<HTMLButtonElement>("[data-contact-toggle]");
+    if (menuButton) menuButton.setAttribute("aria-label", next === "ru" ? "Открыть меню" : "Open menu");
+    if (contactButton) contactButton.setAttribute("aria-label", next === "ru" ? "Открыть контакты" : "Open contacts");
+    document.title = next === "ru"
+      ? "Dmitrii Pershin — Senior Product Designer"
+      : "Dmitrii Pershin — Senior Product Designer Portfolio";
+    try {
+      window.localStorage.setItem("portfolio-language", next);
+    } catch {
+      // Language switching itself does not depend on storage.
+    }
+    ScrollTrigger.refresh();
+  };
+
+  toggle.addEventListener("click", () => apply(language === "ru" ? "en" : "ru"));
+  apply(language);
+
+  let ticking = false;
+  const updateVisibility = () => {
+    toggle.classList.toggle("is-scrolled-away", window.scrollY > 40);
+    ticking = false;
+  };
+  window.addEventListener("scroll", () => {
+    if (ticking) return;
+    ticking = true;
+    window.requestAnimationFrame(updateVisibility);
+  }, { passive: true });
+  updateVisibility();
 }
 
-function initWorkflowConnectors(reducedMotion: boolean) {
-  const scene = select<HTMLElement>("[data-workflow-scene]");
-  const svg = select<SVGSVGElement>("[data-workflow-connectors]");
-  const pathGroup = select<SVGGElement>("[data-flow-paths]");
-  if (!scene || !svg || !pathGroup) return () => undefined;
-
-  let pathTweens: gsap.core.Tween[] = [];
-
-  const build = () => {
-    pathTweens.forEach((tween) => tween.kill());
-    pathTweens = [];
-    pathGroup.replaceChildren();
-
-    const width = scene.clientWidth;
-    const height = scene.clientHeight;
-    svg.setAttribute("viewBox", `0 0 ${width} ${height}`);
-
-    workflowLinks.forEach(([sourceId, targetId], index) => {
-      const source = select<HTMLElement>(`[data-workflow-node="${sourceId}"]`, scene);
-      const target = select<HTMLElement>(`[data-workflow-node="${targetId}"]`, scene);
-      if (!source || !target) return;
-
-      const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
-      path.classList.add("flow-path");
-      path.setAttribute("d", makeConnectorPath(source, target, scene));
-      path.setAttribute("marker-end", "url(#flow-arrow)");
-      path.dataset.pathIndex = String(index);
-      pathGroup.append(path);
-
-      const length = path.getTotalLength();
-      path.style.strokeDasharray = `${length}`;
-      path.style.strokeDashoffset = reducedMotion ? "0" : `${length}`;
-
-      if (!reducedMotion) {
-        const tween = gsap.to(path, {
-          strokeDashoffset: 0,
-          duration: 0.75,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: target,
-            start: "top 78%",
-            once: true,
-          },
-        });
-        pathTweens.push(tween);
-      }
+function initDetails() {
+  selectAll<HTMLButtonElement>("[data-details-toggle]").forEach((button) => {
+    button.addEventListener("click", () => {
+      const card = button.closest<HTMLElement>("[data-detail-card]");
+      if (!card) return;
+      const open = !card.classList.contains("is-open");
+      card.classList.toggle("is-open", open);
+      button.setAttribute("aria-expanded", String(open));
+      ScrollTrigger.refresh();
     });
-  };
+  });
+}
 
-  const onResize = () => window.requestAnimationFrame(build);
-  build();
-  window.addEventListener("resize", onResize, { passive: true });
-  return () => {
-    window.removeEventListener("resize", onResize);
-    pathTweens.forEach((tween) => tween.kill());
-  };
+function initCardHover() {
+  selectAll<HTMLElement>(".interactive-card").forEach((card) => {
+    card.addEventListener("pointermove", (event) => {
+      const rect = card.getBoundingClientRect();
+      card.style.setProperty("--hover-x", `${((event.clientX - rect.left) / rect.width) * 100}%`);
+      card.style.setProperty("--hover-y", `${((event.clientY - rect.top) / rect.height) * 100}%`);
+    });
+    card.addEventListener("pointerleave", () => {
+      card.style.setProperty("--hover-x", "50%");
+      card.style.setProperty("--hover-y", "50%");
+    });
+  });
 }
 
 function showEverything() {
   gsap.set(
-    [
-      "[data-hero-logo]",
-      "[data-hero-role]",
-      "[data-reveal]",
-      "[data-workflow-node]",
-      "[data-workflow-input]",
-      ".flow-label",
-    ],
+    ["[data-hero-logo]", "[data-hero-role]", "[data-reveal]", "[data-card-reveal]", "[data-workflow-node]", "[data-workflow-input]", ".connector", ".connector-label", ".workflow-connectors-mobile"],
     { opacity: 1, y: 0, scale: 1, clipPath: "inset(0 0% 0 0)", clearProps: "transform" },
   );
 }
 
 function initHero() {
-  const timeline = gsap.timeline({ defaults: { ease: "power3.out" } });
-  timeline
-    .to("[data-hero-logo]", { clipPath: "inset(0 0% 0 0)", duration: 0.9 })
-    .fromTo("[data-hero-role]", { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.6 }, "-=0.45");
+  gsap.timeline({ defaults: { ease: "power3.out" } })
+    .to("[data-hero-logo]", { clipPath: "inset(0 0% 0 0)", duration: 1.1 })
+    .fromTo("[data-hero-role]", { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.8 }, "-=0.55");
 }
 
 function initSectionReveals() {
@@ -155,72 +159,63 @@ function initSectionReveals() {
     const heading = select<HTMLElement>("[data-reveal='heading']", section);
     const headingImage = heading?.querySelector("img");
     const copy = selectAll<HTMLElement>("[data-reveal='copy']", section);
-
+    const cards = selectAll<HTMLElement>("[data-card-reveal]", section);
     const timeline = gsap.timeline({
-      scrollTrigger: { trigger: section, start: "top 76%", once: true },
+      scrollTrigger: { trigger: section, start: "top 78%", once: true },
       defaults: { ease: "power3.out" },
     });
 
-    if (icon) timeline.fromTo(icon, { opacity: 0, scale: 0.96 }, { opacity: 1, scale: 1, duration: 0.6 });
-    if (heading) timeline.set(heading, { opacity: 1 }, "-=0.24");
-    if (headingImage) timeline.fromTo(headingImage, { yPercent: 110 }, { yPercent: 0, duration: 0.6 }, "<");
-    if (copy.length) timeline.fromTo(copy, { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.6, stagger: 0.07 }, "-=0.3");
+    if (icon) timeline.fromTo(icon, { opacity: 0, scale: 0.975 }, { opacity: 1, scale: 1, duration: 0.9 });
+    if (heading) timeline.set(heading, { opacity: 1 }, "-=0.4");
+    if (headingImage) timeline.fromTo(headingImage, { yPercent: 112 }, { yPercent: 0, duration: 0.8 }, "<");
+    if (copy.length) timeline.fromTo(copy, { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.8, stagger: 0.08 }, "-=0.42");
+    if (cards.length) timeline.fromTo(cards, { opacity: 0, y: 22 }, { opacity: 1, y: 0, duration: 0.9, stagger: 0.1 }, "-=0.38");
   });
 }
 
 function initWorkflowReveals() {
-  const context = select<HTMLElement>("[data-workflow-node='context']");
-  if (context) {
-    const contextTimeline = gsap.timeline({
-      scrollTrigger: { trigger: context, start: "top 78%", once: true },
-      defaults: { ease: "power3.out" },
-      onComplete: () => context.classList.add("is-revealed"),
-    });
-    contextTimeline
-      .fromTo(context, { opacity: 0, y: 32 }, { opacity: 1, y: 0, duration: 0.6 })
-      .fromTo(
-        selectAll<HTMLElement>("[data-workflow-input]", context),
-        { opacity: 0, y: 12, scale: 0.97 },
-        { opacity: 1, y: 0, scale: 1, duration: 0.45, stagger: 0.06 },
-        "-=0.28",
-      );
-  }
+  const scene = select<HTMLElement>("[data-workflow-scene]");
+  if (!scene) return;
+  const cards = selectAll<HTMLElement>("[data-workflow-node]", scene);
+  const inputs = selectAll<HTMLElement>("[data-workflow-input]", scene);
+  const desktopConnectors = selectAll<HTMLElement>(".connector", scene);
+  const labels = selectAll<HTMLElement>(".connector-label", scene);
+  const mobileConnector = select<HTMLElement>(".workflow-connectors-mobile", scene);
 
-  selectAll<HTMLElement>("[data-workflow-node]:not([data-workflow-node='context'])").forEach((card) => {
-    const label = card.parentElement?.querySelector<HTMLElement>(".flow-label");
-    const timeline = gsap.timeline({
-      scrollTrigger: { trigger: card, start: "top 80%", once: true },
-      defaults: { ease: "power3.out" },
-      onComplete: () => card.classList.add("is-revealed"),
-    });
-    if (label) timeline.to(label, { opacity: 1, duration: 0.24 });
-    timeline.fromTo(card, { opacity: 0, y: 32, scale: 0.985 }, { opacity: 1, y: 0, scale: 1, duration: 0.6 }, label ? "-=0.08" : 0);
+  const timeline = gsap.timeline({
+    scrollTrigger: { trigger: scene, start: "top 76%", once: true },
+    defaults: { ease: "power3.out" },
   });
+  timeline
+    .fromTo(cards, { opacity: 0, y: 20, scale: 0.992 }, { opacity: 1, y: 0, scale: 1, duration: 0.72, stagger: 0.11 })
+    .fromTo(inputs, { opacity: 0, scale: 0.97 }, { opacity: 1, scale: 1, duration: 0.4, stagger: 0.04 }, "-=0.7");
+
+  if (desktopConnectors.length) {
+    timeline.fromTo(desktopConnectors, { opacity: 0, clipPath: "inset(0 100% 0 0)" }, { opacity: 1, clipPath: "inset(0 0% 0 0)", duration: 0.8, stagger: 0.08 }, "-=0.4");
+    timeline.fromTo(labels, { opacity: 0 }, { opacity: 1, duration: 0.45, stagger: 0.04 }, "-=0.5");
+  }
+  if (mobileConnector) {
+    timeline.fromTo(mobileConnector, { opacity: 0, clipPath: "inset(0 0 100% 0)" }, { opacity: 1, clipPath: "inset(0 0 0% 0)", duration: 1.7 }, "-=1.4");
+  }
 }
 
 export function initPortfolioMotion() {
-  initMenu();
+  initOverlays();
+  initLanguage();
+  initDetails();
+  initCardHover();
 
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   if (reducedMotion) {
     showEverything();
-    initWorkflowConnectors(true);
     document.documentElement.dataset.motion = "reduced";
     return;
   }
 
   document.documentElement.dataset.motion = "full";
-  const cleanupConnectors = initWorkflowConnectors(false);
   initHero();
   initSectionReveals();
   initWorkflowReveals();
 
-  window.addEventListener(
-    "pagehide",
-    () => {
-      cleanupConnectors();
-      ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
-    },
-    { once: true },
-  );
+  window.addEventListener("pagehide", () => ScrollTrigger.getAll().forEach((trigger) => trigger.kill()), { once: true });
 }

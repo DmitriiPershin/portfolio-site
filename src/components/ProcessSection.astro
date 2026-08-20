@@ -1,0 +1,87 @@
+---
+import GlowIcon from "./GlowIcon.astro";
+
+const cards = [
+  {
+    icon: "/assets/process-figma.svg",
+    nodeId: "358:783",
+    ru: "Плагин для Figma, который позволяет делать 20 часов ручной работы за 20 минут",
+    en: "A Figma plugin that turns 20 hours of manual work into 20 minutes",
+    bulletsRu: [
+      "Применение к макетам переменных, стилей и эффектов из JSON файлов",
+      "Экспорт JSON темы из Figma в Figma",
+      "Синхронизация JSON темы в Figma и в GitLab",
+      "Импорт JSON темы из GitLab в Figma",
+    ],
+    bulletsEn: [
+      "Apply variables, styles and effects from JSON files to layouts",
+      "Export a theme JSON from Figma to Figma",
+      "Synchronise theme JSON between Figma and GitLab",
+      "Import a theme JSON from GitLab into Figma",
+    ],
+  },
+  {
+    icon: "/assets/process-claude.svg",
+    nodeId: "358:792",
+    ru: "Скиллы в Claude создают 80% процентов темы, избавляя дизайнера от перекрашивания дефолтных токенов",
+    en: "Claude skills create 80% of a theme, so designers do not have to recolour default tokens",
+    bulletsRu: [
+      "Пошаговый процесс создания темы",
+      "Генерация JSON темы из источника: картинка, бриф, старый макет, URL",
+      "Пресеты для режимов: скругления, плотность интерфейса, размеры, жирность иконок",
+    ],
+    bulletsEn: [
+      "A step-by-step theme creation process",
+      "Generate theme JSON from an image, brief, existing layout or URL",
+      "Presets for corner radius, UI density, sizing and icon weight",
+    ],
+  },
+  {
+    icon: "/assets/process-magnific.svg",
+    nodeId: "358:800",
+    ru: "Генератор концептов даёт клиенту быстрый концепт. Дизайнер получает графику и меньшее кол-во правок",
+    en: "The concept generator gives clients a fast preview, while designers get finished graphics and fewer revisions",
+    bodyRu: "Позволяет делать брендированные иллюстрации, стили интерфейсов и прочие ассеты",
+    bodyEn: "It creates branded illustrations, interface styles and other design assets",
+  },
+];
+---
+
+<section class="process section-shell section-shell--wide" id="process-ai" data-section="process" data-node-id="358:762">
+  <div data-reveal="icon"><GlowIcon variant="process" nodeId="358:763" /></div>
+  <div class="section-copy" data-node-id="358:777">
+    <div class="display-heading-mask" data-reveal="heading">
+      <h2 class="sr-only">Process &amp; AI</h2>
+      <picture>
+        <source media="(max-width: 640px)" srcset="/assets/heading-process-ai-mobile.png" />
+        <img class="display-heading display-heading--process" src="/assets/heading-process-ai.png" alt="" width="781" height="55" />
+      </picture>
+    </div>
+    <p class="section-headline localized-copy process__headline" data-reveal="copy">
+      <span data-locale="ru">Использую AI, как часть дизайн-процесса<br />и способ создания инструментов для работы</span>
+      <span data-locale="en" hidden>I use AI as part of the design process<br />and as a way to build tools for work</span>
+    </p>
+  </div>
+
+  <div class="process-cards">
+    {cards.map((card, index) => (
+      <article class="process-card interactive-card" data-card-reveal data-detail-card data-node-id={card.nodeId}>
+        <img class="process-card__logo" src={card.icon} alt="" width="150" height="150" />
+        <h3><span data-locale="ru">{card.ru}</span><span data-locale="en" hidden>{card.en}</span></h3>
+        <button class="more-button" type="button" aria-expanded="false" aria-controls={`process-detail-${index}`} data-details-toggle>
+          <span data-locale="ru">Подробнее</span><span data-locale="en" hidden>Details</span>
+        </button>
+        <div class="process-card__details" id={`process-detail-${index}`}>
+          {card.bulletsRu ? (
+            <>
+              <ul data-locale="ru">{card.bulletsRu.map((item) => <li>{item}</li>)}</ul>
+              <ul data-locale="en" hidden>{card.bulletsEn?.map((item) => <li>{item}</li>)}</ul>
+            </>
+          ) : (
+            <p><span data-locale="ru">{card.bodyRu}</span><span data-locale="en" hidden>{card.bodyEn}</span></p>
+          )}
+        </div>
+      </article>
+    ))}
+  </div>
+</section>

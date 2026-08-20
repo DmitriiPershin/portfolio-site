@@ -1,26 +1,30 @@
-# Motion map — sprint 1
+# Motion map — complete portfolio
 
-Date: 2026-08-19.
+Date: 2026-08-20.
 
-| Section | Element | Purpose | Trigger and end state | Mobile | Reduced motion | Risk |
-|---|---|---|---|---|---|---|
-| Hero | Logo artwork | Establish the visual identity without a generic fade | Page load; horizontal mask opens and settles at full opacity | Shorter distance and duration | Immediately visible | Low |
-| Hero | Role text | Clarify the role after the name is read | Follows logo by 120 ms; rises 12 px | Same | Immediately visible | Low |
-| Focus | Shader-like icon | Introduce the section as a living system | Viewport entry; scale 0.96 → 1, then very slow 3–4 px drift | Drift amplitude halved | Static final state | Low |
-| Focus | Display heading and copy | Preserve reading order | Viewport entry; heading mask, then headline/body stagger | Body only follows heading; desktop headline is intentionally absent in Figma mobile | Static final state | Low |
-| AI Workflow | Icon and heading | Announce the main story | Viewport entry; icon, heading, supporting headline | Same, shorter | Static final state | Low |
-| AI Workflow | Context inputs | Show information gathering | Context card enters, then four inputs stagger by 60 ms | 2×2 input grid | All visible | Medium |
-| AI Workflow | Tool cards | Explain the production sequence | Each card reveals once as it reaches the viewport | Natural long scroll, no pinning | All visible | Medium |
-| AI Workflow | Connector arrows | Make causality explicit | Each path draws toward the newly revealed card | Vertical paths between cards | Full lines shown | Medium |
-| AI Workflow | Card borders | Give subtle system feedback | Border glow breathes once on reveal; small hover response | No hover dependency | Static border | Low |
+| Surface | Motion | Trigger and end state | Mobile | Reduced motion |
+|---|---|---|---|---|
+| Hero | Logo mask, then role text | Page load; logo opens horizontally, role rises 10 px | Same geometry, shorter visual distance | Immediately visible |
+| Section icons | Scale-in plus ambient drift | Section entry; exact Figma artwork settles at 1, then drifts 1–2 px over 16 s | 180 px artwork | Static |
+| Display headings | Vertical mask reveal | Follows icon on section entry | Uses dedicated mobile artwork | Immediately visible |
+| Body copy | Ordered fade/rise | Follows heading; 18 px travel | Same | Immediately visible |
+| Repeated cards | Staggered fade/rise | Section entry; 22 px travel with small stagger | Same, natural long scroll | Immediately visible |
+| AI cards | Ordered context/tool reveal | Scene entry; context and tools settle in sequence | Mobile order follows the vertical Figma flow | Immediately visible |
+| AI connectors | Clip reveal of original Figma SVGs | After cards; complete designed routes become visible | Dedicated mobile connector group reveals top-to-bottom | Complete connectors shown |
+| Section cards | Pointer-positioned radial glow | Hover/focus; gradient follows pointer with 1 s easing and 0.6% scale | No hover dependency | Static border/glow |
+| Fixed globe | Hover glow and scroll exit | Fixed initially; fades/scales out after 40 px scroll | Fixed left at 24 px | State change remains near-instant |
+| Fixed menu | Soft scale/glow and line morph | Fixed; opens full overlay, lines morph into close | Fixed right at 24 px | Near-instant state |
+| Fixed avatar | Soft scale/glow | Fixed; opens contact overlay | 60 px, bottom/right 14 px | Near-instant state |
+| Mobile details | Disclosure | Button toggles detailed text and refreshes scroll geometry | Mobile only | Near-instant state |
 
-## Tokens
+## Timing tokens
 
-- Fast UI: 160 ms.
-- UI state: 240 ms.
-- Reveal: 600 ms.
-- Reveal distance: 12–32 px.
-- Stagger: 40–70 ms.
-- Ambient drift: 10–14 seconds, 3–6 px amplitude.
-- Main reveal ease: `power3.out`.
-- No pinned scene in sprint 1.
+- UI/hover response: 700–1000 ms, `cubic-bezier(0.16, 1, 0.3, 1)`.
+- Main reveal: 720–900 ms, GSAP `power3.out`.
+- Copy/card stagger: 40–110 ms.
+- Ambient drift: 16 seconds, 1–2 px.
+- No pinned scrolling, smooth-scroll runtime, or second animation library.
+
+## Figma motion note
+
+`get_motion_context` returned no authored timeline/keyframes for the inspected desktop, mobile, Focus, and AI Workflow nodes. The production choreography therefore implements Dmitrii's requested behaviour while keeping the exact Figma geometry and artwork.

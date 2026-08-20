@@ -1,23 +1,25 @@
 # Dmitrii Pershin — portfolio
 
-Production portfolio based on the current Figma layouts. The first validated slice contains Hero, Focus, and AI Workflow in desktop and mobile layouts, with a shared spacing system and accessible scroll animation.
+Production portfolio implemented from the current desktop and mobile Figma layouts.
 
 - Live site: https://portfolio-production-e2d0.up.railway.app
 - GitHub: https://github.com/DmitriiPershin/portfolio-site
 
 ## Current state
 
-- Astro + TypeScript application.
-- GSAP + ScrollTrigger for staged and scroll-triggered motion.
-- CSS custom properties for all major spacing and motion values.
-- Figma assets stored locally; no expiring MCP URLs are used at runtime.
-- Russian content from the current desktop/mobile frames.
-- Full-motion and `prefers-reduced-motion` paths.
-- Keyboard-accessible overlay menu.
-- Playwright checks for desktop, tablet, mobile, reduced motion, overflow, menu, and health endpoint.
+- All portfolio sections are implemented: Hero, Focus, Hard/Soft Skills, AI Workflow, Process & AI, Theme Builders, Interfaces, Pet Project, and closing/contact.
+- Astro + TypeScript application with GSAP + ScrollTrigger for staged and scroll-triggered motion.
+- Exact Figma-exported section icons, display headings, AI connectors, project visuals, and avatar are stored locally.
+- Russian and English content can be switched from the fixed globe control; the choice persists locally.
+- The globe fades away after 40 px of scroll. The menu and bottom-right avatar remain fixed.
+- The avatar opens a contact panel with Telegram and email.
+- Desktop and mobile layouts follow separate Figma geometry where needed, especially AI Workflow.
+- Major layout, spacing, and timing values are CSS custom properties.
+- Full-motion and `prefers-reduced-motion` paths are supported.
+- Playwright covers desktop, tablet, mobile, overflow, languages, fixed controls, menu, contacts, mobile disclosures, reduced motion, and health.
 - Railway-ready Node server with `/api/health`.
 
-The historical prototype remains in `../designer/site/`; do not build production changes there.
+The historical prototype remains in `../designer/site/`; production changes belong here.
 
 ## Read first
 
@@ -37,7 +39,7 @@ npm ci
 
 ## Environment
 
-Copy `.env.example` to `.env` only if local host/port overrides are needed. There are no secrets in the current slice.
+Copy `.env.example` to `.env` only if local host/port overrides are needed. The current site has no required secrets or database.
 
 ## Run locally
 
@@ -47,7 +49,7 @@ Development:
 npm run dev
 ```
 
-Production build and server:
+Production:
 
 ```bash
 npm run build
@@ -59,62 +61,60 @@ npm start
 ```bash
 npm run check
 npm run build
-npm run test:smoke
+npm test
 npm run qa:screenshots
 ```
 
-The complete checklist and Dmitrii's product review steps are in `checks.md`.
-The latest recorded verification is in `docs/test-log-2026-08-19.md`.
-
-Committed reduced-motion review renders are stored in `artifacts/qa/`. They make layout comparison repeatable even when scroll reveals are intentionally disabled.
+The product review checklist is in `checks.md`. Reduced-motion desktop/mobile renders are written to `artifacts/qa/`.
 
 ## Spacing changes
 
-Change the token block at the top of `src/styles/global.css`:
+Start with the token block at the top of `src/styles/global.css`:
 
 - `--page-gutter`: page-side padding;
-- `--section-gap`: vertical distance between major sections;
-- `--section-content-gap`: distance between icon, heading, and content;
+- `--section-gap`: distance between major sections;
+- `--section-content-gap`: icon/heading/content rhythm;
 - `--copy-gap`: heading/copy rhythm;
-- `--workflow-gap`: AI Workflow card gap.
+- `--card-gap`: repeated-card spacing;
+- `--content-wide` and `--content-copy`: the two main content widths.
 
-The mobile breakpoint overrides the same tokens instead of scattering one-off values through components.
+The mobile breakpoint overrides the same tokens. Section-specific geometry remains next to its component class so it can be compared with the corresponding Figma node.
 
-## Motion system
+## Motion and hover system
 
-- Hero logo: one-time mask reveal.
-- Section icon/heading/copy: shared reveal timeline.
-- Shader-like icons: 12-second, 3–6 px ambient drift.
-- Workflow cards: reveal once on entry.
-- Borders: one subtle glow response after reveal plus hover feedback.
-- Workflow arrows: SVG paths computed from live card positions and drawn toward each next tool.
-- Reduced motion: all content and complete paths are immediately visible; no drift or long transforms.
+- Hero: one-time mask reveal.
+- Section icons: exact artwork with a 1–2 px, 16-second ambient drift.
+- Headings and copy: shared ordered reveal.
+- Cards: soft entry with 18–22 px travel.
+- AI Workflow: original Figma connector SVGs reveal after the cards. Desktop and mobile use separate connector systems.
+- Hover: pointer-positioned radial gradient plus a very small scale/glow response; each section keeps its own exact border colour and inset shadow.
+- Reduced motion: all content and complete connectors are immediately visible, with no ambient drift or long transforms.
 
-See `docs/motion-map.md` for the intent, risks, and follow-up scope.
+See `docs/motion-map.md` for the detailed map.
 
 ## Font licensing
 
-LINE Seed JP is self-hosted under SIL Open Font License 1.1. Joyride is not committed as font software: the display typography is exported as static Figma artwork and paired with accessible DOM headings. If a valid Joyride webfont kit is purchased later, these assets can be replaced with live text.
+LINE Seed JP is self-hosted under SIL Open Font License 1.1. Joyride is not committed as font software: display typography is exported as static Figma artwork and paired with accessible DOM headings.
 
 ## Railway deployment
 
-The repository includes `railway.json` and a reproducible `Dockerfile`.
-The current production service is `portfolio` in the Railway project `dmitrii-pershin-portfolio`.
+The repository includes `railway.json` and a reproducible `Dockerfile`. The production service is `portfolio` in the Railway project `dmitrii-pershin-portfolio`.
 
 1. Push changes to GitHub `main`.
-2. Connect the GitHub repository to Railway, or link the local folder once with `railway link`.
-3. Railway runs `npm ci && npm run build` and starts with `npm start`.
-4. Verify `https://<domain>/api/health` returns `{ "status": "ok" }`.
-5. Smoke-test the production page at desktop and mobile widths.
+2. Railway builds the GitHub revision with `npm ci && npm run build` and starts it with `npm start`.
+3. Verify `https://portfolio-production-e2d0.up.railway.app/api/health` returns `{ "status": "ok" }`.
+4. Smoke-test the production page at desktop and mobile widths.
 
 ## Known limitations
 
-- Only the first three sections are implemented. Process & AI and Theme Builders are the recommended next motion sprint.
-- Final spacing tokens need visual approval after the first production comparison.
-- The page is currently Russian-only; language switching belongs to a later content pass.
+- Final spacing tokens still need Dmitrii's visual approval; they are intentionally centralized for quick adjustment.
+- The English content is a parallel content layer. Figma currently defines Russian desktop/mobile geometry only.
+- Joyride headings remain image-based until a valid webfont kit is available.
 
-## Source references
+## Figma source
 
-- Figma file: `RohXp9xh64xj3NpvNcCe4j`.
-- Desktop nodes: Hero `358:512`, Focus `358:519`, AI Workflow `358:631`.
-- Mobile nodes: Hero `372:932`, Focus `372:935`, AI Workflow `372:1042`.
+- File: `RohXp9xh64xj3NpvNcCe4j`.
+- Desktop full frame: `358:434`.
+- Mobile full frame: `372:928`.
+- Desktop sections: `358:512`, `358:519`, `358:537`, `358:631`, `358:762`, `358:808`, `358:837`, `358:892`, `358:909`.
+- Mobile sections: `372:932`, `372:935`, `372:952`, `372:1042`, `372:1106`, `372:1136`, `372:1157`, `372:1205`, `383:45`.

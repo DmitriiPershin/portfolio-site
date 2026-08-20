@@ -53,3 +53,45 @@ Figma Desktop used the locally installed Joyride font.
 What this changes:
 
 The deployed site preserves the intended display forms without redistributing the font software.
+
+### 2026-08-20 - Use exact Figma exports for signature visuals
+
+What we decided:
+
+Section icons, display headings, AI Workflow connectors, project imagery, and the avatar use local exports from their exact Figma nodes.
+
+Why:
+
+The Focus icon and generated AI arrows changed the character and geometry of Dmitrii's design. These are signature assets, not generic decorations.
+
+What this changes:
+
+Animation affects containers, masks, and reveal state without redrawing the artwork. Runtime code never depends on expiring Figma URLs.
+
+### 2026-08-20 - Keep Russian and English in one geometry
+
+What we decided:
+
+Render both languages in the DOM, switch them with a fixed globe control, and persist the choice locally.
+
+Why:
+
+Figma defines Russian desktop/mobile frames but the site needs immediate language switching without duplicating every component.
+
+What this changes:
+
+Russian remains the default source layout. English uses the same responsive system and can receive a dedicated copy/line-break pass later without changing component structure.
+
+### 2026-08-20 - Use quiet, section-coloured hover motion
+
+What we decided:
+
+Every interactive card uses a pointer-positioned gradient, its Figma border colour, an inset glow, and at most a 0.6% scale response.
+
+Why:
+
+The portfolio needs visible hover feedback while Dmitrii requested ultra-smooth, nearly imperceptible movement.
+
+What this changes:
+
+Hover feedback is consistent but keeps the purple, blue, green, orange, pink, and sky section identities.

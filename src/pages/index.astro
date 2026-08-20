@@ -3,7 +3,13 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import GlobalNav from "../components/GlobalNav.astro";
 import Hero from "../components/Hero.astro";
 import FocusSection from "../components/FocusSection.astro";
+import SkillsSection from "../components/SkillsSection.astro";
 import AiWorkflow from "../components/AiWorkflow.astro";
+import ProcessSection from "../components/ProcessSection.astro";
+import ThemeBuilders from "../components/ThemeBuilders.astro";
+import InterfacesSection from "../components/InterfacesSection.astro";
+import PetProject from "../components/PetProject.astro";
+import ClosingSection from "../components/ClosingSection.astro";
 ---
 
 <BaseLayout
@@ -14,12 +20,14 @@ import AiWorkflow from "../components/AiWorkflow.astro";
   <main>
     <Hero />
     <FocusSection />
+    <SkillsSection />
     <AiWorkflow />
+    <ProcessSection />
+    <ThemeBuilders />
+    <InterfacesSection />
+    <PetProject />
+    <ClosingSection />
   </main>
-  <footer class="site-footer">
-    <p>Production slice · Hero / Focus / AI Workflow</p>
-    <a href="#top">Наверх</a>
-  </footer>
 </BaseLayout>
 
 <script>
