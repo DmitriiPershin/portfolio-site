@@ -66,6 +66,7 @@ npm run qa:screenshots
 ```
 
 The product review checklist is in `checks.md`. Reduced-motion desktop/mobile renders are written to `artifacts/qa/`.
+The latest recorded verification is in `docs/test-log-2026-08-20.md`.
 
 ## Spacing changes
 
