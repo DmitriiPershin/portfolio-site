@@ -101,7 +101,7 @@ const softMobileRows = [
     </div>
     <div class="skill-chips skill-chips--soft skill-chips--desktop" data-reveal="copy">
       {softSkills.map(([ru, en]) => (
-        <span class="skill-chip interactive-card">
+        <span class:list={["skill-chip", "interactive-card", ru.startsWith("Мышление:") && "skill-chip--thinking"]}>
           <span data-locale="ru">{ru}</span><span data-locale="en" hidden>{en}</span>
         </span>
       ))}
@@ -110,7 +110,7 @@ const softMobileRows = [
       {softMobileRows.map((row) => (
         <div class="skill-chip-row">
           {row.map(([ru, en]) => (
-            <span class="skill-chip interactive-card">
+            <span class:list={["skill-chip", "interactive-card", ru.startsWith("Мышление:") && "skill-chip--thinking"]}>
               <span data-locale="ru">{ru}</span><span data-locale="en" hidden>{en}</span>
             </span>
           ))}

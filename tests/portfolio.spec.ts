@@ -156,9 +156,13 @@ test("mobile Workflow, Skills and Interfaces match Figma geometry", async ({ pag
   const tool = scene.locator("[data-mobile-workflow-node='claude-context']");
   const connector = scene.locator(".workflow-connectors-mobile");
   const softHeading = page.locator("#soft-skills .display-heading--soft");
+  const skillsSection = page.locator("#hard-skills");
+  const thinking = skillsSection.locator(".skill-chip-rows--soft .skill-chip--thinking");
 
   await softHeading.scrollIntoViewIfNeeded();
   await expect(softHeading).toBeVisible();
+  expect(await skillsSection.evaluate((element) => Math.round(element.getBoundingClientRect().height))).toBe(2012);
+  expect(await thinking.evaluate((element) => Math.round(element.getBoundingClientRect().height))).toBe(88);
   expect(await scene.evaluate((element) => Math.round(element.getBoundingClientRect().height))).toBe(1806);
   expect(await context.evaluate((element) => [Math.round(element.getBoundingClientRect().width), Math.round(element.getBoundingClientRect().height)])).toEqual([342, 296]);
   await expect(context).toHaveCSS("border-radius", "44px");

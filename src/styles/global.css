@@ -1408,6 +1408,11 @@ html.motion-enabled .workflow-connectors-mobile {
     line-height: 18px;
   }
 
+  .skill-chip--thinking {
+    height: 88px;
+    min-height: 88px;
+  }
+
   .skill-chip-rows--hard .skill-chip {
     --card-fill: rgba(118, 85, 146, 0.3);
   }
