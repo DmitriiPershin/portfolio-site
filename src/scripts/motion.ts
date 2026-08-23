@@ -18,6 +18,7 @@ function setBodyLocked() {
 function initOverlays() {
   const menuToggle = select<HTMLButtonElement>("[data-menu-toggle]");
   const menuOverlay = select<HTMLElement>("[data-menu-overlay]");
+  const menuClose = select<HTMLButtonElement>("[data-menu-close]");
   const contactToggle = select<HTMLButtonElement>("[data-contact-toggle]");
   const contactOverlay = select<HTMLElement>("[data-contact-overlay]");
   const contactClose = select<HTMLButtonElement>("[data-contact-close]");
@@ -41,6 +42,10 @@ function initOverlays() {
   };
 
   menuToggle?.addEventListener("click", () => setMenu(menuToggle.getAttribute("aria-expanded") !== "true"));
+  menuClose?.addEventListener("click", () => {
+    setMenu(false);
+    menuToggle?.focus();
+  });
   selectAll<HTMLAnchorElement>("a", menuOverlay ?? document).forEach((link) => link.addEventListener("click", () => setMenu(false)));
   contactToggle?.addEventListener("click", () => setContact(contactToggle.getAttribute("aria-expanded") !== "true"));
   contactClose?.addEventListener("click", () => {
@@ -100,17 +105,6 @@ function initLanguage() {
   toggle.addEventListener("click", () => apply(language === "ru" ? "en" : "ru"));
   apply(language);
 
-  let ticking = false;
-  const updateVisibility = () => {
-    toggle.classList.toggle("is-scrolled-away", window.scrollY > 40);
-    ticking = false;
-  };
-  window.addEventListener("scroll", () => {
-    if (ticking) return;
-    ticking = true;
-    window.requestAnimationFrame(updateVisibility);
-  }, { passive: true });
-  updateVisibility();
 }
 
 function initDetails() {
@@ -179,42 +173,70 @@ function initBorderGlow() {
   const cards = selectAll<HTMLElement>(".interactive-card");
   ensureBorderGlows(cards);
 
-  const nearRadius = 160;
+  const BORDER_GLOW = {
+    proximityRadius: 260,
+    maxOpacity: 0.82,
+    angleSmoothing: 0.14,
+    opacitySmoothing: 0.1,
+  } as const;
+  type GlowState = { angle: number; targetAngle: number; opacity: number; targetOpacity: number };
+  const states = new Map<HTMLElement, GlowState>();
+  cards.forEach((card) => states.set(card, { angle: 0, targetAngle: 0, opacity: 0, targetOpacity: 0 }));
+
   let pointerX = 0;
   let pointerY = 0;
+  let hasPointer = false;
   let frame = 0;
 
   const render = () => {
     frame = 0;
+    let unsettled = false;
     cards.forEach((card) => {
+      const state = states.get(card);
+      if (!state) return;
       const rect = card.getBoundingClientRect();
       const dx = Math.max(rect.left - pointerX, 0, pointerX - rect.right);
       const dy = Math.max(rect.top - pointerY, 0, pointerY - rect.bottom);
       const distance = Math.hypot(dx, dy);
-      if (distance > nearRadius) {
-        card.style.setProperty("--glow-opacity", "0");
-        return;
-      }
-
       const centerX = rect.left + rect.width / 2;
       const centerY = rect.top + rect.height / 2;
-      const angle = (Math.atan2(pointerY - centerY, pointerX - centerX) * 180) / Math.PI;
-      const strength = 1 - distance / nearRadius;
-      card.style.setProperty("--glow-angle", `${Math.round(angle * 100) / 100}deg`);
-      card.style.setProperty("--glow-opacity", `${Math.round(strength * 1000) / 1000}`);
+      state.targetAngle = (Math.atan2(pointerY - centerY, pointerX - centerX) * 180) / Math.PI;
+      const hovered = card.matches(":hover");
+      const proximity = hovered ? 1 : hasPointer ? Math.max(0, 1 - distance / BORDER_GLOW.proximityRadius) : 0;
+      const easedProximity = proximity * proximity * (3 - 2 * proximity);
+      state.targetOpacity = easedProximity * BORDER_GLOW.maxOpacity;
+
+      const angleDelta = ((state.targetAngle - state.angle + 540) % 360) - 180;
+      state.angle += angleDelta * BORDER_GLOW.angleSmoothing;
+      state.opacity += (state.targetOpacity - state.opacity) * BORDER_GLOW.opacitySmoothing;
+      if (Math.abs(angleDelta) > 0.08 || Math.abs(state.targetOpacity - state.opacity) > 0.004) unsettled = true;
+
+      card.style.setProperty("--glow-angle", `${Math.round(state.angle * 100) / 100}deg`);
+      card.style.setProperty("--glow-opacity", `${Math.round(state.opacity * 1000) / 1000}`);
       card.style.setProperty("--glow-cover", `${Math.ceil(Math.hypot(rect.width, rect.height))}px`);
     });
+    if (unsettled) frame = window.requestAnimationFrame(render);
+  };
+
+  const scheduleFrame = () => {
+    if (!frame) frame = window.requestAnimationFrame(render);
   };
 
   const schedule = (event: PointerEvent) => {
     if (event.pointerType === "touch") return;
+    hasPointer = true;
     pointerX = event.clientX;
     pointerY = event.clientY;
-    if (!frame) frame = window.requestAnimationFrame(render);
+    scheduleFrame();
   };
 
-  const clear = () => cards.forEach((card) => card.style.setProperty("--glow-opacity", "0"));
+  const clear = () => {
+    hasPointer = false;
+    states.forEach((state) => { state.targetOpacity = 0; });
+    scheduleFrame();
+  };
   window.addEventListener("pointermove", schedule, { passive: true });
+  window.addEventListener("scroll", scheduleFrame, { passive: true });
   document.documentElement.addEventListener("pointerleave", clear);
   window.addEventListener("blur", clear);
 }
@@ -257,7 +279,7 @@ function initMobileScrollGlow() {
 
 function showEverything() {
   gsap.set(
-    ["[data-hero-logo]", "[data-hero-role]", "[data-reveal]", "[data-card-reveal]", "[data-workflow-node]", "[data-workflow-input]", "[data-mobile-workflow-node]", "[data-mobile-workflow-input]", ".connector", ".connector-label", "[data-mobile-flow]"],
+    ["[data-hero-logo]", "[data-hero-role]", "[data-reveal]", "[data-card-reveal]", "[data-workflow-node]", "[data-workflow-input]", "[data-mobile-workflow-node]", "[data-mobile-workflow-input]", ".workflow-route", ".workflow-route-translation", "[data-mobile-flow]"],
     { opacity: 1, y: 0, scale: 1, clipPath: "inset(0 0% 0 0)", clearProps: "transform" },
   );
 }
@@ -325,8 +347,8 @@ function initWorkflowReveals() {
   if (!scene) return;
   const cards = selectAll<HTMLElement>("[data-workflow-node], [data-mobile-workflow-node]", scene);
   const inputs = selectAll<HTMLElement>("[data-workflow-input], [data-mobile-workflow-input]", scene);
-  const desktopConnectors = selectAll<HTMLElement>(".connector", scene);
-  const labels = selectAll<HTMLElement>(".connector-label", scene);
+  const desktopConnectors = selectAll<HTMLElement>(".workflow-route", scene);
+  const labels = selectAll<HTMLElement>(".workflow-route-translation", scene);
   const mobileFlows = selectAll<HTMLElement>("[data-mobile-flow]", scene);
 
   const timeline = gsap.timeline({

@@ -37,24 +37,23 @@ const tools = [
 
   <div class="workflow-stage" data-workflow-scene data-node-id="358:647">
     <div class="workflow-scene workflow-scene--desktop">
-      <div class="workflow-connectors-desktop" aria-hidden="true">
-        <img class="connector connector--top-a" src="/assets/ai-connector-top-a.svg" alt="" />
-        <img class="connector connector--top-b" src="/assets/ai-connector-top-b.svg" alt="" />
-        <img class="connector connector--context-down" src="/assets/ai-connector-context-down.svg" alt="" />
-        <img class="connector connector--left" src="/assets/ai-connector-left.svg" alt="" />
-        <img class="connector connector--center" src="/assets/ai-connector-center.svg" alt="" />
-        <img class="connector connector--right" src="/assets/ai-connector-right.svg" alt="" />
-        <img class="connector connector--bottom-left" src="/assets/ai-connector-bottom-left.svg" alt="" />
-        <img class="connector connector--bottom" src="/assets/ai-connector-bottom.svg" alt="" />
-        <span class="connector-label connector-label--context"><span data-locale="ru">Контекст</span><span data-locale="en" hidden>Context</span></span>
-        <span class="connector-label connector-label--interpretation"><span data-locale="ru">Интерпретация контекста</span><span data-locale="en" hidden>Context interpretation</span></span>
-        <span class="connector-label connector-label--styles"><span data-locale="ru">Стили</span><span data-locale="en" hidden>Styles</span></span>
-        <span class="connector-label connector-label--tokens-a">Variables.json</span>
-        <span class="connector-label connector-label--tokens-b">Styles.json</span>
-        <span class="connector-label connector-label--template">Template</span>
-        <span class="connector-label connector-label--assets">Design Assets</span>
-        <span class="connector-label connector-label--variables-a">Variables.json</span>
-        <span class="connector-label connector-label--variables-b">Styles.json</span>
+      <div class="workflow-routes-desktop" aria-hidden="true">
+        <svg class="workflow-route-filter" width="0" height="0" focusable="false">
+          <filter id="workflow-route-alpha" color-interpolation-filters="sRGB">
+            <feColorMatrix values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  .2126 .7152 .0722 0 0" />
+            <feComponentTransfer><feFuncA type="linear" slope="3" /></feComponentTransfer>
+          </filter>
+        </svg>
+        <img class="workflow-route workflow-route--context" src="/assets/ai-route-context.png" alt="" />
+        <img class="workflow-route workflow-route--interpretation" src="/assets/ai-route-interpretation.png" alt="" />
+        <img class="workflow-route workflow-route--styles" src="/assets/ai-route-styles.png" alt="" />
+        <img class="workflow-route workflow-route--variables" src="/assets/ai-route-variables.png" alt="" />
+        <img class="workflow-route workflow-route--template" src="/assets/ai-route-template.png" alt="" />
+        <img class="workflow-route workflow-route--assets" src="/assets/ai-route-assets.png" alt="" />
+        <img class="workflow-route workflow-route--files" src="/assets/ai-route-files.png" alt="" />
+        <span class="workflow-route-translation workflow-route-translation--context" data-locale="en" hidden>Context</span>
+        <span class="workflow-route-translation workflow-route-translation--interpretation" data-locale="en" hidden>Context interpretation</span>
+        <span class="workflow-route-translation workflow-route-translation--styles" data-locale="en" hidden>Styles</span>
       </div>
 
       <div class="workflow-grid">

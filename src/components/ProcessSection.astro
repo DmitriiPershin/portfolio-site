@@ -66,18 +66,20 @@ const cards = [
   <div class="process-cards">
     {cards.map((card, index) => (
       <article class="process-card interactive-card" data-card-reveal data-detail-card data-node-id={card.nodeId}>
-        <img class="process-card__logo" src={card.icon} alt="" width="150" height="150" />
-        <h3><span data-locale="ru">{card.ru}</span><span data-locale="en" hidden>{card.en}</span></h3>
-        <div class="process-card__details" id={`process-detail-${index}`}>
-          {card.bulletsRu ? (
-            <>
-              <ul data-locale="ru">{card.bulletsRu.map((item) => <li>{item}</li>)}</ul>
-              <ul data-locale="en" hidden>{card.bulletsEn?.map((item) => <li>{item}</li>)}</ul>
-            </>
-          ) : (
-            <p><span data-locale="ru">{card.bodyRu}</span><span data-locale="en" hidden>{card.bodyEn}</span></p>
-          )}
+        <div class="process-card__content">
+          <h3><span data-locale="ru">{card.ru}</span><span data-locale="en" hidden>{card.en}</span></h3>
+          <div class="process-card__details" id={`process-detail-${index}`}>
+            {card.bulletsRu ? (
+              <>
+                <ul data-locale="ru">{card.bulletsRu.map((item) => <li>{item}</li>)}</ul>
+                <ul data-locale="en" hidden>{card.bulletsEn?.map((item) => <li>{item}</li>)}</ul>
+              </>
+            ) : (
+              <p><span data-locale="ru">{card.bodyRu}</span><span data-locale="en" hidden>{card.bodyEn}</span></p>
+            )}
+          </div>
         </div>
+        <img class="process-card__logo" src={card.icon} alt="" width="150" height="150" />
         <button class="more-button" type="button" aria-expanded="false" aria-controls={`process-detail-${index}`} data-details-toggle>
           <span data-locale="ru">Подробнее</span><span data-locale="en" hidden>Details</span>
         </button>

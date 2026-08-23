@@ -5,23 +5,32 @@
 - Final spacing values remain provisional until Dmitrii reviews the deployed desktop and mobile renders against Figma.
 - English has no dedicated Figma frame, so long English labels may need a later typography pass.
 - Joyride display copy is image-based until a valid webfont license/kit is supplied.
+- The Pet Project ChatGPT URL currently opens the generic Plugins page. Figma contains no hyperlink, so the final public timer URL is required from Dmitrii.
 
 ## Resolved
 
+- 2026-08-23: Desktop navigation still used fixed positioning and the language control disappeared through scroll-state JavaScript. Both desktop controls now use the exact Figma absolute coordinates and scroll away with the page; the menu surface has no shadow.
+- 2026-08-23: Menu and contact overlays used approximate live typography and centered card layouts. Rebuilt both from Figma nodes `473:110` and `473:124`, including exact Joyride exports, `85/86 px` placement, `62 px` contact icons, close controls, and responsive versions.
+- 2026-08-23: The avatar displayed the full raw composite inside the inner ellipse, making the portrait appear too small. Added the exact `110.118/55.059 px` clipping ellipse and Figma's `-39.96% / 179.92%` image crop.
+- 2026-08-23: Desktop AI Workflow arrows and labels were separate positioned layers and drifted apart. Replaced them with seven joined Figma route exports and removed their opaque export backgrounds at render time with a shared SVG alpha filter.
+- 2026-08-23: Desktop Process cards stacked icons above copy and used approximate strokes/fills. Restored the Figma `676 + 28 + 150 px` horizontal layout, right-side icons, `1 px` stroke, black fill, `80 px` radius, and `20 px` card gap.
+- 2026-08-23: Hard Skills used a gradient border instead of the authored solid stroke/backing. Restored the exact `#765592` stroke, 30% purple backing, `26 px` radius, and inset shadow.
+- 2026-08-23: Theme Builders artwork was scaled from its full `633 × 468 px` export, shrinking the visible form. It now renders at export scale inside the exact clipped `300/180 px` Figma node on desktop/mobile.
+- 2026-08-23: Pointer-following borders reacted abruptly to every pointer event. Added smoothstep proximity falloff plus independently tunable `260 px` radius, `0.14` angle inertia, `0.10` opacity inertia, and `0.82` maximum opacity.
 - 2026-08-23: Direct Railway uploads could time out while transferring committed QA screenshots and leave `INITIALIZING` drafts without builds. Added `.railwayignore` so production snapshots contain only runtime/build inputs while QA artifacts remain versioned in GitHub.
-- 2026-08-23: Mobile menu/language controls stayed fixed and no longer matched the Figma header. Moved both into the exact `343 × 48 px` absolute header at `24 px` top/left so they scroll away naturally; desktop fixed behaviour remains unchanged.
+- 2026-08-23: Mobile menu/language controls stayed fixed and no longer matched the Figma header. Moved both into the exact `343 × 48 px` absolute header at `24 px` top/left so they scroll away naturally.
 - 2026-08-23: Mobile cards had no equivalent for the desktop pointer glow. Added one shared ScrollTrigger-driven border system that rotates every card's conic highlight with scroll and disables it for reduced motion.
 - 2026-08-23: The single mobile Workflow connector asset could not keep one-, two-, and three-chip arrow groups centred after responsive text/layout changes. Replaced it with six local `116 px` connector rows whose tracks and chips share the same grid.
 - 2026-08-23: Process and Theme Builders disclosures jumped open, remained reversible, and left the control in the wrong position. They now reveal extra text smoothly once; the button follows the expanding content and then disappears without replacing existing copy.
-- 2026-08-23: The mobile Theme Builders icon was capped to its `180 px` container and appeared much smaller than the Figma artwork. Restored the exported artwork's `300 × 222 px` render inside the exact `180 × 180 px` node.
+- 2026-08-23: The mobile Theme Builders icon was capped to the export bounds and appeared much smaller than the Figma artwork. Restored the `633 × 468 px` export scale inside the exact clipped `180 × 180 px` node.
 - 2026-08-23: Avatar photo padding and status-dot sizing did not match the responsive Figma ellipses. Corrected the `120/60 px` outer sizes, `110.118/55.059 px` inner artwork, and `18/9 px` status rings.
 - 2026-08-23: Pet Project platform cards used placeholder destinations and labels. Connected the preview plus website, Chrome Web Store, and ChatGPT cards to the supplied URLs and restored the responsive Figma card typography/icon sizing.
 - 2026-08-23: Desktop AI Workflow rows were positioned by repeated percentages, which accumulated vertical error and moved arrows away from card endpoints. Replaced them with the exact `1152 × 2128` Figma coordinates and corrected every row, connector, label, radius, and padding.
 - 2026-08-23: Mobile AI Workflow mixed flex gaps with absolutely positioned labels, so the shared connector SVG missed cards. Rebuilt it as the Figma `342 × 1806.154` sequence with 40 px gaps, `342 × 136` elliptical tool cards, and the connector group at `top: 306.921px`.
 - 2026-08-23: The second Soft Skills heading stayed transparent because only the first heading in a section received a reveal animation. Each heading now owns its own scroll trigger and the mobile heading is covered by a visibility regression test.
-- 2026-08-23: Hard/Soft skill chips used flat borders and approximate shadows. Restored the Figma gradient stroke, `26px` radius, `60px / -17.68px` inset shadow, exact desktop chip copy, and the designed mobile row composition.
+- 2026-08-23: Soft skill chips used approximate shadows and row composition. Restored the Figma `26 px` radius, inset effect, exact desktop copy, and designed mobile rows; Hard Skills now follow their separate solid-stroke style.
 - 2026-08-23: Theme Builder metrics and Interfaces metrics used approximate sizes, type, order, and effects. Restored the exact Figma desktop/mobile geometry, gradient strokes, inset shadows, missing Interfaces headline, and path-safe Figma exports for every Joyride number.
-- 2026-08-23: The menu had an unwanted blur/drop shadow. It remains viewport-fixed but now has a transparent, shadowless surface; scroll position is regression-tested.
+- 2026-08-23: The menu had an unwanted blur/drop shadow. It now has a transparent, shadowless trigger and scrolls with the document; position is regression-tested.
 - 2026-08-23: The original hover changed card scale, fill, and inset shadow. Replaced it with the PremiumExchanger-style cursor-proximity border segment, leaving the Figma card styling untouched.
 - 2026-08-23: Wide mobile artwork could enlarge full-page screenshots even though the document reported no scrolling overflow. Added clipping at the main viewport boundary and expanded QA captures to four focused sections per breakpoint.
 - 2026-08-20: The Focus icon was an approximate CSS recreation and no longer matched Figma. Replaced it with the exact export from node `358:520`; ambient motion now affects only its container.
