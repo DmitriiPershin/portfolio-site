@@ -82,7 +82,6 @@ const tools = [
     </div>
 
     <div class="workflow-scene workflow-scene--mobile">
-      <img class="workflow-connectors-mobile" src="/assets/ai-connectors-mobile.svg" alt="" aria-hidden="true" />
       <div class="workflow-mobile-sequence">
         <article class="workflow-context workflow-card interactive-card" data-mobile-workflow-node="context">
           <h3><span data-locale="ru">Контекст клиента</span><span data-locale="en" hidden>Client context</span></h3>
@@ -96,27 +95,48 @@ const tools = [
           </div>
         </article>
 
-        <span class="mobile-flow-label"><span data-locale="ru">Контекст</span><span data-locale="en" hidden>Context</span></span>
+        <div class="mobile-flow mobile-flow--1" data-mobile-flow aria-hidden="true">
+          <span class="mobile-flow__track">
+            <span class="mobile-flow-label"><span data-locale="ru">Контекст</span><span data-locale="en" hidden>Context</span></span>
+          </span>
+        </div>
         <article class="workflow-tool workflow-card interactive-card" data-mobile-workflow-node="claude-context">
           <img src="/assets/logo-claude.svg" alt="" width="48" height="48" /><h3>Claude</h3>
         </article>
-        <span class="mobile-flow-label"><span data-locale="ru">Интерпретация контекста</span><span data-locale="en" hidden>Context interpretation</span></span>
+        <div class="mobile-flow mobile-flow--1" data-mobile-flow aria-hidden="true">
+          <span class="mobile-flow__track">
+            <span class="mobile-flow-label"><span data-locale="ru">Интерпретация контекста</span><span data-locale="en" hidden>Context interpretation</span></span>
+          </span>
+        </div>
         <article class="workflow-tool workflow-card interactive-card" data-mobile-workflow-node="magnific">
           <img src="/assets/logo-magnific.svg" alt="" width="48" height="48" /><h3>Magnific</h3>
         </article>
-        <span class="mobile-flow-label"><span data-locale="ru">Стили</span><span data-locale="en" hidden>Styles</span></span>
+        <div class="mobile-flow mobile-flow--1" data-mobile-flow aria-hidden="true">
+          <span class="mobile-flow__track">
+            <span class="mobile-flow-label"><span data-locale="ru">Стили</span><span data-locale="en" hidden>Styles</span></span>
+          </span>
+        </div>
         <article class="workflow-tool workflow-card interactive-card" data-mobile-workflow-node="claude-style">
           <img src="/assets/logo-claude.svg" alt="" width="48" height="48" /><h3>Claude</h3>
         </article>
-        <span class="mobile-flow-label mobile-flow-label--group"><span>Variables.json</span><span>Styles.json</span></span>
+        <div class="mobile-flow mobile-flow--2" data-mobile-flow aria-hidden="true">
+          <span class="mobile-flow__track"><span class="mobile-flow-label">Variables.json</span></span>
+          <span class="mobile-flow__track"><span class="mobile-flow-label">Styles.json</span></span>
+        </div>
         <article class="workflow-tool workflow-card interactive-card" data-mobile-workflow-node="figma">
           <img src="/assets/logo-figma.svg" alt="" width="48" height="48" /><h3>Figma</h3>
         </article>
-        <span class="mobile-flow-label">Template</span>
+        <div class="mobile-flow mobile-flow--1" data-mobile-flow aria-hidden="true">
+          <span class="mobile-flow__track"><span class="mobile-flow-label">Template</span></span>
+        </div>
         <article class="workflow-tool workflow-card interactive-card" data-mobile-workflow-node="designer">
           <img src="/assets/logo-designer.svg" alt="" width="48" height="48" /><h3>Designer</h3>
         </article>
-        <span class="mobile-flow-label mobile-flow-label--group"><span>Design Assets</span><span>Styles.json</span><span>Variables.json</span></span>
+        <div class="mobile-flow mobile-flow--3" data-mobile-flow aria-hidden="true">
+          <span class="mobile-flow__track"><span class="mobile-flow-label">Design Assets</span></span>
+          <span class="mobile-flow__track"><span class="mobile-flow-label">Styles.json</span></span>
+          <span class="mobile-flow__track"><span class="mobile-flow-label">Variables.json</span></span>
+        </div>
         <article class="workflow-tool workflow-card interactive-card" data-mobile-workflow-node="frontend">
           <img src="/assets/logo-frontend.png" alt="" width="48" height="48" /><h3>Frontend</h3>
         </article>

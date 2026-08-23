@@ -2,10 +2,12 @@
 import GlowIcon from "./GlowIcon.astro";
 
 const platforms = [
-  { icon: "/assets/platform-chrome.svg", title: "Google Chrome", url: "https://chromewebstore.google.com/" },
-  { icon: "/assets/platform-web.svg", title: "Web", url: "#" },
-  { icon: "/assets/platform-openai.svg", title: "ChatGPT", url: "https://chatgpt.com/" },
+  { icon: "/assets/platform-chrome.svg", title: "Google Chrome", url: "https://chromewebstore.google.com/detail/30-minute-timer-%E2%80%94-visual/jlanaofbnlecdkajoeojkdelomollkkg" },
+  { icon: "/assets/platform-web.svg", title: "30mintimer.com", url: "https://www.30mintimer.com/?t=30&u=min&bg=0fe6584a-afcd-41d6-98e0-6f2c390aa519&text=You+Are+Awesome%21&icon=1&ring=female_voice&halfway=1&density=2&iconAnimation=2&display=1&animation=1" },
+  { icon: "/assets/platform-openai.svg", title: "Open AI", url: "https://chatgpt.com/plugins/plugin_asdk_app_6a2420b57e388191a16f2f65fe21191c" },
 ];
+
+const timerUrl = platforms[1].url;
 ---
 
 <section class="pet section-shell section-shell--wide" id="pet-project" data-section="pet" data-node-id="358:892">
@@ -23,15 +25,16 @@ const platforms = [
   </p>
 
   <article class="pet-card interactive-card" data-card-reveal>
-    <picture>
-      <img class="pet-card__visual" src="/assets/pet-project.webp" alt="Интерфейс визуального таймера" width="985" height="554" />
-    </picture>
+    <a class="pet-card__visual-link" href={timerUrl} target="_blank" rel="noreferrer" aria-label="Открыть 30 Minute Timer">
+      <picture>
+        <img class="pet-card__visual" src="/assets/pet-project.webp" alt="Интерфейс визуального таймера" width="985" height="554" />
+      </picture>
+    </a>
     <div class="pet-platforms">
       {platforms.map((platform) => (
-        <a class="pet-platform" href={platform.url} target={platform.url === "#" ? undefined : "_blank"} rel={platform.url === "#" ? undefined : "noreferrer"}>
-          <img src={platform.icon} alt="" width="50" height="50" />
+        <a class="pet-platform" href={platform.url} target="_blank" rel="noreferrer">
           <span>{platform.title}</span>
-          <span aria-hidden="true">↗</span>
+          <img src={platform.icon} alt="" width="60" height="60" />
         </a>
       ))}
     </div>

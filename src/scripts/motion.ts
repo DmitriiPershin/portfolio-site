@@ -114,15 +114,60 @@ function initLanguage() {
 }
 
 function initDetails() {
+  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
   selectAll<HTMLButtonElement>("[data-details-toggle]").forEach((button) => {
     button.addEventListener("click", () => {
       const card = button.closest<HTMLElement>("[data-detail-card]");
       if (!card) return;
-      const open = !card.classList.contains("is-open");
-      card.classList.toggle("is-open", open);
-      button.setAttribute("aria-expanded", String(open));
-      ScrollTrigger.refresh();
-    });
+      const details = selectAll<HTMLElement>(".process-card__details, .theme-copy__secondary, .theme-copy__details", card);
+      if (!details.length) return;
+
+      card.classList.add("is-open");
+      button.disabled = true;
+      button.setAttribute("aria-expanded", "true");
+
+      if (reducedMotion) {
+        card.classList.add("is-revealed");
+        button.hidden = true;
+        ScrollTrigger.refresh();
+        return;
+      }
+
+      gsap.timeline({
+        defaults: { ease: "power3.out" },
+        onComplete: () => {
+          card.classList.add("is-revealed");
+          button.hidden = true;
+          gsap.set(details, { clearProps: "height,overflow,transform,opacity" });
+          ScrollTrigger.refresh();
+        },
+      })
+        .fromTo(details, {
+          display: "block",
+          height: 0,
+          overflow: "hidden",
+          opacity: 0,
+          y: -10,
+        }, {
+          height: "auto",
+          opacity: 1,
+          y: 0,
+          duration: 0.72,
+          stagger: 0.08,
+        })
+        .to(button, { opacity: 0, y: 8, height: 0, paddingTop: 0, paddingBottom: 0, duration: 0.32 }, "-=0.18");
+    }, { once: true });
+  });
+}
+
+function ensureBorderGlows(cards: HTMLElement[]) {
+  cards.forEach((card) => {
+    if (card.querySelector(":scope > .card-border-glow")) return;
+    const glow = document.createElement("span");
+    glow.className = "card-border-glow";
+    glow.setAttribute("aria-hidden", "true");
+    card.prepend(glow);
   });
 }
 
@@ -132,13 +177,7 @@ function initBorderGlow() {
   if (!supportsHover || reducedMotion) return;
 
   const cards = selectAll<HTMLElement>(".interactive-card");
-  cards.forEach((card) => {
-    if (card.querySelector(":scope > .card-border-glow")) return;
-    const glow = document.createElement("span");
-    glow.className = "card-border-glow";
-    glow.setAttribute("aria-hidden", "true");
-    card.prepend(glow);
-  });
+  ensureBorderGlows(cards);
 
   const nearRadius = 160;
   let pointerX = 0;
@@ -180,9 +219,45 @@ function initBorderGlow() {
   window.addEventListener("blur", clear);
 }
 
+function initMobileScrollGlow() {
+  if (!window.matchMedia("(max-width: 640px)").matches) return;
+
+  const cards = selectAll<HTMLElement>(".interactive-card");
+  ensureBorderGlows(cards);
+  document.documentElement.dataset.scrollGlow = "mobile";
+
+  const refreshGeometry = () => {
+    cards.forEach((card) => {
+      const rect = card.getBoundingClientRect();
+      card.style.setProperty("--glow-cover", `${Math.ceil(Math.hypot(rect.width, rect.height))}px`);
+      card.style.setProperty("--glow-opacity", "0.82");
+    });
+  };
+
+  const updateAngles = () => {
+    const scrollAngle = window.scrollY * 0.22;
+    cards.forEach((card, index) => {
+      const angle = (scrollAngle + index * 23) % 360;
+      card.style.setProperty("--glow-angle", `${Math.round(angle * 100) / 100}deg`);
+    });
+  };
+
+  ScrollTrigger.create({
+    start: 0,
+    end: () => ScrollTrigger.maxScroll(window),
+    onRefresh: () => {
+      refreshGeometry();
+      updateAngles();
+    },
+    onUpdate: updateAngles,
+  });
+  refreshGeometry();
+  updateAngles();
+}
+
 function showEverything() {
   gsap.set(
-    ["[data-hero-logo]", "[data-hero-role]", "[data-reveal]", "[data-card-reveal]", "[data-workflow-node]", "[data-workflow-input]", "[data-mobile-workflow-node]", "[data-mobile-workflow-input]", ".connector", ".connector-label", ".workflow-connectors-mobile"],
+    ["[data-hero-logo]", "[data-hero-role]", "[data-reveal]", "[data-card-reveal]", "[data-workflow-node]", "[data-workflow-input]", "[data-mobile-workflow-node]", "[data-mobile-workflow-input]", ".connector", ".connector-label", "[data-mobile-flow]"],
     { opacity: 1, y: 0, scale: 1, clipPath: "inset(0 0% 0 0)", clearProps: "transform" },
   );
 }
@@ -252,7 +327,7 @@ function initWorkflowReveals() {
   const inputs = selectAll<HTMLElement>("[data-workflow-input], [data-mobile-workflow-input]", scene);
   const desktopConnectors = selectAll<HTMLElement>(".connector", scene);
   const labels = selectAll<HTMLElement>(".connector-label", scene);
-  const mobileConnector = select<HTMLElement>(".workflow-connectors-mobile", scene);
+  const mobileFlows = selectAll<HTMLElement>("[data-mobile-flow]", scene);
 
   const timeline = gsap.timeline({
     scrollTrigger: { trigger: scene, start: "top 76%", once: true },
@@ -266,8 +341,8 @@ function initWorkflowReveals() {
     timeline.fromTo(desktopConnectors, { opacity: 0, clipPath: "inset(0 100% 0 0)" }, { opacity: 1, clipPath: "inset(0 0% 0 0)", duration: 0.8, stagger: 0.08 }, "-=0.4");
     timeline.fromTo(labels, { opacity: 0 }, { opacity: 1, duration: 0.45, stagger: 0.04 }, "-=0.5");
   }
-  if (mobileConnector) {
-    timeline.fromTo(mobileConnector, { opacity: 0, clipPath: "inset(0 0 100% 0)" }, { opacity: 1, clipPath: "inset(0 0 0% 0)", duration: 1.7 }, "-=1.4");
+  if (mobileFlows.length) {
+    timeline.fromTo(mobileFlows, { opacity: 0, clipPath: "inset(0 0 100% 0)" }, { opacity: 1, clipPath: "inset(0 0 0% 0)", duration: 0.62, stagger: 0.08 }, "-=1.4");
   }
 }
 
@@ -285,6 +360,7 @@ export function initPortfolioMotion() {
 
   document.documentElement.dataset.motion = "full";
   initBorderGlow();
+  initMobileScrollGlow();
   initHero();
   initSectionReveals();
   initWorkflowReveals();

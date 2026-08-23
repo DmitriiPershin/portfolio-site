@@ -8,6 +8,13 @@
 
 ## Resolved
 
+- 2026-08-23: Mobile menu/language controls stayed fixed and no longer matched the Figma header. Moved both into the exact `343 × 48 px` absolute header at `24 px` top/left so they scroll away naturally; desktop fixed behaviour remains unchanged.
+- 2026-08-23: Mobile cards had no equivalent for the desktop pointer glow. Added one shared ScrollTrigger-driven border system that rotates every card's conic highlight with scroll and disables it for reduced motion.
+- 2026-08-23: The single mobile Workflow connector asset could not keep one-, two-, and three-chip arrow groups centred after responsive text/layout changes. Replaced it with six local `116 px` connector rows whose tracks and chips share the same grid.
+- 2026-08-23: Process and Theme Builders disclosures jumped open, remained reversible, and left the control in the wrong position. They now reveal extra text smoothly once; the button follows the expanding content and then disappears without replacing existing copy.
+- 2026-08-23: The mobile Theme Builders icon was capped to its `180 px` container and appeared much smaller than the Figma artwork. Restored the exported artwork's `300 × 222 px` render inside the exact `180 × 180 px` node.
+- 2026-08-23: Avatar photo padding and status-dot sizing did not match the responsive Figma ellipses. Corrected the `120/60 px` outer sizes, `110.118/55.059 px` inner artwork, and `18/9 px` status rings.
+- 2026-08-23: Pet Project platform cards used placeholder destinations and labels. Connected the preview plus website, Chrome Web Store, and ChatGPT cards to the supplied URLs and restored the responsive Figma card typography/icon sizing.
 - 2026-08-23: Desktop AI Workflow rows were positioned by repeated percentages, which accumulated vertical error and moved arrows away from card endpoints. Replaced them with the exact `1152 × 2128` Figma coordinates and corrected every row, connector, label, radius, and padding.
 - 2026-08-23: Mobile AI Workflow mixed flex gaps with absolutely positioned labels, so the shared connector SVG missed cards. Rebuilt it as the Figma `342 × 1806.154` sequence with 40 px gaps, `342 × 136` elliptical tool cards, and the connector group at `top: 306.921px`.
 - 2026-08-23: The second Soft Skills heading stayed transparent because only the first heading in a section received a reveal animation. Each heading now owns its own scroll trigger and the mobile heading is covered by a visibility regression test.
@@ -30,6 +37,6 @@
 ## Agent mistakes to avoid
 
 - Do not treat `designer/site/` as the production app.
-- Do not hand-redraw section icons or AI Workflow connectors when exact Figma exports exist.
+- Do not hand-redraw section icons or desktop AI Workflow connectors when exact Figma exports exist. Mobile connectors are intentionally local layout primitives because their chip groups must remain responsively centred.
 - Do not add React, Motion, Lenis, Three.js, or another animation library without a demonstrated need.
 - Do not publish local Joyride font files.

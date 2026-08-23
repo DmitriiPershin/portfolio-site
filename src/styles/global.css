@@ -380,7 +380,7 @@ p {
 }
 
 .avatar-button__photo {
-  padding: 7px;
+  padding: 5px;
   object-fit: cover;
 }
 
@@ -390,11 +390,11 @@ p {
 
 .avatar-button__status {
   position: absolute;
-  right: 7px;
-  bottom: 9px;
-  width: 22px;
-  height: 22px;
-  border: 4px solid #080808;
+  right: 12px;
+  bottom: 7px;
+  width: 18px;
+  height: 18px;
+  border: 3px solid #080808;
   border-radius: 50%;
   background: #4bd563;
   box-shadow: 0 0 16px rgba(75, 213, 99, 0.8);
@@ -643,7 +643,15 @@ p {
   left: 50%;
   width: var(--glow-cover);
   height: var(--glow-cover);
-  background: conic-gradient(from 0deg, transparent 0deg, rgba(var(--card-rgb), 0.98) 100deg, transparent 200deg);
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg,
+    rgba(var(--card-rgb), 0.18) 44deg,
+    rgba(var(--card-rgb), 0.96) 86deg,
+    rgba(255, 255, 255, 0.96) 112deg,
+    rgba(var(--card-rgb), 1) 138deg,
+    transparent 202deg
+  );
   content: "";
   transform: translate(-50%, -50%) rotate(var(--glow-angle));
   will-change: transform;
@@ -1085,6 +1093,17 @@ p {
   border-radius: 42px;
 }
 
+.pet-card__visual-link {
+  display: block;
+  border-radius: 42px;
+  text-decoration: none;
+}
+
+.pet-card__visual-link:focus-visible {
+  outline: 2px solid var(--color-text);
+  outline-offset: 5px;
+}
+
 .pet-platforms {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -1092,16 +1111,19 @@ p {
 }
 
 .pet-platform {
-  display: grid;
-  min-height: 92px;
-  grid-template-columns: 50px 1fr auto;
-  gap: 16px;
+  display: flex;
+  min-height: 162px;
+  flex-direction: column-reverse;
+  gap: 12px;
   align-items: center;
-  padding: 20px 24px;
+  justify-content: center;
+  padding: 40px 20px;
   border: 1px solid rgba(89, 174, 234, 0.72);
   border-radius: 26px;
   background: rgba(89, 174, 234, 0.07);
-  font-size: 18px;
+  font-size: 14px;
+  line-height: 22px;
+  text-align: center;
   text-decoration: none;
   transition: background 700ms var(--ease-ui), box-shadow 700ms var(--ease-ui);
 }
@@ -1112,8 +1134,8 @@ p {
 }
 
 .pet-platform img {
-  width: 50px;
-  height: 50px;
+  width: 60px;
+  height: 60px;
 }
 
 /* Closing */
@@ -1149,7 +1171,7 @@ html.motion-enabled [data-mobile-workflow-node],
 html.motion-enabled [data-mobile-workflow-input],
 html.motion-enabled .connector,
 html.motion-enabled .connector-label,
-html.motion-enabled .workflow-connectors-mobile {
+html.motion-enabled [data-mobile-flow] {
   opacity: 0;
 }
 
@@ -1204,17 +1226,36 @@ html.motion-enabled .workflow-connectors-mobile {
     gap: 24px;
   }
 
-  .menu-button {
+  .floating-header {
+    position: absolute;
     top: 24px;
-    right: 24px;
+    left: 24px;
+    z-index: 70;
+    display: flex;
+    width: 343px;
+    max-width: calc(100% - 47px);
+    height: 48px;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .menu-button {
+    position: relative;
+    inset: auto;
     width: 48px;
     height: 48px;
   }
 
   .language-button {
-    top: 24px;
-    right: auto;
-    left: 24px;
+    position: relative;
+    inset: auto;
+  }
+
+  .language-button.is-scrolled-away {
+    visibility: visible;
+    opacity: 1;
+    transform: none;
+    pointer-events: auto;
   }
 
   .language-code {
@@ -1256,15 +1297,15 @@ html.motion-enabled .workflow-connectors-mobile {
   }
 
   .avatar-button__photo {
-    padding: 4px;
+    padding: 2.5px;
   }
 
   .avatar-button__status {
-    right: 2px;
-    bottom: 3px;
-    width: 13px;
-    height: 13px;
-    border-width: 2px;
+    right: 6px;
+    bottom: 3.5px;
+    width: 9px;
+    height: 9px;
+    border-width: 1.5px;
   }
 
   .contact-dialog {
@@ -1312,8 +1353,9 @@ html.motion-enabled .workflow-connectors-mobile {
   }
 
   .glow-icon--theme img {
-    width: 180px;
-    height: 133px;
+    width: 300px;
+    max-width: none;
+    height: 222px;
   }
 
   .glow-icon--pet img {
@@ -1443,24 +1485,12 @@ html.motion-enabled .workflow-connectors-mobile {
     margin: 0;
   }
 
-  .workflow-connectors-mobile {
-    position: absolute;
-    top: 306.921px;
-    left: 46.227px;
-    z-index: 1;
-    display: block;
-    width: 249.547px;
-    height: 1356.5px;
-    max-width: none;
-    pointer-events: none;
-  }
-
   .workflow-mobile-sequence {
     position: relative;
     z-index: 2;
     display: flex;
     flex-direction: column;
-    gap: 40px;
+    gap: 0;
   }
 
   .workflow-scene--mobile .workflow-context {
@@ -1523,9 +1553,57 @@ html.motion-enabled .workflow-connectors-mobile {
     height: 48px;
   }
 
+  .mobile-flow {
+    position: relative;
+    display: grid;
+    width: 100%;
+    height: 116px;
+    align-self: center;
+    grid-template-columns: repeat(var(--flow-count), minmax(0, 1fr));
+  }
+
+  .mobile-flow--1 { --flow-count: 1; }
+  .mobile-flow--2 {
+    --flow-count: 2;
+    width: 238px;
+  }
+  .mobile-flow--3 { --flow-count: 3; }
+
+  .mobile-flow__track {
+    position: relative;
+    display: flex;
+    min-width: 0;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .mobile-flow__track::before {
+    position: absolute;
+    top: 8px;
+    bottom: 16px;
+    left: 50%;
+    width: 2px;
+    background: var(--color-blue);
+    content: "";
+    transform: translateX(-50%);
+  }
+
+  .mobile-flow__track::after {
+    position: absolute;
+    bottom: 8px;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-top: 10px solid var(--color-blue);
+    border-right: 5.774px solid transparent;
+    border-left: 5.774px solid transparent;
+    content: "";
+    transform: translateX(-50%);
+  }
+
   .mobile-flow-label {
     position: relative;
-    z-index: 5;
+    z-index: 2;
     display: inline-flex;
     width: fit-content;
     height: 36px;
@@ -1542,23 +1620,11 @@ html.motion-enabled .workflow-connectors-mobile {
     white-space: nowrap;
   }
 
-  .mobile-flow-label--group {
-    width: auto;
-    min-width: 230px;
-    gap: 8px;
-    padding: 0;
-    background: transparent;
-    box-shadow: none;
-  }
-
-  .mobile-flow-label--group > span {
-    display: inline-flex;
-    height: 36px;
-    align-items: center;
-    padding: 8px 16px;
-    border-radius: 30.389px;
-    background: var(--color-blue);
-    box-shadow: 0 0 114px var(--color-blue), 0 0 34px #000, 0 0 20px #131313;
+  .mobile-flow--2 .mobile-flow-label,
+  .mobile-flow--3 .mobile-flow-label {
+    max-width: calc(100% - 8px);
+    padding-inline: 12px;
+    font-size: 11px;
   }
 
   .process__headline,
@@ -1575,7 +1641,9 @@ html.motion-enabled .workflow-connectors-mobile {
     min-height: 370px;
     gap: 24px;
     padding: 41px 21px;
+    border-width: 1px;
     border-radius: 26px;
+    box-shadow: inset 0 0 60px 5.316px rgba(53, 191, 39, 0.4);
   }
 
   .process-card__logo {
@@ -1600,12 +1668,18 @@ html.motion-enabled .workflow-connectors-mobile {
   .theme-copy__secondary,
   .theme-copy__details {
     display: none;
+    opacity: 0;
   }
 
   .process-card.is-open .process-card__details,
   .theme-copy.is-open .theme-copy__secondary,
   .theme-copy.is-open .theme-copy__details {
     display: block;
+    opacity: 1;
+  }
+
+  [data-detail-card].is-revealed .more-button {
+    display: none;
   }
 
   .process-card__details {
@@ -1766,7 +1840,9 @@ html.motion-enabled .workflow-connectors-mobile {
   .pet-card {
     gap: 24px;
     padding: 20px;
+    border-width: 1px;
     border-radius: 26px;
+    box-shadow: inset 0 0 60px rgba(89, 174, 234, 0.4);
   }
 
   .pet-card__visual {
@@ -1776,6 +1852,10 @@ html.motion-enabled .workflow-connectors-mobile {
     object-fit: cover;
   }
 
+  .pet-card__visual-link {
+    border-radius: 16px;
+  }
+
   .pet-platforms {
     grid-template-columns: 1fr;
     gap: 12px;
@@ -1783,14 +1863,18 @@ html.motion-enabled .workflow-connectors-mobile {
 
   .pet-platform {
     min-height: 70px;
-    padding: 10px 16px;
-    border-radius: 20px;
-    font-size: 16px;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 12px 20px;
+    border-radius: 26px;
+    font-size: 14px;
+    line-height: 22px;
+    text-align: left;
   }
 
   .pet-platform img {
-    width: 50px;
-    height: 50px;
+    width: 24px;
+    height: 24px;
   }
 
   .closing {
@@ -1832,7 +1916,7 @@ html.motion-enabled .workflow-connectors-mobile {
   html.motion-enabled [data-mobile-workflow-input],
   html.motion-enabled .connector,
   html.motion-enabled .connector-label,
-  html.motion-enabled .workflow-connectors-mobile {
+  html.motion-enabled [data-mobile-flow] {
     opacity: 1 !important;
     clip-path: none !important;
   }

@@ -68,9 +68,6 @@ const cards = [
       <article class="process-card interactive-card" data-card-reveal data-detail-card data-node-id={card.nodeId}>
         <img class="process-card__logo" src={card.icon} alt="" width="150" height="150" />
         <h3><span data-locale="ru">{card.ru}</span><span data-locale="en" hidden>{card.en}</span></h3>
-        <button class="more-button" type="button" aria-expanded="false" aria-controls={`process-detail-${index}`} data-details-toggle>
-          <span data-locale="ru">Подробнее</span><span data-locale="en" hidden>Details</span>
-        </button>
         <div class="process-card__details" id={`process-detail-${index}`}>
           {card.bulletsRu ? (
             <>
@@ -81,6 +78,9 @@ const cards = [
             <p><span data-locale="ru">{card.bodyRu}</span><span data-locale="en" hidden>{card.bodyEn}</span></p>
           )}
         </div>
+        <button class="more-button" type="button" aria-expanded="false" aria-controls={`process-detail-${index}`} data-details-toggle>
+          <span data-locale="ru">Подробнее</span><span data-locale="en" hidden>Details</span>
+        </button>
       </article>
     ))}
   </div>
