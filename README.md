@@ -14,9 +14,13 @@ Production portfolio implemented from the current desktop and mobile Figma layou
 - The globe fades away after 40 px of scroll. The menu and bottom-right avatar remain fixed.
 - The avatar opens a contact panel with Telegram and email.
 - Desktop and mobile layouts follow separate Figma geometry where needed, especially AI Workflow.
+- AI Workflow now uses the exact Figma desktop coordinates and a dedicated `342 × 1806 px` mobile sequence, so arrow endpoints, labels, card radii, and 40 px vertical rhythm stay locked together.
+- Hard/Soft Skills, Theme Builders, and Interfaces use the Figma gradient strokes, radii, inset shadows, dimensions, copy, and responsive ordering.
+- Theme Builder and Interfaces numbers are exact Figma text exports, so Joyride WIDE glyph shapes are preserved without shipping the local font software.
+- Card borders use a cursor-proximity glow derived from PremiumExchanger: the highlight follows the pointer while the Figma base stroke and inset effect remain unchanged.
 - Major layout, spacing, and timing values are CSS custom properties.
 - Full-motion and `prefers-reduced-motion` paths are supported.
-- Playwright covers desktop, tablet, mobile, overflow, languages, fixed controls, menu, contacts, mobile disclosures, reduced motion, and health.
+- Playwright covers desktop, tablet, mobile, overflow, languages, fixed controls, menu, contacts, mobile disclosures, reduced motion, Premium-style border glow, exact workflow/card geometry, and health.
 - Railway-ready Node server with `/api/health`.
 
 The historical prototype remains in `../designer/site/`; production changes belong here.
@@ -66,7 +70,7 @@ npm run qa:screenshots
 ```
 
 The product review checklist is in `checks.md`. Reduced-motion desktop/mobile renders are written to `artifacts/qa/`.
-The latest recorded verification is in `docs/test-log-2026-08-20.md`.
+The latest recorded verification is in `docs/test-log-2026-08-23.md`.
 
 ## Spacing changes
 
@@ -85,17 +89,17 @@ The mobile breakpoint overrides the same tokens. Section-specific geometry remai
 
 - Hero: one-time mask reveal.
 - Section icons: exact artwork with a 1–2 px, 16-second ambient drift.
-- Headings and copy: shared ordered reveal.
+- Headings and copy: independent scroll reveals, including the second Soft Skills heading.
 - Cards: soft entry with 18–22 px travel.
 - AI Workflow: original Figma connector SVGs reveal after the cards. Desktop and mobile use separate connector systems.
-- Hover: pointer-positioned radial gradient plus a very small scale/glow response; each section keeps its own exact border colour and inset shadow.
+- Hover: a conic-gradient border segment activates within 160 px of the pointer, follows its angle, and fades with proximity. It does not replace or deform the Figma border, radius, fill, or inset shadow.
 - Reduced motion: all content and complete connectors are immediately visible, with no ambient drift or long transforms.
 
 See `docs/motion-map.md` for the detailed map.
 
 ## Font licensing
 
-LINE Seed JP is self-hosted under SIL Open Font License 1.1. Joyride is not committed as font software: display typography is exported as static Figma artwork and paired with accessible DOM headings.
+LINE Seed JP is self-hosted under SIL Open Font License 1.1. Joyride is not committed as font software: display headings and numeric glyphs are exact static Figma exports paired with accessible DOM text/alt labels.
 
 ## Railway deployment
 
@@ -110,7 +114,7 @@ The repository includes `railway.json` and a reproducible `Dockerfile`. The prod
 
 - Final spacing tokens still need Dmitrii's visual approval; they are intentionally centralized for quick adjustment.
 - The English content is a parallel content layer. Figma currently defines Russian desktop/mobile geometry only.
-- Joyride headings remain image-based until a valid webfont kit is available.
+- Joyride display typography intentionally remains image-based until a valid webfont kit is available; this preserves the Figma shapes without redistributing the local font.
 
 ## Figma source
 

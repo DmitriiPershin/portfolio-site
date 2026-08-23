@@ -14,18 +14,29 @@ const metrics = [
 
 <section class="interfaces section-shell section-shell--wide" id="interfaces" data-section="interfaces" data-node-id="358:837">
   <div data-reveal="icon"><GlowIcon variant="interfaces" nodeId="358:838" /></div>
-  <div class="display-heading-mask" data-reveal="heading">
-    <h2 class="sr-only">Interfaces</h2>
-    <picture>
-      <source media="(max-width: 640px)" srcset="/assets/heading-interfaces-mobile.png" />
-      <img class="display-heading display-heading--interfaces" src="/assets/heading-interfaces.png" alt="" width="652" height="42" />
-    </picture>
+  <div class="interfaces__heading">
+    <div class="display-heading-mask" data-reveal="heading">
+      <h2 class="sr-only">Interfaces</h2>
+      <picture>
+        <source media="(max-width: 640px)" srcset="/assets/heading-interfaces-mobile.png" />
+        <img class="display-heading display-heading--interfaces" src="/assets/heading-interfaces.png" alt="" width="652" height="42" />
+      </picture>
+    </div>
+    <p class="section-headline localized-copy interfaces__headline" data-reveal="copy">
+      <span data-locale="ru">Сделал редизайн панели управления обменником</span>
+      <span data-locale="en" hidden>Redesigned the exchange management dashboard</span>
+    </p>
   </div>
 
   <div class="interfaces-grid">
     {metrics.map(([value, ru, en], index) => (
       <article class:list={["interface-metric", "interactive-card", `interface-metric--${index + 1}`]} data-card-reveal>
-        <strong>{value}</strong>
+        <strong>
+          <picture>
+            <source media="(max-width: 640px)" srcset={`/assets/metric-interface-${value}-mobile.png`} />
+            <img src={`/assets/metric-interface-${value}-desktop.png`} alt={value} />
+          </picture>
+        </strong>
         <p><span data-locale="ru">{ru}</span><span data-locale="en" hidden>{en}</span></p>
       </article>
     ))}

@@ -4,50 +4,61 @@ import GlowIcon from "./GlowIcon.astro";
 
 <section class="theme section-shell section-shell--wide" id="theme-builders" data-section="theme" data-node-id="358:808">
   <div data-reveal="icon"><GlowIcon variant="theme" nodeId="358:809" /></div>
-  <div class="section-copy">
-    <div class="display-heading-mask" data-reveal="heading">
-      <h2 class="sr-only">Theme Builders</h2>
-      <picture>
-        <source media="(max-width: 640px)" srcset="/assets/heading-theme-builders-mobile.png" />
-        <img class="display-heading display-heading--theme" src="/assets/heading-theme-builders.png" alt="" width="924" height="42" />
-      </picture>
+  <div class="theme__body">
+    <div class="section-copy">
+      <div class="display-heading-mask" data-reveal="heading">
+        <h2 class="sr-only">Theme Builders</h2>
+        <picture>
+          <source media="(max-width: 640px)" srcset="/assets/heading-theme-builders-mobile.png" />
+          <img class="display-heading display-heading--theme" src="/assets/heading-theme-builders.png" alt="" width="924" height="42" />
+        </picture>
+      </div>
+      <p class="section-headline localized-copy theme__headline" data-reveal="copy">
+        <span data-locale="ru">Создал конструктор тем и дизайн-систему <br />для white-label продукта</span>
+        <span data-locale="en" hidden>Built a theme constructor and design system <br />for a white-label product</span>
+      </p>
     </div>
-    <p class="section-headline localized-copy theme__headline" data-reveal="copy">
-      <span data-locale="ru">Создал конструктор тем и дизайн-систему<br />для white-label продукта</span>
-      <span data-locale="en" hidden>Built a theme constructor and design system<br />for a white-label product</span>
-    </p>
-  </div>
 
-  <picture class="theme__visual-wrap" data-card-reveal>
-    <img class="theme__visual" src="/assets/theme-builders.png" alt="" width="1376" height="768" />
-  </picture>
+    <div class="theme__visual-stage" data-card-reveal>
+      <img class="theme__visual" src="/assets/theme-builders.png" alt="" width="1376" height="768" />
+      <article class="theme-metric theme-metric--speed theme-metric--desktop interactive-card">
+        <strong><img src="/assets/metric-theme-x2-desktop.png" alt="×2" width="147" height="41" /></strong>
+        <p><span data-locale="ru">скорость разработки темы</span><span data-locale="en" hidden>faster theme production</span></p>
+      </article>
+    </div>
 
-  <div class="theme-copy" data-detail-card data-card-reveal>
-    <p class="theme-copy__secondary">
-      <span data-locale="ru">Конструктор тем — это дизайн-система, которая состоит из 432 переменных, 500 экранов, 100 стилей.</span>
-      <span data-locale="en" hidden>The theme builder is a design system made of 432 variables, 500 screens and 100 styles.</span>
-    </p>
-    <p class="theme-copy__primary">
-      <span data-locale="ru">Конструктор создан вокруг необходимости быстро делать брендированные сайты обмена валют с типичным сценариями — выбор валют, создание заявки на обмен, верификация, оплата заявки, профиль.</span>
-      <span data-locale="en" hidden>The builder was designed to rapidly create branded currency-exchange sites with recurring flows: currency selection, exchange request, verification, payment and profile.</span>
-    </p>
-    <button class="more-button" type="button" aria-expanded="false" aria-controls="theme-details" data-details-toggle>
-      <span data-locale="ru">Подробнее</span><span data-locale="en" hidden>Details</span>
-    </button>
-    <p class="theme-copy__details" id="theme-details">
-      <span data-locale="ru">Конструктор позволяет брендировать сценарии обмена, добавляя в них уникальные иллюстрации, иконки, шрифты, цвета, стили и эффекты.</span>
-      <span data-locale="en" hidden>The builder brands exchange journeys with unique illustrations, icons, fonts, colours, styles and effects.</span>
-    </p>
+    <div class="theme-copy" data-detail-card data-card-reveal>
+      <p class="theme-copy__secondary">
+        <span data-locale="ru">Конструктор тем — это дизайн-система, которая состоит из 432 переменных, 500 экранов, 100 стилей.</span>
+        <span data-locale="en" hidden>The theme builder is a design system made of 432 variables, 500 screens and 100 styles.</span>
+      </p>
+      <p class="theme-copy__primary">
+        <span data-locale="ru">Конструктор создан вокруг необходимости быстро делать брендированные сайты обмена валют с типичным сценариями — выбор валют, создание заявки на обмен, верификация, оплата заявки, профиль.</span>
+        <span data-locale="en" hidden>The builder was designed to rapidly create branded currency-exchange sites with recurring flows: currency selection, exchange request, verification, payment and profile.</span>
+      </p>
+      <button class="more-button" type="button" aria-expanded="false" aria-controls="theme-details" data-details-toggle>
+        <span data-locale="ru">Подробнее</span><span data-locale="en" hidden>Details</span>
+      </button>
+      <p class="theme-copy__details" id="theme-details">
+        <span data-locale="ru">Конструктор позволяет брендировать сценарии обмена, добавляя в них <br />уникальные иллюстрации, иконки, шрифты, цвета, стили и эффекты.</span>
+        <span data-locale="en" hidden>The builder brands exchange journeys with unique illustrations, icons, fonts, colours, styles and effects.</span>
+      </p>
+    </div>
   </div>
 
   <div class="theme-metrics" data-card-reveal>
-    <article class="theme-metric interactive-card">
-      <strong>×2</strong>
+    <article class="theme-metric theme-metric--speed theme-metric--mobile interactive-card">
+      <strong><img src="/assets/metric-theme-x2-mobile.png" alt="×2" width="158" height="44" /></strong>
       <p><span data-locale="ru">скорость разработки темы</span><span data-locale="en" hidden>faster theme production</span></p>
     </article>
-    <article class="theme-metric interactive-card">
-      <strong>250</strong>
-      <p><span data-locale="ru">дизайнов на конструкторе уже сделано без моего участия</span><span data-locale="en" hidden>designs already made with the builder without my involvement</span></p>
+    <article class="theme-metric theme-metric--primary interactive-card">
+      <strong>
+        <picture>
+          <source media="(max-width: 640px)" srcset="/assets/metric-theme-250-mobile.png" />
+          <img src="/assets/metric-theme-250-desktop.png" alt="250" width="592" height="110" />
+        </picture>
+      </strong>
+      <p><span data-locale="ru">дизайнов на конструкторе<br />уже сделано без моего участия</span><span data-locale="en" hidden>designs already made with the builder without my involvement</span></p>
     </article>
   </div>
 </section>

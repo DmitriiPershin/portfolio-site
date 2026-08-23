@@ -30,16 +30,33 @@ const softSkills = [
   ["Ориентация на масштабирование", "Scaling mindset"],
   ["Документирование решений", "Decision documentation"],
   ["Работа со стейкхолдерами", "Stakeholder collaboration"],
-  ["Системное мышление", "Systems thinking"],
-  ["Стратегическое мышление", "Strategic thinking"],
-  ["Предпринимательское мышление", "Entrepreneurial thinking"],
-  ["Итеративное мышление", "Iterative thinking"],
-  ["Процессное мышление", "Process thinking"],
+  ["Мышление: Системное, Стратегическое, Предпринимательское, Итеративное, Процессное", "Thinking: systems, strategic, entrepreneurial, iterative and process-oriented"],
   ["Быстрое освоение инструментов", "Fast tool adoption"],
   ["Дизайн-ревью", "Design reviews"],
   ["Визуальный вкус", "Visual taste"],
   ["Технологическое любопытство", "Technology curiosity"],
   ["Эксперименты", "Experimentation"],
+];
+
+const hardMobileRows = [
+  [hardSkills[0]],
+  [hardSkills[1]],
+  [hardSkills[2]],
+  [hardSkills[3]],
+  [hardSkills[4]],
+  [hardSkills[5], hardSkills[6]],
+  [hardSkills[7], hardSkills[8]],
+  [hardSkills[9], hardSkills[10]],
+  [hardSkills[11]],
+  [hardSkills[12], hardSkills[13]],
+  [hardSkills[14]],
+];
+
+const softMobileRows = [
+  [softSkills[0], softSkills[1]],
+  ...softSkills.slice(2, 12).map((skill) => [skill]),
+  [softSkills[12], softSkills[13]],
+  ...softSkills.slice(14).map((skill) => [skill]),
 ];
 ---
 
@@ -54,11 +71,22 @@ const softSkills = [
         <img class="display-heading display-heading--hard" src="/assets/heading-hard-skills.png" alt="" width="665" height="42" />
       </picture>
     </div>
-    <div class="skill-chips skill-chips--hard" data-reveal="copy">
+    <div class="skill-chips skill-chips--hard skill-chips--desktop" data-reveal="copy">
       {hardSkills.map(([ru, en]) => (
         <span class="skill-chip interactive-card">
           <span data-locale="ru">{ru}</span><span data-locale="en" hidden>{en}</span>
         </span>
+      ))}
+    </div>
+    <div class="skill-chip-rows skill-chip-rows--hard skill-chip-rows--mobile" data-reveal="copy">
+      {hardMobileRows.map((row) => (
+        <div class="skill-chip-row">
+          {row.map(([ru, en]) => (
+            <span class="skill-chip interactive-card">
+              <span data-locale="ru">{ru}</span><span data-locale="en" hidden>{en}</span>
+            </span>
+          ))}
+        </div>
       ))}
     </div>
   </div>
@@ -71,11 +99,22 @@ const softSkills = [
         <img class="display-heading display-heading--soft" src="/assets/heading-soft-skills.png" alt="" width="655" height="46" />
       </picture>
     </div>
-    <div class="skill-chips skill-chips--soft" data-reveal="copy">
+    <div class="skill-chips skill-chips--soft skill-chips--desktop" data-reveal="copy">
       {softSkills.map(([ru, en]) => (
         <span class="skill-chip interactive-card">
           <span data-locale="ru">{ru}</span><span data-locale="en" hidden>{en}</span>
         </span>
+      ))}
+    </div>
+    <div class="skill-chip-rows skill-chip-rows--soft skill-chip-rows--mobile" data-reveal="copy">
+      {softMobileRows.map((row) => (
+        <div class="skill-chip-row">
+          {row.map(([ru, en]) => (
+            <span class="skill-chip interactive-card">
+              <span data-locale="ru">{ru}</span><span data-locale="en" hidden>{en}</span>
+            </span>
+          ))}
+        </div>
       ))}
     </div>
   </div>

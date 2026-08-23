@@ -18,6 +18,18 @@ for (const viewport of [
     fullPage: true,
     animations: "disabled",
   });
+
+  for (const [name, selector] of [
+    ["skills", "#hard-skills"],
+    ["ai-workflow", "#ai-workflow"],
+    ["theme-builders", "#theme-builders"],
+    ["interfaces", "#interfaces"],
+  ]) {
+    await page.locator(selector).screenshot({
+      path: `artifacts/qa/${viewport.name}-${name}.png`,
+      animations: "disabled",
+    });
+  }
   await context.close();
 }
 

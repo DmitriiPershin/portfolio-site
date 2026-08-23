@@ -8,6 +8,14 @@
 
 ## Resolved
 
+- 2026-08-23: Desktop AI Workflow rows were positioned by repeated percentages, which accumulated vertical error and moved arrows away from card endpoints. Replaced them with the exact `1152 × 2128` Figma coordinates and corrected every row, connector, label, radius, and padding.
+- 2026-08-23: Mobile AI Workflow mixed flex gaps with absolutely positioned labels, so the shared connector SVG missed cards. Rebuilt it as the Figma `342 × 1806.154` sequence with 40 px gaps, `342 × 136` elliptical tool cards, and the connector group at `top: 306.921px`.
+- 2026-08-23: The second Soft Skills heading stayed transparent because only the first heading in a section received a reveal animation. Each heading now owns its own scroll trigger and the mobile heading is covered by a visibility regression test.
+- 2026-08-23: Hard/Soft skill chips used flat borders and approximate shadows. Restored the Figma gradient stroke, `26px` radius, `60px / -17.68px` inset shadow, exact desktop chip copy, and the designed mobile row composition.
+- 2026-08-23: Theme Builder metrics and Interfaces metrics used approximate sizes, type, order, and effects. Restored the exact Figma desktop/mobile geometry, gradient strokes, inset shadows, missing Interfaces headline, and path-safe Figma exports for every Joyride number.
+- 2026-08-23: The menu had an unwanted blur/drop shadow. It remains viewport-fixed but now has a transparent, shadowless surface; scroll position is regression-tested.
+- 2026-08-23: The original hover changed card scale, fill, and inset shadow. Replaced it with the PremiumExchanger-style cursor-proximity border segment, leaving the Figma card styling untouched.
+- 2026-08-23: Wide mobile artwork could enlarge full-page screenshots even though the document reported no scrolling overflow. Added clipping at the main viewport boundary and expanded QA captures to four focused sections per breakpoint.
 - 2026-08-20: The Focus icon was an approximate CSS recreation and no longer matched Figma. Replaced it with the exact export from node `358:520`; ambient motion now affects only its container.
 - 2026-08-20: AI Workflow connectors were generated from card positions and did not match the designed desktop routes. Replaced them with the original Figma vector assets and exact card-relative geometry; mobile keeps its dedicated vertical connector asset.
 - 2026-08-20: Section cards had no meaningful hover treatment. Added pointer-positioned gradients, section-colour inset glows, and a very small scale response while preserving exact border styles.

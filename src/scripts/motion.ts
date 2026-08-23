@@ -126,23 +126,63 @@ function initDetails() {
   });
 }
 
-function initCardHover() {
-  selectAll<HTMLElement>(".interactive-card").forEach((card) => {
-    card.addEventListener("pointermove", (event) => {
-      const rect = card.getBoundingClientRect();
-      card.style.setProperty("--hover-x", `${((event.clientX - rect.left) / rect.width) * 100}%`);
-      card.style.setProperty("--hover-y", `${((event.clientY - rect.top) / rect.height) * 100}%`);
-    });
-    card.addEventListener("pointerleave", () => {
-      card.style.setProperty("--hover-x", "50%");
-      card.style.setProperty("--hover-y", "50%");
-    });
+function initBorderGlow() {
+  const supportsHover = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (!supportsHover || reducedMotion) return;
+
+  const cards = selectAll<HTMLElement>(".interactive-card");
+  cards.forEach((card) => {
+    if (card.querySelector(":scope > .card-border-glow")) return;
+    const glow = document.createElement("span");
+    glow.className = "card-border-glow";
+    glow.setAttribute("aria-hidden", "true");
+    card.prepend(glow);
   });
+
+  const nearRadius = 160;
+  let pointerX = 0;
+  let pointerY = 0;
+  let frame = 0;
+
+  const render = () => {
+    frame = 0;
+    cards.forEach((card) => {
+      const rect = card.getBoundingClientRect();
+      const dx = Math.max(rect.left - pointerX, 0, pointerX - rect.right);
+      const dy = Math.max(rect.top - pointerY, 0, pointerY - rect.bottom);
+      const distance = Math.hypot(dx, dy);
+      if (distance > nearRadius) {
+        card.style.setProperty("--glow-opacity", "0");
+        return;
+      }
+
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
+      const angle = (Math.atan2(pointerY - centerY, pointerX - centerX) * 180) / Math.PI;
+      const strength = 1 - distance / nearRadius;
+      card.style.setProperty("--glow-angle", `${Math.round(angle * 100) / 100}deg`);
+      card.style.setProperty("--glow-opacity", `${Math.round(strength * 1000) / 1000}`);
+      card.style.setProperty("--glow-cover", `${Math.ceil(Math.hypot(rect.width, rect.height))}px`);
+    });
+  };
+
+  const schedule = (event: PointerEvent) => {
+    if (event.pointerType === "touch") return;
+    pointerX = event.clientX;
+    pointerY = event.clientY;
+    if (!frame) frame = window.requestAnimationFrame(render);
+  };
+
+  const clear = () => cards.forEach((card) => card.style.setProperty("--glow-opacity", "0"));
+  window.addEventListener("pointermove", schedule, { passive: true });
+  document.documentElement.addEventListener("pointerleave", clear);
+  window.addEventListener("blur", clear);
 }
 
 function showEverything() {
   gsap.set(
-    ["[data-hero-logo]", "[data-hero-role]", "[data-reveal]", "[data-card-reveal]", "[data-workflow-node]", "[data-workflow-input]", ".connector", ".connector-label", ".workflow-connectors-mobile"],
+    ["[data-hero-logo]", "[data-hero-role]", "[data-reveal]", "[data-card-reveal]", "[data-workflow-node]", "[data-workflow-input]", "[data-mobile-workflow-node]", "[data-mobile-workflow-input]", ".connector", ".connector-label", ".workflow-connectors-mobile"],
     { opacity: 1, y: 0, scale: 1, clipPath: "inset(0 0% 0 0)", clearProps: "transform" },
   );
 }
@@ -156,28 +196,60 @@ function initHero() {
 function initSectionReveals() {
   selectAll<HTMLElement>("[data-section]:not([data-section='hero'])").forEach((section) => {
     const icon = select<HTMLElement>("[data-reveal='icon']", section);
-    const heading = select<HTMLElement>("[data-reveal='heading']", section);
-    const headingImage = heading?.querySelector("img");
+    const headings = selectAll<HTMLElement>("[data-reveal='heading']", section);
     const copy = selectAll<HTMLElement>("[data-reveal='copy']", section);
     const cards = selectAll<HTMLElement>("[data-card-reveal]", section);
-    const timeline = gsap.timeline({
-      scrollTrigger: { trigger: section, start: "top 78%", once: true },
-      defaults: { ease: "power3.out" },
+
+    if (icon) {
+      gsap.fromTo(icon, { opacity: 0, scale: 0.975 }, {
+        opacity: 1,
+        scale: 1,
+        duration: 0.9,
+        ease: "power3.out",
+        scrollTrigger: { trigger: icon, start: "top 84%", once: true },
+      });
+    }
+
+    headings.forEach((heading) => {
+      const headingImage = heading.querySelector("img");
+      gsap.set(heading, { opacity: 1 });
+      if (!headingImage) return;
+      gsap.fromTo(headingImage, { yPercent: 112 }, {
+        yPercent: 0,
+        duration: 0.8,
+        ease: "power3.out",
+        scrollTrigger: { trigger: heading, start: "top 88%", once: true },
+      });
     });
 
-    if (icon) timeline.fromTo(icon, { opacity: 0, scale: 0.975 }, { opacity: 1, scale: 1, duration: 0.9 });
-    if (heading) timeline.set(heading, { opacity: 1 }, "-=0.4");
-    if (headingImage) timeline.fromTo(headingImage, { yPercent: 112 }, { yPercent: 0, duration: 0.8 }, "<");
-    if (copy.length) timeline.fromTo(copy, { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.8, stagger: 0.08 }, "-=0.42");
-    if (cards.length) timeline.fromTo(cards, { opacity: 0, y: 22 }, { opacity: 1, y: 0, duration: 0.9, stagger: 0.1 }, "-=0.38");
+    copy.forEach((item) => {
+      gsap.fromTo(item, { opacity: 0, y: 18 }, {
+        opacity: 1,
+        y: 0,
+        duration: 0.8,
+        ease: "power3.out",
+        scrollTrigger: { trigger: item, start: "top 90%", once: true },
+      });
+    });
+
+    if (cards.length) {
+      gsap.fromTo(cards, { opacity: 0, y: 22 }, {
+        opacity: 1,
+        y: 0,
+        duration: 0.9,
+        stagger: 0.1,
+        ease: "power3.out",
+        scrollTrigger: { trigger: cards[0], start: "top 88%", once: true },
+      });
+    }
   });
 }
 
 function initWorkflowReveals() {
   const scene = select<HTMLElement>("[data-workflow-scene]");
   if (!scene) return;
-  const cards = selectAll<HTMLElement>("[data-workflow-node]", scene);
-  const inputs = selectAll<HTMLElement>("[data-workflow-input]", scene);
+  const cards = selectAll<HTMLElement>("[data-workflow-node], [data-mobile-workflow-node]", scene);
+  const inputs = selectAll<HTMLElement>("[data-workflow-input], [data-mobile-workflow-input]", scene);
   const desktopConnectors = selectAll<HTMLElement>(".connector", scene);
   const labels = selectAll<HTMLElement>(".connector-label", scene);
   const mobileConnector = select<HTMLElement>(".workflow-connectors-mobile", scene);
@@ -203,7 +275,6 @@ export function initPortfolioMotion() {
   initOverlays();
   initLanguage();
   initDetails();
-  initCardHover();
 
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   if (reducedMotion) {
@@ -213,6 +284,7 @@ export function initPortfolioMotion() {
   }
 
   document.documentElement.dataset.motion = "full";
+  initBorderGlow();
   initHero();
   initSectionReveals();
   initWorkflowReveals();
