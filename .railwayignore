@@ -1,0 +1,10 @@
+artifacts/
+docs/
+tests/
+scripts/
+playwright-report/
+test-results/
+.astro/
+dist/
+*.md
+playwright.config.ts

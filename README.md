@@ -109,6 +109,7 @@ LINE Seed JP is self-hosted under SIL Open Font License 1.1. Joyride is not comm
 ## Railway deployment
 
 The repository includes `railway.json` and a reproducible `Dockerfile`. The production service is `portfolio` in the Railway project `dmitrii-pershin-portfolio`.
+The `.railwayignore` file keeps committed QA screenshots, tests, reports, and documentation out of the direct CLI upload while retaining them in GitHub.
 
 1. Push changes to GitHub `main`.
 2. Railway builds the GitHub revision with `npm ci && npm run build` and starts it with `npm start`.

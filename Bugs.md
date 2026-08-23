@@ -8,6 +8,7 @@
 
 ## Resolved
 
+- 2026-08-23: Direct Railway uploads could time out while transferring committed QA screenshots and leave `INITIALIZING` drafts without builds. Added `.railwayignore` so production snapshots contain only runtime/build inputs while QA artifacts remain versioned in GitHub.
 - 2026-08-23: Mobile menu/language controls stayed fixed and no longer matched the Figma header. Moved both into the exact `343 × 48 px` absolute header at `24 px` top/left so they scroll away naturally; desktop fixed behaviour remains unchanged.
 - 2026-08-23: Mobile cards had no equivalent for the desktop pointer glow. Added one shared ScrollTrigger-driven border system that rotates every card's conic highlight with scroll and disables it for reduced motion.
 - 2026-08-23: The single mobile Workflow connector asset could not keep one-, two-, and three-chip arrow groups centred after responsive text/layout changes. Replaced it with six local `116 px` connector rows whose tracks and chips share the same grid.
