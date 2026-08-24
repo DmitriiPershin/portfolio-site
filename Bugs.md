@@ -9,14 +9,21 @@
 
 ## Resolved
 
+- 2026-08-24: Focus copy used browser-driven wrapping that did not reproduce the separate desktop/mobile Figma composition. Restored the exact type metrics, paragraph rhythm, hidden mobile display title, and authored mobile line break.
+- 2026-08-24: Skills border light used a brighter generic core and responded too abruptly. Hard and Soft Skills now use the requested `#765592` highlight with `300 px` proximity, `0.075` angle interpolation, and `0.055` opacity interpolation.
+- 2026-08-24: Process & AI cards retained approximate mobile dimensions and inconsistent inset effects. Restored the Figma green `1 px` stroke, black backing, per-card inset shadows, `26/80 px` mobile/desktop radii, exact mobile heights, and right-side desktop icons.
+- 2026-08-24: Theme Builder reused the oversized desktop export on mobile and centred the desktop bleed incorrectly. Added the exact `180 × 180 px` mobile Figma export and corrected the desktop `300 × 300 px` clip origin.
+- 2026-08-24: The contact-overlay title could extend beyond a `1024 × 768 px` viewport. Added height-aware desktop scaling while leaving the authored `1440 × 900 px` geometry unchanged.
+- 2026-08-24: The closing section contained generic copy instead of the newly authored contacts. Replaced it with the exact desktop Telegram/email rows and a fitted `342 px` mobile layout.
+- 2026-08-24: The page had no ambient cursor light outside card borders. Added a subtle tokenized purple radial glow for fine pointers, disabled on touch and reduced motion.
 - 2026-08-23: Desktop navigation still used fixed positioning and the language control disappeared through scroll-state JavaScript. Both desktop controls now use the exact Figma absolute coordinates and scroll away with the page; the menu surface has no shadow.
 - 2026-08-23: Menu and contact overlays used approximate live typography and centered card layouts. Rebuilt both from Figma nodes `473:110` and `473:124`, including exact Joyride exports, `85/86 px` placement, `62 px` contact icons, close controls, and responsive versions.
 - 2026-08-23: The avatar displayed the full raw composite inside the inner ellipse, making the portrait appear too small. Added the exact `110.118/55.059 px` clipping ellipse and Figma's `-39.96% / 179.92%` image crop.
 - 2026-08-23: Desktop AI Workflow arrows and labels were separate positioned layers and drifted apart. Replaced them with seven joined Figma route exports and removed their opaque export backgrounds at render time with a shared SVG alpha filter.
 - 2026-08-23: Desktop Process cards stacked icons above copy and used approximate strokes/fills. Restored the Figma `676 + 28 + 150 px` horizontal layout, right-side icons, `1 px` stroke, black fill, `80 px` radius, and `20 px` card gap.
 - 2026-08-23: Hard Skills used a gradient border instead of the authored solid stroke/backing. Restored the exact `#765592` stroke, 30% purple backing, `26 px` radius, and inset shadow.
-- 2026-08-23: Theme Builders artwork was scaled from its full `633 × 468 px` export, shrinking the visible form. It now renders at export scale inside the exact clipped `300/180 px` Figma node on desktop/mobile.
-- 2026-08-23: Pointer-following borders reacted abruptly to every pointer event. Added smoothstep proximity falloff plus independently tunable `260 px` radius, `0.14` angle inertia, `0.10` opacity inertia, and `0.82` maximum opacity.
+- 2026-08-23: Theme Builders artwork was scaled from its full `633 × 468 px` export, shrinking the visible form. It now renders at export scale inside the exact clipped desktop Figma node; the later mobile-specific export is recorded above.
+- 2026-08-23: Pointer-following borders reacted abruptly to every pointer event. Added smoothstep proximity falloff and independently tunable angle, opacity, radius, and maximum-opacity values; the latest values are recorded above.
 - 2026-08-23: Direct Railway uploads could time out while transferring committed QA screenshots and leave `INITIALIZING` drafts without builds. Added `.railwayignore` so production snapshots contain only runtime/build inputs while QA artifacts remain versioned in GitHub.
 - 2026-08-23: Mobile menu/language controls stayed fixed and no longer matched the Figma header. Moved both into the exact `343 × 48 px` absolute header at `24 px` top/left so they scroll away naturally.
 - 2026-08-23: Mobile cards had no equivalent for the desktop pointer glow. Added one shared ScrollTrigger-driven border system that rotates every card's conic highlight with scroll and disables it for reduced motion.

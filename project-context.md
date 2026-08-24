@@ -20,7 +20,7 @@ The full Russian desktop and mobile portfolio is implemented, with an English co
 6. Theme Builders.
 7. Interfaces.
 8. Pet Project.
-9. Closing and contact.
+9. Closing with Figma-authored Telegram and email rows, plus the avatar-triggered contact overlay.
 
 ## Design source
 

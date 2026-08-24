@@ -10,6 +10,11 @@ const select = <T extends Element>(selector: string, scope: ParentNode = documen
 const selectAll = <T extends Element>(selector: string, scope: ParentNode = document) =>
   Array.from(scope.querySelectorAll<T>(selector));
 
+const readMotionNumber = (name: string, fallback: number) => {
+  const value = Number.parseFloat(getComputedStyle(document.documentElement).getPropertyValue(name));
+  return Number.isFinite(value) ? value : fallback;
+};
+
 function setBodyLocked() {
   const openOverlay = select<HTMLElement>('[data-menu-overlay][aria-hidden="false"], [data-contact-overlay][aria-hidden="false"]');
   document.body.classList.toggle("overlay-open", Boolean(openOverlay));
@@ -165,6 +170,47 @@ function ensureBorderGlows(cards: HTMLElement[]) {
   });
 }
 
+function initCursorGlow() {
+  if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
+  const glow = select<HTMLElement>("[data-cursor-glow]");
+  if (!glow) return;
+
+  const smoothing = readMotionNumber("--cursor-glow-smoothing", 0.12);
+  let currentX = 0;
+  let currentY = 0;
+  let targetX = 0;
+  let targetY = 0;
+  let hasPosition = false;
+  let frame = 0;
+
+  const render = () => {
+    frame = 0;
+    currentX += (targetX - currentX) * smoothing;
+    currentY += (targetY - currentY) * smoothing;
+    glow.style.transform = `translate3d(${Math.round(currentX * 100) / 100}px, ${Math.round(currentY * 100) / 100}px, 0) translate(-50%, -50%)`;
+    if (Math.abs(targetX - currentX) > 0.1 || Math.abs(targetY - currentY) > 0.1) {
+      frame = window.requestAnimationFrame(render);
+    }
+  };
+
+  const schedule = (event: PointerEvent) => {
+    if (event.pointerType === "touch") return;
+    targetX = event.clientX;
+    targetY = event.clientY;
+    if (!hasPosition) {
+      currentX = targetX;
+      currentY = targetY;
+      hasPosition = true;
+    }
+    glow.dataset.active = "true";
+    if (!frame) frame = window.requestAnimationFrame(render);
+  };
+
+  window.addEventListener("pointermove", schedule, { passive: true });
+  document.documentElement.addEventListener("pointerleave", () => { glow.dataset.active = "false"; });
+  window.addEventListener("blur", () => { glow.dataset.active = "false"; });
+}
+
 function initBorderGlow() {
   const supportsHover = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -174,10 +220,10 @@ function initBorderGlow() {
   ensureBorderGlows(cards);
 
   const BORDER_GLOW = {
-    proximityRadius: 260,
-    maxOpacity: 0.82,
-    angleSmoothing: 0.14,
-    opacitySmoothing: 0.1,
+    proximityRadius: readMotionNumber("--border-glow-proximity", 300),
+    maxOpacity: readMotionNumber("--border-glow-max-opacity", 0.82),
+    angleSmoothing: readMotionNumber("--border-glow-angle-smoothing", 0.075),
+    opacitySmoothing: readMotionNumber("--border-glow-opacity-smoothing", 0.055),
   } as const;
   type GlowState = { angle: number; targetAngle: number; opacity: number; targetOpacity: number };
   const states = new Map<HTMLElement, GlowState>();
@@ -245,6 +291,9 @@ function initMobileScrollGlow() {
   if (!window.matchMedia("(max-width: 640px)").matches) return;
 
   const cards = selectAll<HTMLElement>(".interactive-card");
+  const maxOpacity = readMotionNumber("--border-glow-max-opacity", 0.82);
+  const degreesPerPixel = readMotionNumber("--mobile-border-glow-degrees-per-pixel", 0.22);
+  const cardAngleOffset = readMotionNumber("--mobile-border-glow-card-offset", 23);
   ensureBorderGlows(cards);
   document.documentElement.dataset.scrollGlow = "mobile";
 
@@ -252,14 +301,14 @@ function initMobileScrollGlow() {
     cards.forEach((card) => {
       const rect = card.getBoundingClientRect();
       card.style.setProperty("--glow-cover", `${Math.ceil(Math.hypot(rect.width, rect.height))}px`);
-      card.style.setProperty("--glow-opacity", "0.82");
+      card.style.setProperty("--glow-opacity", `${maxOpacity}`);
     });
   };
 
   const updateAngles = () => {
-    const scrollAngle = window.scrollY * 0.22;
+    const scrollAngle = window.scrollY * degreesPerPixel;
     cards.forEach((card, index) => {
-      const angle = (scrollAngle + index * 23) % 360;
+      const angle = (scrollAngle + index * cardAngleOffset) % 360;
       card.style.setProperty("--glow-angle", `${Math.round(angle * 100) / 100}deg`);
     });
   };
@@ -381,6 +430,7 @@ export function initPortfolioMotion() {
   }
 
   document.documentElement.dataset.motion = "full";
+  initCursorGlow();
   initBorderGlow();
   initMobileScrollGlow();
   initHero();

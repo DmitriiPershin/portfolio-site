@@ -1,6 +1,6 @@
 # Motion map — complete portfolio
 
-Date: 2026-08-23.
+Date: 2026-08-24.
 
 | Surface | Motion | Trigger and end state | Mobile | Reduced motion |
 |---|---|---|---|---|
@@ -11,15 +11,17 @@ Date: 2026-08-23.
 | Repeated cards | Staggered fade/rise | Section entry; 22 px travel with small stagger | Same, natural long scroll | Immediately visible |
 | AI cards | Ordered context/tool reveal | Scene entry; context and tools settle in sequence | Mobile order follows the vertical Figma flow | Immediately visible |
 | AI connectors | Clip reveal of original Figma SVGs | After cards; complete designed desktop routes become visible | Six local 116 px rows reveal in sequence; each one/two/three-track group shares its grid with the chips | Complete connectors shown |
-| Section cards | Responsive border segment | Within 160 px of a fine pointer, the conic segment follows pointer angle and fades by distance | A shared ScrollTrigger rotates the segment by scroll position with a per-card offset | Static Figma border/inset effect |
-| Globe | Hover glow and scroll exit | Desktop: fixed and fades/scales out after 40 px scroll | Part of the absolute Figma header and scrolls naturally | State change remains near-instant |
-| Menu | Soft scale and line morph | Desktop: viewport-fixed, transparent, no shadow; opens full overlay and morphs into close | Part of the absolute Figma header at 24 px top/right and scrolls naturally | Near-instant state |
+| Section cards | Responsive border segment | Within 300 px of a fine pointer, a same-colour conic segment follows pointer angle and fades by distance | A shared ScrollTrigger rotates the segment by scroll position with a per-card offset | Static Figma border/inset effect |
+| Cursor light | Soft radial follow | Fine pointer; a low-opacity purple light interpolates toward the pointer | Disabled for touch/coarse pointers | Disabled |
+| Globe | Hover glow | Starts at the desktop Figma coordinates and scrolls away naturally with the page | Part of the absolute Figma header and scrolls naturally | Near-instant hover state |
+| Menu | Soft scale and line morph | Starts at the desktop Figma coordinates, scrolls away naturally, opens the full overlay, and morphs into close | Part of the absolute Figma header at 24 px top/right and scrolls naturally | Near-instant state |
 | Fixed avatar | Soft scale/glow | Fixed; opens contact overlay | 60 px, bottom/right 14 px | Near-instant state |
 | Mobile details | One-way disclosure | Extra text expands/fades in over 720 ms; button follows the new height, fades, then disappears | Mobile only | Text appears and button disappears immediately |
 
 ## Timing tokens
 
-- Border-glow fade: 420 ms, `cubic-bezier(0.37, 0, 0.67, 1)`; pointer angle updates in `requestAnimationFrame`.
+- Border glow: `300 px` proximity, `0.075` angle interpolation, `0.055` opacity interpolation, and `0.82` maximum opacity in `requestAnimationFrame`.
+- Cursor light: `260 px`, `0.18` maximum opacity, `0.12` position interpolation, and 600 ms enter/exit fade.
 - Mobile scroll glow: one ScrollTrigger; angle is `scrollY × 0.22 + cardIndex × 23deg`.
 - Details reveal: 720 ms plus 80 ms stagger for multi-paragraph Theme Builders copy, `power3.out`.
 - Main reveal: 720–900 ms, GSAP `power3.out`.

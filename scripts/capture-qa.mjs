@@ -21,12 +21,14 @@ for (const viewport of [
   });
 
   for (const [name, selector] of [
+    ["focus", "#focus"],
     ["skills", "#hard-skills"],
     ["ai-workflow", "#ai-workflow"],
     ["process", "#process-ai"],
     ["theme-builders", "#theme-builders"],
     ["interfaces", "#interfaces"],
     ["pet-project", "#pet-project"],
+    ["contacts", "#contacts"],
   ]) {
     await page.locator(selector).screenshot({
       path: `artifacts/qa/${viewport.name}-${name}.png`,

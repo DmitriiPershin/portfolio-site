@@ -17,5 +17,12 @@ const assets = {
 ---
 
 <div class:list={["glow-icon", `glow-icon--${variant}`]} data-icon-drift data-node-id={nodeId} aria-hidden="true">
-  <img src={assets[variant]} alt="" width="300" height="300" />
+  {variant === "theme" ? (
+    <picture>
+      <source media="(max-width: 640px)" srcset="/assets/icon-theme-builders-mobile-exact.png" />
+      <img src={assets[variant]} alt="" width="633" height="468" />
+    </picture>
+  ) : (
+    <img src={assets[variant]} alt="" width="300" height="300" />
+  )}
 </div>

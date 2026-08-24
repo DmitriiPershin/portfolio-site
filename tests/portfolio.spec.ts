@@ -116,8 +116,11 @@ test("avatar opens contact details", async ({ page }) => {
     return [Math.round(rect.width), Math.round(rect.height)];
   })).toEqual([expectedInner, expectedInner]);
   await avatar.click();
-  await expect(page.getByRole("dialog", { name: "Nice to meet you" })).toBeVisible();
-  await expect(page.getByRole("link", { name: /dmitrii_pershin/i })).toHaveAttribute("href", "https://t.me/dmitrii_pershin");
+  const dialog = page.getByRole("dialog", { name: "Nice to meet you" });
+  await expect(dialog).toBeVisible();
+  await expect(dialog.getByRole("link", { name: /dmitrii_pershin/i })).toHaveAttribute("href", "https://t.me/dmitrii_pershin");
+  const contactHeading = page.locator(".contact-heading");
+  expect(await contactHeading.evaluate((element) => Math.ceil(element.getBoundingClientRect().bottom))).toBeLessThanOrEqual(page.viewportSize()?.height ?? 900);
   await page.locator("[data-contact-close]").click();
   await expect(page.locator("[data-contact-overlay]")).toHaveAttribute("aria-hidden", "true");
 });
@@ -138,10 +141,14 @@ test("desktop cards use the PremiumExchanger pointer-following border glow", asy
   test.skip((page.viewportSize()?.width ?? 0) < 1200, "Desktop hover check");
   await page.goto("/");
   const card = page.locator(".interface-metric--3");
+  const cursorGlow = page.locator("[data-cursor-glow]");
   await card.scrollIntoViewIfNeeded();
+  await page.waitForTimeout(1000);
   await expect(card.locator(":scope > .card-border-glow")).toHaveCount(1);
   const before = await card.evaluate((element) => getComputedStyle(element).boxShadow);
-  await card.hover();
+  const cardBox = await card.boundingBox();
+  expect(cardBox).not.toBeNull();
+  await page.mouse.move((cardBox?.x ?? 0) + (cardBox?.width ?? 0) / 2, (cardBox?.y ?? 0) + (cardBox?.height ?? 0) / 2, { steps: 8 });
   await page.waitForTimeout(500);
   const state = await card.evaluate((element) => {
     const style = getComputedStyle(element);
@@ -154,11 +161,36 @@ test("desktop cards use the PremiumExchanger pointer-following border glow", asy
       shadow: style.boxShadow,
     };
   });
-  expect(state.glowOpacity).toBeGreaterThan(0.65);
+  expect(state.glowOpacity).toBeGreaterThan(0.15);
   expect(state.glowOpacity).toBeLessThanOrEqual(0.83);
   expect(state.angle).toContain("deg");
   expect(state.glowBackground).toContain("conic-gradient");
+  expect(state.glowBackground).not.toContain("255, 255, 255");
   expect(state.shadow).toBe(before);
+  await expect(cursorGlow).toHaveAttribute("data-active", "true");
+  expect(Number.parseFloat(await cursorGlow.evaluate((element) => getComputedStyle(element).opacity))).toBeGreaterThan(0.1);
+});
+
+test("Skills hover stays purple and eases into the border highlight", async ({ page }) => {
+  test.skip((page.viewportSize()?.width ?? 0) < 1200, "Desktop hover timing check");
+  await page.goto("/");
+  const chip = page.locator("#hard-skills .skill-chips--hard .skill-chip").first();
+  await chip.scrollIntoViewIfNeeded();
+  await page.waitForTimeout(1000);
+  const chipBox = await chip.boundingBox();
+  expect(chipBox).not.toBeNull();
+  await page.mouse.move((chipBox?.x ?? 0) + (chipBox?.width ?? 0) / 2, (chipBox?.y ?? 0) + (chipBox?.height ?? 0) / 2, { steps: 8 });
+  await page.waitForTimeout(120);
+  const early = Number.parseFloat(await chip.evaluate((element) => getComputedStyle(element).getPropertyValue("--glow-opacity")));
+  await page.waitForTimeout(700);
+  const late = Number.parseFloat(await chip.evaluate((element) => getComputedStyle(element).getPropertyValue("--glow-opacity")));
+  const highlight = await chip.locator(":scope > .card-border-glow").evaluate((element) => getComputedStyle(element, "::before").backgroundImage);
+  expect(early).toBeGreaterThan(0.05);
+  expect(early).toBeLessThan(0.65);
+  expect(late).toBeGreaterThan(early);
+  expect(late).toBeLessThanOrEqual(0.83);
+  expect(highlight).toContain("118, 85, 146");
+  expect(highlight).not.toContain("255, 255, 255");
 });
 
 test("desktop Theme Builder and Interfaces cards match Figma geometry", async ({ page }) => {
@@ -170,6 +202,8 @@ test("desktop Theme Builder and Interfaces cards match Figma geometry", async ({
   const primary = page.locator(".theme-metric--primary");
   const interfaceFirst = page.locator(".interface-metric--1");
   const comments = page.locator(".interface-metric--4");
+  const themeIcon = page.locator("#theme-builders .glow-icon--theme");
+  const themeIconImage = themeIcon.locator("img");
   await speed.scrollIntoViewIfNeeded();
 
   await expect(speed).toHaveCSS("border-radius", "26px");
@@ -181,6 +215,16 @@ test("desktop Theme Builder and Interfaces cards match Figma geometry", async ({
   await expect(interfaceFirst.locator("strong img")).toHaveAttribute("src", "/assets/metric-interface-561-desktop.png");
   expect(await interfaceFirst.locator("strong img").evaluate((image) => [(image as HTMLImageElement).naturalWidth, (image as HTMLImageElement).naturalHeight])).toEqual([143, 34]);
   await expect(page.getByText("Сделал редизайн панели управления обменником", { exact: true })).toBeVisible();
+  expect(await themeIconImage.evaluate((image) => {
+    const icon = image.closest(".glow-icon")?.getBoundingClientRect();
+    const rect = image.getBoundingClientRect();
+    return [
+      Math.round(rect.width),
+      Math.round(rect.height),
+      Math.round((rect.left - (icon?.left ?? 0)) * 10) / 10,
+      Math.round(rect.top - (icon?.top ?? 0)),
+    ];
+  })).toEqual([633, 468, -166.5, 0]);
 });
 
 test("mobile Workflow, Skills and Interfaces match Figma geometry", async ({ page }) => {
@@ -221,7 +265,8 @@ test("mobile Workflow, Skills and Interfaces match Figma geometry", async ({ pag
   groupCenters.forEach((center) => expect(Math.abs(center - sceneCenter)).toBeLessThanOrEqual(1));
 
   expect(await themeIcon.evaluate((element) => [Math.round(element.getBoundingClientRect().width), Math.round(element.getBoundingClientRect().height)])).toEqual([180, 180]);
-  expect(await themeIconImage.evaluate((element) => [Math.round(element.getBoundingClientRect().width), Math.round(element.getBoundingClientRect().height)])).toEqual([475, 351]);
+  expect(await themeIconImage.evaluate((element) => [Math.round(element.getBoundingClientRect().width), Math.round(element.getBoundingClientRect().height)])).toEqual([180, 180]);
+  expect(await themeIconImage.evaluate((image) => (image as HTMLImageElement).currentSrc.endsWith("/assets/icon-theme-builders-mobile-exact.png"))).toBe(true);
   await expect(page.locator(".process-card").first()).toHaveCSS("border-left-width", "1px");
   await expect(page.locator(".pet-card")).toHaveCSS("border-left-width", "1px");
 
@@ -230,6 +275,43 @@ test("mobile Workflow, Skills and Interfaces match Figma geometry", async ({ pag
   await expect(mobileComments).toHaveCSS("border-radius", "26px");
   await expect(page.locator(".ai-workflow__copy .section-headline [data-locale='ru']")).toContainText("стилей, иллюстраций");
   await expect(page.locator(".theme__headline [data-locale='ru']")).toContainText("дизайн-систему для");
+});
+
+test("Focus, Process and closing contacts follow the Figma formatting", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto("/");
+  const mobile = (page.viewportSize()?.width ?? 1000) <= 640;
+  const focusParagraphs = page.locator(".focus__body [data-locale='ru'] p");
+  await expect(focusParagraphs).toHaveCount(2);
+  expect(await focusParagraphs.evaluateAll((elements) => elements.map((element) => getComputedStyle(element).display))).toEqual(["block", "block"]);
+
+  const processCards = page.locator(".process-card");
+  await processCards.first().scrollIntoViewIfNeeded();
+  await expect(processCards.first()).toHaveCSS("border-top-color", "rgb(53, 191, 39)");
+  await expect(processCards.first()).toHaveCSS("background-color", "rgb(0, 0, 0)");
+  await expect(processCards.first()).toHaveCSS("border-radius", mobile ? "26px" : "80px");
+  if (mobile) {
+    expect(await processCards.evaluateAll((elements) => elements.map((element) => Math.round(element.getBoundingClientRect().height)))).toEqual([420, 448, 448]);
+    expect(await processCards.first().locator(".more-button").evaluate((element) => {
+      const rect = element.getBoundingClientRect();
+      return [Math.round(rect.width), Math.round(rect.height)];
+    })).toEqual([140, 50]);
+    expect(await page.locator(".focus__mobile-break").evaluate((element) => getComputedStyle(element).display)).toBe("inline");
+  } else {
+    expect(await processCards.evaluateAll((elements) => elements.map((element) => Math.round(element.getBoundingClientRect().height)))).toEqual([438, 438, 374]);
+  }
+
+  const contacts = page.locator("#contacts .closing__contacts a");
+  await expect(contacts).toHaveCount(2);
+  await expect(contacts.nth(0)).toHaveAttribute("href", "https://t.me/dmitrii_pershin");
+  await expect(contacts.nth(1)).toHaveAttribute("href", "mailto:pershindmitrii@gmail.com");
+  const contactGeometry = await contacts.evaluateAll((elements) => elements.map((element) => {
+    const icon = element.querySelector("img")?.getBoundingClientRect();
+    const style = getComputedStyle(element);
+    return [Math.round(icon?.width ?? 0), Math.round(Number.parseFloat(style.fontSize)), Math.ceil(element.getBoundingClientRect().width)];
+  }));
+  expect(contactGeometry.map(([icon, font]) => [icon, font])).toEqual(mobile ? [[48, 20], [48, 20]] : [[62, 40], [62, 40]]);
+  contactGeometry.forEach(([, , width]) => expect(width).toBeLessThanOrEqual(mobile ? 342 : 608));
 });
 
 test("mobile details reveal on demand", async ({ page }) => {

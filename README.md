@@ -7,23 +7,25 @@ Production portfolio implemented from the current desktop and mobile Figma layou
 
 ## Current state
 
-- All portfolio sections are implemented: Hero, Focus, Hard/Soft Skills, AI Workflow, Process & AI, Theme Builders, Interfaces, Pet Project, and closing/contact.
+- All portfolio sections are implemented: Hero, Focus, Hard/Soft Skills, AI Workflow, Process & AI, Theme Builders, Interfaces, Pet Project, and the final Figma contact block.
 - Astro + TypeScript application with GSAP + ScrollTrigger for staged and scroll-triggered motion.
 - Exact Figma-exported section icons, display headings, joined AI routes, overlay typography, project visuals, and avatar are stored locally.
 - Russian and English content can be switched from the globe control; the choice persists locally.
 - Desktop controls use the Figma `64 px` geometry at `top: 64/148 px; right: 48 px`; mobile uses the exact `343 × 48 px` header at `24 px` top/left. Both are document-positioned and scroll away naturally instead of sticking to the viewport.
-- The avatar opens the exact Figma contact overlay with Telegram, email, closing artwork, and close control.
+- The avatar opens the exact Figma contact overlay with Telegram, email, closing artwork, and close control. Its title scales only on short desktop viewports so `Nice to meet you` always remains visible.
 - The avatar follows the responsive Figma geometry: `120 × 120 px` desktop and `60 × 60 px` mobile, with `110.118/55.059 px` inner crops and the authored image zoom.
 - Desktop and mobile layouts follow separate Figma geometry where needed, especially AI Workflow.
 - AI Workflow uses seven exact desktop route exports where each arrow and chip is one unit, plus a dedicated `342 × 1806 px` mobile sequence. Mobile connector rows are grouped per transition (one, two, or three tracks), keeping every arrow centred with its own chip between cards.
-- Hard Skills use the exact solid `#765592` stroke, `rgba(118,85,146,.3)` backing, `26 px` radius, and `60 px` inset effect. Other cards retain their section-specific Figma strokes, radii, shadows, dimensions, copy, and responsive ordering.
-- Theme Builder and Interfaces numbers are exact Figma text exports, so Joyride WIDE glyph shapes are preserved without shipping the local font software.
-- Card borders use a cursor-proximity glow derived from PremiumExchanger on desktop. On mobile the same conic highlight changes angle with page scroll while the Figma base stroke and inset effect remain unchanged.
+- Focus follows the separate desktop/mobile Figma text composition: `40/52 px` headline and `16/32 px` body on desktop; hidden display headline, `14/22 px` body, explicit line break, and `20 px` paragraph gap on mobile.
+- Hard Skills use the exact solid `#765592` stroke, `rgba(118,85,146,.3)` backing, `26 px` radius, and `60 px` inset effect. Hard and Soft Skills use the same `#765592` hover highlight with eased angle and opacity. Other cards retain their section-specific Figma strokes, radii, shadows, dimensions, copy, and responsive ordering.
+- Theme Builder uses separate exact Figma artwork on desktop and mobile so the authored crop, orange form, and apparent size remain intact. Interfaces numbers are exact Figma text exports, so Joyride WIDE glyph shapes are preserved without shipping the local font software.
+- Card borders use a cursor-proximity glow derived from PremiumExchanger on desktop. On mobile the same conic highlight changes angle with page scroll while the Figma base stroke and inset effect remain unchanged. A separate low-opacity purple light follows a fine pointer without affecting layout or touch devices.
 - Mobile Process & AI and Theme Builders details reveal additional copy once with a smooth height/fade transition; the control moves with the expanding content and then disappears.
 - The Pet Project preview, website, and Chrome cards use the supplied destinations. The replacement ChatGPT destination is awaiting the final public URL.
 - Major layout, spacing, and timing values are CSS custom properties.
 - Full-motion and `prefers-reduced-motion` paths are supported.
-- Playwright covers desktop, tablet, mobile, overflow, languages, responsive navigation, contacts, one-way mobile disclosures, scroll-linked and pointer-linked border glow, project links, exact workflow/card geometry, and health.
+- The end of the page contains the Figma Telegram and email rows on desktop plus a responsive `342 px` mobile composition.
+- Playwright covers desktop, tablet, mobile, overflow, languages, responsive navigation, both contact surfaces, one-way mobile disclosures, scroll-linked and pointer-linked border glow, project links, exact Focus/Process/Theme geometry, and health.
 - Railway-ready Node server with `/api/health`.
 
 The historical prototype remains in `../designer/site/`; production changes belong here.
@@ -73,7 +75,7 @@ npm run qa:screenshots
 ```
 
 The product review checklist is in `checks.md`. Reduced-motion desktop/mobile renders are written to `artifacts/qa/`.
-The latest recorded verification is in `docs/test-log-2026-08-23.md`.
+The latest recorded verification is in `docs/test-log-2026-08-24.md`.
 
 ## Spacing changes
 
@@ -95,7 +97,8 @@ The mobile breakpoint overrides the same tokens. Section-specific geometry remai
 - Headings and copy: independent scroll reveals, including the second Soft Skills heading.
 - Cards: soft entry with 18–22 px travel.
 - AI Workflow: seven joined Figma route groups reveal after the desktop cards; mobile uses grouped CSS tracks tied directly to the one/two/three-chip rows.
-- Desktop hover: a conic-gradient border segment activates within `260 px` of the pointer. Angle inertia is `0.14`, opacity inertia is `0.10`, maximum opacity is `0.82`, and a smoothstep falloff removes the hard edge.
+- Desktop hover: a same-colour conic-gradient border segment activates within `300 px` of the pointer. Angle interpolation is `0.075`, opacity interpolation is `0.055`, maximum opacity is `0.82`, and a smoothstep falloff removes the hard edge.
+- Cursor light: a `260 px` purple radial glow follows a fine pointer with `0.12` interpolation and `0.18` maximum opacity; it is removed for touch and reduced motion.
 - Mobile scroll: the same border segment rotates at `0.22deg` per scroll pixel, with a stable offset per card. It does not replace or deform the Figma border, radius, fill, or inset shadow.
 - Mobile Details: extra copy expands over 720 ms with `power3.out`; the button follows the new height, fades, and cannot be toggled closed accidentally.
 - Reduced motion: all content and complete connectors are immediately visible, with no ambient drift or long transforms.

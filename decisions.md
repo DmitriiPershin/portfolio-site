@@ -95,3 +95,31 @@ The portfolio needs visible hover feedback while Dmitrii requested ultra-smooth,
 What this changes:
 
 Hover feedback is consistent but keeps the purple, blue, green, orange, pink, and sky section identities.
+
+### 2026-08-24 - Keep responsive signature art as separate Figma exports
+
+What we decided:
+
+Use distinct desktop and mobile exports when Figma authors a materially different icon crop instead of scaling one oversized bitmap across breakpoints.
+
+Why:
+
+Theme Builder's desktop artwork bleeds far outside its `300 × 300 px` clip, while mobile defines a separate `180 × 180 px` orange composition. Scaling the desktop export changed both apparent size and colour balance.
+
+What this changes:
+
+The component keeps one semantic icon but its `<picture>` source follows the matching Figma breakpoint. The same rule applies to future signature art with breakpoint-specific composition.
+
+### 2026-08-24 - Tokenize subtle pointer motion independently from layout
+
+What we decided:
+
+Keep the card-border highlight and ambient cursor light as independent, CSS-tokenized layers.
+
+Why:
+
+The border needs slow local feedback while the ambient light should remain faint across empty page areas. Coupling them would make tuning one effect alter the other or the authored card styles.
+
+What this changes:
+
+Radius, opacity, and interpolation live in the root token block; touch and reduced-motion modes remove the ambient cursor layer and retain static Figma geometry.
