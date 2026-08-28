@@ -123,3 +123,31 @@ The border needs slow local feedback while the ambient light should remain faint
 What this changes:
 
 Radius, opacity, and interpolation live in the root token block; touch and reduced-motion modes remove the ambient cursor layer and retain static Figma geometry.
+
+### 2026-08-28 - Keep Workflow routes as exact SVG groups
+
+What we decided:
+
+Each desktop AI Workflow transition is one local transparent SVG exported from its current Figma group, including arrow, chip, dash, gradient, and shadow.
+
+Why:
+
+PNG route screenshots became soft after scaling and their alpha-filter bounds drifted away from the cards. Reconstructing the routes from separate DOM layers repeated the same positioning problem.
+
+What this changes:
+
+Cards and icons remain semantic DOM, while connector geometry is treated as authored artwork. Route changes start in Figma and are re-exported as SVG.
+
+### 2026-08-28 - Limit desktop floating controls by content context
+
+What we decided:
+
+Keep menu and language fixed during the introduction, then hide both as soon as the Hard Skills artwork enters. Hide the avatar when the final contacts are visible. Mobile navigation continues to scroll with the document.
+
+Why:
+
+Permanent navigation competes with long-form portfolio content, but immediate document scrolling removes it before the introductory scan is complete. The final avatar also covered the contact surface it was meant to expose.
+
+What this changes:
+
+Visibility is derived from section geometry, not arbitrary scroll pixels, so later spacing changes do not invalidate the behaviour.

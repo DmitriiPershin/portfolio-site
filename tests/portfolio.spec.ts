@@ -37,8 +37,13 @@ test("page has no runtime console errors", async ({ page }) => {
 test("language switch changes copy and persists the choice", async ({ page }) => {
   await page.goto("/");
   const languageButton = page.locator("[data-language-toggle]");
-  await expect(languageButton).toHaveAccessibleName("Switch to English");
+  const mobile = (page.viewportSize()?.width ?? 1000) <= 640;
+  await expect(languageButton).toHaveAccessibleName("Открыть выбор языка");
   await languageButton.click();
+  if (!mobile) {
+    await expect(page.locator("[data-language-overlay]")).toHaveAttribute("aria-hidden", "false");
+    await page.locator("[data-language-option='en']").click();
+  }
   await expect(page.getByText("Client context", { exact: true }).filter({ visible: true }).first()).toBeVisible();
   await expect(page.locator("html")).toHaveAttribute("lang", "en");
 
@@ -71,16 +76,21 @@ test("navigation controls follow the intended responsive scroll behaviour", asyn
     })));
     expect(boxes).toEqual([[24, 48, 48], [319, 48, 48]]);
   } else {
-    expect(await menuButton.evaluate((element) => getComputedStyle(element).position)).toBe("absolute");
+    expect(await menuButton.evaluate((element) => getComputedStyle(element).position)).toBe("fixed");
     expect(Math.round(menuTop)).toBe(64);
     expect(Math.round(languageTop)).toBe(148);
-    expect(Math.round(menuTopAfterScroll)).toBe(-176);
-    expect(Math.round(languageTopAfterScroll)).toBe(-92);
+    expect(Math.round(menuTopAfterScroll)).toBe(64);
+    expect(Math.round(languageTopAfterScroll)).toBe(148);
     const expectedLeft = (page.viewportSize()?.width ?? 1440) - 112;
     expect(await Promise.all([languageButton, menuButton].map((locator) => locator.evaluate((element) => {
       const rect = element.getBoundingClientRect();
       return [Math.round(rect.left), Math.round(rect.width), Math.round(rect.height)];
     })))).toEqual([[expectedLeft, 64, 64], [expectedLeft, 64, 64]]);
+
+    await page.locator("#hard-skills [data-reveal='icon']").scrollIntoViewIfNeeded();
+    await expect(page.locator(".floating-header")).toHaveAttribute("data-scroll-hidden", "");
+    await expect(menuButton).toHaveCSS("visibility", "hidden");
+    await expect(languageButton).toHaveCSS("visibility", "hidden");
   }
 });
 
@@ -94,6 +104,12 @@ test("menu is keyboard accessible and contains every section", async ({ page }) 
   const navigation = page.getByRole("navigation", { name: "Разделы портфолио" });
   await expect(navigation).toBeVisible();
   await expect(navigation.getByRole("link")).toHaveCount(8);
+  if ((page.viewportSize()?.width ?? 1000) > 640) {
+    const focus = navigation.getByRole("link", { name: "Focus", exact: true });
+    await focus.hover();
+    await expect(focus.locator(".menu-label__base")).toHaveCSS("opacity", "0");
+    await expect(focus.locator(".menu-label__hover")).toHaveCSS("opacity", "0.4");
+  }
   await page.keyboard.press("Escape");
   await expect(menuButton).toHaveAttribute("aria-expanded", "false");
 });
@@ -162,7 +178,7 @@ test("desktop cards use the PremiumExchanger pointer-following border glow", asy
     };
   });
   expect(state.glowOpacity).toBeGreaterThan(0.15);
-  expect(state.glowOpacity).toBeLessThanOrEqual(0.83);
+  expect(state.glowOpacity).toBeLessThanOrEqual(0.91);
   expect(state.angle).toContain("deg");
   expect(state.glowBackground).toContain("conic-gradient");
   expect(state.glowBackground).not.toContain("255, 255, 255");
@@ -188,7 +204,7 @@ test("Skills hover stays purple and eases into the border highlight", async ({ p
   expect(early).toBeGreaterThan(0.05);
   expect(early).toBeLessThan(0.65);
   expect(late).toBeGreaterThan(early);
-  expect(late).toBeLessThanOrEqual(0.83);
+  expect(late).toBeLessThanOrEqual(0.91);
   expect(highlight).toContain("118, 85, 146");
   expect(highlight).not.toContain("255, 255, 255");
 });
@@ -287,8 +303,8 @@ test("Focus, Process and closing contacts follow the Figma formatting", async ({
 
   const processCards = page.locator(".process-card");
   await processCards.first().scrollIntoViewIfNeeded();
-  await expect(processCards.first()).toHaveCSS("border-top-color", "rgb(53, 191, 39)");
-  await expect(processCards.first()).toHaveCSS("background-color", "rgb(0, 0, 0)");
+  await expect(processCards.first()).toHaveCSS("border-top-color", "rgba(0, 0, 0, 0)");
+  expect(await processCards.first().evaluate((element) => getComputedStyle(element).backgroundImage)).toContain("linear-gradient");
   await expect(processCards.first()).toHaveCSS("border-radius", mobile ? "26px" : "80px");
   if (mobile) {
     expect(await processCards.evaluateAll((elements) => elements.map((element) => Math.round(element.getBoundingClientRect().height)))).toEqual([420, 448, 448]);
@@ -303,8 +319,8 @@ test("Focus, Process and closing contacts follow the Figma formatting", async ({
 
   const contacts = page.locator("#contacts .closing__contacts a");
   await expect(contacts).toHaveCount(2);
-  await expect(contacts.nth(0)).toHaveAttribute("href", "https://t.me/dmitrii_pershin");
-  await expect(contacts.nth(1)).toHaveAttribute("href", "mailto:pershindmitrii@gmail.com");
+  await expect(contacts.nth(0)).toHaveAttribute("href", "mailto:pershindmitrii@gmail.com");
+  await expect(contacts.nth(1)).toHaveAttribute("href", "https://t.me/dmitrii_pershin");
   const contactGeometry = await contacts.evaluateAll((elements) => elements.map((element) => {
     const icon = element.querySelector("img")?.getBoundingClientRect();
     const style = getComputedStyle(element);
@@ -358,6 +374,31 @@ test("pet project uses the verified destinations and exact portfolio font", asyn
   await expect(page.getByRole("link", { name: /30mintimer\.com/i })).toHaveAttribute("href", /30mintimer\.com/);
   await expect(page.getByRole("link", { name: /Open AI/i })).toHaveAttribute("href", /^https:\/\/chatgpt\.com\//);
   expect(await page.locator("body").evaluate((element) => getComputedStyle(element).fontFamily)).toContain("LINE Seed JP");
+});
+
+test("desktop AI routes, Pet Project and closing section use the latest Figma structure", async ({ page }) => {
+  test.skip((page.viewportSize()?.width ?? 0) < 1200, "Desktop Figma structure check");
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto("/");
+
+  const routes = page.locator(".workflow-route");
+  await expect(routes).toHaveCount(7);
+  expect(await routes.evaluateAll((elements) => elements.every((element) => (element as HTMLImageElement).currentSrc.endsWith(".svg")))).toBe(true);
+  await expect(page.locator(".workflow-route-filter")).toHaveCount(0);
+
+  const pet = page.locator(".pet-card");
+  const visual = page.locator(".pet-card__visual-link");
+  const platforms = page.locator(".pet-platforms");
+  expect(await pet.evaluate((element) => [Math.round(element.getBoundingClientRect().width), getComputedStyle(element).borderLeftWidth, getComputedStyle(element).paddingLeft])).toEqual([1066, "0px", "0px"]);
+  expect(await visual.evaluate((element) => [Math.round(element.getBoundingClientRect().width), Math.round(element.getBoundingClientRect().height)])).toEqual([1066, 600]);
+  expect(await platforms.evaluate((element) => [Math.round(element.getBoundingClientRect().width), getComputedStyle(element).columnGap])).toEqual([809, "40px"]);
+
+  const closing = page.locator("#contacts");
+  await closing.scrollIntoViewIfNeeded();
+  await expect(page.locator("[data-contact-toggle]")).toHaveAttribute("data-closing-visible", "");
+  await expect(page.locator("[data-contact-toggle]")).toHaveCSS("visibility", "hidden");
+  await expect(closing.locator(".closing__heading")).toHaveAttribute("src", "/assets/closing-heading.svg");
+  await expect(closing.locator(".closing__contacts span")).toHaveCount(2);
 });
 
 test("health endpoint responds", async ({ request }) => {

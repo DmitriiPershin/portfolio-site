@@ -16,7 +16,7 @@ const readMotionNumber = (name: string, fallback: number) => {
 };
 
 function setBodyLocked() {
-  const openOverlay = select<HTMLElement>('[data-menu-overlay][aria-hidden="false"], [data-contact-overlay][aria-hidden="false"]');
+  const openOverlay = select<HTMLElement>('[data-menu-overlay][aria-hidden="false"], [data-language-overlay][aria-hidden="false"], [data-contact-overlay][aria-hidden="false"]');
   document.body.classList.toggle("overlay-open", Boolean(openOverlay));
 }
 
@@ -24,6 +24,9 @@ function initOverlays() {
   const menuToggle = select<HTMLButtonElement>("[data-menu-toggle]");
   const menuOverlay = select<HTMLElement>("[data-menu-overlay]");
   const menuClose = select<HTMLButtonElement>("[data-menu-close]");
+  const languageToggle = select<HTMLButtonElement>("[data-language-toggle]");
+  const languageOverlay = select<HTMLElement>("[data-language-overlay]");
+  const languageClose = select<HTMLButtonElement>("[data-language-close]");
   const contactToggle = select<HTMLButtonElement>("[data-contact-toggle]");
   const contactOverlay = select<HTMLElement>("[data-contact-overlay]");
   const contactClose = select<HTMLButtonElement>("[data-contact-close]");
@@ -33,8 +36,19 @@ function initOverlays() {
     menuToggle.setAttribute("aria-expanded", String(open));
     menuOverlay.setAttribute("aria-hidden", String(!open));
     if (open && contactOverlay?.getAttribute("aria-hidden") === "false") setContact(false);
+    if (open && languageOverlay?.getAttribute("aria-hidden") === "false") setLanguage(false);
     setBodyLocked();
-    if (open) select<HTMLAnchorElement>("a", menuOverlay)?.focus();
+    if (open) menuOverlay.focus({ preventScroll: true });
+  };
+
+  const setLanguage = (open: boolean) => {
+    if (!languageToggle || !languageOverlay) return;
+    languageToggle.setAttribute("aria-expanded", String(open));
+    languageOverlay.setAttribute("aria-hidden", String(!open));
+    if (open && menuOverlay?.getAttribute("aria-hidden") === "false") setMenu(false);
+    if (open && contactOverlay?.getAttribute("aria-hidden") === "false") setContact(false);
+    setBodyLocked();
+    if (open) languageOverlay.focus({ preventScroll: true });
   };
 
   const setContact = (open: boolean) => {
@@ -42,8 +56,9 @@ function initOverlays() {
     contactToggle.setAttribute("aria-expanded", String(open));
     contactOverlay.setAttribute("aria-hidden", String(!open));
     if (open && menuOverlay?.getAttribute("aria-hidden") === "false") setMenu(false);
+    if (open && languageOverlay?.getAttribute("aria-hidden") === "false") setLanguage(false);
     setBodyLocked();
-    if (open) select<HTMLAnchorElement>("a", contactOverlay)?.focus();
+    if (open) contactOverlay.focus({ preventScroll: true });
   };
 
   menuToggle?.addEventListener("click", () => setMenu(menuToggle.getAttribute("aria-expanded") !== "true"));
@@ -52,6 +67,14 @@ function initOverlays() {
     menuToggle?.focus();
   });
   selectAll<HTMLAnchorElement>("a", menuOverlay ?? document).forEach((link) => link.addEventListener("click", () => setMenu(false)));
+  languageToggle?.addEventListener("click", () => {
+    if (window.matchMedia("(min-width: 641px)").matches) setLanguage(languageToggle.getAttribute("aria-expanded") !== "true");
+  });
+  languageClose?.addEventListener("click", () => {
+    setLanguage(false);
+    languageToggle?.focus();
+  });
+  selectAll<HTMLButtonElement>("[data-language-option]", languageOverlay ?? document).forEach((button) => button.addEventListener("click", () => setLanguage(false)));
   contactToggle?.addEventListener("click", () => setContact(contactToggle.getAttribute("aria-expanded") !== "true"));
   contactClose?.addEventListener("click", () => {
     setContact(false);
@@ -64,6 +87,10 @@ function initOverlays() {
       setMenu(false);
       menuToggle.focus();
     }
+    if (languageToggle?.getAttribute("aria-expanded") === "true") {
+      setLanguage(false);
+      languageToggle.focus();
+    }
     if (contactToggle?.getAttribute("aria-expanded") === "true") {
       setContact(false);
       contactToggle.focus();
@@ -73,7 +100,7 @@ function initOverlays() {
 
 function initLanguage() {
   const toggle = select<HTMLButtonElement>("[data-language-toggle]");
-  const code = select<HTMLElement>(".language-code", toggle ?? document);
+  const options = selectAll<HTMLButtonElement>("[data-language-option]");
   if (!toggle) return;
 
   let language: Language = "ru";
@@ -90,8 +117,8 @@ function initLanguage() {
     selectAll<HTMLElement>("[data-locale]").forEach((element) => {
       element.hidden = element.dataset.locale !== next;
     });
-    if (code) code.textContent = next.toUpperCase();
-    toggle.setAttribute("aria-label", next === "ru" ? "Switch to English" : "Переключить на русский");
+    toggle.setAttribute("aria-label", next === "ru" ? "Открыть выбор языка" : "Open language selector");
+    options.forEach((option) => option.setAttribute("aria-pressed", String(option.dataset.languageOption === next)));
     const menuButton = select<HTMLButtonElement>("[data-menu-toggle]");
     const contactButton = select<HTMLButtonElement>("[data-contact-toggle]");
     if (menuButton) menuButton.setAttribute("aria-label", next === "ru" ? "Открыть меню" : "Open menu");
@@ -107,9 +134,43 @@ function initLanguage() {
     ScrollTrigger.refresh();
   };
 
-  toggle.addEventListener("click", () => apply(language === "ru" ? "en" : "ru"));
+  toggle.addEventListener("click", () => {
+    if (window.matchMedia("(max-width: 640px)").matches) apply(language === "ru" ? "en" : "ru");
+  });
+  options.forEach((option) => option.addEventListener("click", () => {
+    const next = option.dataset.languageOption;
+    if (next === "ru" || next === "en") apply(next);
+  }));
   apply(language);
 
+}
+
+function initScrollVisibility() {
+  const controls = select<HTMLElement>(".floating-header");
+  const hardSkillsImage = select<HTMLElement>(".skills [data-reveal='icon']");
+  const avatar = select<HTMLButtonElement>("[data-contact-toggle]");
+  const closing = select<HTMLElement>("[data-section='closing']");
+  if (!controls && !avatar) return;
+
+  let frame = 0;
+  const update = () => {
+    frame = 0;
+    const desktop = window.matchMedia("(min-width: 641px)").matches;
+    const hardRect = hardSkillsImage?.getBoundingClientRect();
+    const hideControls = Boolean(desktop && hardRect && hardRect.top <= window.innerHeight * 0.9);
+    controls?.toggleAttribute("data-scroll-hidden", hideControls);
+
+    const closingRect = closing?.getBoundingClientRect();
+    const closingVisible = Boolean(closingRect && closingRect.top < window.innerHeight * 0.92 && closingRect.bottom > window.innerHeight * 0.08);
+    avatar?.toggleAttribute("data-closing-visible", closingVisible);
+  };
+  const schedule = () => {
+    if (!frame) frame = window.requestAnimationFrame(update);
+  };
+
+  window.addEventListener("scroll", schedule, { passive: true });
+  window.addEventListener("resize", schedule, { passive: true });
+  update();
 }
 
 function initDetails() {
@@ -421,6 +482,7 @@ export function initPortfolioMotion() {
   initOverlays();
   initLanguage();
   initDetails();
+  initScrollVisibility();
 
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   if (reducedMotion) {

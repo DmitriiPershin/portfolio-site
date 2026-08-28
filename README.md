@@ -9,22 +9,22 @@ Production portfolio implemented from the current desktop and mobile Figma layou
 
 - All portfolio sections are implemented: Hero, Focus, Hard/Soft Skills, AI Workflow, Process & AI, Theme Builders, Interfaces, Pet Project, and the final Figma contact block.
 - Astro + TypeScript application with GSAP + ScrollTrigger for staged and scroll-triggered motion.
-- Exact Figma-exported section icons, display headings, joined AI routes, overlay typography, project visuals, and avatar are stored locally.
-- Russian and English content can be switched from the globe control; the choice persists locally.
-- Desktop controls use the Figma `64 px` geometry at `top: 64/148 px; right: 48 px`; mobile uses the exact `343 × 48 px` header at `24 px` top/left. Both are document-positioned and scroll away naturally instead of sticking to the viewport.
+- Exact Figma-exported section icons, display headings, SVG AI routes, overlay typography, project visuals, and avatar are stored locally.
+- On desktop the globe opens the exact Figma language selector (`501:2`); its Russian hover swaps Outline for Regular at 40% purple. The chosen RU/EN content layer persists locally. Mobile keeps the compact direct toggle.
+- Desktop menu and language controls use the Figma `64 px` geometry at `top: 64/148 px; right: 48 px`. They remain fixed through the introduction and fade out when the Hard Skills artwork enters the viewport. Mobile keeps the authored `343 × 48 px` document header at `24 px` top/left and scrolls away naturally.
 - The avatar opens the exact Figma contact overlay with Telegram, email, closing artwork, and close control. Its title scales only on short desktop viewports so `Nice to meet you` always remains visible.
 - The avatar follows the responsive Figma geometry: `120 × 120 px` desktop and `60 × 60 px` mobile, with `110.118/55.059 px` inner crops and the authored image zoom.
 - Desktop and mobile layouts follow separate Figma geometry where needed, especially AI Workflow.
-- AI Workflow uses seven exact desktop route exports where each arrow and chip is one unit, plus a dedicated `342 × 1806 px` mobile sequence. Mobile connector rows are grouped per transition (one, two, or three tracks), keeping every arrow centred with its own chip between cards.
+- AI Workflow uses seven exact transparent SVG route groups where each arrow, chip, dash, gradient, and shadow remains one crisp unit. The current tool icons and gradient card strokes come from the same Figma nodes. Mobile keeps its dedicated `342 × 1806 px` sequence with one-, two-, and three-track connector groups.
 - Focus follows the separate desktop/mobile Figma text composition: `40/52 px` headline and `16/32 px` body on desktop; hidden display headline, `14/22 px` body, explicit line break, and `20 px` paragraph gap on mobile.
-- Hard Skills use the exact solid `#765592` stroke, `rgba(118,85,146,.3)` backing, `26 px` radius, and `60 px` inset effect. Hard and Soft Skills use the same `#765592` hover highlight with eased angle and opacity. Other cards retain their section-specific Figma strokes, radii, shadows, dimensions, copy, and responsive ordering.
+- Hard and Soft Skills use the exact five-stop `#765592` gradient stroke, separate authored fills, `26 px` radius, and `60 px / -17.68 px` inset effect. Process cards use the matching Figma green gradient stroke instead of a solid approximation. Both sections retain the same-colour cursor highlight with eased angle and opacity.
 - Theme Builder uses separate exact Figma artwork on desktop and mobile so the authored crop, orange form, and apparent size remain intact. Interfaces numbers are exact Figma text exports, so Joyride WIDE glyph shapes are preserved without shipping the local font software.
 - Card borders use a cursor-proximity glow derived from PremiumExchanger on desktop. On mobile the same conic highlight changes angle with page scroll while the Figma base stroke and inset effect remain unchanged. A separate low-opacity purple light follows a fine pointer without affecting layout or touch devices.
 - Mobile Process & AI and Theme Builders details reveal additional copy once with a smooth height/fade transition; the control moves with the expanding content and then disappears.
-- The Pet Project preview, website, and Chrome cards use the supplied destinations. The replacement ChatGPT destination is awaiting the final public URL.
+- Pet Project follows the new desktop Figma composition: a borderless outer stack, a `1066 × 600 px` linked preview, and an `809 px` three-card platform row. All supplied website, Chrome, and ChatGPT destinations are connected.
 - Major layout, spacing, and timing values are CSS custom properties.
 - Full-motion and `prefers-reduced-motion` paths are supported.
-- The end of the page contains the Figma Telegram and email rows on desktop plus a responsive `342 px` mobile composition.
+- The end of the page uses the current SVG `THANK / YOU` heading and live LINE Seed contact text, ordered email then Telegram. The floating avatar hides while this section is visible so it cannot cover the contacts.
 - Playwright covers desktop, tablet, mobile, overflow, languages, responsive navigation, both contact surfaces, one-way mobile disclosures, scroll-linked and pointer-linked border glow, project links, exact Focus/Process/Theme geometry, and health.
 - Railway-ready Node server with `/api/health`.
 
@@ -75,7 +75,7 @@ npm run qa:screenshots
 ```
 
 The product review checklist is in `checks.md`. Reduced-motion desktop/mobile renders are written to `artifacts/qa/`.
-The latest recorded verification is in `docs/test-log-2026-08-24.md`.
+The latest recorded verification is in `docs/test-log-2026-08-28.md`.
 
 ## Spacing changes
 
@@ -97,8 +97,8 @@ The mobile breakpoint overrides the same tokens. Section-specific geometry remai
 - Headings and copy: independent scroll reveals, including the second Soft Skills heading.
 - Cards: soft entry with 18–22 px travel.
 - AI Workflow: seven joined Figma route groups reveal after the desktop cards; mobile uses grouped CSS tracks tied directly to the one/two/three-chip rows.
-- Desktop hover: a same-colour conic-gradient border segment activates within `300 px` of the pointer. Angle interpolation is `0.075`, opacity interpolation is `0.055`, maximum opacity is `0.82`, and a smoothstep falloff removes the hard edge.
-- Cursor light: a `260 px` purple radial glow follows a fine pointer with `0.12` interpolation and `0.18` maximum opacity; it is removed for touch and reduced motion.
+- Desktop hover: a same-colour conic-gradient border segment activates within `340 px` of the pointer. Angle interpolation is `0.055`, opacity interpolation is `0.04`, maximum opacity is `0.9`, and a smoothstep falloff removes the hard edge.
+- Cursor light: a `300 px` purple radial glow follows a fine pointer with `0.12` interpolation and `0.24` maximum opacity; it is removed for touch and reduced motion.
 - Mobile scroll: the same border segment rotates at `0.22deg` per scroll pixel, with a stable offset per card. It does not replace or deform the Figma border, radius, fill, or inset shadow.
 - Mobile Details: extra copy expands over 720 ms with `power3.out`; the button follows the new height, fades, and cannot be toggled closed accidentally.
 - Reduced motion: all content and complete connectors are immediately visible, with no ambient drift or long transforms.
@@ -124,12 +124,13 @@ The `.railwayignore` file keeps committed QA screenshots, tests, reports, and do
 - Final spacing tokens still need Dmitrii's visual approval; they are intentionally centralized for quick adjustment.
 - The English content is a parallel content layer. Figma currently defines Russian desktop/mobile geometry only.
 - Joyride display typography intentionally remains image-based until a valid webfont kit is available; this preserves the Figma shapes without redistributing the local font.
-- The current ChatGPT Pet Project URL opens the generic Plugins page. Replace it as soon as Dmitrii supplies the intended public timer URL; Figma does not contain a hyperlink for this card.
+- Joyride menu hover and section headings can become live font text only after licensed Joyride WIDE, Outline, Regular, and ALT webfonts are supplied. Until then the exact Figma SVG/PNG paths are the production source.
 
 ## Figma source
 
 - File: `RohXp9xh64xj3NpvNcCe4j`.
 - Desktop full frame: `358:434`.
 - Mobile full frame: `372:928`.
+- Desktop menu and language selector: `473:110`, `501:2`, `501:45`.
 - Desktop sections: `358:512`, `358:519`, `358:537`, `358:631`, `358:762`, `358:808`, `358:837`, `358:892`, `358:909`.
 - Mobile sections: `372:932`, `372:935`, `372:952`, `372:1042`, `372:1106`, `372:1136`, `372:1157`, `372:1205`, `383:45`.

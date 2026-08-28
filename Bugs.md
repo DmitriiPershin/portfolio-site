@@ -5,9 +5,16 @@
 - Final spacing values remain provisional until Dmitrii reviews the deployed desktop and mobile renders against Figma.
 - English has no dedicated Figma frame, so long English labels may need a later typography pass.
 - Joyride display copy is image-based until a valid webfont license/kit is supplied.
-- The Pet Project ChatGPT URL currently opens the generic Plugins page. Figma contains no hyperlink, so the final public timer URL is required from Dmitrii.
 
 ## Resolved
+
+- 2026-08-28: Desktop language switching skipped the authored selector and changed content immediately. Added the exact `501:2` overlay, Figma globe asset, persisted choices, and the Outline → Regular 40% hover from `501:45`.
+- 2026-08-28: Desktop menu/language controls either scrolled away immediately or stayed visible for the whole page. They now remain fixed only until the Hard Skills artwork appears; mobile remains document-positioned.
+- 2026-08-28: AI Workflow routes were PNG exports processed through an alpha filter, which blurred chips and shifted arrow bounds. Replaced all seven routes with transparent SVG groups from the current Figma nodes, restored exact visual bounds, and updated every tool icon.
+- 2026-08-28: Hard/Soft Skills and Process cards used solid or incomplete borders. Restored the authored gradient transforms/stops and inset-shadow spread values from Figma.
+- 2026-08-28: Pet Project still used the old bordered outer card. Rebuilt desktop to the current borderless `1066 × 600 px` preview plus `809 px` platform row and kept the supplied destinations.
+- 2026-08-28: The closing block used an older raster heading/order and the fixed avatar covered it. Added the current SVG heading, live email/Telegram text in Figma order, stronger hover light, and visibility-driven avatar hiding.
+- 2026-08-28: Menu typography used blurry PNG-only states and translated on hover. Replaced desktop states with crisp Figma SVG paths and a slow typeface/40%-opacity crossfade without positional movement.
 
 - 2026-08-24: Focus copy used browser-driven wrapping that did not reproduce the separate desktop/mobile Figma composition. Restored the exact type metrics, paragraph rhythm, hidden mobile display title, and authored mobile line break.
 - 2026-08-24: Skills border light used a brighter generic core and responded too abruptly. Hard and Soft Skills now use the requested `#765592` highlight with `300 px` proximity, `0.075` angle interpolation, and `0.055` opacity interpolation.

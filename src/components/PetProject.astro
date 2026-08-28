@@ -24,17 +24,17 @@ const timerUrl = platforms[1].url;
     <span data-locale="en" hidden>Launched a timer on three platforms</span>
   </p>
 
-  <article class="pet-card interactive-card" data-card-reveal>
-    <a class="pet-card__visual-link" href={timerUrl} target="_blank" rel="noreferrer" aria-label="Открыть 30 Minute Timer">
+  <article class="pet-card" data-card-reveal>
+    <a class="pet-card__visual-link interactive-card" href={timerUrl} target="_blank" rel="noreferrer" aria-label="Открыть 30 Minute Timer">
       <picture>
         <img class="pet-card__visual" src="/assets/pet-project.webp" alt="Интерфейс визуального таймера" width="985" height="554" />
       </picture>
     </a>
     <div class="pet-platforms">
       {platforms.map((platform) => (
-        <a class="pet-platform" href={platform.url} target="_blank" rel="noreferrer">
-          <span>{platform.title}</span>
+        <a class="pet-platform interactive-card" href={platform.url} target="_blank" rel="noreferrer">
           <img src={platform.icon} alt="" width="60" height="60" />
+          <span>{platform.title}</span>
         </a>
       ))}
     </div>

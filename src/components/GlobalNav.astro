@@ -1,27 +1,44 @@
 <header class="floating-header" aria-label="Быстрая навигация">
-  <button class="language-button" type="button" aria-label="Switch to English" data-language-toggle>
-    <img src="/assets/globe-figma.svg" alt="" width="48" height="48" />
-    <span class="language-code" aria-hidden="true">RU</span>
+  <button class="language-button" type="button" aria-label="Открыть выбор языка" aria-expanded="false" aria-controls="language-selector" data-language-toggle>
+    <img src="/assets/control-language.svg" alt="" width="64" height="64" />
   </button>
 
   <button class="menu-button" type="button" aria-label="Открыть меню" aria-expanded="false" aria-controls="site-menu" data-menu-toggle>
+    <img class="menu-button__desktop-icon" src="/assets/control-menu.svg" alt="" width="72" height="74" />
     <span></span><span></span><span></span>
   </button>
 </header>
 
-<div class="menu-overlay" id="site-menu" aria-hidden="true" data-menu-overlay>
+<div class="language-overlay" id="language-selector" aria-hidden="true" tabindex="-1" data-language-overlay>
+  <button class="overlay-close" type="button" aria-label="Закрыть выбор языка" data-language-close>
+    <img src="/assets/close-icon.png" alt="" width="64" height="64" />
+  </button>
+  <div class="language-dialog" role="dialog" aria-modal="true" aria-label="Выбор языка">
+    <button class="language-choice language-choice--english" type="button" data-language-option="en">
+      <span class="sr-only">English</span>
+      <img src="/assets/language-english-active.svg" alt="" width="574" height="41" />
+    </button>
+    <button class="language-choice language-choice--russian" type="button" data-language-option="ru">
+      <span class="sr-only">Русский</span>
+      <img class="language-choice__base" src="/assets/language-russian-outline.svg" alt="" width="579" height="42" />
+      <img class="language-choice__hover" src="/assets/language-russian-hover.svg" alt="" width="577" height="41" />
+    </button>
+  </div>
+</div>
+
+<div class="menu-overlay" id="site-menu" aria-hidden="true" tabindex="-1" data-menu-overlay>
   <button class="overlay-close" type="button" aria-label="Закрыть меню" data-menu-close>
     <img src="/assets/close-icon.png" alt="" width="64" height="64" />
   </button>
   <nav aria-label="Разделы портфолио">
-    <a href="#focus"><img src="/assets/menu-link-1.png" alt="" width="364" height="42" /><span class="sr-only">Focus</span></a>
-    <a href="#hard-skills"><img src="/assets/menu-link-2.png" alt="" width="665" height="42" /><span class="sr-only">Hardskills</span></a>
-    <a href="#soft-skills"><img src="/assets/menu-link-3.png" alt="" width="651" height="42" /><span class="sr-only">Softskills</span></a>
-    <a href="#ai-workflow"><img src="/assets/menu-link-4.png" alt="" width="761" height="42" /><span class="sr-only">AI Workflow</span></a>
-    <a href="#process-ai"><img src="/assets/menu-link-5.png" alt="" width="781" height="55" /><span class="sr-only">Process &amp; AI</span></a>
-    <a href="#theme-builders"><img src="/assets/menu-link-6.png" alt="" width="924" height="42" /><span class="sr-only">Theme Builders</span></a>
-    <a href="#interfaces"><img src="/assets/menu-link-7.png" alt="" width="652" height="42" /><span class="sr-only">Interfaces</span></a>
-    <a href="#pet-project"><img src="/assets/menu-link-8.png" alt="" width="729" height="42" /><span class="sr-only">Pet Project</span></a>
+    <a href="#focus"><span class="menu-label menu-label--desktop"><img class="menu-label__base" src="/assets/menu-focus-outline.svg" alt="" /><img class="menu-label__hover" src="/assets/menu-focus-hover.svg" alt="" /></span><img class="menu-label--mobile" src="/assets/menu-link-1.png" alt="" width="364" height="42" /><span class="sr-only">Focus</span></a>
+    <a href="#hard-skills"><span class="menu-label menu-label--desktop menu-label--current"><img class="menu-label__base" src="/assets/menu-hard-wide.svg" alt="" /></span><img class="menu-label--mobile" src="/assets/menu-link-2.png" alt="" width="665" height="42" /><span class="sr-only">Hardskills</span></a>
+    <a href="#soft-skills"><span class="menu-label menu-label--desktop"><img class="menu-label__base" src="/assets/menu-soft-outline.svg" alt="" /><img class="menu-label__hover" src="/assets/menu-soft-hover.svg" alt="" /></span><img class="menu-label--mobile" src="/assets/menu-link-3.png" alt="" width="651" height="42" /><span class="sr-only">Softskills</span></a>
+    <a href="#ai-workflow"><span class="menu-label menu-label--desktop"><img class="menu-label__base" src="/assets/menu-workflow-outline.svg" alt="" /><img class="menu-label__hover" src="/assets/menu-workflow-hover.svg" alt="" /></span><img class="menu-label--mobile" src="/assets/menu-link-4.png" alt="" width="761" height="42" /><span class="sr-only">AI Workflow</span></a>
+    <a href="#process-ai"><span class="menu-label menu-label--desktop"><img class="menu-label__base" src="/assets/menu-process-outline.svg" alt="" /><img class="menu-label__hover" src="/assets/menu-process-hover.svg" alt="" /></span><img class="menu-label--mobile" src="/assets/menu-link-5.png" alt="" width="781" height="55" /><span class="sr-only">Process &amp; AI</span></a>
+    <a href="#theme-builders"><span class="menu-label menu-label--desktop"><img class="menu-label__base" src="/assets/menu-theme-outline.svg" alt="" /><img class="menu-label__hover" src="/assets/menu-theme-hover.svg" alt="" /></span><img class="menu-label--mobile" src="/assets/menu-link-6.png" alt="" width="924" height="42" /><span class="sr-only">Theme Builders</span></a>
+    <a href="#interfaces"><span class="menu-label menu-label--desktop"><img class="menu-label__base" src="/assets/menu-interfaces-outline.svg" alt="" /><img class="menu-label__hover" src="/assets/menu-interfaces-hover.svg" alt="" /></span><img class="menu-label--mobile" src="/assets/menu-link-7.png" alt="" width="652" height="42" /><span class="sr-only">Interfaces</span></a>
+    <a href="#pet-project"><span class="menu-label menu-label--desktop"><img class="menu-label__base" src="/assets/menu-pet-outline.svg" alt="" /><img class="menu-label__hover" src="/assets/menu-pet-hover.svg" alt="" /></span><img class="menu-label--mobile" src="/assets/menu-link-8.png" alt="" width="729" height="42" /><span class="sr-only">Pet Project</span></a>
   </nav>
 </div>
 
@@ -33,7 +50,7 @@
   <span class="avatar-button__status" aria-hidden="true"></span>
 </button>
 
-<div class="contact-overlay" id="contact-overlay" aria-hidden="true" data-contact-overlay>
+<div class="contact-overlay" id="contact-overlay" aria-hidden="true" tabindex="-1" data-contact-overlay>
   <button class="overlay-close" type="button" aria-label="Закрыть контакты" data-contact-close>
     <img src="/assets/close-icon.png" alt="" width="64" height="64" />
   </button>
