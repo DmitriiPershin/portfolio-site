@@ -3,20 +3,9 @@ import { expect, test } from "@playwright/test";
 test("renders every portfolio section without horizontal overflow", async ({ page }) => {
   await page.goto("/");
 
-  for (const heading of [
-    "Dmitrii Pershin",
-    "Focus",
-    "Hard Skills",
-    "Soft Skills",
-    "AI Workflow",
-    "Process & AI",
-    "Theme Builders",
-    "Interfaces",
-    "Pet Project",
-    "Nice to meet you",
-  ]) {
-    await expect(page.getByRole("heading", { name: heading, exact: true })).toBeAttached();
-  }
+  await expect(page.getByRole("heading", { name: "Dmitrii Pershin", exact: true })).toBeAttached();
+  await expect(page.locator("#focus h2, #hard-skills h2, #soft-skills h2, #ai-workflow h2, #process-ai h2, #theme-builders h2, #interfaces h2, #pet-project h2, #contacts h2")).toHaveCount(9);
+  await expect(page.locator("#contact-title")).toBeAttached();
 
   const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
   expect(overflow).toBeLessThanOrEqual(1);
@@ -37,13 +26,10 @@ test("page has no runtime console errors", async ({ page }) => {
 test("language switch changes copy and persists the choice", async ({ page }) => {
   await page.goto("/");
   const languageButton = page.locator("[data-language-toggle]");
-  const mobile = (page.viewportSize()?.width ?? 1000) <= 640;
   await expect(languageButton).toHaveAccessibleName("Открыть выбор языка");
   await languageButton.click();
-  if (!mobile) {
-    await expect(page.locator("[data-language-overlay]")).toHaveAttribute("aria-hidden", "false");
-    await page.locator("[data-language-option='en']").click();
-  }
+  await expect(page.locator("[data-language-overlay]")).toHaveAttribute("aria-hidden", "false");
+  await page.locator("[data-language-option='en']").click();
   await expect(page.getByText("Client context", { exact: true }).filter({ visible: true }).first()).toBeVisible();
   await expect(page.locator("html")).toHaveAttribute("lang", "en");
 
@@ -56,42 +42,23 @@ test("navigation controls follow the intended responsive scroll behaviour", asyn
   await page.goto("/");
   const languageButton = page.locator("[data-language-toggle]");
   const menuButton = page.locator("[data-menu-toggle]");
-  const mobile = (page.viewportSize()?.width ?? 1000) <= 640;
-
   await expect(languageButton).toBeVisible();
   expect(await menuButton.evaluate((element) => getComputedStyle(element).boxShadow)).toBe("none");
   const menuTop = await menuButton.evaluate((element) => element.getBoundingClientRect().top);
   const languageTop = await languageButton.evaluate((element) => element.getBoundingClientRect().top);
 
   await page.evaluate(() => window.scrollTo(0, 240));
-  const menuTopAfterScroll = await menuButton.evaluate((element) => element.getBoundingClientRect().top);
-  const languageTopAfterScroll = await languageButton.evaluate((element) => element.getBoundingClientRect().top);
-  if (mobile) {
-    expect(await menuButton.evaluate((element) => getComputedStyle(element).position)).toBe("relative");
-    expect(Math.round(menuTop)).toBe(24);
-    expect(Math.round(menuTopAfterScroll)).toBe(-216);
-    const boxes = await Promise.all([languageButton, menuButton].map((locator) => locator.evaluate((element) => {
-      const rect = element.getBoundingClientRect();
-      return [Math.round(rect.left), Math.round(rect.width), Math.round(rect.height)];
-    })));
-    expect(boxes).toEqual([[24, 48, 48], [319, 48, 48]]);
-  } else {
-    expect(await menuButton.evaluate((element) => getComputedStyle(element).position)).toBe("fixed");
-    expect(Math.round(menuTop)).toBe(64);
-    expect(Math.round(languageTop)).toBe(148);
-    expect(Math.round(menuTopAfterScroll)).toBe(64);
-    expect(Math.round(languageTopAfterScroll)).toBe(148);
-    const expectedLeft = (page.viewportSize()?.width ?? 1440) - 112;
-    expect(await Promise.all([languageButton, menuButton].map((locator) => locator.evaluate((element) => {
-      const rect = element.getBoundingClientRect();
-      return [Math.round(rect.left), Math.round(rect.width), Math.round(rect.height)];
-    })))).toEqual([[expectedLeft, 64, 64], [expectedLeft, 64, 64]]);
+  expect(await menuButton.evaluate((element) => getComputedStyle(element).position)).toBe((page.viewportSize()?.width ?? 1000) <= 640 ? "relative" : "fixed");
+  expect(Math.round(menuTop)).toBe((page.viewportSize()?.width ?? 1000) <= 640 ? 20 : 64);
+  expect(Math.round(languageTop)).toBe((page.viewportSize()?.width ?? 1000) <= 640 ? 20 : 148);
+  await expect(page.locator(".floating-header")).toHaveAttribute("data-scroll-hidden", "");
+  await expect(menuButton).toHaveCSS("visibility", "hidden");
+  await expect(languageButton).toHaveCSS("visibility", "hidden");
 
-    await page.locator("#hard-skills [data-reveal='icon']").scrollIntoViewIfNeeded();
-    await expect(page.locator(".floating-header")).toHaveAttribute("data-scroll-hidden", "");
-    await expect(menuButton).toHaveCSS("visibility", "hidden");
-    await expect(languageButton).toHaveCSS("visibility", "hidden");
-  }
+  await page.evaluate(() => window.scrollBy(0, -80));
+  await expect(page.locator(".floating-header")).not.toHaveAttribute("data-scroll-hidden", "");
+  await expect(menuButton).toHaveCSS("visibility", "visible");
+  await expect(languageButton).toHaveCSS("visibility", "visible");
 });
 
 test("menu is keyboard accessible and contains every section", async ({ page }) => {
@@ -105,10 +72,10 @@ test("menu is keyboard accessible and contains every section", async ({ page }) 
   await expect(navigation).toBeVisible();
   await expect(navigation.getByRole("link")).toHaveCount(8);
   if ((page.viewportSize()?.width ?? 1000) > 640) {
-    const focus = navigation.getByRole("link", { name: "Focus", exact: true });
+    const focus = navigation.getByRole("link", { name: "FOCUS", exact: true });
     await focus.hover();
-    await expect(focus.locator(".menu-label__base")).toHaveCSS("opacity", "0");
-    await expect(focus.locator(".menu-label__hover")).toHaveCSS("opacity", "0.4");
+    await expect(focus).toHaveCSS("font-family", /Joyride Regular/);
+    await expect(focus).toHaveCSS("opacity", "0.4");
   }
   await page.keyboard.press("Escape");
   await expect(menuButton).toHaveAttribute("aria-expanded", "false");
@@ -185,6 +152,7 @@ test("desktop cards use the PremiumExchanger pointer-following border glow", asy
   expect(state.shadow).toBe(before);
   await expect(cursorGlow).toHaveAttribute("data-active", "true");
   expect(Number.parseFloat(await cursorGlow.evaluate((element) => getComputedStyle(element).opacity))).toBeGreaterThan(0.1);
+  expect((await cursorGlow.evaluate((element) => getComputedStyle(element).getPropertyValue("--cursor-glow-rgb"))).replace(/\s/g, "")).toBe("253,80,160");
 });
 
 test("Skills hover stays purple and eases into the border highlight", async ({ page }) => {
@@ -219,7 +187,7 @@ test("desktop Theme Builder and Interfaces cards match Figma geometry", async ({
   const interfaceFirst = page.locator(".interface-metric--1");
   const comments = page.locator(".interface-metric--4");
   const themeIcon = page.locator("#theme-builders .glow-icon--theme");
-  const themeIconImage = themeIcon.locator("img");
+  const themeIconImage = themeIcon.locator(".glow-icon__base img");
   await speed.scrollIntoViewIfNeeded();
 
   await expect(speed).toHaveCSS("border-radius", "26px");
@@ -228,8 +196,8 @@ test("desktop Theme Builder and Interfaces cards match Figma geometry", async ({
   expect(await primary.evaluate((element) => [element.clientWidth, element.clientHeight])).toEqual([1039, 451]);
   expect(await interfaceFirst.evaluate((element) => [element.clientWidth, element.clientHeight])).toEqual([358, 172]);
   expect(await comments.evaluate((element) => [element.clientWidth, element.clientHeight])).toEqual([378, 210]);
-  await expect(interfaceFirst.locator("strong img")).toHaveAttribute("src", "/assets/metric-interface-561-desktop.png");
-  expect(await interfaceFirst.locator("strong img").evaluate((image) => [(image as HTMLImageElement).naturalWidth, (image as HTMLImageElement).naturalHeight])).toEqual([143, 34]);
+  await expect(interfaceFirst.locator("strong")).toHaveText("561");
+  await expect(interfaceFirst.locator("strong")).toHaveCSS("font-family", /Joyride WIDE/);
   await expect(page.getByText("Сделал редизайн панели управления обменником", { exact: true })).toBeVisible();
   expect(await themeIconImage.evaluate((image) => {
     const icon = image.closest(".glow-icon")?.getBoundingClientRect();
@@ -252,20 +220,20 @@ test("mobile Workflow, Skills and Interfaces match Figma geometry", async ({ pag
   const context = scene.locator(".workflow-context");
   const tool = scene.locator("[data-mobile-workflow-node='claude-context']");
   const flows = scene.locator("[data-mobile-flow]");
-  const softHeading = page.locator("#soft-skills .display-heading--soft");
+  const softHeading = page.locator("#soft-skills .display-heading--outline");
   const skillsSection = page.locator("#hard-skills");
   const thinking = skillsSection.locator(".skill-chip-rows--soft .skill-chip--thinking");
   const themeIcon = page.locator("#theme-builders .glow-icon--theme");
-  const themeIconImage = themeIcon.locator("img");
+  const themeIconImage = themeIcon.locator(".glow-icon__base img");
 
   await softHeading.scrollIntoViewIfNeeded();
   await expect(softHeading).toBeVisible();
   expect(await skillsSection.evaluate((element) => Math.round(element.getBoundingClientRect().height))).toBe(2012);
   expect(await thinking.evaluate((element) => Math.round(element.getBoundingClientRect().height))).toBe(88);
-  expect(await scene.evaluate((element) => Math.round(element.getBoundingClientRect().height))).toBe(1806);
+  expect(await scene.evaluate((element) => Math.round(element.getBoundingClientRect().height))).toBe(1844);
   expect(await context.evaluate((element) => [Math.round(element.getBoundingClientRect().width), Math.round(element.getBoundingClientRect().height)])).toEqual([342, 296]);
   await expect(context).toHaveCSS("border-radius", "44px");
-  expect(await tool.evaluate((element) => [Math.round(element.getBoundingClientRect().width), Math.round(element.getBoundingClientRect().height)])).toEqual([342, 136]);
+  expect(await tool.evaluate((element) => [Math.round(element.getBoundingClientRect().width), Math.round(element.getBoundingClientRect().height)])).toEqual([342, 142]);
   await expect(tool).toHaveCSS("border-radius", "104px");
   await expect(flows).toHaveCount(6);
   expect(await flows.evaluateAll((elements) => elements.map((element) => Math.round(element.getBoundingClientRect().height)))).toEqual([116, 116, 116, 116, 116, 116]);
@@ -284,7 +252,7 @@ test("mobile Workflow, Skills and Interfaces match Figma geometry", async ({ pag
   expect(await themeIconImage.evaluate((element) => [Math.round(element.getBoundingClientRect().width), Math.round(element.getBoundingClientRect().height)])).toEqual([180, 180]);
   expect(await themeIconImage.evaluate((image) => (image as HTMLImageElement).currentSrc.endsWith("/assets/icon-theme-builders-mobile-exact.png"))).toBe(true);
   await expect(page.locator(".process-card").first()).toHaveCSS("border-left-width", "1px");
-  await expect(page.locator(".pet-card")).toHaveCSS("border-left-width", "1px");
+  await expect(page.locator(".pet-card")).toHaveCSS("border-left-width", "0px");
 
   const mobileComments = page.locator(".interface-metric--4");
   expect(await mobileComments.evaluate((element) => [Math.round(element.getBoundingClientRect().width), Math.round(element.getBoundingClientRect().height)])).toEqual([342, 96]);
@@ -303,8 +271,8 @@ test("Focus, Process and closing contacts follow the Figma formatting", async ({
 
   const processCards = page.locator(".process-card");
   await processCards.first().scrollIntoViewIfNeeded();
-  await expect(processCards.first()).toHaveCSS("border-top-color", "rgba(0, 0, 0, 0)");
-  expect(await processCards.first().evaluate((element) => getComputedStyle(element).backgroundImage)).toContain("linear-gradient");
+  await expect(processCards.first()).toHaveCSS("border-top-color", "rgb(53, 191, 39)");
+  expect(await processCards.first().evaluate((element) => getComputedStyle(element).backgroundImage)).toBe("none");
   await expect(processCards.first()).toHaveCSS("border-radius", mobile ? "26px" : "80px");
   if (mobile) {
     expect(await processCards.evaluateAll((elements) => elements.map((element) => Math.round(element.getBoundingClientRect().height)))).toEqual([420, 448, 448]);
@@ -326,8 +294,11 @@ test("Focus, Process and closing contacts follow the Figma formatting", async ({
     const style = getComputedStyle(element);
     return [Math.round(icon?.width ?? 0), Math.round(Number.parseFloat(style.fontSize)), Math.ceil(element.getBoundingClientRect().width)];
   }));
-  expect(contactGeometry.map(([icon, font]) => [icon, font])).toEqual(mobile ? [[48, 20], [48, 20]] : [[62, 40], [62, 40]]);
+  expect(contactGeometry.map(([icon, font]) => [icon, font])).toEqual(mobile ? [[26, 20], [26, 20]] : [[62, 40], [62, 40]]);
   contactGeometry.forEach(([, , width]) => expect(width).toBeLessThanOrEqual(mobile ? 342 : 608));
+  if (mobile) {
+    expect(await contacts.nth(0).locator("span").evaluate((element) => element.scrollWidth <= element.clientWidth)).toBe(true);
+  }
 });
 
 test("mobile details reveal on demand", async ({ page }) => {
@@ -397,8 +368,56 @@ test("desktop AI routes, Pet Project and closing section use the latest Figma st
   await closing.scrollIntoViewIfNeeded();
   await expect(page.locator("[data-contact-toggle]")).toHaveAttribute("data-closing-visible", "");
   await expect(page.locator("[data-contact-toggle]")).toHaveCSS("visibility", "hidden");
-  await expect(closing.locator(".closing__heading")).toHaveAttribute("src", "/assets/closing-heading.svg");
+  await expect(closing.locator(".closing__heading")).toHaveText(/THANK\s*YOU/);
+  await expect(closing.locator(".closing__heading-outline")).toHaveCSS("font-family", /Joyride WIDE/);
+  expect(await closing.locator(".closing__heading-outline").evaluate((element) => getComputedStyle(element).webkitTextStrokeWidth)).toBe("2px");
   await expect(closing.locator(".closing__contacts span")).toHaveCount(2);
+});
+
+test("Joyride loads before paint and signature typography remains selectable live text", async ({ page }) => {
+  await page.goto("/");
+  const loaded = await page.evaluate(async () => {
+    const faces = [
+      '16px "Joyride Extended"',
+      '16px "Joyride Extended Outline"',
+      '16px "Joyride WIDE"',
+      '16px "Joyride Regular"',
+      '16px "Joyride Outline"',
+    ];
+    await Promise.all(faces.map((face) => document.fonts.load(face)));
+    return faces.map((face) => document.fonts.check(face));
+  });
+  expect(loaded).toEqual([true, true, true, true, true]);
+
+  await expect(page.locator('link[rel="preload"][href="/fonts/Joyride-Extended-Regular.otf"]')).toHaveCount(1);
+  await expect(page.locator('link[rel="preload"][href="/fonts/Joyride-Extended-Outline.otf"]')).toHaveCount(1);
+  await expect(page.locator(".hero__logo img, .display-heading img, .closing__heading img")).toHaveCount(0);
+  await expect(page.locator(".display-heading")).toHaveCount(8);
+  expect(await page.locator(".display-heading").first().evaluate((element) => getComputedStyle(element).fontFamily)).toContain("Joyride WIDE");
+});
+
+test("AI context highlights its real dashed border and app icons use clean gradient frames", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto("/");
+  const context = (page.viewportSize()?.width ?? 1000) <= 640
+    ? page.locator(".workflow-scene--mobile .workflow-context")
+    : page.locator(".workflow-scene--desktop .workflow-context");
+  await context.scrollIntoViewIfNeeded();
+  await expect(context).toHaveCSS("border-top-style", "dashed");
+  await expect(context).toHaveCSS("border-top-width", "2px");
+  await expect(context.locator(":scope > .dash-border-glow")).toHaveCount(1);
+  await expect(context.locator(":scope > .card-border-glow")).toHaveCount(0);
+
+  const iconFrame = (page.viewportSize()?.width ?? 1000) <= 640
+    ? page.locator(".workflow-scene--mobile .app-icon-frame").first()
+    : page.locator(".workflow-scene--desktop .app-icon-frame").first();
+  const expected = (page.viewportSize()?.width ?? 1000) <= 640 ? [54, 54, "12px"] : [150, 150, "39px"];
+  expect(await iconFrame.evaluate((element) => {
+    const rect = element.getBoundingClientRect();
+    return [Math.round(rect.width), Math.round(rect.height), getComputedStyle(element).borderRadius];
+  })).toEqual(expected);
+  expect(await iconFrame.evaluate((element) => getComputedStyle(element).backgroundImage)).toContain("linear-gradient");
+  expect(await iconFrame.locator("img").getAttribute("src")).toMatch(/^\/assets\/logo-/);
 });
 
 test("health endpoint responds", async ({ request }) => {

@@ -20,7 +20,7 @@ The full Russian desktop and mobile portfolio is implemented, with an English co
 6. Theme Builders.
 7. Interfaces.
 8. Pet Project.
-9. Closing with the current `THANK / YOU` artwork, live email/Telegram rows, and the avatar-triggered contact overlay.
+9. Closing with live Joyride `THANK / YOU`, live email/Telegram rows, and the avatar-triggered contact overlay.
 
 ## Design source
 
@@ -37,9 +37,10 @@ The full Russian desktop and mobile portfolio is implemented, with an English co
 - No React, smooth-scroll library, WebGL, or second motion library.
 - Essential content is visible without JavaScript.
 - `prefers-reduced-motion` disables reveals and ambient drift while preserving layout and connector geometry.
-- Joyride is represented by exported Figma artwork; desktop font binaries are not redistributed.
-- Desktop menu/language controls are fixed only through the intro and hide at the Hard Skills artwork; the mobile header is document-positioned.
-- AI Workflow desktop connectors are immutable local SVG groups exported from the exact current Figma nodes; do not rebuild them from CSS paths or PNG screenshots.
+- User-supplied Joyride OTF files are self-hosted and preloaded. Signature typography and metrics remain live selectable text; do not regress them to SVG/PNG.
+- Desktop and mobile menu/language controls are fixed. They hide on downward scroll after `40 px` and return on upward scroll; the avatar separately hides over final contacts and open overlays.
+- AI Workflow desktop routes are immutable local SVG groups exported from the exact current Figma nodes. The context dash is a real CSS border so its animated light follows the authored dash pattern.
+- Layout spacing and radii follow semantic tokens documented in `reports/figma-spacing-radius-audit-2026-08-30.md`; decorative artwork radii are not layout tokens.
 - LINE Seed JP is self-hosted under SIL OFL 1.1.
 - No database is required.
 - GitHub `main` is the deployment source for Railway.

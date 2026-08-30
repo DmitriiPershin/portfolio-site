@@ -8,11 +8,11 @@
 4. Scroll the page and confirm there are no browser console or uncaught runtime errors.
 5. Confirm no horizontal overflow at all three widths.
 6. Switch RU → EN, reload, and confirm the saved language and English content remain active.
-7. On desktop, confirm the controls start at Figma's `top: 64/148 px; right: 48 px`, stay fixed through Focus, and hide when the Hard Skills artwork enters. On mobile, confirm the `48 px` controls start at the Figma `24 px` offsets and scroll away.
-8. Open/close the section menu and language selector with keyboard and Escape; confirm all eight section links, the exact selector assets, and persisted RU/EN state.
+7. Confirm fixed controls start at desktop `top: 64/148 px; right: 48 px` and mobile `390 × 68 px` header offsets. Scroll down beyond `40 px`: controls hide. Scroll up: controls return. Repeat on desktop and mobile.
+8. Open/close the section menu and language selector with keyboard and Escape on both breakpoints; confirm all eight section links, live Joyride font states, mobile current-state colour, and persisted RU/EN state.
 9. Open the avatar contact panel and verify Telegram/email links.
-10. Emulate reduced motion and confirm the relevant desktop/mobile workflow plus all seven desktop Figma SVG connector groups remain visible.
-11. Confirm the PremiumExchanger-style glow layer follows a desktop pointer while the card shadow and transform remain unchanged; confirm the subtle ambient cursor light follows independently and is absent on touch/reduced motion.
+10. Emulate reduced motion and confirm the relevant desktop/mobile workflow plus all seven desktop Figma SVG connector groups and the real dashed context border remain visible.
+11. Confirm the PremiumExchanger-style glow layer follows a desktop pointer while the card shadow and transform remain unchanged; confirm the ambient cursor light adopts each section colour and is absent on touch/reduced motion.
 12. Assert desktop/mobile Focus text metrics, Process card dimensions, separate Theme Builder assets, and Interfaces dimensions against their Figma values.
 13. Scroll to Soft Skills on mobile and confirm the second display heading is visible.
 14. On mobile, scroll and confirm card `--glow-angle` changes while the conic border layer stays visible; reduced motion must disable it.
@@ -20,9 +20,11 @@
 16. Verify the `1066 × 600 px` timer preview, `809 px` platform row, and all three platform cards use the supplied external destinations.
 17. Capture reduced-motion full pages and focused Focus, Skills, AI Workflow, Process, Theme Builders, Interfaces, Pet Project, and final-contact screenshots into `artifacts/qa/`.
 18. At `1024 × 768`, open the contact overlay and confirm the complete `Nice to meet you` artwork stays inside the viewport.
-19. Confirm the final email and Telegram rows are live text, usable on desktop/mobile, and the avatar hides while the section is visible.
-20. Confirm `/api/health` returns HTTP 200 locally and on Railway.
-21. Confirm Railway deployed the same GitHub `main` revision.
+19. Confirm the final email and Telegram rows are live one-line text, the email icon is SVG, and the avatar hides while the section or any overlay is visible.
+20. Confirm the hero, all display headings, overlay labels, closing title, and Theme/Interfaces metrics use loaded live Joyride faces and contain no heading/metric images.
+21. Confirm AI Context has a real `2 px` dashed border and no generic solid glow layer; app icon frames are `150 × 150 / r39` desktop and `54 × 54 / r12` mobile.
+22. Confirm `/api/health` returns HTTP 200 locally and on Railway.
+23. Confirm Railway deployed the same GitHub `main` revision.
 
 ## Product checks for Dmitrii
 
@@ -31,9 +33,10 @@
 3. On mobile, verify each Workflow arrow group is vertically centred between cards: one line for single chips, two centred tracks for JSON chips, and three centred tracks for the final asset chips.
 4. On desktop, move the pointer around cards: the border should follow slowly and the light under the cursor should remain subtle. On mobile, scroll through cards and verify the same gradient rotates smoothly without changing card geometry.
 5. Compare Focus wrapping, Hard/Soft outlines, Process strokes, Theme Builder artwork, and Interfaces number shapes/order against Figma.
-6. Desktop: menu/globe stay fixed through the introduction and disappear at Hard Skills. Mobile: both scroll away from their Figma starting positions. The avatar stays fixed except while the final contacts are visible.
+6. Desktop and mobile: menu/globe stay fixed, disappear while scrolling down, and return when scrolling up. The avatar stays fixed except over overlays and final contacts.
 7. Switch to English, reload, and scan line breaks in every section.
 8. At 390 px, open each “Подробнее” control once; existing text must remain, additional text must animate smoothly, and the button must disappear.
 9. Enable Reduce Motion in the OS and confirm the site remains complete and deliberate.
 10. Tune the layout tokens at the top of `src/styles/global.css`; verify page rhythm changes predictably.
-11. Open contacts through the avatar at `1024 × 768` and confirm `Nice to meet you` fits; then verify Telegram/email again at the end of the page on desktop and mobile.
+11. Open contacts through the avatar at `1024 × 768` and `390 × 844`; confirm `Nice to meet you` fits and email stays on one line. Verify the same contacts at the end.
+12. Compare the semantic spacing/radius audit with Figma and decide whether to normalize the flagged legacy decimals and one-pixel differences in the source design.

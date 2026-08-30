@@ -36,6 +36,20 @@ for (const viewport of [
     });
   }
 
+  for (const [name, toggle, overlay, close] of [
+    ["menu", "[data-menu-toggle]", "[data-menu-overlay]", "[data-menu-close]"],
+    ["language", "[data-language-toggle]", "[data-language-overlay]", "[data-language-close]"],
+    ["contact", "[data-contact-toggle]", "[data-contact-overlay]", "[data-contact-close]"],
+  ]) {
+    await page.evaluate(() => window.scrollTo(0, 0));
+    await page.locator(toggle).click();
+    await page.locator(overlay).screenshot({
+      path: `artifacts/qa/${viewport.name}-${name}.png`,
+      animations: "disabled",
+    });
+    await page.locator(close).click();
+  }
+
   if (viewport.width <= 640) {
     const firstDetails = page.locator("#process-ai [data-details-toggle]").first();
     await firstDetails.click();

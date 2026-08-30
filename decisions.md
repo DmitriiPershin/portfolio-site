@@ -151,3 +151,41 @@ Permanent navigation competes with long-form portfolio content, but immediate do
 What this changes:
 
 Visibility is derived from section geometry, not arbitrary scroll pixels, so later spacing changes do not invalidate the behaviour.
+
+### 2026-08-30 - Use the supplied Joyride files for live signature typography
+
+What we decided:
+
+Self-host and preload the Joyride Extended, Outline, Regular, and WIDE faces supplied by Dmitrii. Hero/logo, section headings, overlays, closing copy, and numeric metrics are live text.
+
+Why:
+
+The prior static exports were crisp but not selectable, made responsive typography brittle, and prevented the authored font-state hover. Dmitrii explicitly supplied the font files for this portfolio.
+
+What this supersedes:
+
+This replaces the 2026-08-19 decision to keep Joyride image-based. Reuse outside this repository still needs an independent licence check.
+
+### 2026-08-30 - Hide navigation by scroll direction on every breakpoint
+
+What we decided:
+
+Keep menu and language controls fixed in their Figma positions. Once the page is beyond `40 px`, hide them while scrolling down and restore them while scrolling up, on desktop and mobile.
+
+Why:
+
+The controls should not compete with long-form content, but section-based hiding made them unavailable when a visitor deliberately reversed direction.
+
+What this supersedes:
+
+This replaces the 2026-08-28 Hard-Skills visibility rule and the document-positioned mobile header.
+
+### 2026-08-30 - Animate authored border geometry, not replacement outlines
+
+What we decided:
+
+Keep each section's base border as authored. Solid/gradient cards receive a masked conic segment on the same radius; AI Context uses a second dashed segment with the identical `2 px / 4 4` geometry. Icon highlights reuse the exact icon artwork rather than adding a rectangular glow backing.
+
+Why:
+
+A generic solid overlay changed dash patterns, radii, and icon silhouettes. The motion must amplify the designed contour, not introduce another one.

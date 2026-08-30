@@ -1,5 +1,6 @@
 ---
 import GlowIcon from "./GlowIcon.astro";
+import DisplayHeading from "./DisplayHeading.astro";
 
 const cards = [
   {
@@ -51,11 +52,7 @@ const cards = [
   <div data-reveal="icon"><GlowIcon variant="process" nodeId="358:763" /></div>
   <div class="section-copy" data-node-id="358:777">
     <div class="display-heading-mask" data-reveal="heading">
-      <h2 class="sr-only">Process &amp; AI</h2>
-      <picture>
-        <source media="(max-width: 640px)" srcset="/assets/heading-process-ai-mobile.png" />
-        <img class="display-heading display-heading--process" src="/assets/heading-process-ai.png" alt="" width="781" height="55" />
-      </picture>
+      <DisplayHeading text="PROCESS & AI" mobileLines={["PROCESS", "& AI"]} tone="green" nodeId="358:778" />
     </div>
     <p class="section-headline localized-copy process__headline" data-reveal="copy">
       <span data-locale="ru">Использую AI, как часть дизайн-процесса <br />и способ создания инструментов для работы</span>
@@ -79,7 +76,9 @@ const cards = [
             )}
           </div>
         </div>
-        <img class="process-card__logo" src={card.icon} alt="" width="150" height="150" />
+        <span class="process-card__logo interactive-card" data-glow-target>
+          <img src={card.icon} alt="" width="150" height="150" />
+        </span>
         <button class="more-button" type="button" aria-expanded="false" aria-controls={`process-detail-${index}`} data-details-toggle>
           <span data-locale="ru">Подробнее</span><span data-locale="en" hidden>Details</span>
         </button>

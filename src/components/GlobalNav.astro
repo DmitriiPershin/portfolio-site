@@ -1,7 +1,22 @@
+---
+const sections = [
+  ["#focus", "FOCUS"],
+  ["#hard-skills", "HARDSKILLS"],
+  ["#soft-skills", "SOFTSKILLS"],
+  ["#ai-workflow", "AI WORKFLOW"],
+  ["#process-ai", "PROCESS & AI"],
+  ["#theme-builders", "THEME BUILDERS"],
+  ["#interfaces", "INTERFACES"],
+  ["#pet-project", "PET PROJECT"],
+];
+---
+
 <header class="floating-header" aria-label="Быстрая навигация">
   <button class="language-button" type="button" aria-label="Открыть выбор языка" aria-expanded="false" aria-controls="language-selector" data-language-toggle>
     <img src="/assets/control-language.svg" alt="" width="64" height="64" />
   </button>
+
+  <p class="floating-header__role">Senior Product Designer</p>
 
   <button class="menu-button" type="button" aria-label="Открыть меню" aria-expanded="false" aria-controls="site-menu" data-menu-toggle>
     <img class="menu-button__desktop-icon" src="/assets/control-menu.svg" alt="" width="72" height="74" />
@@ -14,15 +29,8 @@
     <img src="/assets/close-icon.png" alt="" width="64" height="64" />
   </button>
   <div class="language-dialog" role="dialog" aria-modal="true" aria-label="Выбор языка">
-    <button class="language-choice language-choice--english" type="button" data-language-option="en">
-      <span class="sr-only">English</span>
-      <img src="/assets/language-english-active.svg" alt="" width="574" height="41" />
-    </button>
-    <button class="language-choice language-choice--russian" type="button" data-language-option="ru">
-      <span class="sr-only">Русский</span>
-      <img class="language-choice__base" src="/assets/language-russian-outline.svg" alt="" width="579" height="42" />
-      <img class="language-choice__hover" src="/assets/language-russian-hover.svg" alt="" width="577" height="41" />
-    </button>
+    <button class="language-choice" type="button" data-language-option="en" aria-pressed="false">ENG</button>
+    <button class="language-choice" type="button" data-language-option="ru" aria-pressed="true">RUS</button>
   </div>
 </div>
 
@@ -31,14 +39,9 @@
     <img src="/assets/close-icon.png" alt="" width="64" height="64" />
   </button>
   <nav aria-label="Разделы портфолио">
-    <a href="#focus"><span class="menu-label menu-label--desktop"><img class="menu-label__base" src="/assets/menu-focus-outline.svg" alt="" /><img class="menu-label__hover" src="/assets/menu-focus-hover.svg" alt="" /></span><img class="menu-label--mobile" src="/assets/menu-link-1.png" alt="" width="364" height="42" /><span class="sr-only">Focus</span></a>
-    <a href="#hard-skills"><span class="menu-label menu-label--desktop menu-label--current"><img class="menu-label__base" src="/assets/menu-hard-wide.svg" alt="" /></span><img class="menu-label--mobile" src="/assets/menu-link-2.png" alt="" width="665" height="42" /><span class="sr-only">Hardskills</span></a>
-    <a href="#soft-skills"><span class="menu-label menu-label--desktop"><img class="menu-label__base" src="/assets/menu-soft-outline.svg" alt="" /><img class="menu-label__hover" src="/assets/menu-soft-hover.svg" alt="" /></span><img class="menu-label--mobile" src="/assets/menu-link-3.png" alt="" width="651" height="42" /><span class="sr-only">Softskills</span></a>
-    <a href="#ai-workflow"><span class="menu-label menu-label--desktop"><img class="menu-label__base" src="/assets/menu-workflow-outline.svg" alt="" /><img class="menu-label__hover" src="/assets/menu-workflow-hover.svg" alt="" /></span><img class="menu-label--mobile" src="/assets/menu-link-4.png" alt="" width="761" height="42" /><span class="sr-only">AI Workflow</span></a>
-    <a href="#process-ai"><span class="menu-label menu-label--desktop"><img class="menu-label__base" src="/assets/menu-process-outline.svg" alt="" /><img class="menu-label__hover" src="/assets/menu-process-hover.svg" alt="" /></span><img class="menu-label--mobile" src="/assets/menu-link-5.png" alt="" width="781" height="55" /><span class="sr-only">Process &amp; AI</span></a>
-    <a href="#theme-builders"><span class="menu-label menu-label--desktop"><img class="menu-label__base" src="/assets/menu-theme-outline.svg" alt="" /><img class="menu-label__hover" src="/assets/menu-theme-hover.svg" alt="" /></span><img class="menu-label--mobile" src="/assets/menu-link-6.png" alt="" width="924" height="42" /><span class="sr-only">Theme Builders</span></a>
-    <a href="#interfaces"><span class="menu-label menu-label--desktop"><img class="menu-label__base" src="/assets/menu-interfaces-outline.svg" alt="" /><img class="menu-label__hover" src="/assets/menu-interfaces-hover.svg" alt="" /></span><img class="menu-label--mobile" src="/assets/menu-link-7.png" alt="" width="652" height="42" /><span class="sr-only">Interfaces</span></a>
-    <a href="#pet-project"><span class="menu-label menu-label--desktop"><img class="menu-label__base" src="/assets/menu-pet-outline.svg" alt="" /><img class="menu-label__hover" src="/assets/menu-pet-hover.svg" alt="" /></span><img class="menu-label--mobile" src="/assets/menu-link-8.png" alt="" width="729" height="42" /><span class="sr-only">Pet Project</span></a>
+    {sections.map(([href, label], index) => (
+      <a href={href} class:list={[index === 1 && "is-current"]}>{label}</a>
+    ))}
   </nav>
 </div>
 
@@ -55,17 +58,24 @@
     <img src="/assets/close-icon.png" alt="" width="64" height="64" />
   </button>
   <div class="contact-dialog" role="dialog" aria-modal="true" aria-labelledby="contact-title">
+    <div class="contact-avatar" aria-hidden="true">
+      <span class="contact-avatar__photo-shell"><img src="/assets/avatar.png" alt="" /></span>
+      <img class="contact-avatar__ring" src="/assets/avatar-ring.svg" alt="" />
+      <span class="contact-avatar__status"></span>
+    </div>
+    <h2 class="contact-heading" id="contact-title">
+      <span class="contact-heading__outline">NICE<br />TO MEET</span>
+      <span class="contact-heading__fill">YOU</span>
+    </h2>
     <div class="contact-links">
       <a href="https://t.me/dmitrii_pershin" target="_blank" rel="noreferrer">
         <img src="/assets/contact-telegram.svg" alt="" width="62" height="62" />
         <span>dmitrii_pershin</span>
       </a>
       <a href="mailto:pershindmitrii@gmail.com">
-        <img src="/assets/contact-email-figma.png" alt="" width="62" height="62" />
+        <img src="/assets/contact-email.svg" alt="" width="62" height="62" />
         <span>pershindmitrii@gmail.com</span>
       </a>
     </div>
-    <h2 class="sr-only" id="contact-title">Nice to meet you</h2>
-    <img class="contact-heading" src="/assets/contact-heading.png" alt="Nice to meet you" width="813" height="288" />
   </div>
 </div>

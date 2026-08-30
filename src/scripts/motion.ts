@@ -67,9 +67,7 @@ function initOverlays() {
     menuToggle?.focus();
   });
   selectAll<HTMLAnchorElement>("a", menuOverlay ?? document).forEach((link) => link.addEventListener("click", () => setMenu(false)));
-  languageToggle?.addEventListener("click", () => {
-    if (window.matchMedia("(min-width: 641px)").matches) setLanguage(languageToggle.getAttribute("aria-expanded") !== "true");
-  });
+  languageToggle?.addEventListener("click", () => setLanguage(languageToggle.getAttribute("aria-expanded") !== "true"));
   languageClose?.addEventListener("click", () => {
     setLanguage(false);
     languageToggle?.focus();
@@ -134,9 +132,6 @@ function initLanguage() {
     ScrollTrigger.refresh();
   };
 
-  toggle.addEventListener("click", () => {
-    if (window.matchMedia("(max-width: 640px)").matches) apply(language === "ru" ? "en" : "ru");
-  });
   options.forEach((option) => option.addEventListener("click", () => {
     const next = option.dataset.languageOption;
     if (next === "ru" || next === "en") apply(next);
@@ -147,18 +142,22 @@ function initLanguage() {
 
 function initScrollVisibility() {
   const controls = select<HTMLElement>(".floating-header");
-  const hardSkillsImage = select<HTMLElement>(".skills [data-reveal='icon']");
   const avatar = select<HTMLButtonElement>("[data-contact-toggle]");
   const closing = select<HTMLElement>("[data-section='closing']");
   if (!controls && !avatar) return;
 
   let frame = 0;
+  let lastScrollY = window.scrollY;
+  let controlsHidden = false;
   const update = () => {
     frame = 0;
-    const desktop = window.matchMedia("(min-width: 641px)").matches;
-    const hardRect = hardSkillsImage?.getBoundingClientRect();
-    const hideControls = Boolean(desktop && hardRect && hardRect.top <= window.innerHeight * 0.9);
-    controls?.toggleAttribute("data-scroll-hidden", hideControls);
+    const nextScrollY = Math.max(0, window.scrollY);
+    const delta = nextScrollY - lastScrollY;
+    if (nextScrollY <= 40) controlsHidden = false;
+    else if (delta > 5) controlsHidden = true;
+    else if (delta < -5) controlsHidden = false;
+    controls?.toggleAttribute("data-scroll-hidden", controlsHidden);
+    lastScrollY = nextScrollY;
 
     const closingRect = closing?.getBoundingClientRect();
     const closingVisible = Boolean(closingRect && closingRect.top < window.innerHeight * 0.92 && closingRect.bottom > window.innerHeight * 0.08);
@@ -223,7 +222,7 @@ function initDetails() {
 
 function ensureBorderGlows(cards: HTMLElement[]) {
   cards.forEach((card) => {
-    if (card.querySelector(":scope > .card-border-glow")) return;
+    if (card.querySelector(":scope > .card-border-glow, :scope > .dash-border-glow")) return;
     const glow = document.createElement("span");
     glow.className = "card-border-glow";
     glow.setAttribute("aria-hidden", "true");
@@ -243,6 +242,20 @@ function initCursorGlow() {
   let targetY = 0;
   let hasPosition = false;
   let frame = 0;
+  const sections = selectAll<HTMLElement>("[data-section]");
+
+  const updateColor = (event: PointerEvent) => {
+    let section = (event.target as Element | null)?.closest<HTMLElement>("[data-section]") ?? null;
+    if (!section) {
+      section = sections.reduce<{ node: HTMLElement | null; distance: number }>((closest, candidate) => {
+        const rect = candidate.getBoundingClientRect();
+        const distance = event.clientY < rect.top ? rect.top - event.clientY : event.clientY > rect.bottom ? event.clientY - rect.bottom : 0;
+        return distance < closest.distance ? { node: candidate, distance } : closest;
+      }, { node: null, distance: Number.POSITIVE_INFINITY }).node;
+    }
+    const rgb = section ? getComputedStyle(section).getPropertyValue("--section-rgb").trim() : "";
+    if (rgb) glow.style.setProperty("--cursor-glow-rgb", rgb);
+  };
 
   const render = () => {
     frame = 0;
@@ -258,6 +271,7 @@ function initCursorGlow() {
     if (event.pointerType === "touch") return;
     targetX = event.clientX;
     targetY = event.clientY;
+    updateColor(event);
     if (!hasPosition) {
       currentX = targetX;
       currentY = targetY;
@@ -278,6 +292,7 @@ function initBorderGlow() {
   if (!supportsHover || reducedMotion) return;
 
   const cards = selectAll<HTMLElement>(".interactive-card");
+  const targets = Array.from(new Set([...cards, ...selectAll<HTMLElement>("[data-glow-target]")]));
   ensureBorderGlows(cards);
 
   const BORDER_GLOW = {
@@ -288,7 +303,7 @@ function initBorderGlow() {
   } as const;
   type GlowState = { angle: number; targetAngle: number; opacity: number; targetOpacity: number };
   const states = new Map<HTMLElement, GlowState>();
-  cards.forEach((card) => states.set(card, { angle: 0, targetAngle: 0, opacity: 0, targetOpacity: 0 }));
+  targets.forEach((card) => states.set(card, { angle: 0, targetAngle: 0, opacity: 0, targetOpacity: 0 }));
 
   let pointerX = 0;
   let pointerY = 0;
@@ -298,7 +313,7 @@ function initBorderGlow() {
   const render = () => {
     frame = 0;
     let unsettled = false;
-    cards.forEach((card) => {
+    targets.forEach((card) => {
       const state = states.get(card);
       if (!state) return;
       const rect = card.getBoundingClientRect();
@@ -352,6 +367,7 @@ function initMobileScrollGlow() {
   if (!window.matchMedia("(max-width: 640px)").matches) return;
 
   const cards = selectAll<HTMLElement>(".interactive-card");
+  const targets = Array.from(new Set([...cards, ...selectAll<HTMLElement>("[data-glow-target]")]));
   const maxOpacity = readMotionNumber("--border-glow-max-opacity", 0.82);
   const degreesPerPixel = readMotionNumber("--mobile-border-glow-degrees-per-pixel", 0.22);
   const cardAngleOffset = readMotionNumber("--mobile-border-glow-card-offset", 23);
@@ -359,7 +375,7 @@ function initMobileScrollGlow() {
   document.documentElement.dataset.scrollGlow = "mobile";
 
   const refreshGeometry = () => {
-    cards.forEach((card) => {
+    targets.forEach((card) => {
       const rect = card.getBoundingClientRect();
       card.style.setProperty("--glow-cover", `${Math.ceil(Math.hypot(rect.width, rect.height))}px`);
       card.style.setProperty("--glow-opacity", `${maxOpacity}`);
@@ -368,7 +384,7 @@ function initMobileScrollGlow() {
 
   const updateAngles = () => {
     const scrollAngle = window.scrollY * degreesPerPixel;
-    cards.forEach((card, index) => {
+    targets.forEach((card, index) => {
       const angle = (scrollAngle + index * cardAngleOffset) % 360;
       card.style.setProperty("--glow-angle", `${Math.round(angle * 100) / 100}deg`);
     });
@@ -418,7 +434,7 @@ function initSectionReveals() {
     }
 
     headings.forEach((heading) => {
-      const headingImage = heading.querySelector("img");
+      const headingImage = heading.querySelector<HTMLElement>(".display-heading, .closing__heading");
       gsap.set(heading, { opacity: 1 });
       if (!headingImage) return;
       gsap.fromTo(headingImage, { yPercent: 112 }, {

@@ -1,5 +1,6 @@
 ---
 import GlowIcon from "./GlowIcon.astro";
+import DisplayHeading from "./DisplayHeading.astro";
 ---
 
 <section class="theme section-shell section-shell--wide" id="theme-builders" data-section="theme" data-node-id="358:808">
@@ -7,11 +8,7 @@ import GlowIcon from "./GlowIcon.astro";
   <div class="theme__body">
     <div class="section-copy">
       <div class="display-heading-mask" data-reveal="heading">
-        <h2 class="sr-only">Theme Builders</h2>
-        <picture>
-          <source media="(max-width: 640px)" srcset="/assets/heading-theme-builders-mobile.png" />
-          <img class="display-heading display-heading--theme" src="/assets/heading-theme-builders.png" alt="" width="924" height="42" />
-        </picture>
+        <DisplayHeading text="THEME BUILDERS" mobileLines={["THEME", "BUILDERS"]} tone="orange" nodeId="358:824" />
       </div>
       <p class="section-headline localized-copy theme__headline" data-reveal="copy">
         <span data-locale="ru">Создал конструктор тем и дизайн-систему <br />для white-label продукта</span>
@@ -22,7 +19,7 @@ import GlowIcon from "./GlowIcon.astro";
     <div class="theme__visual-stage" data-card-reveal>
       <img class="theme__visual" src="/assets/theme-builders.png" alt="" width="1376" height="768" />
       <article class="theme-metric theme-metric--speed theme-metric--desktop interactive-card">
-        <strong><img src="/assets/metric-theme-x2-desktop.png" alt="×2" width="147" height="41" /></strong>
+        <strong class="joyride-metric">×2</strong>
         <p><span data-locale="ru">скорость разработки темы</span><span data-locale="en" hidden>faster theme production</span></p>
       </article>
     </div>
@@ -48,16 +45,11 @@ import GlowIcon from "./GlowIcon.astro";
 
   <div class="theme-metrics" data-card-reveal>
     <article class="theme-metric theme-metric--speed theme-metric--mobile interactive-card">
-      <strong><img src="/assets/metric-theme-x2-mobile.png" alt="×2" width="158" height="44" /></strong>
+      <strong class="joyride-metric">×2</strong>
       <p><span data-locale="ru">скорость разработки темы</span><span data-locale="en" hidden>faster theme production</span></p>
     </article>
     <article class="theme-metric theme-metric--primary interactive-card">
-      <strong>
-        <picture>
-          <source media="(max-width: 640px)" srcset="/assets/metric-theme-250-mobile.png" />
-          <img src="/assets/metric-theme-250-desktop.png" alt="250" width="592" height="110" />
-        </picture>
-      </strong>
+      <strong class="joyride-metric">250</strong>
       <p><span data-locale="ru">дизайнов на конструкторе<br />уже сделано без моего участия</span><span data-locale="en" hidden>designs already made with the builder without my involvement</span></p>
     </article>
   </div>

@@ -1,0 +1,29 @@
+---
+interface Props {
+  text: string;
+  mobileLines?: string[];
+  tone: "purple" | "blue" | "green" | "orange" | "pink" | "sky";
+  outline?: boolean;
+  class?: string;
+  nodeId?: string;
+}
+
+const {
+  text,
+  mobileLines = [text],
+  tone,
+  outline = false,
+  class: className,
+  nodeId,
+} = Astro.props;
+---
+
+<h2
+  class:list={["display-heading", `display-heading--${tone}`, outline && "display-heading--outline", className]}
+  data-node-id={nodeId}
+>
+  <span class="display-heading__desktop">{text}</span>
+  <span class="display-heading__mobile">
+    {mobileLines.map((line) => <span>{line}</span>)}
+  </span>
+</h2>

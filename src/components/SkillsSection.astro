@@ -1,5 +1,6 @@
 ---
 import GlowIcon from "./GlowIcon.astro";
+import DisplayHeading from "./DisplayHeading.astro";
 
 const hardSkills = [
   ["Полный цикл продуктового дизайна", "Full-cycle product design"],
@@ -65,11 +66,7 @@ const softMobileRows = [
 
   <div class="skill-group" data-node-id="358:555">
     <div class="display-heading-mask" data-reveal="heading">
-      <h2 class="sr-only">Hard Skills</h2>
-      <picture>
-        <source media="(max-width: 640px)" srcset="/assets/heading-hard-skills-mobile.png" />
-        <img class="display-heading display-heading--hard" src="/assets/heading-hard-skills.png" alt="" width="665" height="42" />
-      </picture>
+      <DisplayHeading text="HARDSKILLS" mobileLines={["HARD", "SKILLS"]} tone="purple" nodeId="358:556" />
     </div>
     <div class="skill-chips skill-chips--hard skill-chips--desktop" data-reveal="copy">
       {hardSkills.map(([ru, en]) => (
@@ -93,11 +90,7 @@ const softMobileRows = [
 
   <div class="skill-group" id="soft-skills" data-node-id="358:588">
     <div class="display-heading-mask" data-reveal="heading">
-      <h2 class="sr-only">Soft Skills</h2>
-      <picture>
-        <source media="(max-width: 640px)" srcset="/assets/heading-soft-skills-mobile.png" />
-        <img class="display-heading display-heading--soft" src="/assets/heading-soft-skills.png" alt="" width="655" height="46" />
-      </picture>
+      <DisplayHeading text="SOFTSKILLS" mobileLines={["SOFT", "SKILLS"]} tone="purple" outline nodeId="358:589" />
     </div>
     <div class="skill-chips skill-chips--soft skill-chips--desktop" data-reveal="copy">
       {softSkills.map(([ru, en]) => (
