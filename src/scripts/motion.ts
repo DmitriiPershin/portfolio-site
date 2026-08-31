@@ -55,6 +55,7 @@ function initOverlays() {
     if (!contactToggle || !contactOverlay) return;
     contactToggle.setAttribute("aria-expanded", String(open));
     contactOverlay.setAttribute("aria-hidden", String(!open));
+    document.body.classList.toggle("contact-open", open);
     if (open && menuOverlay?.getAttribute("aria-hidden") === "false") setMenu(false);
     if (open && languageOverlay?.getAttribute("aria-hidden") === "false") setLanguage(false);
     setBodyLocked();
@@ -288,8 +289,9 @@ function initCursorGlow() {
 
 function initBorderGlow() {
   const supportsHover = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+  const mobileLayout = window.matchMedia("(max-width: 640px)").matches;
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  if (!supportsHover || reducedMotion) return;
+  if (!supportsHover || mobileLayout || reducedMotion) return;
 
   const cards = selectAll<HTMLElement>(".interactive-card");
   const targets = Array.from(new Set([...cards, ...selectAll<HTMLElement>("[data-glow-target]")]));
@@ -303,7 +305,11 @@ function initBorderGlow() {
   } as const;
   type GlowState = { angle: number; targetAngle: number; opacity: number; targetOpacity: number };
   const states = new Map<HTMLElement, GlowState>();
-  targets.forEach((card) => states.set(card, { angle: 0, targetAngle: 0, opacity: 0, targetOpacity: 0 }));
+  targets.forEach((card, index) => {
+    const startAngle = (index * 137.5) % 360;
+    card.style.setProperty("--glow-angle", `${startAngle}deg`);
+    states.set(card, { angle: startAngle, targetAngle: startAngle, opacity: 0, targetOpacity: 0 });
+  });
 
   let pointerX = 0;
   let pointerY = 0;
@@ -406,14 +412,37 @@ function initMobileScrollGlow() {
 function showEverything() {
   gsap.set(
     ["[data-hero-logo]", "[data-hero-role]", "[data-reveal]", "[data-card-reveal]", "[data-workflow-node]", "[data-workflow-input]", "[data-mobile-workflow-node]", "[data-mobile-workflow-input]", ".workflow-route", ".workflow-route-translation", "[data-mobile-flow]"],
-    { opacity: 1, y: 0, scale: 1, clipPath: "inset(0 0% 0 0)", clearProps: "transform" },
+    { opacity: 1, y: 0, scale: 1, clipPath: "none", clearProps: "transform" },
   );
+  selectAll<HTMLElement>(".display-heading-mask").forEach((mask) => { mask.style.overflow = "visible"; });
+  selectAll<HTMLElement>("[data-rolling-number]").forEach((number) => number.classList.add("is-complete"));
 }
 
 function initHero() {
   gsap.timeline({ defaults: { ease: "power3.out" } })
     .to("[data-hero-logo]", { clipPath: "inset(0 0% 0 0)", duration: 1.1 })
+    .set("[data-hero-logo]", { clipPath: "none", willChange: "auto" })
     .fromTo("[data-hero-role]", { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.8 }, "-=0.55");
+}
+
+function initRollingNumbers() {
+  selectAll<HTMLElement>("[data-rolling-number]").forEach((number) => {
+    const digitCount = Number.parseInt(number.dataset.digitCount ?? "1", 10);
+    ScrollTrigger.create({
+      trigger: number,
+      start: "top 88%",
+      once: true,
+      onEnter: () => {
+        window.requestAnimationFrame(() => {
+          number.classList.add("is-rolling");
+          window.setTimeout(() => {
+            number.classList.add("is-complete");
+            number.classList.remove("is-rolling");
+          }, 900 + Math.max(0, digitCount - 1) * 45 + 80);
+        });
+      },
+    });
+  });
 }
 
 function initSectionReveals() {
@@ -441,6 +470,7 @@ function initSectionReveals() {
         yPercent: 0,
         duration: 0.8,
         ease: "power3.out",
+        onComplete: () => { heading.style.overflow = "visible"; },
         scrollTrigger: { trigger: heading, start: "top 88%", once: true },
       });
     });
@@ -514,6 +544,7 @@ export function initPortfolioMotion() {
   initHero();
   initSectionReveals();
   initWorkflowReveals();
+  initRollingNumbers();
 
   window.addEventListener("pagehide", () => ScrollTrigger.getAll().forEach((trigger) => trigger.kill()), { once: true });
 }

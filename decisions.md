@@ -189,3 +189,23 @@ Keep each section's base border as authored. Solid/gradient cards receive a mask
 Why:
 
 A generic solid overlay changed dash patterns, radii, and icon silhouettes. The motion must amplify the designed contour, not introduce another one.
+
+### 2026-08-31 - Use deterministic varied border phases
+
+What we decided:
+
+Start every repeated card and icon highlight at a `137.5deg` golden-angle offset, then let desktop proximity or mobile scroll advance the same authored contour.
+
+Why:
+
+Identical start angles made chip grids read as one synchronized effect. True randomness would make screenshots, tests, and revisits inconsistent; the golden-angle sequence creates visual variation without nondeterminism.
+
+### 2026-08-31 - Use one-revolution digit ribbons for numeric metrics
+
+What we decided:
+
+Render Theme Builders and Interfaces values as accessible live Joyride text, with each digit travelling through one complete `0–9` ribbon on first viewport entry. Use the PremiumExchanger reference timing: `0.9 s`, `cubic-bezier(0.22, 1, 0.36, 1)`, and `45 ms` digit stagger.
+
+Why:
+
+A whole-number tween changes glyphs abruptly and loses the mechanical counter character. Per-digit ribbons preserve the exact font, make the motion legible, and still expose the final value immediately for reduced motion, no JavaScript, and assistive technology.

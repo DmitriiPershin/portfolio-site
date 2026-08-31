@@ -11,12 +11,12 @@ Production portfolio implemented from the current desktop and mobile Figma layou
 - Exact Figma section icons, desktop AI routes, project visuals, and avatar are stored locally. Hero, section headings, overlays, closing title, and metrics are selectable live Joyride text.
 - The language selector opens on every breakpoint. Desktop follows `501:2`/`501:45`; mobile follows `530:1103`. RU/EN persists locally.
 - Desktop controls use the Figma `64 px` geometry at `top: 64/148 px; right: 48 px`. Mobile uses the new fixed `390 × 68 px` header with `48 px` controls at `12 px` side offsets. After `40 px`, downward scrolling hides the header and upward scrolling restores it on both breakpoints.
-- The avatar opens the responsive Figma contact overlay. It is `120 × 120 px` desktop and `60 × 60 px` mobile, with `110.118/55.059 px` inner crops, and hides while final contacts or another overlay are visible.
-- AI Workflow keeps seven crisp desktop SVG route groups. Its context is a real CSS `2 px / 4 4` dashed border whose glow follows the same dashes. Clean app artwork sits inside exact `150/54 px` gradient icon frames. Mobile uses the authored `342 × 1844 px` sequence with centred one-, two-, and three-track groups.
+- The avatar opens the responsive Figma contact overlay. It is `120 × 120 px` desktop and `60 × 60 px` mobile, with `110.118/55.059 px` inner crops. It remains visible in the authored desktop contact composition, while mobile uses the overlay's central avatar; it hides over the final contacts and non-contact overlays.
+- AI Workflow keeps seven crisp desktop SVG route groups. Its context is a real CSS `2 px / 4 4` dashed border whose glow follows the same dashes. Each `150/54 px` application frame is exported from the exact Figma node, including its transparent centre, stroke, artwork scale, and glow. Mobile uses the authored `342 × 1844 px` sequence with centred one-, two-, and three-track groups.
 - Focus follows the separate desktop/mobile copy composition: `40/52 px` headline and `16/32 px` body on desktop; `14/22 px` body with the authored break and `20 px` paragraph gap on mobile.
 - Hard Skills uses the current solid `#765592` border, 30% purple backing, `26 px` radius, and authored inset glow. Soft Skills keeps its separate gradient stroke. Process cards use the solid `#35bf27` border with `80/26 px` radii.
-- Card highlights follow the existing border geometry. Desktop uses pointer proximity; mobile rotates the same conic segment with scroll. A `380 px` pointer light adopts the current section heading colour.
-- Theme Builder uses separate desktop/mobile artwork; Theme and Interfaces metrics are live Joyride WIDE text.
+- Card highlights follow the existing border geometry. Desktop uses pointer proximity; mobile rotates the same conic segment with scroll. Each card starts from a deterministic golden-angle offset so repeated outlines do not move in lockstep. A `266 px` pointer light adopts the current section heading colour.
+- Theme Builder uses separate desktop/mobile artwork; Theme and Interfaces metrics are live Joyride WIDE text with a one-revolution, per-digit scroll counter.
 - Mobile Process & AI and Theme Builders details reveal additional copy once; the button moves with expansion and disappears.
 - Pet Project uses the new desktop and mobile compositions: `1066 × 600 px` desktop preview and `342 × 195 px` mobile preview, with supplied website, Chrome, and ChatGPT destinations.
 - The final block uses live Joyride `THANK / YOU`, live contact text, and a crisp SVG email icon. The floating avatar hides there.
@@ -94,8 +94,9 @@ The mobile breakpoint overrides the same tokens. Section-specific geometry remai
 - Cards: soft entry with 18–22 px travel.
 - AI Workflow: seven joined Figma route groups reveal after the desktop cards; mobile uses grouped CSS tracks tied directly to the one/two/three-chip rows.
 - Desktop hover: a same-colour conic-gradient border segment activates within `340 px` of the pointer. Angle interpolation is `0.055`, opacity interpolation is `0.04`, maximum opacity is `0.9`, and a smoothstep falloff removes the hard edge.
-- Cursor light: a `380 px` section-coloured radial glow follows a fine pointer with `0.12` interpolation and `0.5` maximum opacity; it is removed for touch and reduced motion.
-- Mobile scroll: the same border segment rotates at `0.22deg` per scroll pixel, with a stable offset per card. It does not replace or deform the Figma border, radius, fill, or inset shadow.
+- Cursor light: a `266 px` section-coloured radial glow follows a fine pointer with `0.12` interpolation and `0.5` maximum opacity; it is removed for touch and reduced motion.
+- Mobile scroll: the same border segment rotates at `0.22deg` per scroll pixel, with a deterministic `137.5deg` golden-angle offset per card. It does not replace or deform the Figma border, radius, fill, or inset shadow.
+- Numeric metrics: each digit makes one full `0–9` pass and settles over `0.9 s` with `cubic-bezier(0.22, 1, 0.36, 1)` and a `45 ms` digit stagger. Reduced motion and no-JavaScript states show the final value immediately.
 - Mobile Details: extra copy expands over 720 ms with `power3.out`; the button follows the new height, fades, and cannot be toggled closed accidentally.
 - Reduced motion: all content and complete connectors are immediately visible, with no ambient drift or long transforms.
 

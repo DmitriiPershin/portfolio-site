@@ -20,11 +20,12 @@
 16. Verify the `1066 × 600 px` timer preview, `809 px` platform row, and all three platform cards use the supplied external destinations.
 17. Capture reduced-motion full pages and focused Focus, Skills, AI Workflow, Process, Theme Builders, Interfaces, Pet Project, and final-contact screenshots into `artifacts/qa/`.
 18. At `1024 × 768`, open the contact overlay and confirm the complete `Nice to meet you` artwork stays inside the viewport.
-19. Confirm the final email and Telegram rows are live one-line text, the email icon is SVG, and the avatar hides while the section or any overlay is visible.
+19. Confirm the final email and Telegram rows are live one-line text and the email icon is SVG. The avatar hides over the final section and menu/language overlays; desktop contacts preserve the authored bottom-right avatar while mobile contacts use the central overlay avatar.
 20. Confirm the hero, all display headings, overlay labels, closing title, and Theme/Interfaces metrics use loaded live Joyride faces and contain no heading/metric images.
-21. Confirm AI Context has a real `2 px` dashed border and no generic solid glow layer; app icon frames are `150 × 150 / r39` desktop and `54 × 54 / r12` mobile.
-22. Confirm `/api/health` returns HTTP 200 locally and on Railway.
-23. Confirm Railway deployed the same GitHub `main` revision.
+21. Confirm AI Context has a real `2 px` dashed border and no generic solid glow layer; app icon frames are exact `150 × 150` desktop and `54 × 54` mobile Figma exports with transparent centres, authored strokes/glows, and correct artwork sizes.
+22. Scroll Theme Builders and Interfaces into view and confirm every numeric digit completes one full ribbon with a `45 ms` stagger, then exposes the correct accessible value. Reduced motion must skip the roll.
+23. Confirm `/api/health` returns HTTP 200 locally and on Railway.
+24. Confirm Railway deployed the same GitHub `main` revision.
 
 ## Product checks for Dmitrii
 
@@ -33,10 +34,11 @@
 3. On mobile, verify each Workflow arrow group is vertically centred between cards: one line for single chips, two centred tracks for JSON chips, and three centred tracks for the final asset chips.
 4. On desktop, move the pointer around cards: the border should follow slowly and the light under the cursor should remain subtle. On mobile, scroll through cards and verify the same gradient rotates smoothly without changing card geometry.
 5. Compare Focus wrapping, Hard/Soft outlines, Process strokes, Theme Builder artwork, and Interfaces number shapes/order against Figma.
-6. Desktop and mobile: menu/globe stay fixed, disappear while scrolling down, and return when scrolling up. The avatar stays fixed except over overlays and final contacts.
+6. Desktop and mobile: menu/globe stay fixed, disappear while scrolling down, and return when scrolling up. The avatar hides over menu/language and final contacts; in the desktop contact overlay it remains at the authored bottom-right position.
 7. Switch to English, reload, and scan line breaks in every section.
 8. At 390 px, open each “Подробнее” control once; existing text must remain, additional text must animate smoothly, and the button must disappear.
 9. Enable Reduce Motion in the OS and confirm the site remains complete and deliberate.
 10. Tune the layout tokens at the top of `src/styles/global.css`; verify page rhythm changes predictably.
 11. Open contacts through the avatar at `1024 × 768` and `390 × 844`; confirm `Nice to meet you` fits and email stays on one line. Verify the same contacts at the end.
-12. Compare the semantic spacing/radius audit with Figma and decide whether to normalize the flagged legacy decimals and one-pixel differences in the source design.
+12. Scroll Theme Builders and Interfaces once and compare the digit-roll timing with PremiumExchanger: one full pass, firm deceleration, no bounce, and no replay from incidental layout movement.
+13. Compare the semantic spacing/radius audit with Figma and decide whether to normalize the flagged legacy decimals and one-pixel differences in the source design.

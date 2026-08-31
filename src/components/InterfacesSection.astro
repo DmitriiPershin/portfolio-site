@@ -1,6 +1,7 @@
 ---
 import GlowIcon from "./GlowIcon.astro";
 import DisplayHeading from "./DisplayHeading.astro";
+import RollingNumber from "./RollingNumber.astro";
 
 const metrics = [
   ["561", "экранов", "screens"],
@@ -28,7 +29,7 @@ const metrics = [
   <div class="interfaces-grid">
     {metrics.map(([value, ru, en], index) => (
       <article class:list={["interface-metric", "interactive-card", `interface-metric--${index + 1}`]} data-card-reveal>
-        <strong class="joyride-metric">{value}</strong>
+        <strong class="joyride-metric"><RollingNumber value={value} /></strong>
         <p><span data-locale="ru">{ru}</span><span data-locale="en" hidden>{en}</span></p>
       </article>
     ))}

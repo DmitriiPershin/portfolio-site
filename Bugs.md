@@ -7,6 +7,13 @@
 
 ## Resolved
 
+- 2026-08-31: The cursor glow still occupied the old `380 px` footprint. Reduced its diameter by 30% to `266 px` while retaining the section-colour response.
+- 2026-08-31: Live Joyride hero and Theme Builders text was clipped by reveal masks after animation. Release the masks after the reveal so the font's real overhang remains visible on desktop and mobile.
+- 2026-08-31: Hard Skills chips had synchronized border highlights and the mobile scroll highlight was being overwritten by desktop pointer state. Added deterministic `137.5deg` phase offsets and isolated pointer motion from the mobile ScrollTrigger path.
+- 2026-08-31: AI Workflow app icons were rebuilt inside generic filled frames, changing their transparent centres, glow, and artwork scale. Replaced every desktop/mobile frame with the exact current Figma export and restored the solid `#4058f4` card stroke with the authored 30% inset light.
+- 2026-08-31: Theme Builders and Interfaces metrics appeared as static values. Added accessible PremiumExchanger-style per-digit ribbons with one full pass, authored live Joyride text, and immediate reduced-motion/no-JavaScript fallbacks.
+- 2026-08-31: The mobile menu selector missed all three burger lines because an image preceded them in the DOM; `:nth-child` counted the image. Switched to `:nth-of-type` and restored the exact three-line Figma geometry.
+- 2026-08-31: Desktop contact links floated toward the middle and the overlay suppressed the authored bottom-right avatar. Anchored the links to the dialog bottom and preserved the desktop avatar; the mobile overlay continues to use its central avatar.
 - 2026-08-30: Signature headings, hero logo, overlay labels, closing copy, and metrics were static SVG/PNG exports. Added the user-supplied Joyride faces as preloaded local fonts and rebuilt every signature label as selectable live text.
 - 2026-08-30: The mobile hero, menu, language selector, contact overlay, and Pet Project still followed older layouts. Rebuilt them from nodes `523:123`, `530:1051`, `530:1103`, `528:563`, and `372:1205`.
 - 2026-08-30: Navigation either stayed visible through downward reading or disappeared without returning. Both breakpoints now hide after a downward scroll beyond `40 px` and return immediately on upward intent.
@@ -14,7 +21,7 @@
 - 2026-08-30: Section icons gained a rectangular/opaque-looking glow when duplicating raster artwork. Removed the drop-shadow backing and now brighten the exact icon silhouette with screen blending.
 - 2026-08-30: Hard Skills retained the wrong gradient stroke, and Process cards retained a gradient approximation. Restored the current solid `#765592` and `#35bf27` strokes while leaving Soft Skills on its separate authored gradient.
 - 2026-08-30: The email icon was a malformed raster-like asset and the mobile email wrapped to two lines. Rebuilt the icon as SVG, kept the mobile contact rows at `342 × 52 px`, and fitted the email on one line.
-- 2026-08-30: The floating avatar remained visible over open overlays. It now hides over menu/language/contact surfaces as well as the final contact section.
+- 2026-08-30: The floating avatar remained visible over menu/language overlays and the final contacts. It now hides on those surfaces; desktop contacts intentionally preserve the authored bottom-right avatar and mobile contacts use their central avatar.
 
 - 2026-08-28: Desktop language switching skipped the authored selector and changed content immediately. Added the exact `501:2` overlay, Figma globe asset, persisted choices, and the Outline → Regular 40% hover from `501:45`.
 - 2026-08-28: Desktop menu/language controls either scrolled away immediately or stayed visible for the whole page. They now remain fixed only until the Hard Skills artwork appears; mobile remains document-positioned.

@@ -1,0 +1,24 @@
+---
+interface Props {
+  value: string;
+}
+
+const { value } = Astro.props;
+const digits = value.split("");
+const ribbon = Array.from({ length: 20 }, (_, index) => index % 10);
+---
+
+<span class="rolling-number" data-rolling-number data-digit-count={digits.length}>
+  <span class="visually-hidden">{value}</span>
+  {digits.map((digit, index) => (
+    <span
+      class="rolling-number__digit"
+      aria-hidden="true"
+      style={`--digit-target: ${10 + Number(digit)}; --digit-index: ${index};`}
+    >
+      <span class="rolling-number__ribbon">
+        {ribbon.map((number) => <span class="rolling-number__number">{number}</span>)}
+      </span>
+    </span>
+  ))}
+</span>

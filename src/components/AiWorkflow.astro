@@ -10,12 +10,12 @@ const inputs = [
 ];
 
 const tools = [
-  { id: "claude-context", title: "Claude", icon: "/assets/logo-claude.svg", ru: "Контекст", en: "Context", area: "claudeContext", nodeId: "358:686" },
-  { id: "magnific", title: "Magnific", icon: "/assets/logo-magnific.svg", ru: "Интерпретация контекста", en: "Context interpretation", area: "magnific", nodeId: "358:680" },
-  { id: "claude-style", title: "Claude", icon: "/assets/logo-claude.svg", ru: "Стили", en: "Styles", area: "claudeStyle", nodeId: "358:692" },
-  { id: "figma", title: "Figma", icon: "/assets/logo-figma.svg", ru: "Variables · Styles", en: "Variables · Styles", area: "figma", nodeId: "358:697" },
-  { id: "designer", title: "Designer", icon: "/assets/logo-designer.svg", ru: "Template", en: "Template", area: "designer", nodeId: "358:711" },
-  { id: "frontend", title: "Frontend", icon: "/assets/logo-frontend.png", ru: "Design Assets · JSON", en: "Design Assets · JSON", area: "frontend", nodeId: "358:708" },
+  { id: "claude-context", title: "Claude", icon: "/assets/workflow-frame-claude-context.svg", ru: "Контекст", en: "Context", area: "claudeContext", nodeId: "358:686" },
+  { id: "magnific", title: "Magnific", icon: "/assets/workflow-frame-magnific.svg", ru: "Интерпретация контекста", en: "Context interpretation", area: "magnific", nodeId: "358:680" },
+  { id: "claude-style", title: "Claude", icon: "/assets/workflow-frame-claude-style.svg", ru: "Стили", en: "Styles", area: "claudeStyle", nodeId: "358:692" },
+  { id: "figma", title: "Figma", icon: "/assets/workflow-frame-figma.svg", ru: "Variables · Styles", en: "Variables · Styles", area: "figma", nodeId: "358:697" },
+  { id: "designer", title: "Designer", icon: "/assets/workflow-frame-designer.svg", ru: "Template", en: "Template", area: "designer", nodeId: "358:711" },
+  { id: "frontend", title: "Frontend", icon: "/assets/workflow-frame-frontend.png", ru: "Design Assets · JSON", en: "Design Assets · JSON", area: "frontend", nodeId: "358:708" },
 ];
 ---
 
@@ -65,7 +65,7 @@ const tools = [
           <div class:list={["tool-wrap", `tool-wrap--${tool.area}`]}>
             <article class="workflow-tool workflow-card interactive-card" data-workflow-node={tool.id} data-node-id={tool.nodeId}>
               <span class="app-icon-frame interactive-card" data-glow-target>
-                <img src={tool.icon} alt="" width="132" height="132" />
+                <img src={tool.icon} alt="" width="150" height="150" />
               </span>
               <h3>{tool.title}</h3>
             </article>
@@ -95,7 +95,7 @@ const tools = [
           </span>
         </div>
         <article class="workflow-tool workflow-card interactive-card" data-mobile-workflow-node="claude-context">
-          <span class="app-icon-frame interactive-card" data-glow-target><img src="/assets/logo-claude.svg" alt="" width="48" height="48" /></span><h3>Claude</h3>
+          <span class="app-icon-frame interactive-card" data-glow-target><img src="/assets/workflow-mobile-01.png" alt="" width="54" height="54" /></span><h3>Claude</h3>
         </article>
         <div class="mobile-flow mobile-flow--1" data-mobile-flow aria-hidden="true">
           <span class="mobile-flow__track">
@@ -103,7 +103,7 @@ const tools = [
           </span>
         </div>
         <article class="workflow-tool workflow-card interactive-card" data-mobile-workflow-node="magnific">
-          <span class="app-icon-frame interactive-card" data-glow-target><img src="/assets/logo-magnific.svg" alt="" width="48" height="48" /></span><h3>Magnific</h3>
+          <span class="app-icon-frame interactive-card" data-glow-target><img src="/assets/workflow-mobile-02.png" alt="" width="54" height="54" /></span><h3>Magnific</h3>
         </article>
         <div class="mobile-flow mobile-flow--1" data-mobile-flow aria-hidden="true">
           <span class="mobile-flow__track">
@@ -111,20 +111,20 @@ const tools = [
           </span>
         </div>
         <article class="workflow-tool workflow-card interactive-card" data-mobile-workflow-node="claude-style">
-          <span class="app-icon-frame interactive-card" data-glow-target><img src="/assets/logo-claude.svg" alt="" width="48" height="48" /></span><h3>Claude</h3>
+          <span class="app-icon-frame interactive-card" data-glow-target><img src="/assets/workflow-mobile-03.png" alt="" width="54" height="54" /></span><h3>Claude</h3>
         </article>
         <div class="mobile-flow mobile-flow--2" data-mobile-flow aria-hidden="true">
           <span class="mobile-flow__track"><span class="mobile-flow-label">Variables.json</span></span>
           <span class="mobile-flow__track"><span class="mobile-flow-label">Styles.json</span></span>
         </div>
         <article class="workflow-tool workflow-card interactive-card" data-mobile-workflow-node="figma">
-          <span class="app-icon-frame interactive-card" data-glow-target><img src="/assets/logo-figma.svg" alt="" width="48" height="48" /></span><h3>Figma</h3>
+          <span class="app-icon-frame interactive-card" data-glow-target><img src="/assets/workflow-mobile-04.png" alt="" width="54" height="54" /></span><h3>Figma</h3>
         </article>
         <div class="mobile-flow mobile-flow--1" data-mobile-flow aria-hidden="true">
           <span class="mobile-flow__track"><span class="mobile-flow-label">Template</span></span>
         </div>
         <article class="workflow-tool workflow-card interactive-card" data-mobile-workflow-node="designer">
-          <span class="app-icon-frame interactive-card" data-glow-target><img src="/assets/logo-designer.svg" alt="" width="48" height="48" /></span><h3>Designer</h3>
+          <span class="app-icon-frame interactive-card" data-glow-target><img src="/assets/workflow-mobile-05.png" alt="" width="54" height="54" /></span><h3>Designer</h3>
         </article>
         <div class="mobile-flow mobile-flow--3" data-mobile-flow aria-hidden="true">
           <span class="mobile-flow__track"><span class="mobile-flow-label">Design Assets</span></span>
@@ -132,7 +132,7 @@ const tools = [
           <span class="mobile-flow__track"><span class="mobile-flow-label">Variables.json</span></span>
         </div>
         <article class="workflow-tool workflow-card interactive-card" data-mobile-workflow-node="frontend">
-          <span class="app-icon-frame interactive-card" data-glow-target><img src="/assets/logo-frontend.png" alt="" width="48" height="48" /></span><h3>Frontend</h3>
+          <span class="app-icon-frame interactive-card" data-glow-target><img src="/assets/workflow-mobile-06.png" alt="" width="54" height="54" /></span><h3>Frontend</h3>
         </article>
       </div>
     </div>
