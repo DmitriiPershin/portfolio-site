@@ -180,7 +180,7 @@ test("Skills hover stays purple and eases into the border highlight", async ({ p
   await page.waitForTimeout(1000);
   const chipBox = await chip.boundingBox();
   expect(chipBox).not.toBeNull();
-  await page.mouse.move((chipBox?.x ?? 0) + (chipBox?.width ?? 0) / 2, (chipBox?.y ?? 0) + (chipBox?.height ?? 0) / 2, { steps: 8 });
+  await page.mouse.move((chipBox?.x ?? 0) + (chipBox?.width ?? 0) / 2, (chipBox?.y ?? 0) + (chipBox?.height ?? 0) / 2);
   await page.waitForTimeout(120);
   const early = Number.parseFloat(await chip.evaluate((element) => getComputedStyle(element).getPropertyValue("--glow-opacity")));
   await page.waitForTimeout(700);
