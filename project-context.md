@@ -39,7 +39,8 @@ The full Russian desktop and mobile portfolio is implemented, with an English co
 - `prefers-reduced-motion` disables reveals and ambient drift while preserving layout and connector geometry.
 - User-supplied Joyride OTF files are self-hosted and preloaded. Signature typography and metrics remain live selectable text; do not regress them to SVG/PNG.
 - Desktop and mobile menu/language controls are fixed. They hide on downward scroll after `40 px` and return on upward scroll. The avatar hides over final contacts and menu/language overlays; the authored desktop contact overlay keeps its bottom-right avatar while mobile uses the central overlay avatar.
-- AI Workflow desktop routes and `150/54 px` application frames are immutable local exports from the exact current Figma nodes. The frames retain transparent centres and their authored stroke/glow; the context dash is a real CSS border so its animated light follows the authored dash pattern.
+- AI Workflow desktop connector geometry and `150/54 px` application frames are exact local Figma exports. The three localized route labels may be replaced with live SVG text inside the same original chip. Never overlay another translated chip.
+- One painted contour per card, including dashed Context; pointer/scroll animates its paint, not a second path. Original app/Process icon frames never receive an extra outline. Raw Figma strokes, corner smoothing, and effect spread are authoritative; generated CSS can omit them. Evidence: `reports/figma-border-audit-2026-09-05.md`.
 - Theme Builders and Interfaces metrics use live, accessible Joyride WIDE text. Fine-motion mode animates each digit through one complete ribbon on scroll; reduced-motion and no-JavaScript modes expose the final value immediately.
 - Layout spacing and radii follow semantic tokens documented in `reports/figma-spacing-radius-audit-2026-08-30.md`; decorative artwork radii are not layout tokens.
 - LINE Seed JP is self-hosted under SIL OFL 1.1.

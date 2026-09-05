@@ -16,11 +16,13 @@
   "dependencies": {
     "@astrojs/node": "^11.1.4",
     "astro": "^7.2.4",
+    "figma-squircle": "1.1.0",
     "gsap": "^3.15.0"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.10",
     "@playwright/test": "^1.62.1",
+    "@types/node": "24.13.3",
     "typescript": "^5.9.2"
   },
   "engines": {

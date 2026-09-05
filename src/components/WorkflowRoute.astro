@@ -1,0 +1,20 @@
+---
+import contextSvg from "../../public/assets/workflow-route-context.svg?raw";
+import interpretationSvg from "../../public/assets/workflow-route-interpretation.svg?raw";
+import stylesSvg from "../../public/assets/workflow-route-styles.svg?raw";
+
+interface Props { name: "context" | "interpretation" | "styles" }
+const { name } = Astro.props;
+const labels = {
+  context: { x: 824.5, y: 222.133, rotation: -90, ru: "Контекст", en: "Context" },
+  interpretation: { x: 168, y: 52, rotation: 0, ru: "Интерпретация контекста", en: "Context interpretation" },
+  styles: { x: 52, y: 256.167, rotation: -90, ru: "Стили", en: "Styles" },
+};
+const label = labels[name];
+// Preserve the exact Figma connector and chip. Only its outlined label becomes live text.
+const svg = ({ context: contextSvg, interpretation: interpretationSvg, styles: stylesSvg })[name]
+  .replace(/<path id="Label"[^>]*\/>/, `<text class="workflow-route__label" x="${label.x}" y="${label.y}" transform="rotate(${label.rotation} ${label.x} ${label.y})" text-anchor="middle" dominant-baseline="central"><tspan data-locale="ru">${label.ru}</tspan><tspan data-locale="en" hidden>${label.en}</tspan></text>`)
+  .replace(/id="([^"]+)"/g, `id="route-${name}-$1"`)
+  .replace(/url\(#([^)]*)\)/g, `url(#route-${name}-$1)`);
+---
+<div class:list={["workflow-route", `workflow-route--${name}`]} set:html={svg} />

@@ -1,5 +1,6 @@
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { initCardBorders, paintCardBorder } from "./borders";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -113,8 +114,8 @@ function initLanguage() {
   const apply = (next: Language) => {
     language = next;
     document.documentElement.lang = next;
-    selectAll<HTMLElement>("[data-locale]").forEach((element) => {
-      element.hidden = element.dataset.locale !== next;
+    selectAll<HTMLElement | SVGElement>("[data-locale]").forEach((element) => {
+      element.toggleAttribute("hidden", element.dataset.locale !== next);
     });
     toggle.setAttribute("aria-label", next === "ru" ? "Открыть выбор языка" : "Open language selector");
     options.forEach((option) => option.setAttribute("aria-pressed", String(option.dataset.languageOption === next)));
@@ -173,6 +174,26 @@ function initScrollVisibility() {
   update();
 }
 
+function initMenuFit() {
+  const nav = select<HTMLElement>(".menu-overlay nav");
+  if (!nav) return;
+  const fit = () => {
+    if (window.innerWidth <= 640) {
+      nav.style.removeProperty("--menu-scale");
+      return;
+    }
+    const style = getComputedStyle(nav);
+    const left = Number.parseFloat(style.left);
+    const top = Number.parseFloat(style.top);
+    const margin = readMotionNumber("--menu-viewport-margin", 40);
+    const scale = Math.min(1, (window.innerWidth - left - margin) / nav.scrollWidth,
+      (window.innerHeight - top - margin) / nav.scrollHeight);
+    nav.style.setProperty("--menu-scale", String(Math.max(0.1, scale)));
+  };
+  fit();
+  window.addEventListener("resize", fit, { passive: true });
+}
+
 function initDetails() {
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
@@ -218,16 +239,6 @@ function initDetails() {
         })
         .to(button, { opacity: 0, y: 8, height: 0, paddingTop: 0, paddingBottom: 0, duration: 0.32 }, "-=0.18");
     }, { once: true });
-  });
-}
-
-function ensureBorderGlows(cards: HTMLElement[]) {
-  cards.forEach((card) => {
-    if (card.querySelector(":scope > .card-border-glow, :scope > .dash-border-glow")) return;
-    const glow = document.createElement("span");
-    glow.className = "card-border-glow";
-    glow.setAttribute("aria-hidden", "true");
-    card.prepend(glow);
   });
 }
 
@@ -295,7 +306,6 @@ function initBorderGlow() {
 
   const cards = selectAll<HTMLElement>(".interactive-card");
   const targets = Array.from(new Set([...cards, ...selectAll<HTMLElement>("[data-glow-target]")]));
-  ensureBorderGlows(cards);
 
   const BORDER_GLOW = {
     proximityRadius: readMotionNumber("--border-glow-proximity", 300),
@@ -341,7 +351,7 @@ function initBorderGlow() {
 
       card.style.setProperty("--glow-angle", `${Math.round(state.angle * 100) / 100}deg`);
       card.style.setProperty("--glow-opacity", `${Math.round(state.opacity * 1000) / 1000}`);
-      card.style.setProperty("--glow-cover", `${Math.ceil(Math.hypot(rect.width, rect.height))}px`);
+      paintCardBorder(card, state.angle, state.opacity);
     });
     if (unsettled) frame = window.requestAnimationFrame(render);
   };
@@ -377,13 +387,10 @@ function initMobileScrollGlow() {
   const maxOpacity = readMotionNumber("--border-glow-max-opacity", 0.82);
   const degreesPerPixel = readMotionNumber("--mobile-border-glow-degrees-per-pixel", 0.22);
   const cardAngleOffset = readMotionNumber("--mobile-border-glow-card-offset", 23);
-  ensureBorderGlows(cards);
   document.documentElement.dataset.scrollGlow = "mobile";
 
   const refreshGeometry = () => {
     targets.forEach((card) => {
-      const rect = card.getBoundingClientRect();
-      card.style.setProperty("--glow-cover", `${Math.ceil(Math.hypot(rect.width, rect.height))}px`);
       card.style.setProperty("--glow-opacity", `${maxOpacity}`);
     });
   };
@@ -393,6 +400,7 @@ function initMobileScrollGlow() {
     targets.forEach((card, index) => {
       const angle = (scrollAngle + index * cardAngleOffset) % 360;
       card.style.setProperty("--glow-angle", `${Math.round(angle * 100) / 100}deg`);
+      paintCardBorder(card, angle, maxOpacity);
     });
   };
 
@@ -411,7 +419,7 @@ function initMobileScrollGlow() {
 
 function showEverything() {
   gsap.set(
-    ["[data-hero-logo]", "[data-hero-role]", "[data-reveal]", "[data-card-reveal]", "[data-workflow-node]", "[data-workflow-input]", "[data-mobile-workflow-node]", "[data-mobile-workflow-input]", ".workflow-route", ".workflow-route-translation", "[data-mobile-flow]"],
+    ["[data-hero-logo]", "[data-hero-role]", "[data-reveal]", "[data-card-reveal]", "[data-workflow-node]", "[data-workflow-input]", "[data-mobile-workflow-node]", "[data-mobile-workflow-input]", ".workflow-route", "[data-mobile-flow]"],
     { opacity: 1, y: 0, scale: 1, clipPath: "none", clearProps: "transform" },
   );
   selectAll<HTMLElement>(".display-heading-mask").forEach((mask) => { mask.style.overflow = "visible"; });
@@ -420,7 +428,7 @@ function showEverything() {
 
 function initHero() {
   gsap.timeline({ defaults: { ease: "power3.out" } })
-    .to("[data-hero-logo]", { clipPath: "inset(0 0% 0 0)", duration: 1.1 })
+    .to("[data-hero-logo]", { clipPath: "inset(-40px -40px -40px -40px)", duration: 1.1 })
     .set("[data-hero-logo]", { clipPath: "none", willChange: "auto" })
     .fromTo("[data-hero-role]", { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.8 }, "-=0.55");
 }
@@ -428,6 +436,7 @@ function initHero() {
 function initRollingNumbers() {
   selectAll<HTMLElement>("[data-rolling-number]").forEach((number) => {
     const digitCount = Number.parseInt(number.dataset.digitCount ?? "1", 10);
+    const duration = Number.parseFloat(getComputedStyle(number).getPropertyValue("--rolling-duration")) * 1000;
     ScrollTrigger.create({
       trigger: number,
       start: "top 88%",
@@ -438,7 +447,7 @@ function initRollingNumbers() {
           window.setTimeout(() => {
             number.classList.add("is-complete");
             number.classList.remove("is-rolling");
-          }, 900 + Math.max(0, digitCount - 1) * 45 + 80);
+          }, duration + Math.max(0, digitCount - 1) * 45 + 80);
         });
       },
     });
@@ -504,7 +513,6 @@ function initWorkflowReveals() {
   const cards = selectAll<HTMLElement>("[data-workflow-node], [data-mobile-workflow-node]", scene);
   const inputs = selectAll<HTMLElement>("[data-workflow-input], [data-mobile-workflow-input]", scene);
   const desktopConnectors = selectAll<HTMLElement>(".workflow-route", scene);
-  const labels = selectAll<HTMLElement>(".workflow-route-translation", scene);
   const mobileFlows = selectAll<HTMLElement>("[data-mobile-flow]", scene);
 
   const timeline = gsap.timeline({
@@ -517,27 +525,36 @@ function initWorkflowReveals() {
 
   if (desktopConnectors.length) {
     timeline.fromTo(desktopConnectors, { opacity: 0, clipPath: "inset(0 100% 0 0)" }, { opacity: 1, clipPath: "inset(0 0% 0 0)", duration: 0.8, stagger: 0.08 }, "-=0.4");
-    timeline.fromTo(labels, { opacity: 0 }, { opacity: 1, duration: 0.45, stagger: 0.04 }, "-=0.5");
   }
   if (mobileFlows.length) {
     timeline.fromTo(mobileFlows, { opacity: 0, clipPath: "inset(0 0 100% 0)" }, { opacity: 1, clipPath: "inset(0 0 0% 0)", duration: 0.62, stagger: 0.08 }, "-=1.4");
   }
 }
 
-export function initPortfolioMotion() {
+export async function initPortfolioMotion() {
   initOverlays();
   initLanguage();
   initDetails();
   initScrollVisibility();
+  await Promise.allSettled([
+    document.fonts.load('16px "Joyride Extended"'),
+    document.fonts.load('16px "Joyride Extended Outline"'),
+    document.fonts.load('16px "Joyride Outline"'),
+    document.fonts.load('16px "Joyride WIDE"'),
+    document.fonts.load('16px "LINE Seed JP"'),
+  ]);
+  initMenuFit();
 
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   if (reducedMotion) {
     showEverything();
+    initCardBorders();
     document.documentElement.dataset.motion = "reduced";
     return;
   }
 
   document.documentElement.dataset.motion = "full";
+  initCardBorders();
   initCursorGlow();
   initBorderGlow();
   initMobileScrollGlow();

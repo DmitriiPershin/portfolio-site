@@ -10,13 +10,14 @@ Production portfolio implemented from the current desktop and mobile Figma layou
 - All portfolio sections are implemented in Astro + TypeScript with GSAP/ScrollTrigger as the only motion runtime.
 - Exact Figma section icons, desktop AI routes, project visuals, and avatar are stored locally. Hero, section headings, overlays, closing title, and metrics are selectable live Joyride text.
 - The language selector opens on every breakpoint. Desktop follows `501:2`/`501:45`; mobile follows `530:1103`. RU/EN persists locally.
-- Desktop controls use the Figma `64 px` geometry at `top: 64/148 px; right: 48 px`. Mobile uses the new fixed `390 × 68 px` header with `48 px` controls at `12 px` side offsets. After `40 px`, downward scrolling hides the header and upward scrolling restores it on both breakpoints.
+- Desktop controls retain the Figma `64 px` geometry at `top: 64/148 px; right: 48 px`. Mobile controls align to the hero logo's outer edges, with the role centred between them. After `40 px`, downward scrolling hides the header and upward scrolling restores it on both breakpoints.
+- The desktop menu scales as one group to fit all eight entries even in a short viewport. Menu hover changes Joyride face at full opacity; language-choice hover retains its separate 40% treatment.
 - The avatar opens the responsive Figma contact overlay. It is `120 × 120 px` desktop and `60 × 60 px` mobile, with `110.118/55.059 px` inner crops. It remains visible in the authored desktop contact composition, while mobile uses the overlay's central avatar; it hides over the final contacts and non-contact overlays.
-- AI Workflow keeps seven crisp desktop SVG route groups. Its context is a real CSS `2 px / 4 4` dashed border whose glow follows the same dashes. Each `150/54 px` application frame is exported from the exact Figma node, including its transparent centre, stroke, artwork scale, and glow. Mobile uses the authored `342 × 1844 px` sequence with centred one-, two-, and three-track groups.
+- AI Workflow keeps seven crisp desktop SVG route groups. The three translated route labels are live text inside their original SVG chips, never a second chip over a Russian export. Each `150/54 px` application frame retains the exact Figma artwork and its own contour, without a generated second ring. Mobile keeps the authored centred arrow groups.
 - Focus follows the separate desktop/mobile copy composition: `40/52 px` headline and `16/32 px` body on desktop; `14/22 px` body with the authored break and `20 px` paragraph gap on mobile.
-- Hard Skills uses the current solid `#765592` border, 30% purple backing, `26 px` radius, and authored inset glow. Soft Skills keeps its separate gradient stroke. Process cards use the solid `#35bf27` border with `80/26 px` radii.
-- Card highlights follow the existing border geometry. Desktop uses pointer proximity; mobile rotates the same conic segment with scroll. Each card starts from a deterministic golden-angle offset so repeated outlines do not move in lockstep. A `266 px` pointer light adopts the current section heading colour.
-- Theme Builder uses separate desktop/mobile artwork; Theme and Interfaces metrics are live Joyride WIDE text with a one-revolution, per-digit scroll counter.
+- Cards use one SVG gradient stroke with Figma-smoothed corners; native border paint is disabled once that contour is ready. The same stroke reacts to pointer/scroll, including Context's `2 px / 4 4` dashes. Hard/Soft Skills and Process gradients were checked against raw Figma layer data; see `reports/figma-border-audit-2026-09-05.md`.
+- Each card has a deterministic golden-angle phase. The `266 px` cursor light adopts the section heading colour at `0.45` opacity, 10% below the previous intensity. Mobile skill rows stretch to both container edges.
+- Theme Builder uses separate desktop/mobile artwork; its `250` counter now takes `1.8 s`, while Interfaces counters retain `0.9 s`.
 - Mobile Process & AI and Theme Builders details reveal additional copy once; the button moves with expansion and disappears.
 - Pet Project uses the new desktop and mobile compositions: `1066 × 600 px` desktop preview and `342 × 195 px` mobile preview, with supplied website, Chrome, and ChatGPT destinations.
 - The final block uses live Joyride `THANK / YOU`, live contact text, and a crisp SVG email icon. The floating avatar hides there.
@@ -71,7 +72,8 @@ npm run qa:screenshots
 ```
 
 The product review checklist is in `checks.md`. Reduced-motion desktop/mobile renders are written to `artifacts/qa/`.
-The latest recorded verification is in `docs/test-log-2026-08-31.md`.
+The latest recorded verification is in `docs/test-log-2026-09-05.md`.
+For an already running deployment, use `PORTFOLIO_BASE_URL=https://your-deployment npm test` (no local server is started).
 
 ## Spacing changes
 
@@ -88,15 +90,15 @@ The mobile breakpoint overrides the same tokens. Section-specific geometry remai
 
 ## Motion and hover system
 
-- Hero: one-time mask reveal.
+- Hero: waits for the preloaded signature fonts, then reveals inside a mask with `40 px` extra ink allowance on every edge. Its layout box does not change when the mask is released.
 - Section icons: exact artwork with a 1–2 px, 16-second ambient drift.
 - Headings and copy: independent scroll reveals, including the second Soft Skills heading.
 - Cards: soft entry with 18–22 px travel.
 - AI Workflow: seven joined Figma route groups reveal after the desktop cards; mobile uses grouped CSS tracks tied directly to the one/two/three-chip rows.
-- Desktop hover: a same-colour conic-gradient border segment activates within `340 px` of the pointer. Angle interpolation is `0.055`, opacity interpolation is `0.04`, maximum opacity is `0.9`, and a smoothstep falloff removes the hard edge.
-- Cursor light: a `266 px` section-coloured radial glow follows a fine pointer with `0.12` interpolation and `0.5` maximum opacity; it is removed for touch and reduced motion.
-- Mobile scroll: the same border segment rotates at `0.22deg` per scroll pixel, with a deterministic `137.5deg` golden-angle offset per card. It does not replace or deform the Figma border, radius, fill, or inset shadow.
-- Numeric metrics: each digit makes one full `0–9` pass and settles over `0.9 s` with `cubic-bezier(0.22, 1, 0.36, 1)` and a `45 ms` digit stagger. Reduced motion and no-JavaScript states show the final value immediately.
+- Desktop hover: the existing stroke's gradient rotates and subtly increases its translucent stops within `340 px` of the pointer. Angle interpolation is `0.055`, intensity interpolation is `0.04`, maximum intensity is `0.9`, with smoothstep falloff. Path geometry never changes on hover.
+- Cursor light: a `266 px` section-coloured radial glow follows a fine pointer with `0.12` interpolation and `0.45` maximum opacity; it is removed for touch and reduced motion.
+- Mobile scroll: the same gradient rotates at `0.22deg` per scroll pixel, with a deterministic `137.5deg` offset per card. No second border is drawn. Original icon artwork brightens without adding a contour.
+- Numeric metrics: each digit makes one full `0–9` pass over `0.9 s` (`1.8 s` only for `250`), with `cubic-bezier(0.22, 1, 0.36, 1)` and a `45 ms` stagger. Reduced motion and no-JavaScript states show the final value immediately.
 - Mobile Details: extra copy expands over 720 ms with `power3.out`; the button follows the new height, fades, and cannot be toggled closed accidentally.
 - Reduced motion: all content and complete connectors are immediately visible, with no ambient drift or long transforms.
 
@@ -112,9 +114,9 @@ The repository includes `railway.json` and a reproducible `Dockerfile`. The prod
 The `.railwayignore` file keeps committed QA screenshots, tests, reports, and documentation out of the direct CLI upload while retaining them in GitHub.
 
 1. Push changes to GitHub `main`.
-2. Railway builds the GitHub revision with `npm ci && npm run build` and starts it with `npm start`.
-3. Verify `https://portfolio-production-e2d0.up.railway.app/api/health` returns `{ "status": "ok" }`.
-4. Smoke-test the production page at desktop and mobile widths.
+2. From the clean checkout matching pushed `main`, run `railway up --service portfolio --detach`. The current service uses direct CLI uploads; pushing alone does not trigger it. The Docker build runs `npm ci && npm run build` and starts with `npm start`.
+3. Wait for that deployment to reach `SUCCESS`, then verify `https://portfolio-production-e2d0.up.railway.app/api/health` returns `{ "status": "ok" }`.
+4. Run the production checks with `PORTFOLIO_BASE_URL=https://portfolio-production-e2d0.up.railway.app npm test -- --workers=2`.
 
 ## Known limitations
 

@@ -182,6 +182,8 @@ This replaces the 2026-08-28 Hard-Skills visibility rule and the document-positi
 
 ### 2026-08-30 - Animate authored border geometry, not replacement outlines
 
+Deprecated by the 2026-09-05 single-contour decision below: two coincident outlines still produced different corners.
+
 What we decided:
 
 Keep each section's base border as authored. Solid/gradient cards receive a masked conic segment on the same radius; AI Context uses a second dashed segment with the identical `2 px / 4 4` geometry. Icon highlights reuse the exact icon artwork rather than adding a rectangular glow backing.
@@ -209,3 +211,13 @@ Render Theme Builders and Interfaces values as accessible live Joyride text, wit
 Why:
 
 A whole-number tween changes glyphs abruptly and loses the mechanical counter character. Per-digit ribbons preserve the exact font, make the motion legible, and still expose the final value immediately for reduced motion, no JavaScript, and assistive technology.
+
+### 2026-09-05 - One contour owns border paint and motion
+
+Decision: replace the static-plus-highlight construction with one SVG path per card, including Context's dashes. Generate smooth corners from the authored radius using `figma-squircle` (geometry only, not a motion runtime). Animate only the gradient. Icon exports keep their existing contour without another ring. See the raw-property evidence in `reports/figma-border-audit-2026-09-05.md`.
+
+Reason: matching CSS radii on two layers did not reproduce Figma's 100% corner smoothing and exposed doubled corners. Generated design context also flattened actual gradients into solid colours.
+
+Decision: translate the three desktop route labels inside their existing SVG chips. Preserve arrow/chip geometry and never layer a second localization chip over outlined Russian text.
+
+Decision: only the `250` ribbon slows to `1.8 s`; the prior `0.9 s` decision still applies to Interfaces. Menu hover remains fully opaque and desktop navigation scales together to fit all entries. Mobile header edges share the logo width, and skill rows fill the container.

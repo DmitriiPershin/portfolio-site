@@ -1,6 +1,7 @@
 ---
 import GlowIcon from "./GlowIcon.astro";
 import DisplayHeading from "./DisplayHeading.astro";
+import WorkflowRoute from "./WorkflowRoute.astro";
 
 const inputs = [
   { ru: "Референсы", en: "References", icon: "/assets/icon-references.svg", nodeId: "358:652" },
@@ -35,21 +36,17 @@ const tools = [
   <div class="workflow-stage" data-workflow-scene data-node-id="358:647">
     <div class="workflow-scene workflow-scene--desktop">
       <div class="workflow-routes-desktop" aria-hidden="true">
-        <img class="workflow-route workflow-route--context" src="/assets/workflow-route-context.svg" alt="" />
-        <img class="workflow-route workflow-route--interpretation" src="/assets/workflow-route-interpretation.svg" alt="" />
-        <img class="workflow-route workflow-route--styles" src="/assets/workflow-route-styles.svg" alt="" />
+        <WorkflowRoute name="context" />
+        <WorkflowRoute name="interpretation" />
+        <WorkflowRoute name="styles" />
         <img class="workflow-route workflow-route--variables" src="/assets/workflow-route-variables.svg" alt="" />
         <img class="workflow-route workflow-route--template" src="/assets/workflow-route-template.svg" alt="" />
         <img class="workflow-route workflow-route--assets" src="/assets/workflow-route-assets.svg" alt="" />
         <img class="workflow-route workflow-route--files" src="/assets/workflow-route-files.svg" alt="" />
-        <span class="workflow-route-translation workflow-route-translation--context" data-locale="en" hidden>Context</span>
-        <span class="workflow-route-translation workflow-route-translation--interpretation" data-locale="en" hidden>Context interpretation</span>
-        <span class="workflow-route-translation workflow-route-translation--styles" data-locale="en" hidden>Styles</span>
       </div>
 
       <div class="workflow-grid">
         <article class="workflow-context workflow-card interactive-card" data-workflow-node="context" data-node-id="358:649">
-          <span class="dash-border-glow" aria-hidden="true"></span>
           <h3><span data-locale="ru">Контекст клиента</span><span data-locale="en" hidden>Client context</span></h3>
           <div class="workflow-inputs" data-node-id="358:651">
             {inputs.map((input) => (
@@ -77,7 +74,6 @@ const tools = [
     <div class="workflow-scene workflow-scene--mobile">
       <div class="workflow-mobile-sequence">
         <article class="workflow-context workflow-card interactive-card" data-mobile-workflow-node="context">
-          <span class="dash-border-glow" aria-hidden="true"></span>
           <h3><span data-locale="ru">Контекст клиента</span><span data-locale="en" hidden>Client context</span></h3>
           <div class="workflow-inputs">
             {inputs.map((input) => (

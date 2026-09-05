@@ -7,6 +7,13 @@
 
 ## Resolved
 
+- 2026-09-05: Cards and app/Process icons showed two competing contours, especially at smoothed corners. Replaced card paint with one gradient SVG path and removed generated icon rings. Raw Figma inspection corrected the prior erroneous solid-stroke interpretation for Hard Skills, Workflow, and Process; details in `reports/figma-border-audit-2026-09-05.md`. Older solid-stroke entries below are historical, not current styling rules.
+- 2026-09-05: Hero i dots clipped during entry and popped out at reveal completion. The mask now includes ink overhang throughout the reveal, which starts after font loading without resizing the logo.
+- 2026-09-05: English Context/Context interpretation/Styles labels overlaid the original Russian SVG chips. Labels now switch inside the single existing chip and share its transform.
+- 2026-09-05: Menu hover dimmed the active entry and the last entries could fall below a short desktop screen. Full-opacity hover and viewport-fit scaling preserve all eight links.
+- 2026-09-05: Mobile header edges did not align with the logo and two-chip skill rows left unused horizontal space. Header/logo now share a width token; every chip row stretches edge to edge.
+- 2026-09-05: The Theme Builder `250` roll felt too fast. Doubled only its duration; other counters keep their previous timing.
+
 - 2026-08-31: The cursor glow still occupied the old `380 px` footprint. Reduced its diameter by 30% to `266 px` while retaining the section-colour response.
 - 2026-08-31: Live Joyride hero and Theme Builders text was clipped by reveal masks after animation. Release the masks after the reveal so the font's real overhang remains visible on desktop and mobile.
 - 2026-08-31: Hard Skills chips had synchronized border highlights and the mobile scroll highlight was being overwritten by desktop pointer state. Added deterministic `137.5deg` phase offsets and isolated pointer motion from the mobile ScrollTrigger path.

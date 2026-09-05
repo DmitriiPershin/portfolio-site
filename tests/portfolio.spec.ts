@@ -80,7 +80,7 @@ test("menu is keyboard accessible and contains every section", async ({ page }) 
     const focus = navigation.getByRole("link", { name: "FOCUS", exact: true });
     await focus.hover();
     await expect(focus).toHaveCSS("font-family", /Joyride Regular/);
-    await expect(focus).toHaveCSS("opacity", "0.4");
+    await expect(focus).toHaveCSS("opacity", "1");
   }
   await page.keyboard.press("Escape");
   await expect(menuButton).toHaveAttribute("aria-expanded", "false");
@@ -135,14 +135,15 @@ test("reduced motion keeps content and joined Figma routes visible", async ({ pa
   await expect(page.locator(".workflow-route--context")).toHaveCSS("opacity", "1");
 });
 
-test("desktop cards use the PremiumExchanger pointer-following border glow", async ({ page }) => {
+test("desktop hover animates one contour without moving its geometry", async ({ page }) => {
   test.skip((page.viewportSize()?.width ?? 0) < 1200, "Desktop hover check");
   await page.goto("/");
   const card = page.locator(".interface-metric--3");
   const cursorGlow = page.locator("[data-cursor-glow]");
   await card.scrollIntoViewIfNeeded();
   await page.waitForTimeout(1000);
-  await expect(card.locator(":scope > .card-border-glow")).toHaveCount(1);
+  await expect(card.locator(":scope > .card-border")).toHaveCount(1);
+  const pathBefore = await card.locator(":scope > .card-border > path").getAttribute("d");
   const before = await card.evaluate((element) => getComputedStyle(element).boxShadow);
   const cardBox = await card.boundingBox();
   expect(cardBox).not.toBeNull();
@@ -150,25 +151,27 @@ test("desktop cards use the PremiumExchanger pointer-following border glow", asy
   await page.waitForTimeout(500);
   const state = await card.evaluate((element) => {
     const style = getComputedStyle(element);
-    const glow = element.querySelector<HTMLElement>(":scope > .card-border-glow");
     return {
       opacity: Number(style.getPropertyValue("--glow-opacity")),
       angle: style.getPropertyValue("--glow-angle"),
-      glowOpacity: glow ? Number(getComputedStyle(glow).opacity) : 0,
-      glowBackground: glow ? getComputedStyle(glow, "::before").backgroundImage : "none",
+      gradientTransform: element.querySelector("linearGradient")?.getAttribute("gradientTransform"),
+      strokeColor: getComputedStyle(element.querySelector("stop")!).stopColor,
       shadow: style.boxShadow,
     };
   });
-  expect(state.glowOpacity).toBeGreaterThan(0.15);
-  expect(state.glowOpacity).toBeLessThanOrEqual(0.91);
+  expect(state.opacity).toBeGreaterThan(0.15);
+  expect(state.opacity).toBeLessThanOrEqual(0.91);
   expect(state.angle).toContain("deg");
-  expect(state.glowBackground).toContain("conic-gradient");
-  expect(state.glowBackground).not.toContain("255, 255, 255");
+  expect(state.gradientTransform).toContain("rotate(");
+  expect(state.strokeColor).not.toContain("255, 255, 255");
+  await expect(card.locator(":scope > .card-border > path")).toHaveAttribute("d", pathBefore!);
+  await expect(card).toHaveCSS("border-top-color", "rgba(0, 0, 0, 0)");
   expect(state.shadow).toBe(before);
   await expect(cursorGlow).toHaveAttribute("data-active", "true");
   expect(Number.parseFloat(await cursorGlow.evaluate((element) => getComputedStyle(element).opacity))).toBeGreaterThan(0.1);
   expect((await cursorGlow.evaluate((element) => getComputedStyle(element).getPropertyValue("--cursor-glow-rgb"))).replace(/\s/g, "")).toBe("253,80,160");
   await expect(cursorGlow).toHaveCSS("width", "266px");
+  await expect(cursorGlow).toHaveCSS("opacity", "0.45");
 });
 
 test("Skills hover stays purple and eases into the border highlight", async ({ page }) => {
@@ -176,23 +179,27 @@ test("Skills hover stays purple and eases into the border highlight", async ({ p
   await page.goto("/");
   const chip = page.locator("#hard-skills .skill-chips--hard .skill-chip").first();
   await chip.scrollIntoViewIfNeeded();
-  await page.mouse.move(0, 0);
-  await page.waitForTimeout(1000);
-  const chipBox = await chip.boundingBox();
-  expect(chipBox).not.toBeNull();
-  await page.mouse.move((chipBox?.x ?? 0) + (chipBox?.width ?? 0) / 2, (chipBox?.y ?? 0) + (chipBox?.height ?? 0) / 2);
-  await page.waitForTimeout(120);
-  const early = Number.parseFloat(await chip.evaluate((element) => getComputedStyle(element).getPropertyValue("--glow-opacity")));
-  await page.waitForTimeout(700);
-  const late = Number.parseFloat(await chip.evaluate((element) => getComputedStyle(element).getPropertyValue("--glow-opacity")));
-  const highlight = await chip.locator(":scope > .card-border-glow").evaluate((element) => getComputedStyle(element, "::before").backgroundImage);
+  await page.mouse.move(-1000, -1000);
+  await expect.poll(async () => Number.parseFloat(await chip.evaluate((element) => getComputedStyle(element).getPropertyValue("--glow-opacity")))).toBeLessThan(0.01);
+  // Sample in the browser, not across delayed automation calls under CPU load.
+  const [early, late] = await chip.evaluate(async (element) => {
+    const rect = element.getBoundingClientRect();
+    window.dispatchEvent(new PointerEvent("pointermove", { clientX: rect.left + rect.width / 2, clientY: rect.top + rect.height / 2 }));
+    const values: number[] = [];
+    for (let frame = 0; frame < 50; frame++) {
+      await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+      if (frame === 4 || frame === 49) values.push(Number.parseFloat(getComputedStyle(element).getPropertyValue("--glow-opacity")));
+    }
+    return values;
+  });
+  const highlight = await chip.locator(":scope > .card-border stop").first().evaluate((element) => getComputedStyle(element).stopColor);
   expect(early).toBeGreaterThan(0.05);
-  expect(early).toBeLessThan(0.65);
+  expect(early).toBeLessThan(0.4);
   expect(late).toBeGreaterThan(early);
   expect(late).toBeLessThanOrEqual(0.91);
-  await expect(chip).toHaveCSS("border-top", "1px solid rgb(118, 85, 146)");
+  await expect(chip).toHaveCSS("border-top", "1px solid rgba(0, 0, 0, 0)");
   await expect(chip).toHaveCSS("background-color", "rgba(118, 85, 146, 0.3)");
-  await expect(chip).toHaveCSS("box-shadow", "rgba(118, 85, 146, 0.6) 0px 0px 60px 0px inset");
+  await expect(chip).toHaveCSS("box-shadow", "rgba(118, 85, 146, 0.6) 0px 0px 60px -17.68px inset");
   expect(highlight).toContain("118, 85, 146");
   expect(highlight).not.toContain("255, 255, 255");
 });
@@ -291,7 +298,8 @@ test("Focus, Process and closing contacts follow the Figma formatting", async ({
 
   const processCards = page.locator(".process-card");
   await processCards.first().scrollIntoViewIfNeeded();
-  await expect(processCards.first()).toHaveCSS("border-top-color", "rgb(53, 191, 39)");
+  await expect(processCards.first()).toHaveCSS("border-top-color", "rgba(0, 0, 0, 0)");
+  await expect(processCards.first().locator(".card-border__stop--2")).toHaveCSS("stop-opacity", "0");
   expect(await processCards.first().evaluate((element) => getComputedStyle(element).backgroundImage)).toBe("none");
   await expect(processCards.first()).toHaveCSS("border-radius", mobile ? "26px" : "80px");
   if (mobile) {
@@ -349,12 +357,15 @@ test("mobile card borders rotate their gradient with scroll", async ({ page }) =
   await page.goto("/");
   const card = page.locator(".process-card").first();
   await expect(page.locator("html")).toHaveAttribute("data-scroll-glow", "mobile");
-  await expect(card.locator(":scope > .card-border-glow")).toHaveCount(1);
+  await expect(card.locator(":scope > .card-border")).toHaveCount(1);
+  const stroke = card.locator(":scope > .card-border linearGradient");
+  const initialPaint = await stroke.getAttribute("gradientTransform");
   const before = await card.evaluate((element) => getComputedStyle(element).getPropertyValue("--glow-angle"));
   await page.evaluate(() => window.scrollBy(0, 320));
   await page.waitForTimeout(100);
   const after = await card.evaluate((element) => getComputedStyle(element).getPropertyValue("--glow-angle"));
   expect(after).not.toBe(before);
+  expect(await stroke.getAttribute("gradientTransform")).not.toBe(initialPaint);
   expect(Number.parseFloat(await card.evaluate((element) => getComputedStyle(element).getPropertyValue("--glow-opacity")))).toBeGreaterThan(0.8);
   const skillAngles = await page.locator(".skill-chip-rows--hard .skill-chip").evaluateAll((elements) => elements.slice(0, 6).map((element) => getComputedStyle(element).getPropertyValue("--glow-angle")));
   expect(new Set(skillAngles).size).toBeGreaterThan(4);
@@ -376,7 +387,8 @@ test("desktop AI routes, Pet Project and closing section use the latest Figma st
 
   const routes = page.locator(".workflow-route");
   await expect(routes).toHaveCount(7);
-  expect(await routes.evaluateAll((elements) => elements.every((element) => (element as HTMLImageElement).currentSrc.endsWith(".svg")))).toBe(true);
+  await expect(page.locator("img.workflow-route")).toHaveCount(4);
+  await expect(page.locator(".workflow-route > svg")).toHaveCount(3);
   await expect(page.locator(".workflow-route-filter")).toHaveCount(0);
 
   const pet = page.locator(".pet-card");
@@ -430,8 +442,10 @@ test("AI context, tool cards and app icons use the exact Figma geometry", async 
   await context.scrollIntoViewIfNeeded();
   await expect(context).toHaveCSS("border-top-style", "dashed");
   await expect(context).toHaveCSS("border-top-width", "2px");
-  await expect(context.locator(":scope > .dash-border-glow")).toHaveCount(1);
+  await expect(context.locator(":scope > .dash-border-glow")).toHaveCount(0);
   await expect(context.locator(":scope > .card-border-glow")).toHaveCount(0);
+  await expect(context.locator(":scope > .card-border > path")).toHaveAttribute("stroke-dasharray", "4 4");
+  await expect(context).toHaveCSS("border-top-color", "rgba(0, 0, 0, 0)");
 
   const iconFrame = (page.viewportSize()?.width ?? 1000) <= 640
     ? page.locator(".workflow-scene--mobile .app-icon-frame").first()
@@ -447,7 +461,7 @@ test("AI context, tool cards and app icons use the exact Figma geometry", async 
   const tool = (page.viewportSize()?.width ?? 1000) <= 640
     ? page.locator(".workflow-scene--mobile .workflow-tool").first()
     : page.locator(".workflow-scene--desktop .workflow-tool").first();
-  await expect(tool).toHaveCSS("border-top", "2px solid rgb(64, 88, 244)");
+  await expect(tool).toHaveCSS("border-top", "2px solid rgba(0, 0, 0, 0)");
   await expect(tool).toHaveCSS("background-color", "rgba(21, 48, 72, 0.1)");
   expect(await tool.evaluate((element) => getComputedStyle(element).boxShadow)).toContain("rgba(64, 88, 244, 0.3)");
 });
@@ -460,7 +474,9 @@ test("Theme and Interfaces metrics use live staggered odometer digits", async ({
   await expect(themeNumber.locator(".rolling-number__digit").first().locator(".rolling-number__number")).toHaveCount(20);
   await themeNumber.scrollIntoViewIfNeeded();
   await expect(themeNumber).toHaveClass(/is-(rolling|complete)/);
-  await expect(themeNumber).toHaveClass(/is-complete/, { timeout: 2500 });
+  await expect(themeNumber).toHaveCSS("--rolling-duration", "1.8s");
+  await expect(page.locator(".interface-metric--1 [data-rolling-number]")).toHaveCSS("--rolling-duration", /^0?\.9s$/);
+  await expect(themeNumber).toHaveClass(/is-complete/, { timeout: 3500 });
   await expect(page.locator(".interface-metric--1 .visually-hidden")).toHaveText("561");
 });
 
@@ -468,4 +484,104 @@ test("health endpoint responds", async ({ request }) => {
   const response = await request.get("/api/health");
   expect(response.ok()).toBeTruthy();
   await expect(response.json()).resolves.toEqual({ status: "ok" });
+});
+
+test("all cards have one painted border and icon exports have no extra ring", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto("/");
+  await expect(page.locator("html")).toHaveAttribute("data-motion", "reduced");
+  const contours = await page.locator(".interactive-card:not(.app-icon-frame, .process-card__logo)").evaluateAll((cards) => cards.map((card) => ({
+    paths: card.querySelectorAll(":scope > .card-border > path").length,
+    nativeBorder: getComputedStyle(card).borderTopColor,
+    nativeGradient: getComputedStyle(card).backgroundImage,
+  })));
+  expect(contours.length).toBeGreaterThan(20);
+  for (const contour of contours) {
+    expect(contour).toEqual({ paths: 1, nativeBorder: "rgba(0, 0, 0, 0)", nativeGradient: "none" });
+  }
+  await expect(page.locator(".card-border-glow, .dash-border-glow, .app-icon-frame .card-border, .process-card__logo .card-border")).toHaveCount(0);
+});
+
+test("AI route translations replace their labels without adding another chip", async ({ page }) => {
+  test.skip((page.viewportSize()?.width ?? 0) <= 640, "Desktop route labels");
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto("/");
+  const labels = page.locator(".workflow-route__label");
+  await expect(labels).toHaveCount(3);
+  await expect(labels.locator("tspan:not([hidden])")).toHaveText(["Контекст", "Интерпретация контекста", "Стили"]);
+  await page.locator("[data-language-toggle]").click();
+  await page.locator("[data-language-option='en']").click();
+  await expect(labels.locator("tspan:not([hidden])")).toHaveText(["Context", "Context interpretation", "Styles"]);
+  await expect(page.locator(".workflow-route-translation, .workflow-route path[id$='-Label']")).toHaveCount(0);
+});
+
+test("mobile header aligns with the logo and skill rows fill their width", async ({ page }) => {
+  test.skip((page.viewportSize()?.width ?? 1000) > 640, "Mobile alignment");
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto("/");
+  await expect(page.locator("html")).toHaveAttribute("data-motion", "reduced");
+  const edges = await page.evaluate(() => {
+    const bounds = (selector: string) => document.querySelector(selector)!.getBoundingClientRect();
+    const logo = bounds(".hero__logo-mask");
+    const role = bounds(".floating-header__role");
+    return [bounds("[data-language-toggle]").left - logo.left,
+      bounds("[data-menu-toggle]").right - logo.right,
+      (role.left + role.right) / 2 - window.innerWidth / 2];
+  });
+  edges.forEach((delta) => expect(Math.abs(delta)).toBeLessThan(1));
+  const gaps = await page.locator(".skill-chip-row").evaluateAll((rows) => rows.map((row) => {
+    const chips = row.querySelectorAll(".skill-chip");
+    const bounds = row.getBoundingClientRect();
+    return [chips[0].getBoundingClientRect().left - bounds.left,
+      chips[chips.length - 1].getBoundingClientRect().right - bounds.right];
+  }));
+  gaps.flat().forEach((gap) => expect(Math.abs(gap)).toBeLessThan(1));
+});
+
+test("every desktop menu item fits on a short viewport", async ({ page }) => {
+  test.skip((page.viewportSize()?.width ?? 0) <= 640, "Desktop menu fitting");
+  await page.setViewportSize({ width: 1280, height: 600 });
+  await page.goto("/");
+  await expect(page.locator("html")).toHaveAttribute("data-motion", "full");
+  await page.locator("[data-menu-toggle]").click();
+  const bounds = await page.locator(".menu-overlay nav a").evaluateAll((links) => links.map((link) => {
+    const rect = link.getBoundingClientRect();
+    return [rect.top, rect.left, rect.right, rect.bottom];
+  }));
+  expect(bounds).toHaveLength(8);
+  for (const [top, left, right, bottom] of bounds) {
+    expect(top).toBeGreaterThanOrEqual(0);
+    expect(left).toBeGreaterThanOrEqual(0);
+    expect(right).toBeLessThanOrEqual(1280);
+    expect(bottom).toBeLessThanOrEqual(600);
+  }
+});
+
+test("cold font loading waits before the padded hero reveal without layout shift", async ({ page }) => {
+  let releaseFonts!: () => void;
+  const fontGate = new Promise<void>((resolve) => { releaseFonts = resolve; });
+  await page.route("**/fonts/*", async (route) => { await fontGate; await route.continue(); });
+  await page.goto("/", { waitUntil: "domcontentloaded" });
+  const logo = page.locator("[data-hero-logo]");
+  await expect(logo).toHaveCSS("clip-path", "inset(-40px 100% -40px -40px)");
+  const before = await logo.boundingBox();
+  releaseFonts();
+  await expect(page.locator("html")).toHaveAttribute("data-motion", "full");
+  const during = await logo.evaluate((element) => getComputedStyle(element).clipPath);
+  expect(during).toMatch(/^inset\(-40px/);
+  await expect(logo).toHaveCSS("clip-path", "none");
+  expect(await logo.boundingBox()).toEqual(before);
+});
+
+test.describe("without JavaScript", () => {
+  test.use({ javaScriptEnabled: false });
+  test("essential portfolio content and final numbers remain readable", async ({ page }) => {
+    await page.goto("/");
+    await expect(page.locator("[data-hero-logo]")).toHaveCSS("clip-path", "none");
+    await expect(page.locator(".display-heading")).toHaveCount(8);
+    await expect(page.locator(".theme-metric--primary .visually-hidden")).toHaveText("250");
+    await expect(page.locator("#contacts .closing__contacts a")).toHaveCount(2);
+    await expect(page.locator(".card-border-glow, .dash-border-glow")).toHaveCount(0);
+    await expect(page.locator("#focus")).toHaveCSS("opacity", "1");
+  });
 });
