@@ -42,4 +42,9 @@ Initial verification found and resolved three issues: thin replacement strokes c
 
 ## Production
 
-Pending deployment and verification; this section will be completed only after Railway reports success and the live checks pass.
+- Uploaded using `railway up --service portfolio --detach` from clean, pushed `main` checkout `36d56553d5f34dcd04556e1f9d3e5b9d521e4e38`; runtime remains `bc84b67`. The intervening commit contains QA artifacts, the test log and a screenshot-selector correction only.
+- Railway deployment: `aa9a04a8-df9a-41e4-9a13-d26615b416d3`; service `portfolio`, environment `production`; status **SUCCESS**.
+- Live page and `/api/health` return HTTP 200; health body `{ "status": "ok" }`.
+- Live CSS `index.Bmyxt1xN.css` and client JS `index.astro_astro_type_script_index_0_lang.Ba7h4qMA.js` match the local production build's content-hashed assets.
+- `PORTFOLIO_BASE_URL=https://portfolio-production-e2d0.up.railway.app npm test -- --workers=2`: **74 passed, 19 intentional breakpoint-specific skips, 0 failures**, 1.2 min. Includes desktop, tablet and mobile, all new motion/geometry checks, RU/EN, keyboard overlays, fonts, counters and fallbacks.
+- Final evidence update is documentation-only and excluded from the Railway runtime upload; the verified runtime does not change.
