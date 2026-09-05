@@ -111,7 +111,7 @@ const hoverPage = await hoverContext.newPage();
 await hoverPage.goto(baseURL, { waitUntil: "networkidle" });
 for (const [name, cardSelector, iconSelector] of [
   ["process", ".process-card", ".process-card__logo"],
-  ["workflow", ".workflow-card", ".app-icon-frame"],
+  ["workflow", ".workflow-card:has(.app-icon-frame)", ".app-icon-frame"],
 ]) {
   const card = hoverPage.locator(cardSelector).first();
   await card.scrollIntoViewIfNeeded();
