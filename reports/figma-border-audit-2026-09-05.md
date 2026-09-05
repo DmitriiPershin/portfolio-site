@@ -23,6 +23,6 @@ Fact: Process gradient: #35bf27 at0/1; RGB(176.266,254.573,189.317) at.228167787
 
 Fact: these inspected gradients share transform `[[.4895232618,.6969469786,-.1156727895],[-.779302001,.6678535938,.5921934843]]`. The implementation preserves the equivalent normalized gradient line and rotates its paint for the requested motion.
 
-Implementation decision: one smoothed SVG contour owns the stroke and animation. Native CSS paint is disabled only after the replacement is ready; semantic content and fallback borders remain usable without JavaScript. Resize updates geometry, pointer/scroll does not. Original icon frames retain their own artwork contour. No second conic-gradient or dashed overlay remains.
+Original implementation decision (superseded for motion/corners): one smoothed SVG contour owned the stroke and animation. After reviewing it, Dmitrii explicitly requested ordinary circular corners at the same radius numbers and the previous conic light. The current single-mask treatment is defined in `decisions.md`; this report remains source evidence, not authority to reintroduce corner smoothing.
 
 Open: final perceptual approval of hover intensity and corner rendering belongs to Dmitrii. Radius normalization proposed in the earlier spacing audit remains a separate source-design decision; this task did not normalize Figma values.

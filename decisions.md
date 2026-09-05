@@ -214,6 +214,8 @@ A whole-number tween changes glyphs abruptly and loses the mechanical counter ch
 
 ### 2026-09-05 - One contour owns border paint and motion
 
+Partially superseded by the motion revision below: keep one contour, replace corner smoothing and the rotating linear-gradient treatment.
+
 Decision: replace the static-plus-highlight construction with one SVG path per card, including Context's dashes. Generate smooth corners from the authored radius using `figma-squircle` (geometry only, not a motion runtime). Animate only the gradient. Icon exports keep their existing contour without another ring. See the raw-property evidence in `reports/figma-border-audit-2026-09-05.md`.
 
 Reason: matching CSS radii on two layers did not reproduce Figma's 100% corner smoothing and exposed doubled corners. Generated design context also flattened actual gradients into solid colours.
@@ -221,3 +223,13 @@ Reason: matching CSS radii on two layers did not reproduce Figma's 100% corner s
 Decision: translate the three desktop route labels inside their existing SVG chips. Preserve arrow/chip geometry and never layer a second localization chip over outlined Russian text.
 
 Decision: only the `250` ribbon slows to `1.8 s`; the prior `0.9 s` decision still applies to Interfaces. Menu hover remains fully opaque and desktop navigation scales together to fit all entries. Mobile header edges share the logo width, and skill rows fill the container.
+
+### 2026-09-05 - Motion revision: ordinary corners and the previous light response
+
+Decision, requested by Dmitrii: keep the existing numeric radii but remove Figma corner smoothing. Restore the earlier conic highlight movement without restoring two outlines: base paint and moving light share one rounded mask, including Context's dashes. Remove the now-unused squircle geometry dependency.
+
+Decision: restore app/Process icon-frame light. Keep original asset bytes, scale and glyphs; clip their baked outer contour and render one animated ordinary-radius replacement, with no added icon backing. The decorative section illustrations remain untouched.
+
+Decision: menu and language use identical live-text Outline→Regular crossfades at full control opacity. Their intensity response is the same exponential interpolation as card light (0.04 at60 Hz), normalized for refresh rate; border angle response stays0.055.
+
+Decision: interpret “scroll in the section colour” as the native scrollbar. Its colour follows the section at40% viewport height; cursor colour independently follows the section at its screen Y. Update both on scrolling/resize and keep cursor position responsive. Give avatar rings an opaque black backing. No Figma source nodes were modified.

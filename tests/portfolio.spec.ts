@@ -79,7 +79,8 @@ test("menu is keyboard accessible and contains every section", async ({ page }) 
   if ((page.viewportSize()?.width ?? 1000) > 640) {
     const focus = navigation.getByRole("link", { name: "FOCUS", exact: true });
     await focus.hover();
-    await expect(focus).toHaveCSS("font-family", /Joyride Regular/);
+    await expect(focus.locator(".morph-label__fill")).toHaveCSS("font-family", /Joyride Regular/);
+    await expect(focus.locator(".morph-label__fill")).toHaveCSS("opacity", "1");
     await expect(focus).toHaveCSS("opacity", "1");
   }
   await page.keyboard.press("Escape");
@@ -143,7 +144,7 @@ test("desktop hover animates one contour without moving its geometry", async ({ 
   await card.scrollIntoViewIfNeeded();
   await page.waitForTimeout(1000);
   await expect(card.locator(":scope > .card-border")).toHaveCount(1);
-  const pathBefore = await card.locator(":scope > .card-border > path").getAttribute("d");
+  const maskBefore = await card.locator(":scope > .card-border").evaluate((el) => getComputedStyle(el).maskImage);
   const before = await card.evaluate((element) => getComputedStyle(element).boxShadow);
   const cardBox = await card.boundingBox();
   expect(cardBox).not.toBeNull();
@@ -154,17 +155,18 @@ test("desktop hover animates one contour without moving its geometry", async ({ 
     return {
       opacity: Number(style.getPropertyValue("--glow-opacity")),
       angle: style.getPropertyValue("--glow-angle"),
-      gradientTransform: element.querySelector("linearGradient")?.getAttribute("gradientTransform"),
-      strokeColor: getComputedStyle(element.querySelector("stop")!).stopColor,
+      gradientTransform: getComputedStyle(element.querySelector(".card-border")!, "::before").transform,
+      light: getComputedStyle(element.querySelector(".card-border")!, "::before").backgroundImage,
       shadow: style.boxShadow,
     };
   });
   expect(state.opacity).toBeGreaterThan(0.15);
   expect(state.opacity).toBeLessThanOrEqual(0.91);
   expect(state.angle).toContain("deg");
-  expect(state.gradientTransform).toContain("rotate(");
-  expect(state.strokeColor).not.toContain("255, 255, 255");
-  await expect(card.locator(":scope > .card-border > path")).toHaveAttribute("d", pathBefore!);
+  expect(state.gradientTransform).toContain("matrix(");
+  expect(state.light).toContain("conic-gradient");
+  expect(state.light).not.toContain("255, 255, 255");
+  await expect(card.locator(":scope > .card-border")).toHaveCSS("mask-image", maskBefore);
   await expect(card).toHaveCSS("border-top-color", "rgba(0, 0, 0, 0)");
   expect(state.shadow).toBe(before);
   await expect(cursorGlow).toHaveAttribute("data-active", "true");
@@ -192,7 +194,7 @@ test("Skills hover stays purple and eases into the border highlight", async ({ p
     }
     return values;
   });
-  const highlight = await chip.locator(":scope > .card-border stop").first().evaluate((element) => getComputedStyle(element).stopColor);
+  const highlight = await chip.locator(":scope > .card-border").evaluate((element) => getComputedStyle(element, "::before").backgroundImage);
   expect(early).toBeGreaterThan(0.05);
   expect(early).toBeLessThan(0.4);
   expect(late).toBeGreaterThan(early);
@@ -299,7 +301,8 @@ test("Focus, Process and closing contacts follow the Figma formatting", async ({
   const processCards = page.locator(".process-card");
   await processCards.first().scrollIntoViewIfNeeded();
   await expect(processCards.first()).toHaveCSS("border-top-color", "rgba(0, 0, 0, 0)");
-  await expect(processCards.first().locator(".card-border__stop--2")).toHaveCSS("stop-opacity", "0");
+  const processPaint = await processCards.first().locator(":scope > .card-border").evaluate((element) => decodeURIComponent(getComputedStyle(element).backgroundImage));
+  expect(processPaint.replace(/\s/g, "")).toContain('offset=".4742558"stop-color="rgb(114.633,222.787,114.159)"stop-opacity="0"');
   expect(await processCards.first().evaluate((element) => getComputedStyle(element).backgroundImage)).toBe("none");
   await expect(processCards.first()).toHaveCSS("border-radius", mobile ? "26px" : "80px");
   if (mobile) {
@@ -358,14 +361,14 @@ test("mobile card borders rotate their gradient with scroll", async ({ page }) =
   const card = page.locator(".process-card").first();
   await expect(page.locator("html")).toHaveAttribute("data-scroll-glow", "mobile");
   await expect(card.locator(":scope > .card-border")).toHaveCount(1);
-  const stroke = card.locator(":scope > .card-border linearGradient");
-  const initialPaint = await stroke.getAttribute("gradientTransform");
+  const stroke = card.locator(":scope > .card-border");
+  const initialPaint = await stroke.evaluate((el) => getComputedStyle(el, "::before").transform);
   const before = await card.evaluate((element) => getComputedStyle(element).getPropertyValue("--glow-angle"));
   await page.evaluate(() => window.scrollBy(0, 320));
   await page.waitForTimeout(100);
   const after = await card.evaluate((element) => getComputedStyle(element).getPropertyValue("--glow-angle"));
   expect(after).not.toBe(before);
-  expect(await stroke.getAttribute("gradientTransform")).not.toBe(initialPaint);
+  expect(await stroke.evaluate((el) => getComputedStyle(el, "::before").transform)).not.toBe(initialPaint);
   expect(Number.parseFloat(await card.evaluate((element) => getComputedStyle(element).getPropertyValue("--glow-opacity")))).toBeGreaterThan(0.8);
   const skillAngles = await page.locator(".skill-chip-rows--hard .skill-chip").evaluateAll((elements) => elements.slice(0, 6).map((element) => getComputedStyle(element).getPropertyValue("--glow-angle")));
   expect(new Set(skillAngles).size).toBeGreaterThan(4);
@@ -444,7 +447,8 @@ test("AI context, tool cards and app icons use the exact Figma geometry", async 
   await expect(context).toHaveCSS("border-top-width", "2px");
   await expect(context.locator(":scope > .dash-border-glow")).toHaveCount(0);
   await expect(context.locator(":scope > .card-border-glow")).toHaveCount(0);
-  await expect(context.locator(":scope > .card-border > path")).toHaveAttribute("stroke-dasharray", "4 4");
+  await expect(context.locator(":scope > .card-border")).toHaveAttribute("data-dash", "4 4");
+  expect(await context.locator(":scope > .card-border").evaluate((el) => decodeURIComponent(getComputedStyle(el).maskImage))).toContain('stroke-dasharray="4 4"');
   await expect(context).toHaveCSS("border-top-color", "rgba(0, 0, 0, 0)");
 
   const iconFrame = (page.viewportSize()?.width ?? 1000) <= 640
@@ -490,16 +494,17 @@ test("all cards have one painted border and icon exports have no extra ring", as
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/");
   await expect(page.locator("html")).toHaveAttribute("data-motion", "reduced");
-  const contours = await page.locator(".interactive-card:not(.app-icon-frame, .process-card__logo)").evaluateAll((cards) => cards.map((card) => ({
-    paths: card.querySelectorAll(":scope > .card-border > path").length,
+  const contours = await page.locator(".interactive-card").evaluateAll((cards) => cards.map((card) => ({
+    masks: card.querySelectorAll(":scope > .card-border").length,
     nativeBorder: getComputedStyle(card).borderTopColor,
     nativeGradient: getComputedStyle(card).backgroundImage,
   })));
   expect(contours.length).toBeGreaterThan(20);
   for (const contour of contours) {
-    expect(contour).toEqual({ paths: 1, nativeBorder: "rgba(0, 0, 0, 0)", nativeGradient: "none" });
+    expect(contour).toEqual({ masks: 1, nativeBorder: "rgba(0, 0, 0, 0)", nativeGradient: "none" });
   }
-  await expect(page.locator(".card-border-glow, .dash-border-glow, .app-icon-frame .card-border, .process-card__logo .card-border")).toHaveCount(0);
+  await expect(page.locator(".card-border-glow, .dash-border-glow")).toHaveCount(0);
+  expect(await page.locator(".app-icon-frame > img, .process-card__logo > img").evaluateAll((images) => images.every((image) => getComputedStyle(image).clipPath === "inset(6% round 18%)"))).toBe(true);
 });
 
 test("AI route translations replace their labels without adding another chip", async ({ page }) => {
@@ -584,4 +589,85 @@ test.describe("without JavaScript", () => {
     await expect(page.locator(".card-border-glow, .dash-border-glow")).toHaveCount(0);
     await expect(page.locator("#focus")).toHaveCSS("opacity", "1");
   });
+});
+
+test("ordinary circular corners keep Figma radii and one mask", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto("/");
+  await expect(page.locator("html")).toHaveAttribute("data-motion", "reduced");
+  const card = page.locator(".process-card").first();
+  const radius = (page.viewportSize()?.width ?? 1000) <= 640 ? 26 : 80;
+  await expect(card).toHaveCSS("clip-path", `inset(0px round ${radius}px)`);
+  await expect(card).toHaveCSS("border-radius", `${radius}px`);
+  await expect(card.locator(":scope > .card-border")).toHaveAttribute("data-radius", String(radius));
+  const mask = await card.locator(":scope > .card-border").evaluate((el) => decodeURIComponent(getComputedStyle(el).maskImage));
+  expect(mask).toContain(`<rect`);
+  expect(mask).toContain(`rx="${radius - 0.5}"`);
+  expect(mask).not.toContain("<path");
+});
+
+test("icon frame lights move again without an unmasked original ring", async ({ page }) => {
+  await page.goto("/");
+  const mobile = (page.viewportSize()?.width ?? 1000) <= 640;
+  const icons = [page.locator(mobile ? ".workflow-scene--mobile .app-icon-frame" : ".workflow-scene--desktop .app-icon-frame").first(), page.locator(".process-card__logo").first()];
+  for (const icon of icons) {
+    await icon.scrollIntoViewIfNeeded();
+    await page.waitForTimeout(900);
+    const border = icon.locator(":scope > .card-border");
+    await expect(border).toHaveCount(1);
+    const before = await border.evaluate((el) => getComputedStyle(el, "::before").transform);
+    if (mobile) await page.evaluate(() => window.scrollBy(0, 140));
+    else await icon.hover();
+    await expect.poll(async () => border.evaluate((el) => Number(getComputedStyle(el, "::before").opacity))).toBeGreaterThan(0.1);
+    await expect.poll(async () => border.evaluate((el) => getComputedStyle(el, "::before").transform)).not.toBe(before);
+    await expect(icon.locator("img")).toHaveCSS("clip-path", "inset(6% round 18%)");
+    await expect(icon).toHaveCSS("background-color", "rgba(0, 0, 0, 0)");
+  }
+});
+
+test("scrollbar and stationary cursor follow sections during fast bidirectional scroll", async ({ page }) => {
+  await page.goto("/");
+  await expect(page.locator("html")).toHaveAttribute("data-motion", "full");
+  const mobile = (page.viewportSize()?.width ?? 1000) <= 640;
+  const point = { x: (page.viewportSize()?.width ?? 1000) / 2, y: (page.viewportSize()?.height ?? 800) * 0.4 };
+  if (!mobile) await page.mouse.move(point.x, point.y);
+  for (const [selector, section, rgb] of [["#process-ai", "process", "53, 191, 39"], ["#theme-builders", "theme", "249, 158, 59"], ["#ai-workflow", "ai-workflow", "96, 139, 255"]]) {
+    await page.locator(selector).evaluate((element) => window.scrollTo(0, element.getBoundingClientRect().top + window.scrollY));
+    await expect(page.locator("html")).toHaveAttribute("data-scroll-section", section);
+    await expect(page.locator("html")).toHaveCSS("scrollbar-color", `rgb(${rgb}) rgb(0, 0, 0)`);
+    if (!mobile) {
+      const glow = page.locator("[data-cursor-glow]");
+      await expect(glow).toHaveAttribute("data-section", section);
+      const center = await glow.evaluate((el) => { const r = el.getBoundingClientRect(); return [r.x + r.width / 2, r.y + r.height / 2]; });
+      expect(Math.abs(center[0] - point.x)).toBeLessThan(1);
+      expect(Math.abs(center[1] - point.y)).toBeLessThan(1);
+    }
+  }
+});
+
+test("menu and language use the same smooth full-opacity font crossfade", async ({ page }) => {
+  test.skip((page.viewportSize()?.width ?? 1000) <= 640, "Desktop typeface hover");
+  await page.goto("/");
+  for (const [toggle, selector, close] of [["[data-menu-toggle]", ".menu-overlay nav a", "[data-menu-close]"], ["[data-language-toggle]", ".language-choice", "[data-language-close]"]]) {
+    await page.locator(toggle).click();
+    const control = page.locator(selector).first();
+    const label = control.locator(".morph-label");
+    const box = await control.boundingBox();
+    await page.keyboard.press("Tab");
+    await control.focus();
+    await expect.poll(async () => label.evaluate((el) => Number(getComputedStyle(el).getPropertyValue("--label-progress")))).toBeGreaterThan(0);
+    const progressing = await label.evaluate((el) => Number(getComputedStyle(el).getPropertyValue("--label-progress")));
+    expect(progressing).toBeLessThan(1);
+    await expect(label.locator(".morph-label__fill")).toHaveCSS("opacity", "1");
+    await expect(control).toHaveCSS("opacity", "1");
+    expect(await control.boundingBox()).toEqual(box);
+    await page.locator(close).click();
+  }
+});
+
+test("avatar ring and portrait have an opaque backing", async ({ page }) => {
+  await page.goto("/");
+  await expect(page.locator(".avatar-button")).toHaveCSS("background-color", "rgb(0, 0, 0)");
+  await expect(page.locator(".avatar-button")).toHaveCSS("border-radius", "50%");
+  await expect(page.locator(".contact-avatar")).toHaveCSS("background-color", "rgb(0, 0, 0)");
 });

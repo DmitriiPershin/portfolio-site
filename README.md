@@ -11,12 +11,13 @@ Production portfolio implemented from the current desktop and mobile Figma layou
 - Exact Figma section icons, desktop AI routes, project visuals, and avatar are stored locally. Hero, section headings, overlays, closing title, and metrics are selectable live Joyride text.
 - The language selector opens on every breakpoint. Desktop follows `501:2`/`501:45`; mobile follows `530:1103`. RU/EN persists locally.
 - Desktop controls retain the Figma `64 px` geometry at `top: 64/148 px; right: 48 px`. Mobile controls align to the hero logo's outer edges, with the role centred between them. After `40 px`, downward scrolling hides the header and upward scrolling restores it on both breakpoints.
-- The desktop menu scales as one group to fit all eight entries even in a short viewport. Menu hover changes Joyride face at full opacity; language-choice hover retains its separate 40% treatment.
+- The desktop menu scales as one group to fit all eight entries even in a short viewport. Menu and RUS/ENG use the same smooth Outline→Regular crossfade at full control opacity, with the border highlight's response timing. Both faces remain live text and label geometry stays fixed.
 - The avatar opens the responsive Figma contact overlay. It is `120 × 120 px` desktop and `60 × 60 px` mobile, with `110.118/55.059 px` inner crops. It remains visible in the authored desktop contact composition, while mobile uses the overlay's central avatar; it hides over the final contacts and non-contact overlays.
-- AI Workflow keeps seven crisp desktop SVG route groups. The three translated route labels are live text inside their original SVG chips, never a second chip over a Russian export. Each `150/54 px` application frame retains the exact Figma artwork and its own contour, without a generated second ring. Mobile keeps the authored centred arrow groups.
+- AI Workflow keeps seven crisp desktop SVG route groups. The three translated route labels are live text inside their original SVG chips, never a second chip over a Russian export. Each `150/54 px` application frame retains the exact Figma artwork; its baked outer rim is clipped and replaced by one animated contour. Mobile keeps the authored centred arrow groups.
 - Focus follows the separate desktop/mobile copy composition: `40/52 px` headline and `16/32 px` body on desktop; `14/22 px` body with the authored break and `20 px` paragraph gap on mobile.
-- Cards use one SVG gradient stroke with Figma-smoothed corners; native border paint is disabled once that contour is ready. The same stroke reacts to pointer/scroll, including Context's `2 px / 4 4` dashes. Hard/Soft Skills and Process gradients were checked against raw Figma layer data; see `reports/figma-border-audit-2026-09-05.md`.
-- Each card has a deterministic golden-angle phase. The `266 px` cursor light adopts the section heading colour at `0.45` opacity, 10% below the previous intensity. Mobile skill rows stretch to both container edges.
+- Cards use ordinary circular corners at the existing Figma radius values (no corner smoothing, per Dmitrii's latest decision). One mask owns the border: its authored gradient stays still while the previous conic light moves inside the same contour. Context retains its `2 px / 4 4` dashes. Source paint values are recorded in `reports/figma-border-audit-2026-09-05.md`.
+- Each card and app/Process icon frame has a deterministic golden-angle phase. The `266 px / 0.45` cursor light updates its section colour on pointer movement AND scrolling, with faster position response. The native scrollbar follows the section at 40% viewport height. Mobile skill rows stretch to both container edges.
+- Avatar buttons and the contact avatar have an opaque black circular backing, preventing content from showing between ring and portrait.
 - Theme Builder uses separate desktop/mobile artwork; its `250` counter now takes `1.8 s`, while Interfaces counters retain `0.9 s`.
 - Mobile Process & AI and Theme Builders details reveal additional copy once; the button moves with expansion and disappears.
 - Pet Project uses the new desktop and mobile compositions: `1066 × 600 px` desktop preview and `342 × 195 px` mobile preview, with supplied website, Chrome, and ChatGPT destinations.
@@ -72,7 +73,7 @@ npm run qa:screenshots
 ```
 
 The product review checklist is in `checks.md`. Reduced-motion desktop/mobile renders are written to `artifacts/qa/`.
-The latest recorded verification is in `docs/test-log-2026-09-05.md`.
+The latest motion revision is recorded in `docs/test-log-2026-09-05-motion.md`; the earlier contour correction remains in `docs/test-log-2026-09-05.md`.
 For an already running deployment, use `PORTFOLIO_BASE_URL=https://your-deployment npm test` (no local server is started).
 
 ## Spacing changes
@@ -95,9 +96,9 @@ The mobile breakpoint overrides the same tokens. Section-specific geometry remai
 - Headings and copy: independent scroll reveals, including the second Soft Skills heading.
 - Cards: soft entry with 18–22 px travel.
 - AI Workflow: seven joined Figma route groups reveal after the desktop cards; mobile uses grouped CSS tracks tied directly to the one/two/three-chip rows.
-- Desktop hover: the existing stroke's gradient rotates and subtly increases its translucent stops within `340 px` of the pointer. Angle interpolation is `0.055`, intensity interpolation is `0.04`, maximum intensity is `0.9`, with smoothstep falloff. Path geometry never changes on hover.
-- Cursor light: a `266 px` section-coloured radial glow follows a fine pointer with `0.12` interpolation and `0.45` maximum opacity; it is removed for touch and reduced motion.
-- Mobile scroll: the same gradient rotates at `0.22deg` per scroll pixel, with a deterministic `137.5deg` offset per card. No second border is drawn. Original icon artwork brightens without adding a contour.
+- Desktop hover: restored the previous conic light's 38/82/112/150/220-degree profile inside one border mask. The authored base gradient stays still. Pointer proximity is `340 px`, angle response `0.055`, intensity response `0.04`, maximum intensity `0.9`; response is normalized to a 60 Hz reference and shared with menu/language crossfades.
+- Cursor light: `266 px`, `0.32` position response, `0.45` maximum opacity. Scroll updates colour independently of pointer events and snaps to current screen coordinates. Touch and reduced-motion modes omit the light; the native scrollbar still receives section colour. OS settings control whether the scrollbar itself is visible.
+- Mobile scroll: the conic light rotates at `0.22deg` per scroll pixel, with a `137.5deg` offset per card/icon. Original app/Process artwork keeps its scale; only the baked outer frame is clipped out, replaced by the single animated normal-radius contour. No additional backing is added to these icon frames.
 - Numeric metrics: each digit makes one full `0–9` pass over `0.9 s` (`1.8 s` only for `250`), with `cubic-bezier(0.22, 1, 0.36, 1)` and a `45 ms` stagger. Reduced motion and no-JavaScript states show the final value immediately.
 - Mobile Details: extra copy expands over 720 ms with `power3.out`; the button follows the new height, fades, and cannot be toggled closed accidentally.
 - Reduced motion: all content and complete connectors are immediately visible, with no ambient drift or long transforms.

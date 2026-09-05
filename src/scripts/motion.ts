@@ -1,6 +1,6 @@
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { initCardBorders, paintCardBorder } from "./borders";
+import { initCardBorders } from "./borders";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -242,60 +242,132 @@ function initDetails() {
   });
 }
 
-function initCursorGlow() {
-  if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
-  const glow = select<HTMLElement>("[data-cursor-glow]");
-  if (!glow) return;
+// The same 60 Hz exponential response is shared by borders and type crossfades.
+const responseFactor = (amount: number, elapsed: number) => 1 - Math.pow(1 - amount, Math.min(elapsed, 64) / (1000 / 60));
 
-  const smoothing = readMotionNumber("--cursor-glow-smoothing", 0.12);
-  let currentX = 0;
-  let currentY = 0;
-  let targetX = 0;
-  let targetY = 0;
+function initTypeCrossfades() {
+  const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const smoothing = readMotionNumber("--border-glow-opacity-smoothing", 0.04);
+  selectAll<HTMLElement>("[data-morph-label]").forEach((label) => {
+    const control = label.closest<HTMLElement>("a, button");
+    if (!control) return;
+    let current = 0;
+    let target = 0;
+    let frame = 0;
+    let previous = 0;
+    const render = (now: number) => {
+      frame = 0;
+      current += (target - current) * responseFactor(smoothing, now - previous);
+      previous = now;
+      if (Math.abs(target - current) < 0.002) current = target;
+      label.style.setProperty("--label-progress", String(current));
+      if (current !== target) frame = requestAnimationFrame(render);
+    };
+    const update = () => {
+      target = control.matches(":hover, :focus-visible") ? 1 : 0;
+      if (reduced) {
+        current = target;
+        label.style.setProperty("--label-progress", String(target));
+      } else if (!frame) {
+        previous = performance.now();
+        frame = requestAnimationFrame(render);
+      }
+    };
+    ["pointerenter", "pointerleave", "focus", "blur"].forEach((event) => control.addEventListener(event, update));
+    window.addEventListener("pagehide", () => cancelAnimationFrame(frame), { once: true });
+  });
+}
+
+function initSectionFeedback() {
+  const root = document.documentElement;
+  const sections = selectAll<HTMLElement>("[data-section]");
+  const glow = select<HTMLElement>("[data-cursor-glow]");
+  const canGlow = Boolean(glow) && window.matchMedia("(hover: hover) and (pointer: fine)").matches
+    && !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const smoothing = readMotionNumber("--cursor-glow-smoothing", 0.32);
+  let geometry: { top: number; bottom: number; rgb: string; id: string }[] = [];
+  let currentX = 0, currentY = 0, targetX = 0, targetY = 0;
   let hasPosition = false;
   let frame = 0;
-  const sections = selectAll<HTMLElement>("[data-section]");
+  let previous = 0;
+  let needsGeometry = true;
 
-  const updateColor = (event: PointerEvent) => {
-    let section = (event.target as Element | null)?.closest<HTMLElement>("[data-section]") ?? null;
-    if (!section) {
-      section = sections.reduce<{ node: HTMLElement | null; distance: number }>((closest, candidate) => {
-        const rect = candidate.getBoundingClientRect();
-        const distance = event.clientY < rect.top ? rect.top - event.clientY : event.clientY > rect.bottom ? event.clientY - rect.bottom : 0;
-        return distance < closest.distance ? { node: candidate, distance } : closest;
-      }, { node: null, distance: Number.POSITIVE_INFINITY }).node;
-    }
-    const rgb = section ? getComputedStyle(section).getPropertyValue("--section-rgb").trim() : "";
-    if (rgb) glow.style.setProperty("--cursor-glow-rgb", rgb);
+  const measure = () => {
+    geometry = sections.map((section) => {
+      const rect = section.getBoundingClientRect();
+      return { top: rect.top + window.scrollY, bottom: rect.bottom + window.scrollY,
+        rgb: getComputedStyle(section).getPropertyValue("--section-rgb").trim() || "118, 85, 146",
+        id: section.dataset.section || "" };
+    });
+    needsGeometry = false;
   };
-
-  const render = () => {
+  const atY = (viewportY: number) => {
+    const y = window.scrollY + viewportY;
+    return geometry.reduce((best, section) => {
+      const distance = y < section.top ? section.top - y : y > section.bottom ? y - section.bottom : 0;
+      return distance < best.distance ? { section, distance } : best;
+    }, { section: geometry[0], distance: Infinity }).section;
+  };
+  const updateColors = () => {
+    if (needsGeometry) measure();
+    const readingSection = atY(window.innerHeight * 0.4);
+    if (readingSection) {
+      root.style.setProperty("--scrollbar-rgb", readingSection.rgb);
+      root.dataset.scrollSection = readingSection.id;
+    }
+    if (canGlow && hasPosition && glow) {
+      const pointerSection = atY(targetY);
+      if (pointerSection) {
+        glow.style.setProperty("--cursor-glow-rgb", pointerSection.rgb);
+        glow.dataset.section = pointerSection.id;
+      }
+    }
+  };
+  const render = (now: number) => {
     frame = 0;
-    currentX += (targetX - currentX) * smoothing;
-    currentY += (targetY - currentY) * smoothing;
-    glow.style.transform = `translate3d(${Math.round(currentX * 100) / 100}px, ${Math.round(currentY * 100) / 100}px, 0) translate(-50%, -50%)`;
+    updateColors();
+    if (!canGlow || !hasPosition || !glow) return;
+    const factor = responseFactor(smoothing, now - previous);
+    previous = now;
+    currentX += (targetX - currentX) * factor;
+    currentY += (targetY - currentY) * factor;
+    glow.style.transform = `translate3d(${currentX}px, ${currentY}px, 0) translate(-50%, -50%)`;
     if (Math.abs(targetX - currentX) > 0.1 || Math.abs(targetY - currentY) > 0.1) {
-      frame = window.requestAnimationFrame(render);
+      frame = requestAnimationFrame(render);
     }
   };
-
-  const schedule = (event: PointerEvent) => {
-    if (event.pointerType === "touch") return;
+  const schedule = () => {
+    if (!frame) {
+      previous = performance.now();
+      frame = requestAnimationFrame(render);
+    }
+  };
+  const onPointer = (event: PointerEvent) => {
+    if (!canGlow || !glow || event.pointerType === "touch") return;
     targetX = event.clientX;
     targetY = event.clientY;
-    updateColor(event);
     if (!hasPosition) {
       currentX = targetX;
       currentY = targetY;
       hasPosition = true;
     }
     glow.dataset.active = "true";
-    if (!frame) frame = window.requestAnimationFrame(render);
+    schedule();
   };
-
-  window.addEventListener("pointermove", schedule, { passive: true });
-  document.documentElement.addEventListener("pointerleave", () => { glow.dataset.active = "false"; });
-  window.addEventListener("blur", () => { glow.dataset.active = "false"; });
+  window.addEventListener("pointermove", onPointer, { passive: true });
+  window.addEventListener("scroll", () => {
+    // Fixed light follows screen coordinates, not the previously hovered DOM node.
+    currentX = targetX;
+    currentY = targetY;
+    schedule();
+  }, { passive: true });
+  window.addEventListener("resize", () => { needsGeometry = true; schedule(); }, { passive: true });
+  const resize = new ResizeObserver(() => { needsGeometry = true; schedule(); });
+  sections.forEach((section) => resize.observe(section));
+  document.documentElement.addEventListener("pointerleave", () => { if (glow) glow.dataset.active = "false"; });
+  window.addEventListener("blur", () => { if (glow) glow.dataset.active = "false"; });
+  window.addEventListener("pagehide", () => { resize.disconnect(); cancelAnimationFrame(frame); }, { once: true });
+  updateColors();
 }
 
 function initBorderGlow() {
@@ -325,9 +397,12 @@ function initBorderGlow() {
   let pointerY = 0;
   let hasPointer = false;
   let frame = 0;
+  let previous = 0;
 
-  const render = () => {
+  const render = (now: number) => {
     frame = 0;
+    const elapsed = now - previous;
+    previous = now;
     let unsettled = false;
     targets.forEach((card) => {
       const state = states.get(card);
@@ -340,24 +415,26 @@ function initBorderGlow() {
       const centerY = rect.top + rect.height / 2;
       state.targetAngle = (Math.atan2(pointerY - centerY, pointerX - centerX) * 180) / Math.PI;
       const hovered = card.matches(":hover");
-      const proximity = hovered ? 1 : hasPointer ? Math.max(0, 1 - distance / BORDER_GLOW.proximityRadius) : 0;
+      const proximity = hasPointer ? (hovered ? 1 : Math.max(0, 1 - distance / BORDER_GLOW.proximityRadius)) : 0;
       const easedProximity = proximity * proximity * (3 - 2 * proximity);
       state.targetOpacity = easedProximity * BORDER_GLOW.maxOpacity;
 
       const angleDelta = ((state.targetAngle - state.angle + 540) % 360) - 180;
-      state.angle += angleDelta * BORDER_GLOW.angleSmoothing;
-      state.opacity += (state.targetOpacity - state.opacity) * BORDER_GLOW.opacitySmoothing;
+      state.angle += angleDelta * responseFactor(BORDER_GLOW.angleSmoothing, elapsed);
+      state.opacity += (state.targetOpacity - state.opacity) * responseFactor(BORDER_GLOW.opacitySmoothing, elapsed);
       if (Math.abs(angleDelta) > 0.08 || Math.abs(state.targetOpacity - state.opacity) > 0.004) unsettled = true;
 
       card.style.setProperty("--glow-angle", `${Math.round(state.angle * 100) / 100}deg`);
       card.style.setProperty("--glow-opacity", `${Math.round(state.opacity * 1000) / 1000}`);
-      paintCardBorder(card, state.angle, state.opacity);
     });
     if (unsettled) frame = window.requestAnimationFrame(render);
   };
 
   const scheduleFrame = () => {
-    if (!frame) frame = window.requestAnimationFrame(render);
+    if (!frame) {
+      previous = performance.now();
+      frame = window.requestAnimationFrame(render);
+    }
   };
 
   const schedule = (event: PointerEvent) => {
@@ -400,7 +477,6 @@ function initMobileScrollGlow() {
     targets.forEach((card, index) => {
       const angle = (scrollAngle + index * cardAngleOffset) % 360;
       card.style.setProperty("--glow-angle", `${Math.round(angle * 100) / 100}deg`);
-      paintCardBorder(card, angle, maxOpacity);
     });
   };
 
@@ -420,8 +496,9 @@ function initMobileScrollGlow() {
 function showEverything() {
   gsap.set(
     ["[data-hero-logo]", "[data-hero-role]", "[data-reveal]", "[data-card-reveal]", "[data-workflow-node]", "[data-workflow-input]", "[data-mobile-workflow-node]", "[data-mobile-workflow-input]", ".workflow-route", "[data-mobile-flow]"],
-    { opacity: 1, y: 0, scale: 1, clipPath: "none", clearProps: "transform" },
+    { opacity: 1, y: 0, scale: 1, clearProps: "transform" },
   );
+  gsap.set(["[data-hero-logo]", ".workflow-route", "[data-mobile-flow]"], { clipPath: "none" });
   selectAll<HTMLElement>(".display-heading-mask").forEach((mask) => { mask.style.overflow = "visible"; });
   selectAll<HTMLElement>("[data-rolling-number]").forEach((number) => number.classList.add("is-complete"));
 }
@@ -541,9 +618,12 @@ export async function initPortfolioMotion() {
     document.fonts.load('16px "Joyride Extended Outline"'),
     document.fonts.load('16px "Joyride Outline"'),
     document.fonts.load('16px "Joyride WIDE"'),
+    document.fonts.load('16px "Joyride Regular"'),
     document.fonts.load('16px "LINE Seed JP"'),
   ]);
   initMenuFit();
+  initTypeCrossfades();
+  initSectionFeedback();
 
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   if (reducedMotion) {
@@ -555,7 +635,6 @@ export async function initPortfolioMotion() {
 
   document.documentElement.dataset.motion = "full";
   initCardBorders();
-  initCursorGlow();
   initBorderGlow();
   initMobileScrollGlow();
   initHero();

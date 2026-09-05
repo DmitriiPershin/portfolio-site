@@ -91,12 +91,21 @@
   --mobile-border-glow-card-offset: 137.5;
   --cursor-glow-size: 266px;
   --cursor-glow-opacity: 0.45;
-  --cursor-glow-smoothing: 0.12;
+  --cursor-glow-smoothing: 0.32;
   --cursor-glow-rgb: 118, 85, 146;
+  --scrollbar-rgb: 118, 85, 146;
   --menu-viewport-margin: 40;
   --mobile-logo-width: min(347.547px, calc(100vw - 42.453px));
   --rolling-duration-default: 0.9s;
   --rolling-duration-theme: 1.8s;
+}
+
+::-webkit-scrollbar { width: 10px; }
+::-webkit-scrollbar-track { background: #000; }
+::-webkit-scrollbar-thumb {
+  border: 2px solid #000;
+  border-radius: 10px;
+  background: rgb(var(--scrollbar-rgb));
 }
 
 *,
@@ -110,7 +119,8 @@ html {
   overflow-x: clip;
   background: var(--color-bg);
   scroll-behavior: smooth;
-  scrollbar-color: var(--color-purple) var(--color-bg);
+  scrollbar-color: rgb(var(--scrollbar-rgb)) var(--color-bg);
+  scrollbar-width: thin;
 }
 
 body {
@@ -480,8 +490,27 @@ p {
 
 .menu-overlay a:hover,
 .menu-overlay a:focus-visible {
-  font-family: "Joyride Regular", sans-serif;
   opacity: 1;
+}
+
+.morph-label {
+  --label-progress: 0;
+  --morph-base-font: "Joyride Outline", sans-serif;
+  --morph-hover-font: "Joyride Regular", sans-serif;
+  display: inline-grid;
+  align-items: center;
+}
+
+.morph-label > span { grid-area: 1 / 1; line-height: inherit; }
+.morph-label__base {
+  font-family: var(--morph-base-font);
+  opacity: calc(1 - var(--label-progress));
+}
+.morph-label__fill {
+  font-family: var(--morph-hover-font);
+  opacity: var(--label-progress);
+  pointer-events: none;
+  user-select: none;
 }
 
 .language-dialog {
@@ -517,8 +546,7 @@ p {
 
 .language-choice:hover,
 .language-choice:focus-visible {
-  font-family: "Joyride Regular", sans-serif;
-  opacity: 0.4;
+  opacity: 1;
 }
 
 .overlay-close {
@@ -584,7 +612,7 @@ body.overlay-open .floating-header {
   height: 120px;
   padding: 0;
   border-radius: 50%;
-  background: transparent;
+  background: #000;
   filter: drop-shadow(0 10px 26px rgba(118, 85, 146, 0.4));
   transition: opacity 650ms var(--ease-ui), transform 700ms var(--ease-ui), filter 700ms var(--ease-ui), visibility 0s linear 0s;
 }
@@ -717,6 +745,8 @@ body.overlay-open .floating-header {
 
 .contact-avatar {
   display: none;
+  border-radius: 50%;
+  background: #000;
 }
 
 .more-button {
@@ -925,7 +955,7 @@ body.overlay-open .floating-header {
   --card-fill: #000;
 }
 
-/* One contour: the SVG stroke owns both the resting paint and its animation. */
+/* One mask owns both the resting gradient and the moving conic light. */
 .interactive-card {
   --card-rgb: 118, 85, 146;
   --glow-angle: 0deg;
@@ -942,40 +972,46 @@ body.overlay-open .floating-header {
   border-color: transparent !important;
   background-image: none !important;
   background-color: var(--card-fill, #000);
+  /* Clip at the outer border box, not the padding edge that hides a thin stroke. */
+  overflow: visible;
 }
 
 .interactive-card > .card-border {
   position: absolute;
-  inset: calc(-1 * var(--stroke-width));
   z-index: 5;
-  width: calc(100% + var(--stroke-width) * 2);
   max-width: none;
-  height: calc(100% + var(--stroke-width) * 2);
-  overflow: visible;
+  overflow: hidden;
+  mask-size: 100% 100%;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
   pointer-events: none;
 }
 
-.card-border stop {
-  stop-color: rgb(var(--card-rgb));
+.card-border::before {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: var(--glow-cover);
+  height: var(--glow-cover);
+  background: conic-gradient(from 0deg, transparent 0deg,
+    rgba(var(--card-rgb), 0.1) 38deg, rgba(var(--card-rgb), 0.64) 82deg,
+    rgba(var(--card-rgb), 0.98) 112deg, rgba(var(--card-rgb), 0.68) 150deg,
+    transparent 220deg);
+  opacity: var(--glow-opacity);
+  content: "";
+  transform: translate(-50%, -50%) rotate(var(--glow-angle));
 }
 
-.card-border__stop--1 {
-  stop-color: rgb(var(--stroke-mid-rgb)) !important;
-  stop-opacity: calc(0.1 + var(--glow-opacity) * 0.15);
+.interactive-card:focus-visible > .card-border::before {
+  background: var(--color-text);
+  opacity: 1;
 }
 
-.card-border__stop--2 {
-  stop-color: rgb(var(--stroke-fade-rgb, var(--stroke-mid-rgb))) !important;
-  stop-opacity: calc(var(--stroke-fade-alpha) + var(--glow-opacity) * 0.12);
-}
-
-.card-border__stop--3 {
-  stop-opacity: calc(var(--stroke-return-alpha) + var(--glow-opacity) * 0.12);
-}
-
-.app-icon-frame > img,
-.process-card__logo > img {
-  filter: brightness(calc(1 + var(--glow-opacity) * 0.24));
+.app-icon-frame[data-border-ready] > img,
+.process-card__logo[data-border-ready] > img {
+  /* Preserve the original artwork/scale, remove only its baked outer frame. */
+  clip-path: inset(6% round 18%);
 }
 
 /* AI workflow */
@@ -1105,6 +1141,9 @@ body.overlay-open .floating-header {
 
 .app-icon-frame {
   --card-rgb: 64, 88, 244;
+  --card-fill: transparent;
+  --stroke-mid-rgb: 160, 172, 251;
+  --stroke-fade-alpha: 0;
   display: grid;
   width: 150px;
   height: 150px;
@@ -1209,6 +1248,10 @@ body.overlay-open .floating-header {
 
 .process-card__logo {
   --card-rgb: 53, 191, 39;
+  --card-fill: transparent;
+  --stroke-mid-rgb: 176.266, 254.573, 189.317;
+  --stroke-fade-rgb: 114.633, 222.787, 114.159;
+  --stroke-fade-alpha: 0;
   display: block;
   width: 150px;
   height: 150px;
@@ -1735,6 +1778,10 @@ html.motion-enabled [data-mobile-flow] {
 }
 
 @media (max-width: 640px) {
+  .morph-label {
+    --morph-base-font: "LINE Seed JP", sans-serif;
+    --morph-hover-font: "LINE Seed JP", sans-serif;
+  }
   :root {
     --page-gutter: 24px;
     --section-gap: 120px;
@@ -1898,7 +1945,7 @@ html.motion-enabled [data-mobile-flow] {
 
   .language-choice:hover,
   .language-choice:focus-visible {
-    opacity: 0.4;
+    opacity: 1;
   }
 
   .avatar-button {
@@ -2781,6 +2828,11 @@ html.motion-enabled [data-mobile-flow] {
   html.motion-enabled .workflow-route,
   html.motion-enabled [data-mobile-flow] {
     opacity: 1 !important;
+  }
+
+  html.motion-enabled [data-hero-logo],
+  html.motion-enabled .workflow-route,
+  html.motion-enabled [data-mobile-flow] {
     clip-path: none !important;
   }
 

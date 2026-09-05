@@ -103,4 +103,21 @@ for (const viewport of [{ width: 1440, height: 900 }, { width: 390, height: 844 
   await context.close();
 }
 
+const hoverContext = await browser.newContext({
+  viewport: { width: 1440, height: 900 },
+  reducedMotion: "no-preference",
+});
+const hoverPage = await hoverContext.newPage();
+await hoverPage.goto(baseURL, { waitUntil: "networkidle" });
+for (const [name, cardSelector, iconSelector] of [
+  ["process", ".process-card", ".process-card__logo"],
+  ["workflow", ".workflow-card", ".app-icon-frame"],
+]) {
+  const card = hoverPage.locator(cardSelector).first();
+  await card.scrollIntoViewIfNeeded();
+  await card.locator(iconSelector).hover();
+  await hoverPage.waitForTimeout(1400);
+  await card.screenshot({ path: `${outputDir}/desktop-1440-${name}-hover.png` });
+}
+await hoverContext.close();
 await browser.close();

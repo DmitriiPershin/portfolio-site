@@ -1,0 +1,8 @@
+---
+interface Props { text: string }
+const { text } = Astro.props;
+---
+<span class="morph-label" data-morph-label>
+  <span class="morph-label__base">{text}</span>
+  <span class="morph-label__fill" aria-hidden="true">{text}</span>
+</span>

@@ -1,11 +1,20 @@
 # Bugs
 
+- **Resolved — 2026-09-05 (motion revision):** reduced-motion fallback reset the ordinary card clip to `none` in both GSAP and CSS. Fallback clip resets now target only actual reveal masks (hero and connectors), preserving card geometry in every motion mode.
+
 ## Open
 
 - Final spacing values remain provisional until Dmitrii reviews the deployed desktop and mobile renders against Figma.
 - English has no dedicated Figma frame, so long English labels may need a later typography pass.
 
 ## Resolved
+
+- 2026-09-05 (motion revision): Replacing the previous conic light with a rotating linear gradient changed the motion character. Restored the previous light profile/timing within one shared mask, with ordinary corners at the unchanged radius values requested by Dmitrii.
+- 2026-09-05 (motion revision): App/Process icon frames no longer had moving border light. Their original baked contours are now clipped away and replaced by the same single animated mask, preserving artwork size and avoiding double rings.
+- 2026-09-05 (motion revision): Cursor colour was only updated on pointermove, so it stayed on the previous section during scrolling. Pointer and scroll now share geometry-based section lookup; position response increased and scrolling keeps fixed-screen coordinates.
+- 2026-09-05 (motion revision): Font-family hover switched discretely; RUS/ENG also retained obsolete40% opacity. Replaced both with a shared full-opacity live-text crossfade using the border intensity timing and stable label bounds.
+- 2026-09-05 (motion revision): Transparent avatar backing let page content show between the ring and portrait. Added opaque black circular backing to floating and contact avatars.
+- 2026-09-05 (motion revision QA): Native overflow clipping at the padding edge hid thin replacement strokes. The common rounded clip now uses the outer border box. Removed a legacy purple scrollbar rule that overrode the new section colour.
 
 - 2026-09-05: Cards and app/Process icons showed two competing contours, especially at smoothed corners. Replaced card paint with one gradient SVG path and removed generated icon rings. Raw Figma inspection corrected the prior erroneous solid-stroke interpretation for Hard Skills, Workflow, and Process; details in `reports/figma-border-audit-2026-09-05.md`. Older solid-stroke entries below are historical, not current styling rules.
 - 2026-09-05: Hero i dots clipped during entry and popped out at reveal completion. The mask now includes ink overhang throughout the reveal, which starts after font loading without resizing the logo.
