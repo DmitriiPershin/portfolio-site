@@ -10,6 +10,8 @@ Hiring managers, design leaders, founders, and product teams evaluating senior p
 
 ## Current scope
 
+The English `/cv` page uses the user-edited Figma desktop/mobile layouts (`584:3` / `584:4`). Entry from the main menu shares a GSAP logo transition; reduced-motion/no-JavaScript navigation is immediate. The revised PDF remains a local review artifact until explicit approval.
+
 The full Russian desktop and mobile portfolio is implemented, with an English content layer:
 
 1. Hero.

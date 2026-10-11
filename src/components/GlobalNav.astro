@@ -9,6 +9,7 @@ const sections = [
   ["#theme-builders", "THEME BUILDERS"],
   ["#interfaces", "INTERFACES"],
   ["#pet-project", "PET PROJECT"],
+  ["/cv", "CV"],
 ];
 ---
 
@@ -41,10 +42,12 @@ const sections = [
   </button>
   <nav aria-label="Разделы портфолио">
     {sections.map(([href, label], index) => (
-      <a href={href} class:list={[index === 1 && "is-current"]}><MorphLabel text={label} /></a>
+      <a href={href} data-cv-link={href === "/cv" ? "" : undefined} class:list={[index === 1 && "is-current"]}><MorphLabel text={label} /></a>
     ))}
   </nav>
 </div>
+
+<noscript><a class="cv-fallback-link" href="/cv">CV →</a></noscript>
 
 <button class="avatar-button" type="button" aria-label="Открыть контакты" aria-expanded="false" aria-controls="contact-overlay" data-contact-toggle>
   <span class="avatar-button__photo-shell">

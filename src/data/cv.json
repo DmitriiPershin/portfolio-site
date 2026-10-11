@@ -1,0 +1,72 @@
+{
+  "name": "Dmitrii Pershin",
+  "role": "Senior Product Designer",
+  "subtitle": "AI-assisted Design · DesignOps & Automation",
+  "summary": "I build AI-assisted design workflows, reusable Figma systems and tools that help teams turn client briefs into consistent, branded product interfaces. My experience combines product design, white-label fintech and practical design-process automation.",
+  "experience": [
+    {
+      "title": "Premium Exchanger",
+      "meta": "Senior Product Designer · AI workflows & design systems",
+      "dates": "2022 — Present",
+      "bullets": [
+        "Developed AI-assisted pipelines for brand exploration, turning briefs and references into style directions, then transferring design variables into Figma.",
+        "Built reusable Figma theme builders for internal, freelance and client-side designers working on white-label crypto products.",
+        "Connected generated brand styles with components, variables and themes to reduce repeated manual setup.",
+        "Ran design reviews and documented product logic, UI rules and decisions for design handoff."
+      ]
+    },
+    {
+      "title": "Funduck",
+      "meta": "Investment portfolio platform · Product design",
+      "dates": "2022 · Before the transition to Premium",
+      "bullets": [
+        "Designed broker-report and API import flows, including file recognition errors and recovery.",
+        "Worked on investment asset tables and portfolio navigation.",
+        "Designed subscription states for trials, plan changes, cancellation and renewal."
+      ]
+    },
+    {
+      "title": "ATI.SU",
+      "meta": "Interface Designer · B2B logistics platform",
+      "dates": "Aug 2018 — Aug 2020",
+      "bullets": [
+        "Designed group and channel flows with invitations, access restrictions and moderation states.",
+        "Worked on reputation interfaces, recommendations, claims and company-status explanations.",
+        "Contributed to migrating the design system from Sketch to Figma.",
+        "Explored UX hypotheses for cargo-search entry and navigation behaviour."
+      ]
+    },
+    {
+      "title": "Audiomania",
+      "meta": "Designer / UX/UI Designer · Specialist audio retail",
+      "dates": "Jul 2013 — Jun 2018",
+      "bullets": [
+        "Designed desktop and mobile-web shopping flows for specialist audio equipment.",
+        "Covered product discovery, filtering and a five-step mobile checkout, including an email handoff."
+      ]
+    }
+  ],
+  "focus": [
+    "AI-assisted design workflows",
+    "DesignOps & process automation",
+    "Design tools & reusable systems",
+    "Multi-brand design production"
+  ],
+  "capabilities": [
+    "AI workflow prototyping",
+    "Figma components, variables & themes",
+    "Design reviews & documentation",
+    "Interaction design for complex products"
+  ],
+  "earlierCareer": "UX/UI design roles · 2010–2013\nMajor-Auto, Zakazhi24 and Technoshock.\nFreelance web design · 2008–2010.",
+  "education": "Tomsk State University of Control Systems and Radioelectronics\nSystems and Networks · Higher education · 2008",
+  "independent": "30 Minute Timer\nA visual countdown product for web, Chrome and ChatGPT.",
+  "contact": "mailto:pershindmitrii@gmail.com",
+  "timer": "https://www.30mintimer.com/",
+  "source": {
+    "fileKey": "RohXp9xh64xj3NpvNcCe4j",
+    "desktop": "584:3",
+    "mobile": "584:4",
+    "checked": "2026-10-11"
+  }
+}

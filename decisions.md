@@ -233,3 +233,13 @@ Decision: restore app/Process icon-frame light. Keep original asset bytes, scale
 Decision: menu and language use identical live-text Outline→Regular crossfades at full control opacity. Their intensity response is the same exponential interpolation as card light (0.04 at60 Hz), normalized for refresh rate; border angle response stays0.055.
 
 Decision: interpret “scroll in the section colour” as the native scrollbar. Its colour follows the section at40% viewport height; cursor colour independently follows the section at its screen Y. Update both on scrolling/resize and keep cursor position responsive. Give avatar rings an opaque black backing. No Figma source nodes were modified.
+
+### 2026-10-11 - Publish edited CV independently of PDF approval
+
+Decision: add `/cv` and a ninth CV entry in the existing navigation. Use actual visible copy from Figma `584:3` and `584:4`; do not restore removed team-summary or contact-list blocks. Keep correct mail/portfolio/download destinations even where Figma's footer instances retain stale hyperlinks.
+
+Decision: use the exact exported CV SVG for the CV page and final transition state; preserve the existing live Joyride hero at the start. GSAP remains the only animation runtime. Honour modified clicks, no JavaScript, reduced motion, direct URL visits and browser Back.
+
+Constraint: Dmitrii requested PDF approval before publishing its download. Keep review versions in the current Codex task workspace outside GitHub and Railway uploads. Keep Download PDF disabled until approval; no fake URL and no stale CV attachment.
+
+Decision: PDF uses the vector logo once, no repeated page-2 header or page numbers, dividers before purple section headings, and Contact / Portfolio at the end as well as beneath the introduction. This is a layout decision, not approval to publish the file.

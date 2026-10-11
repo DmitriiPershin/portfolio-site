@@ -7,11 +7,15 @@ Production portfolio implemented from the current desktop and mobile Figma layou
 
 ## Current state
 
+- `/cv` implements the edited desktop `584:3` and mobile `584:4` layouts in English, with selectable experience text and a local exact SVG wordmark. Contact, portfolio and timer links use their intended destinations.
+- The main section menu includes CV. Full-motion navigation shrinks/moves the live hero logo into the CV wordmark slot and crossfades to the exact CV artwork over 900 ms. Reduced-motion, modified-click/new-tab and no-JavaScript paths keep normal links. Browser back clears the transition layer.
+- A two-page PDF review is stored separately in the current Codex task workspace, with a vector logo, section dividers and contact links at the beginning/end. It is **awaiting Dmitrii’s approval** and not included in GitHub or Railway uploads. Download PDF buttons remain disabled until approval; no unapproved PDF is publicly served.
+
 - All portfolio sections are implemented in Astro + TypeScript with GSAP/ScrollTrigger as the only motion runtime.
 - Exact Figma section icons, desktop AI routes, project visuals, and avatar are stored locally. Hero, section headings, overlays, closing title, and metrics are selectable live Joyride text.
 - The language selector opens on every breakpoint. Desktop follows `501:2`/`501:45`; mobile follows `530:1103`. RU/EN persists locally.
 - Desktop controls retain the Figma `64 px` geometry at `top: 64/148 px; right: 48 px`. Mobile controls align to the hero logo's outer edges, with the role centred between them. After `40 px`, downward scrolling hides the header and upward scrolling restores it on both breakpoints.
-- The desktop menu scales as one group to fit all eight entries even in a short viewport. Menu and RUS/ENG use the same smooth Outline→Regular crossfade at full control opacity, with the border highlight's response timing. Both faces remain live text and label geometry stays fixed.
+- The desktop menu scales as one group to fit all nine entries even in a short viewport. Menu and RUS/ENG use the same smooth Outline→Regular crossfade at full control opacity, with the border highlight's response timing. Both faces remain live text and label geometry stays fixed.
 - The avatar opens the responsive Figma contact overlay. It is `120 × 120 px` desktop and `60 × 60 px` mobile, with `110.118/55.059 px` inner crops. It remains visible in the authored desktop contact composition, while mobile uses the overlay's central avatar; it hides over the final contacts and non-contact overlays.
 - AI Workflow keeps seven crisp desktop SVG route groups. The three translated route labels are live text inside their original SVG chips, never a second chip over a Russian export. Each `150/54 px` application frame retains the exact Figma artwork; its baked outer rim is clipped and replaced by one animated contour. Mobile keeps the authored centred arrow groups.
 - Focus follows the separate desktop/mobile copy composition: `40/52 px` headline and `16/32 px` body on desktop; `14/22 px` body with the authored break and `20 px` paragraph gap on mobile.
@@ -73,7 +77,8 @@ npm run qa:screenshots
 ```
 
 The product review checklist is in `checks.md`. Reduced-motion desktop/mobile renders are written to `artifacts/qa/`.
-The latest motion revision is recorded in `docs/test-log-2026-09-05-motion.md`; the earlier contour correction remains in `docs/test-log-2026-09-05.md`.
+The CV implementation and checks are recorded in `docs/test-log-2026-10-11-cv.md`.
+The latest earlier motion revision is recorded in `docs/test-log-2026-09-05-motion.md`; the earlier contour correction remains in `docs/test-log-2026-09-05.md`.
 For an already running deployment, use `PORTFOLIO_BASE_URL=https://your-deployment npm test` (no local server is started).
 
 ## Spacing changes
@@ -134,3 +139,11 @@ The `.railwayignore` file keeps committed QA screenshots, tests, reports, and do
 - Desktop sections: `358:512`, `358:519`, `358:537`, `358:631`, `358:762`, `358:808`, `358:837`, `358:892`, `358:909`.
 - Mobile hero/header and sections: `523:123`, `372:935`, `372:952`, `372:1042`, `372:1106`, `372:1136`, `372:1157`, `372:1205`, `530:1050`.
 - Mobile menu/language/contact overlays: `530:1051`, `530:1103`, `528:563`.
+
+## CV source and review
+
+- Figma CV: `584:3` desktop, `584:4` mobile; checked 2026-10-11.
+- `src/data/cv.json` is the rendered-content snapshot from these frames. Career evidence remains in the existing career-context registry linked from the parent workspace.
+- `/cv` is English only. Portfolio RU/EN preference remains unchanged.
+- Product review: open the main menu → CV on desktop/mobile, check the logo transition, use browser Back, and verify Contact / View portfolio / View project. Review the PDF’s spacing, section separators and final Contact row before approving public downloads.
+- No database, new secrets or environment variables are required.

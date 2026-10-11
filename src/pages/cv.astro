@@ -1,0 +1,58 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import cv from "../data/cv.json";
+const recent = cv.experience.slice(0, 2);
+const earlier = cv.experience.slice(2);
+---
+
+<BaseLayout title="Dmitrii Pershin — CV | AI-assisted Design & DesignOps" description={cv.summary} lang="en">
+  <main class="cv-page" data-node-id="584:3" data-mobile-node-id="584:4">
+    <header class="cv-header" data-node-id="586:2">
+      <a class="cv-wordmark" href="/" aria-label="Dmitrii Pershin — portfolio" data-cv-wordmark>
+        <img src="/assets/cv-wordmark.svg" alt="Dmitrii Pershin" width="626" height="132" fetchpriority="high" />
+      </a>
+    </header>
+    <section class="cv-profile" aria-labelledby="cv-role" data-node-id="586:26">
+      <h1 id="cv-role" data-node-id="586:28">{cv.role}</h1>
+      <p class="cv-subtitle" data-node-id="586:27">{cv.subtitle}</p>
+      <p class="cv-summary" data-node-id="586:29">{cv.summary}</p>
+      <nav class="cv-actions" aria-label="CV actions">
+        <button class="cv-action cv-action--filled" type="button" disabled title="PDF coming soon" data-pdf-download>Download PDF ↓</button>
+        <a class="cv-action" href="/">View portfolio →</a>
+        <a class="cv-action" href={cv.contact}>Contact</a>
+      </nav>
+    </section>
+    <div class="cv-content" data-node-id="586:35">
+      <section class="cv-experience" aria-labelledby="experience-heading" data-node-id="586:36">
+        <h2 id="experience-heading">Experience</h2>
+        {recent.map((entry, index) => (
+          <article class="cv-job" data-node-id={index === 0 ? "586:40" : "586:45"}>
+            <h3>{entry.title}</h3><p class="cv-job__meta">{entry.meta}</p><p class="cv-job__dates">{entry.dates}</p>
+            <ul>{entry.bullets.map((bullet) => <li>{bullet}</li>)}</ul>
+          </article>
+        ))}
+        <h2>Earlier experience</h2>
+        {earlier.map((entry, index) => (
+          <article class="cv-job" data-node-id={index === 0 ? "586:51" : "586:56"}>
+            <h3>{entry.title}</h3><p class="cv-job__meta">{entry.meta}</p><p class="cv-job__dates">{entry.dates}</p>
+            <ul>{entry.bullets.map((bullet) => <li>{bullet}</li>)}</ul>
+          </article>
+        ))}
+      </section>
+      <aside class="cv-practice" aria-label="Focus and background" data-node-id="586:61">
+        <section data-node-id="586:62"><h2>Focus</h2><ul class="cv-lines">{cv.focus.map(line => <li>{line}</li>)}</ul></section>
+        <section data-node-id="586:65"><h2>Capabilities</h2><ul class="cv-lines">{cv.capabilities.map(line => <li>{line}</li>)}</ul></section>
+        <section data-node-id="586:71"><h2>Independent product</h2><p class="cv-lines">{cv.independent.split("\n").map(line => <span>{line}</span>)}</p><a class="cv-action cv-project-link" href={cv.timer} target="_blank" rel="noreferrer">View project →</a></section>
+        <section data-node-id="590:18"><h2>Earlier career</h2><p class="cv-lines">{cv.earlierCareer.split("\n").map(line => <span>{line}</span>)}</p></section>
+        <section data-node-id="590:21"><h2>Education</h2><p class="cv-lines">{cv.education.split("\n").map(line => <span>{line}</span>)}</p></section>
+      </aside>
+    </div>
+    <footer class="cv-footer" data-node-id="586:80">
+      <nav class="cv-actions" aria-label="CV footer actions">
+        <a class="cv-action cv-action--filled" href={cv.contact}>Contact</a>
+        <a class="cv-action" href="/">View portfolio →</a>
+        <button class="cv-action" type="button" disabled title="PDF coming soon" data-pdf-download>Download PDF ↓</button>
+      </nav>
+    </footer>
+  </main>
+</BaseLayout>

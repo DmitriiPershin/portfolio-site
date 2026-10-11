@@ -9,6 +9,10 @@
 
 ## Resolved
 
+- 2026-10-11: CV footer labels in Figma retained unrelated hyperlinks (Download PDF → email; View portfolio → email). The website maps actions by intent and holds PDF downloads until approval; Figma source is not silently edited.
+- 2026-10-11: CSS minification normalized duration tokens from ms to s; a numeric-only reader made the new logo transition nearly instantaneous. Added unit-aware time parsing; regression checks sample intermediate width before navigation.
+- 2026-10-11: The no-JavaScript CV shortcut overlapped the mobile language control. Moved it to the unoccupied bottom-left area and checked at 320 px.
+
 - 2026-09-05 (motion revision): Replacing the previous conic light with a rotating linear gradient changed the motion character. Restored the previous light profile/timing within one shared mask, with ordinary corners at the unchanged radius values requested by Dmitrii.
 - 2026-09-05 (motion revision): App/Process icon frames no longer had moving border light. Their original baked contours are now clipped away and replaced by the same single animated mask, preserving artwork size and avoiding double rings.
 - 2026-09-05 (motion revision): Cursor colour was only updated on pointermove, so it stayed on the previous section during scrolling. Pointer and scroll now share geometry-based section lookup; position response increased and scrolling keeps fixed-screen coordinates.

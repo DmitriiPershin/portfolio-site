@@ -9,7 +9,7 @@
 5. Confirm no horizontal overflow at all three widths.
 6. Switch RU → EN, reload, and confirm the saved language and English content remain active.
 7. Confirm fixed controls start at desktop `top: 64/148 px; right: 48 px`; mobile outer edges align with the logo and the role stays centred. Scroll down beyond `40 px`: controls hide. Scroll up: controls return.
-8. Open/close the section menu and language selector with keyboard and Escape on both breakpoints; confirm all eight section links, live Joyride font states, mobile current-state colour, and persisted RU/EN state.
+8. Open/close the section menu and language selector with keyboard and Escape on both breakpoints; confirm all nine navigation links, live Joyride font states, mobile current-state colour, and persisted RU/EN state.
 9. Open the avatar contact panel and verify Telegram/email links.
 10. Emulate reduced motion and confirm the relevant desktop/mobile workflow plus all seven desktop Figma SVG connector groups and the real dashed context border remain visible.
 11. Confirm each card has exactly one masked contour: native paint is transparent and the resting gradient plus moving conic light share one mask. Pointer motion changes the light, never the mask or shadow. Original app/Process icon rims are clipped before replacement, so each frame also has only one animated contour. Cursor light stays at 0.45 opacity and is absent on touch/reduced motion.
@@ -27,7 +27,7 @@
 23. Confirm `/api/health` returns HTTP 200 locally and on Railway.
 24. Confirm Railway deployed the same GitHub `main` revision.
 25. Delay font requests and verify the hero waits, retains 40 px of reveal ink allowance, and never changes layout bounds when fonts load or the mask ends.
-26. At `1280 × 600`, all eight desktop menu links fit; hovered text stays at full opacity. Mobile skill rows fill their width, including paired chips. Only the `250` ribbon uses 1.8 s; Interfaces remain at 0.9 s.
+26. At `1280 × 600`, all nine desktop menu links fit; hovered text stays at full opacity. Mobile skill rows fill their width, including paired chips. Only the `250` ribbon uses 1.8 s; Interfaces remain at 0.9 s.
 27. Verify ordinary circular mask corners retain numeric Figma radii (Process: 80 px desktop / 26 px mobile), including reduced motion. The outer clip must not cut the stroke at the padding edge.
 28. Keep the pointer still and scroll quickly through Process → Theme → Workflow and back: cursor colour and native scrollbar colour must update without a mousemove; cursor screen position must not trail the scroll.
 29. Sample real browser frames during both section-menu and language-selector hover: full control opacity, stable bounds, smooth 0→1 type crossfade using the border intensity timing. The duplicate visual face is aria-hidden.
@@ -49,3 +49,11 @@
 12. Scroll Theme Builders and Interfaces once and compare the digit-roll timing with PremiumExchanger: one full pass, firm deceleration, no bounce, and no replay from incidental layout movement.
 13. Compare the semantic spacing/radius audit with Figma and decide whether to normalize the flagged legacy decimals and one-pixel differences in the source design.
 14. Compare menu and RUS/ENG hover: both should crossfade at the same speed without dimming the complete label. Open contacts over a bright card and check that nothing shows through the avatar backing.
+
+## CV checks (2026-10-11)
+
+- Test current Figma copy, exact logo dimensions, intended contact/portfolio/timer links, no horizontal overflow and disabled PDF pending approval at desktop/tablet/mobile.
+- Sample logo width during main-menu navigation, check direct /cv, reduced motion, no JavaScript at 320 px, and browser Back cleanup.
+- Compare both website renders against the latest Figma frames.
+- PDF: 2 pages, embedded fonts, selectable text, exact vector logo, no repeated second-page header or page numbering; section dividers and working Contact / Portfolio at start/end.
+- Dmitrii: review final PDF spacing and explicitly approve it before the download file is published.
