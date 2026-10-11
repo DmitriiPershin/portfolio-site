@@ -1,13 +1,13 @@
 # CV release checks — 2026-10-11
 
-Source: user-edited Figma `584:3` and `584:4`; layout/copy parity read from the file. Baseline Git commit: `aed4c4d`. Final release commit is recorded below after commit creation.
+Source: user-edited Figma `584:3` and `584:4`; layout/copy parity read from the file. Baseline Git commit: `aed4c4d`. Implementation revision validated by these checks: `204e0eda51d004ab66ff2dab1fb3e433dafe561a`. Final SVG serialization preserves the original export bytes (removed an extra transport newline); geometry and rendered output did not change. The documentation commit carries this verification record.
 
 ## Technical results
 
 - `npm run build`: PASS, 28 checked files, 0 errors/warnings/hints; production Astro + Node bundle generated.
 - Targeted CV suite: 12/12 PASS at desktop, tablet and mobile; current copy, link intent, exact logo slot, 320 px/no-JavaScript access, reduced motion, intermediate logo shrink and browser Back cleanup.
 - Extra browser checks: PASS for CV entry from hero and lower-page menu at 1440/390 px; ninth menu link fits at 320×568.
-- Local static SVG: unchanged Figma export from node `586:3`, 7431 bytes, root 626×132; rendered in the authored 625.334×131.457 desktop / 342×71.895 mobile slots. No temporary asset URLs in runtime.
+- Local static SVG: unchanged Figma export from node `586:3`, 7430 bytes, root 626×132; rendered in the authored 625.334×131.457 desktop / 342×71.895 mobile slots. No temporary asset URLs in runtime.
 - `npm test -- --workers=4`: PASS, 86 passed / 19 intentional breakpoint skips, 55.4 s; 0 failed.
 - `npm run qa:screenshots`: PASS; existing portfolio desktop/mobile, overlays and full-motion captures regenerated. Retained changed menu screenshots and new CV proof; unrelated baseline captures were not rewritten in Git.
 - `git diff --check`: PASS.
