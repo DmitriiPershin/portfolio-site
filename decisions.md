@@ -259,3 +259,11 @@ Decision: replace the separate two-page PDF layout with the same `/cv` content a
 Constraint: create editable review layouts in the existing Figma CV page before publishing files. Eight language/theme/format combinations are review candidates, not approved downloads. The approval manifest remains false, format buttons disabled, and local PDF files outside the repository. See docs/cv-pdf-review.md.
 
 Decision: state “around 20 years of experience in design” in the introductory summary, including Russian translation. Do not round to 25 or claim 20 years of product-specific experience.
+
+### 2026-10-12 - Refine CV interaction and use one logo
+
+Decision, requested by Dmitrii: replace CV’s small menu/language dialogs with the same full-screen overlays and shared opening/closing, menu fitting and live-text hover code as the portfolio. Keep the dedicated Desktop PDF / Mobile PDF dialog and publication approval gate.
+
+Decision: interpolate theme background/text/accent in place over 720 ms, with a soft sun/moon change; update the URL and PDF theme selection without reloading. Update language content in place from the server-rendered CV, preserving theme and reading position. Abort superseded language requests and keep native navigation as a fetch-failure/no-JavaScript fallback.
+
+Decision: use public/assets/cv-wordmark.svg for both the hero and CV and only one image in the transition layer. Scale uniformly over 1040 ms; no replacement glyphs, opacity handoff or second target logo. Destination geometry must match the final SVG within one pixel. This explicitly supersedes the live-text requirement for the hero wordmark only; section headings, overlays and metrics retain live Joyride.

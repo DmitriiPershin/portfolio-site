@@ -421,7 +421,7 @@ test("desktop AI routes, Pet Project and closing section use the latest Figma st
   await expect(closing.locator(".closing__contacts span")).toHaveCount(2);
 });
 
-test("Joyride loads before paint and signature typography remains selectable live text", async ({ page }) => {
+test("Joyride headings remain live text and the hero uses the shared SVG", async ({ page }) => {
   await page.goto("/");
   const loaded = await page.evaluate(async () => {
     const faces = [
@@ -438,7 +438,8 @@ test("Joyride loads before paint and signature typography remains selectable liv
 
   await expect(page.locator('link[rel="preload"][href="/fonts/Joyride-Extended-Regular.otf"]')).toHaveCount(1);
   await expect(page.locator('link[rel="preload"][href="/fonts/Joyride-Extended-Outline.otf"]')).toHaveCount(1);
-  await expect(page.locator(".hero__logo img, .display-heading img, .closing__heading img")).toHaveCount(0);
+  await expect(page.locator(".display-heading img, .closing__heading img")).toHaveCount(0);
+  await expect(page.locator(".hero__logo img")).toHaveAttribute("src", "/assets/cv-wordmark.svg");
   await expect(page.locator(".display-heading")).toHaveCount(8);
   expect(await page.locator(".display-heading").first().evaluate((element) => getComputedStyle(element).fontFamily)).toContain("Joyride WIDE");
   const logoMask = page.locator("[data-hero-logo]");

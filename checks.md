@@ -72,3 +72,11 @@
 - Download PDF opens two explicit choices, Desktop PDF and Mobile PDF, with current language/theme. Until approved both choices remain disabled and no PDF URL is exposed.
 - Generate all 8 candidates outside the repository using the procedure in docs/cv-pdf-review.md. Verify selectable text, around-20-years sentence, all four employers, correct widths, background colours, 6 external/mail links, no localhost URLs, no extra page numbering or interactive download/navigation controls. Render with Poppler and inspect every candidate.
 - Dmitrii: review/edit the eight Figma PDF frames, particularly the long-page format, summary, Russian copy, margins and links; then explicitly approve publication.
+
+## Refined CV motion (2026-10-12)
+
+- Sample intermediate theme background colours in both directions; no document reload or horizontal overflow, unchanged scroll position. Rapidly reverse a switch and confirm the final theme/icon/URL/PDF selection agree.
+- CV menu/language use the portfolio’s full-screen composition and shared helpers; sample opening/closing opacity and desktop Outline→Regular hover. Check menu anchor smooth scrolling, Escape/focus return and legible close crosses in light/dark.
+- Select RUS/ENG and verify the same document remains, content/metadata update, theme persists, and translated Download PDF buttons still work.
+- Hero and CV use the same SVG URL. During entry exactly one transition image remains visible and keeps its aspect ratio; compare settled transition bounds with the destination image within 1 px. Test modified clicks, reduced motion, no JavaScript, direct CV visits and Back.
+- Dmitrii: compare theme switching in both directions, section/menu/language interaction, and the logo flight on desktop/mobile. PDF approval remains separate.

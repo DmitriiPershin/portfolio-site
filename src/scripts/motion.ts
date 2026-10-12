@@ -21,7 +21,7 @@ function setBodyLocked() {
   document.body.classList.toggle("overlay-open", Boolean(openOverlay));
 }
 
-function initOverlays() {
+export function initOverlays() {
   const menuToggle = select<HTMLButtonElement>("[data-menu-toggle]");
   const menuOverlay = select<HTMLElement>("[data-menu-overlay]");
   const menuClose = select<HTMLButtonElement>("[data-menu-close]");
@@ -174,7 +174,7 @@ function initScrollVisibility() {
   update();
 }
 
-function initMenuFit() {
+export function initMenuFit() {
   const nav = select<HTMLElement>(".menu-overlay nav");
   if (!nav) return;
   const fit = () => {
@@ -245,7 +245,7 @@ function initDetails() {
 // The same 60 Hz exponential response is shared by borders and type crossfades.
 const responseFactor = (amount: number, elapsed: number) => 1 - Math.pow(1 - amount, Math.min(elapsed, 64) / (1000 / 60));
 
-function initTypeCrossfades() {
+export function initTypeCrossfades() {
   const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const smoothing = readMotionNumber("--border-glow-opacity-smoothing", 0.04);
   selectAll<HTMLElement>("[data-morph-label]").forEach((label) => {

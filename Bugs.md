@@ -9,6 +9,11 @@
 
 ## Resolved
 
+- 2026-10-12: Theme/language preference anchors reloaded CV, causing abrupt page and colour changes. Added in-place theme interpolation and server-content language updates with native fallbacks.
+- 2026-10-12: Logo handoff crossfaded between live hero glyphs and different CV SVG geometry. Both endpoints now use one SVG, uniform scaling and a single transition image; final geometry is checked against the landed image.
+- 2026-10-12: CV’s separate compact menu/language dialogs diverged from portfolio navigation. Both now share its overlays, motion, fitting and hover helpers.
+- 2026-10-12: Brightness(0) made the light-theme close PNG a solid black disc. Inversion with multiply preserves the visible cross and removes the baked dark backing.
+
 - 2026-10-12: A three-control mobile CV toolbar would overlap the original logo at y=48. Reserve 104 px in the website header; the navigation-free PDF keeps its authored 48 px margin. The logo transition uses the website destination token.
 - 2026-10-12: Figma cloning reads inherited instance text during the initial write before materialized overrides are refreshed. Finalized PDF projections by component properties in a subsequent call, removed download instances, and verified all actual text after commit.
 

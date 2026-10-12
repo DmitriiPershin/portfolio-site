@@ -10,7 +10,7 @@ Hiring managers, design leaders, founders, and product teams evaluating senior p
 
 ## Current scope
 
-The EN/RU `/cv` page uses the user-edited Figma desktop/mobile layouts (`584:3` / `584:4`). Entry from the direct header CV link shares a GSAP logo transition; reduced-motion/no-JavaScript navigation is immediate. CV defaults to dark and supports an explicit light theme. PDF uses the same page content and layout in two explicit formats, Desktop and Mobile, with matching theme/language. Review frames are in Figma; files stay outside GitHub/Railway until explicit approval.
+The EN/RU `/cv` page uses the user-edited Figma desktop/mobile layouts (`584:3` / `584:4`). Entry from the direct header CV link shares one SVG with uniform GSAP scaling; reduced-motion/no-JavaScript navigation is immediate. CV defaults to dark and supports an explicit light theme. Theme/language changes happen in place; CV menu and language screens reuse the portfolio overlay/hover helpers. PDF uses the same page content and layout in two explicit formats, Desktop and Mobile, with matching theme/language. Review frames are in Figma; files stay outside GitHub/Railway until explicit approval.
 
 The full Russian desktop and mobile portfolio is implemented, with an English content layer:
 
@@ -39,7 +39,7 @@ The full Russian desktop and mobile portfolio is implemented, with an English co
 - No React, smooth-scroll library, WebGL, or second motion library.
 - Essential content is visible without JavaScript.
 - `prefers-reduced-motion` disables reveals and ambient drift while preserving layout and connector geometry.
-- User-supplied Joyride OTF files are self-hosted and preloaded. Signature typography and metrics remain live selectable text; do not regress them to SVG/PNG.
+- User-supplied Joyride OTF files are self-hosted and preloaded. Section/overlay typography and metrics remain live selectable text. Exception, explicitly requested by Dmitrii on 2026-10-12: hero/CV wordmarks use one shared exact SVG to avoid shape substitution during the route animation; retain an accessible name.
 - Desktop and mobile menu/language controls are fixed. They hide on downward scroll after `40 px` and return on upward scroll. The avatar hides over final contacts and menu/language overlays; the authored desktop contact overlay keeps its bottom-right avatar while mobile uses the central overlay avatar.
 - AI Workflow desktop connector geometry and `150/54 px` application frames are exact local Figma exports. The three localized route labels may be replaced with live SVG text inside the same original chip. Never overlay another translated chip.
 - One painted contour per card/icon, including dashed Context. Keep Figma radius NUMBERS but use ordinary circular corners, explicitly overriding corner smoothing at Dmitrii's request (2026-09-05 motion revision). A stationary authored gradient and moving conic light share ONE mask. App/Process artwork is preserved at original scale while its baked outer frame is clipped away before rendering the replacement contour. Raw paint/effect evidence remains in `reports/figma-border-audit-2026-09-05.md`.

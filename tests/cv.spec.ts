@@ -41,20 +41,38 @@ test("CV follows the edited content, links and responsive composition", async ({
 });
 
 test("header opens CV through a shrinking logo and browser back remains usable", async ({ page }) => {
+  await page.addInitScript(() => window.addEventListener("beforeunload",()=>{
+    const logo=document.querySelector(".cv-route-transition__logo");
+    if(!logo)return;
+    const r=logo.getBoundingClientRect();
+    sessionStorage.setItem("cv-flight-test",JSON.stringify({x:r.x,y:r.y,width:r.width,height:r.height,opacity:getComputedStyle(logo).opacity}));
+  }));
   await page.goto("/");
   await page.waitForFunction(() => document.documentElement.dataset.motion === "full");
   await page.waitForFunction(() => getComputedStyle(document.querySelector("[data-hero-logo]")!).clipPath === "none");
   await page.locator("[data-cv-link]").click({ noWaitAfter: true });
   await expect(page.locator(".cv-route-transition")).toBeAttached();
+  await expect(page.locator(".cv-route-transition img")).toHaveCount(1);
+  await expect(page.locator(".cv-route-transition img")).toHaveAttribute("src", "/assets/cv-wordmark.svg");
+  await expect(page.locator(".cv-route-transition__target")).toHaveCount(0);
+  await expect(page.locator(".hero__logo img")).toHaveCSS("visibility", "hidden");
   const before = await page.locator(".cv-route-transition__logo").evaluate(el => el.getBoundingClientRect().width);
   await page.waitForTimeout(350);
   const after = await page.locator(".cv-route-transition__logo").evaluate(el => el.getBoundingClientRect().width);
   expect(after).toBeLessThan(before);
   await page.waitForURL("**/cv");
+  const arriving=await page.evaluate(()=>JSON.parse(sessionStorage.getItem("cv-flight-test") || "null"));
+  expect(arriving.opacity).toBe("1");
+  const landed=await page.locator(".cv-wordmark img").boundingBox();
+  expect(Math.abs(arriving.x-landed!.x)).toBeLessThan(1);
+  expect(Math.abs(arriving.y-landed!.y)).toBeLessThan(1);
+  expect(Math.abs(arriving.width-landed!.width)).toBeLessThan(1);
+  expect(Math.abs(arriving.height-landed!.height)).toBeLessThan(1);
   await expect(page.getByRole("heading", { name: cv.role, exact: true })).toBeVisible();
   await page.goBack();
   await expect(page.locator(".cv-route-transition")).toHaveCount(0);
   await expect(page.locator("[data-menu-toggle]")).toBeVisible();
+  await expect(page.locator(".hero__logo img")).toHaveCSS("visibility", "visible");
 });
 
 test("reduced motion keeps immediate CV navigation", async ({ page }) => {
@@ -86,7 +104,7 @@ test("CV language and theme preserve each other and the PDF format choice", asyn
   await expect(page.locator("html")).toHaveAttribute("data-cv-theme", "light");
   await expect(page.locator(".cv-control--theme img")).toHaveAttribute("src", "/assets/cv-theme-dark.svg");
   await page.getByRole("button", {name:"Choose language"}).click();
-  await page.getByRole("link", {name:"Русский",exact:true}).click();
+  await page.getByRole("button", {name:"RUS",exact:true}).click();
   await expect(page.locator("html")).toHaveAttribute("lang", "ru");
   await expect(page.locator("html")).toHaveAttribute("data-cv-theme", "light");
   await expect(page.locator(".cv-summary")).toContainText("около 20 лет опыта в дизайне");
@@ -102,4 +120,52 @@ test("CV language and theme preserve each other and the PDF format choice", asyn
   await expect(page.locator("html")).toHaveAttribute("data-cv-theme", "dark");
   await expect(page.locator("html")).toHaveAttribute("lang", "ru");
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+});
+
+
+test("CV theme interpolates without reload and both overlays match portfolio behaviour", async ({ page }) => {
+  await page.goto("/cv");
+  await page.locator("html[data-cv-controls-ready]").waitFor();
+  await page.evaluate(() => (window as Window & { cvIdentity?: object }).cvIdentity = {});
+  await page.locator(".cv-control--theme").click();
+  const colors = await page.evaluate(async () => {
+    const values: string[]=[];
+    const start=performance.now();
+    await new Promise<void>(resolve => { const sample=()=>{values.push(getComputedStyle(document.body).backgroundColor);if(performance.now()-start<900)requestAnimationFrame(sample);else resolve();};sample(); });
+    return [...new Set(values)];
+  });
+  expect(colors.length).toBeGreaterThan(5);
+  expect(colors.some(color=>color!=="rgb(0, 0, 0)"&&color!=="rgb(246, 244, 255)")).toBe(true);
+  await expect(page.locator("body")).toHaveCSS("background-color", "rgb(246, 244, 255)");
+  expect(await page.evaluate(() => Boolean((window as Window & { cvIdentity?: object }).cvIdentity))).toBe(true);
+  await page.locator("[data-menu-toggle]").click();
+  await expect(page.locator("[data-menu-overlay]")).toHaveAttribute("aria-hidden", "false");
+  const choice=page.locator("[data-menu-overlay] a[href='#experience-heading']");
+  await expect(choice.locator("[data-morph-label]")).toBeVisible();
+  if(page.viewportSize()!.width>640) await expect(choice.locator(".morph-label__base")).toHaveCSS("font-family", /Joyride Outline/);
+  const targetY=await page.locator("#experience-heading").evaluate(el=>el.getBoundingClientRect().top+scrollY);
+  await choice.click();
+  await expect(page.locator("[data-menu-overlay]")).toHaveAttribute("aria-hidden", "true");
+  const positions=await page.evaluate(async()=>{const points:number[]=[];const start=performance.now();await new Promise<void>(resolve=>{const sample=()=>{points.push(scrollY);if(performance.now()-start<900)requestAnimationFrame(sample);else resolve();};sample();});return points;});
+  expect(positions.some(y=>y>0&&y<targetY-1)).toBe(true);
+  expect(Math.abs(positions.at(-1)!-targetY)).toBeLessThan(2);
+  await page.locator("[data-language-toggle]").click();
+  await expect(page.locator("[data-language-overlay]")).toHaveAttribute("aria-hidden", "false");
+  await page.getByRole("button", {name:"RUS",exact:true}).click();
+  await expect(page.locator("html")).toHaveAttribute("lang", "ru");
+  await expect(page.locator("[data-language-overlay]")).toHaveAttribute("aria-hidden", "true");
+  expect(await page.evaluate(() => Boolean((window as Window & { cvIdentity?: object }).cvIdentity))).toBe(true);
+  await expect(page.locator("html")).toHaveAttribute("data-cv-theme", "light");
+  const scrollBefore=await page.evaluate(()=>scrollY);
+  await page.locator(".cv-control--theme").click();
+  const darkSamples=await page.evaluate(async()=>{const values:string[]=[];const start=performance.now();await new Promise<void>(resolve=>{const sample=()=>{values.push(getComputedStyle(document.body).backgroundColor);if(performance.now()-start<900)requestAnimationFrame(sample);else resolve();};sample();});return [...new Set(values)];});
+  expect(darkSamples.length).toBeGreaterThan(5);
+  await expect(page.locator("body")).toHaveCSS("background-color", "rgb(0, 0, 0)");
+  expect(await page.evaluate(()=>scrollY)).toBe(scrollBefore);
+  await page.locator(".cv-control--theme").click();
+  await page.waitForTimeout(120);
+  await page.locator(".cv-control--theme").click();
+  await expect(page.locator("body")).toHaveCSS("background-color", "rgb(0, 0, 0)");
+  await expect(page.locator(".cv-control--theme img")).toHaveAttribute("src", "/assets/cv-theme-light.svg");
+  await expect(page).toHaveURL(/theme=dark/);
 });
