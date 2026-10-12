@@ -78,7 +78,7 @@ npm run qa:screenshots
 ```
 
 The product review checklist is in `checks.md`. Reduced-motion desktop/mobile renders are written to `artifacts/qa/`.
-The CV implementation and checks are recorded in `docs/test-log-2026-10-11-cv.md`, `docs/test-log-2026-10-12-cv.md` and the latest motion revision log.
+The CV implementation and checks are recorded in `docs/test-log-2026-10-11-cv.md`, `docs/test-log-2026-10-12-cv.md` and `docs/test-log-2026-10-12-cv-motion.md`.
 The latest earlier motion revision is recorded in `docs/test-log-2026-09-05-motion.md`; the earlier contour correction remains in `docs/test-log-2026-09-05.md`.
 For an already running deployment, use `PORTFOLIO_BASE_URL=https://your-deployment npm test` (no local server is started).
 

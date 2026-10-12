@@ -1,10 +1,10 @@
 # Motion map — complete portfolio
 
-Date: 2026-09-05.
+Updated: 2026-10-12.
 
 | Surface | Motion | Trigger and end state | Mobile | Reduced motion |
 |---|---|---|---|---|
-| Hero | Padded logo mask, then role text | After fonts settle; logo opens horizontally with 40 px ink allowance, role rises 10 px | Same stable geometry | Visible after fonts settle |
+| Hero | Shared SVG in padded mask, then role text | After fonts settle; logo opens horizontally with 40 px ink allowance, role rises 10 px | Same stable geometry | Visible after fonts settle |
 | Section icons | Scale-in, ambient drift, silhouette light | Section entry; exact Figma artwork settles at 1, drifts 1–2 px over 16 s, and brightens in its section colour near a pointer | 180 px artwork; scroll glow variables remain available | Static |
 | Display headings | Vertical mask reveal | Each live Joyride heading reveals on its own viewport entry, including Soft Skills | Live text reflows into authored line groups | Immediately visible |
 | Body copy | Fade/rise | Each copy group reveals on its own viewport entry; 18 px travel | Same | Immediately visible |
@@ -38,3 +38,11 @@ Date: 2026-09-05.
 ## Figma motion note
 
 `get_motion_context` returned no authored timeline/keyframes for the inspected desktop, mobile, Focus, AI Workflow, Process & AI, and Theme Builders nodes. The production choreography therefore implements Dmitrii's requested behaviour. The latest explicit geometry override removes corner smoothing but keeps the numeric Figma radii, dimensions and artwork.
+
+## CV interactions
+
+- Hero, CV and route animation use one exact SVG. Uniform position/scale over the configured duration; original hero image is hidden during flight, destination shape never crossfades. Back restores the source.
+- CV reuses `initOverlays`, `initMenuFit` and `initTypeCrossfades` from the portfolio. Section anchors use the same native smooth scrolling.
+- Theme interpolates background/text/accent in place; icon fades/turns softly. Timing and icon scale/rotation live in CSS tokens. Rapid reversal starts from the currently rendered colours.
+- Language fetches the server-rendered CV and replaces content in the same document, retaining theme and functional PDF controls. Failed fetch falls back to native navigation. URL preferences survive reload.
+- Reduced motion switches immediately; native/no-JavaScript links keep visible CV content. The separate PDF format dialog and approval gate remain.
