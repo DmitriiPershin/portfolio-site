@@ -27,7 +27,7 @@
 23. Confirm `/api/health` returns HTTP 200 locally and on Railway.
 24. Confirm Railway deployed the same GitHub `main` revision.
 25. Delay font requests and verify the hero waits, retains 40 px of reveal ink allowance, and never changes layout bounds when fonts load or the mask ends.
-26. At `1280 × 600`, all nine desktop menu links fit; hovered text stays at full opacity. Mobile skill rows fill their width, including paired chips. Only the `250` ribbon uses 1.8 s; Interfaces remain at 0.9 s.
+26. At `1280 × 600`, all eight desktop section-menu links fit; hovered text stays at full opacity. Mobile skill rows fill their width, including paired chips. Only the `250` ribbon uses 1.8 s; Interfaces remain at 0.9 s.
 27. Verify ordinary circular mask corners retain numeric Figma radii (Process: 80 px desktop / 26 px mobile), including reduced motion. The outer clip must not cut the stroke at the padding edge.
 28. Keep the pointer still and scroll quickly through Process → Theme → Workflow and back: cursor colour and native scrollbar colour must update without a mousemove; cursor screen position must not trail the scroll.
 29. Sample real browser frames during both section-menu and language-selector hover: full control opacity, stable bounds, smooth 0→1 type crossfade using the border intensity timing. The duplicate visual face is aria-hidden.
@@ -40,7 +40,7 @@
 3. On mobile, verify each Workflow arrow group is vertically centred between cards: one line for single chips, two centred tracks for JSON chips, and three centred tracks for the final asset chips.
 4. On desktop, move the pointer around cards and app/Process icons: the restored light should follow slowly inside one ordinary rounded contour. On mobile, scroll through cards and verify individual light phases without changing geometry. Keep the pointer still while scrolling back quickly: its colour and the scrollbar should follow the section.
 5. Compare Focus wrapping, Hard/Soft outlines, Process strokes, Theme Builder artwork, and Interfaces number shapes/order against Figma.
-6. Desktop and mobile: menu/globe stay fixed, disappear while scrolling down, and return when scrolling up. The avatar hides over menu/language and final contacts; in the desktop contact overlay it remains at the authored bottom-right position.
+6. Desktop and mobile: menu/CV/globe stay fixed, disappear while scrolling down, and return when scrolling up. The avatar hides over menu/language and final contacts; in the desktop contact overlay it remains at the authored bottom-right position.
 7. Switch to English, reload, and scan line breaks in every section.
 8. At 390 px, open each “Подробнее” control once; existing text must remain, additional text must animate smoothly, and the button must disappear.
 9. Enable Reduce Motion in the OS and confirm the site remains complete and deliberate.
@@ -52,8 +52,23 @@
 
 ## CV checks (2026-10-11)
 
-- Test current Figma copy, exact logo dimensions, intended contact/portfolio/timer links, no horizontal overflow and disabled PDF pending approval at desktop/tablet/mobile.
-- Sample logo width during main-menu navigation, check direct /cv, reduced motion, no JavaScript at 320 px, and browser Back cleanup.
+- Test current Figma copy, exact logo dimensions, intended contact/portfolio/timer links, no horizontal overflow and PDF format choices disabled pending approval at desktop/tablet/mobile.
+- Sample logo width during direct header navigation, check direct /cv, reduced motion, no JavaScript at 320 px, and browser Back cleanup.
 - Compare both website renders against the latest Figma frames.
-- PDF: 2 pages, embedded fonts, selectable text, exact vector logo, no repeated second-page header or page numbering; section dividers and working Contact / Portfolio at start/end.
+- PDF: the prior 2-page layout is superseded by the 2026-10-12 shared-layout export below.
 - Dmitrii: review final PDF spacing and explicitly approve it before the download file is published.
+
+## Authored CV navigation (2026-10-11)
+
+- Compare desktop menu / CV / globe at y=64 / 132 / 200, right=48, size=64 with Figma `601:78`.
+- At 390 px, compare globe / CV / menu with 12 px side gutters, y=20 and 48 px controls; role is below the logo with a 12 px gap.
+- Check eight section links, direct CV entry, logo transition, browser Back, directional hiding, language overlays, reduced motion and native no-JavaScript entry.
+- Dmitrii: compare both headers visually against Figma and click CV directly from each. PDF approval remains separate.
+
+## CV preferences and PDF review (2026-10-12)
+
+- Direct `/cv` defaults to dark/English. Switch to light (moon icon), choose Russian, reload, and return to dark (sun icon); each preference preserves the other.
+- Compare Figma controls at desktop y=64/136/208; at 390/320 px ensure the horizontal toolbar does not overlap the logo. Check menu anchors and language-dialog keyboard focus / Escape.
+- Download PDF opens two explicit choices, Desktop PDF and Mobile PDF, with current language/theme. Until approved both choices remain disabled and no PDF URL is exposed.
+- Generate all 8 candidates outside the repository using the procedure in docs/cv-pdf-review.md. Verify selectable text, around-20-years sentence, all four employers, correct widths, background colours, 6 external/mail links, no localhost URLs, no extra page numbering or interactive download/navigation controls. Render with Poppler and inspect every candidate.
+- Dmitrii: review/edit the eight Figma PDF frames, particularly the long-page format, summary, Russian copy, margins and links; then explicitly approve publication.

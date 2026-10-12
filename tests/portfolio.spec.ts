@@ -42,7 +42,15 @@ test("navigation controls follow the intended responsive scroll behaviour", asyn
   await page.goto("/");
   const languageButton = page.locator("[data-language-toggle]");
   const menuButton = page.locator("[data-menu-toggle]");
+  const cvLink = page.locator("[data-cv-link]");
   await expect(languageButton).toBeVisible();
+  await expect(cvLink).toBeVisible();
+  await expect(cvLink).toHaveAttribute("href", "/cv");
+  const mobile = (page.viewportSize()?.width ?? 1000) <= 640;
+  const cvBounds = await cvLink.boundingBox();
+  expect(cvBounds!.y).toBe(mobile ? 20 : 132);
+  expect(cvBounds!.width).toBeGreaterThanOrEqual(64);
+  if (!mobile) expect(cvBounds!.x).toBe(page.viewportSize()!.width - 112);
   expect(await menuButton.evaluate((element) => getComputedStyle(element).boxShadow)).toBe("none");
   const menuTop = await menuButton.evaluate((element) => element.getBoundingClientRect().top);
   const languageTop = await languageButton.evaluate((element) => element.getBoundingClientRect().top);
@@ -50,20 +58,22 @@ test("navigation controls follow the intended responsive scroll behaviour", asyn
   await page.evaluate(() => window.scrollTo(0, 240));
   expect(await menuButton.evaluate((element) => getComputedStyle(element).position)).toBe((page.viewportSize()?.width ?? 1000) <= 640 ? "relative" : "fixed");
   expect(Math.round(menuTop)).toBe((page.viewportSize()?.width ?? 1000) <= 640 ? 20 : 64);
-  expect(Math.round(languageTop)).toBe((page.viewportSize()?.width ?? 1000) <= 640 ? 20 : 148);
+  expect(Math.round(languageTop)).toBe((page.viewportSize()?.width ?? 1000) <= 640 ? 20 : 200);
   if ((page.viewportSize()?.width ?? 1000) <= 640) {
-    const roleFits = await page.locator(".floating-header__role").evaluate((element) => element.scrollWidth <= element.clientWidth && getComputedStyle(element).whiteSpace === "nowrap");
+    const roleFits = await page.locator(".floating-header__cv").evaluate((element) => element.scrollWidth <= element.clientWidth && getComputedStyle(element).whiteSpace === "nowrap");
     expect(roleFits).toBe(true);
     expect(await menuButton.locator("span").evaluateAll((elements) => elements.map((element) => getComputedStyle(element).top))).toEqual(["16.5px", "23.25px", "30px"]);
   }
   await expect(page.locator(".floating-header")).toHaveAttribute("data-scroll-hidden", "");
   await expect(menuButton).toHaveCSS("visibility", "hidden");
   await expect(languageButton).toHaveCSS("visibility", "hidden");
+  await expect(cvLink).toHaveCSS("visibility", "hidden");
 
   await page.evaluate(() => window.scrollBy(0, -80));
   await expect(page.locator(".floating-header")).not.toHaveAttribute("data-scroll-hidden", "");
   await expect(menuButton).toHaveCSS("visibility", "visible");
   await expect(languageButton).toHaveCSS("visibility", "visible");
+  await expect(cvLink).toHaveCSS("visibility", "visible");
 });
 
 test("menu is keyboard accessible and contains every section", async ({ page }) => {
@@ -75,7 +85,7 @@ test("menu is keyboard accessible and contains every section", async ({ page }) 
   await expect(menuButton).toHaveAttribute("aria-expanded", "true");
   const navigation = page.getByRole("navigation", { name: "Разделы портфолио" });
   await expect(navigation).toBeVisible();
-  await expect(navigation.getByRole("link")).toHaveCount(9);
+  await expect(navigation.getByRole("link")).toHaveCount(8);
   if ((page.viewportSize()?.width ?? 1000) > 640) {
     const focus = navigation.getByRole("link", { name: "FOCUS", exact: true });
     await focus.hover();
@@ -520,20 +530,25 @@ test("AI route translations replace their labels without adding another chip", a
   await expect(page.locator(".workflow-route-translation, .workflow-route path[id$='-Label']")).toHaveCount(0);
 });
 
-test("mobile header aligns with the logo and skill rows fill their width", async ({ page }) => {
+test("mobile header follows the authored gutter and skill rows fill their width", async ({ page }) => {
   test.skip((page.viewportSize()?.width ?? 1000) > 640, "Mobile alignment");
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/");
   await expect(page.locator("html")).toHaveAttribute("data-motion", "reduced");
   const edges = await page.evaluate(() => {
     const bounds = (selector: string) => document.querySelector(selector)!.getBoundingClientRect();
-    const logo = bounds(".hero__logo-mask");
-    const role = bounds(".floating-header__role");
-    return [bounds("[data-language-toggle]").left - logo.left,
-      bounds("[data-menu-toggle]").right - logo.right,
+    const role = bounds(".floating-header__cv");
+    return [bounds("[data-language-toggle]").left - 12,
+      bounds("[data-menu-toggle]").right - (innerWidth - 12),
       (role.left + role.right) / 2 - window.innerWidth / 2];
   });
   edges.forEach((delta) => expect(Math.abs(delta)).toBeLessThan(1));
+  const role = page.locator(".hero__role");
+  await expect(role).toBeVisible();
+  await expect(role).toHaveCSS("font-size", "20px");
+  const roleBounds = await role.boundingBox();
+  const logoBounds = await page.locator(".hero__logo-mask").boundingBox();
+  expect(roleBounds!.y - logoBounds!.y - logoBounds!.height).toBeCloseTo(12, 1);
   const gaps = await page.locator(".skill-chip-row").evaluateAll((rows) => rows.map((row) => {
     const chips = row.querySelectorAll(".skill-chip");
     const bounds = row.getBoundingClientRect();
@@ -553,7 +568,7 @@ test("every desktop menu item fits on a short viewport", async ({ page }) => {
     const rect = link.getBoundingClientRect();
     return [rect.top, rect.left, rect.right, rect.bottom];
   }));
-  expect(bounds).toHaveLength(9);
+  expect(bounds).toHaveLength(8);
   for (const [top, left, right, bottom] of bounds) {
     expect(top).toBeGreaterThanOrEqual(0);
     expect(left).toBeGreaterThanOrEqual(0);

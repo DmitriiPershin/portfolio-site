@@ -236,10 +236,26 @@ Decision: interpret “scroll in the section colour” as the native scrollbar. 
 
 ### 2026-10-11 - Publish edited CV independently of PDF approval
 
-Decision: add `/cv` and a ninth CV entry in the existing navigation. Use actual visible copy from Figma `584:3` and `584:4`; do not restore removed team-summary or contact-list blocks. Keep correct mail/portfolio/download destinations even where Figma's footer instances retain stale hyperlinks.
+Decision: add `/cv`. The original ninth menu entry was superseded by the authored header navigation below. Use actual visible copy from Figma `584:3` and `584:4`; do not restore removed team-summary or contact-list blocks. Keep correct mail/portfolio/download destinations even where Figma's footer instances retain stale hyperlinks.
 
 Decision: use the exact exported CV SVG for the CV page and final transition state; preserve the existing live Joyride hero at the start. GSAP remains the only animation runtime. Honour modified clicks, no JavaScript, reduced motion, direct URL visits and browser Back.
 
 Constraint: Dmitrii requested PDF approval before publishing its download. Keep review versions in the current Codex task workspace outside GitHub and Railway uploads. Keep Download PDF disabled until approval; no fake URL and no stale CV attachment.
 
 Decision: PDF uses the vector logo once, no repeated page-2 header or page numbers, dividers before purple section headings, and Contact / Portfolio at the end as well as beneath the introduction. This is a layout decision, not approval to publish the file.
+
+### 2026-10-11 - Follow the updated main-header navigation
+
+Decision, requested by Dmitrii: implement Figma page `358:433`, desktop group `601:78` and mobile header `372:929` / wrapper `581:13`. Desktop stacks menu, CV and globe with 4 px gaps. Mobile centres CV between globe and menu with 12 px outer gutters, and moves Senior Product Designer beneath the logo. Keep eight section-menu links.
+
+Decision: the same direct CV anchor serves native no-JavaScript navigation; remove the separate fallback shortcut. Preserve the existing GSAP logo transition, directional scroll visibility and overlay behavior. PDF download remains disabled pending explicit approval.
+
+### 2026-10-12 - Shared CV/PDF layout, language and themes
+
+Decision, requested by Dmitrii: add EN/RU and dark/light CV controls matching Figma 612:61; default to dark, with sun as the action to switch to light and moon (617:107) to switch to dark. Preferences live in the URL and preserve each other. On mobile use a horizontal control row above the logo to prevent overlap.
+
+Decision: replace the separate two-page PDF layout with the same `/cv` content and CSS. Each export is one continuous page, Desktop 1440 px or Mobile 390 px, for screen reading. Preserve contact/portfolio/project links; remove only download controls and interactive navigation. An explicit Desktop PDF / Mobile PDF dialog selects the format; theme/language are inherited. No automatic device detection.
+
+Constraint: create editable review layouts in the existing Figma CV page before publishing files. Eight language/theme/format combinations are review candidates, not approved downloads. The approval manifest remains false, format buttons disabled, and local PDF files outside the repository. See docs/cv-pdf-review.md.
+
+Decision: state “around 20 years of experience in design” in the introductory summary, including Russian translation. Do not round to 25 or claim 20 years of product-specific experience.

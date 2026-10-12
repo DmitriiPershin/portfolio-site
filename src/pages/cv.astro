@@ -1,58 +1,61 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import cv from "../data/cv.json";
+import en from "../data/cv.json";
+import ru from "../data/cv-ru.json";
+import pdfManifest from "../data/cv-pdf-manifest.json";
+const lang = Astro.url.searchParams.get("lang") === "ru" ? "ru" : "en";
+const theme = Astro.url.searchParams.get("theme") === "light" ? "light" : "dark";
+const viewParam = Astro.url.searchParams.get("view");
+const view = viewParam === "pdf-desktop" ? "desktop" : viewParam === "pdf-mobile" ? "mobile" : undefined;
+const cv = lang === "ru" ? ru : en;
+const labels = lang === "ru" ? {download:"Скачать PDF ↓",portfolio:"Портфолио →",contact:"Контакт",experience:"Опыт",earlier:"Ранний опыт",focus:"Фокус",capabilities:"Навыки",independent:"Свой продукт",career:"Начало карьеры",education:"Образование",project:"Посмотреть проект →",menu:"Открыть навигацию",language:"Выбрать язык",light:"Включить светлую тему",dark:"Включить тёмную тему",close:"Закрыть",pdfTitle:"Скачать CV",pending:"Макеты PDF на согласовании. Скачивание появится после утверждения.",pdfState:`${theme === "dark" ? "Тёмная" : "Светлая"} тема · Русский`} : {download:"Download PDF ↓",portfolio:"View portfolio →",contact:"Contact",experience:"Experience",earlier:"Earlier experience",focus:"Focus",capabilities:"Capabilities",independent:"Independent product",career:"Earlier career",education:"Education",project:"View project →",menu:"Open navigation",language:"Choose language",light:"Switch to light theme",dark:"Switch to dark theme",close:"Close",pdfTitle:"Download CV",pending:"PDF layouts are under review. Downloads will be available after approval.",pdfState:`${theme === "dark" ? "Dark" : "Light"} theme · English`};
 const recent = cv.experience.slice(0, 2);
 const earlier = cv.experience.slice(2);
+const preferenceURL = (nextLang=lang,nextTheme=theme) => `/cv?lang=${nextLang}&theme=${nextTheme}`;
+const portfolio = view ? "https://portfolio-production-e2d0.up.railway.app/" : "/";
+const variants = pdfManifest.variants as Record<string, {url:string}>;
+const pdfURL = (layout:string) => pdfManifest.approved ? variants[`${lang}-${theme}-${layout}`]?.url : undefined;
 ---
 
-<BaseLayout title="Dmitrii Pershin — CV | AI-assisted Design & DesignOps" description={cv.summary} lang="en">
+<BaseLayout title="Dmitrii Pershin — CV | AI-assisted Design & DesignOps" description={cv.summary} lang={lang} cvTheme={theme} cvView={view}>
+  <header class="cv-controls" aria-label={labels.menu} data-node-id="612:61">
+    <button class="cv-control cv-control--menu" type="button" aria-label={labels.menu} aria-haspopup="dialog" aria-controls="cv-menu-dialog" data-cv-dialog="cv-menu-dialog"><img src="/assets/control-menu.svg" alt="" width="64" height="64" /></button>
+    <button class="cv-control cv-control--language" type="button" aria-label={labels.language} aria-haspopup="dialog" aria-controls="cv-language-dialog" data-cv-dialog="cv-language-dialog" data-node-id="612:69"><img src="/assets/cv-language.svg" alt="" width="64" height="64" /></button>
+    <a class="cv-control cv-control--theme" href={preferenceURL(lang,theme === "dark" ? "light" : "dark")} aria-label={theme === "dark" ? labels.light : labels.dark} data-node-id={theme === "dark" ? "613:85" : "617:107"}><img src={theme === "dark" ? "/assets/cv-theme-light.svg" : "/assets/cv-theme-dark.svg"} alt="" width="64" height="64" /></a>
+  </header>
   <main class="cv-page" data-node-id="584:3" data-mobile-node-id="584:4">
     <header class="cv-header" data-node-id="586:2">
-      <a class="cv-wordmark" href="/" aria-label="Dmitrii Pershin — portfolio" data-cv-wordmark>
-        <img src="/assets/cv-wordmark.svg" alt="Dmitrii Pershin" width="626" height="132" fetchpriority="high" />
-      </a>
+      <a class="cv-wordmark" href={portfolio} aria-label="Dmitrii Pershin — portfolio" data-cv-wordmark><img src="/assets/cv-wordmark.svg" alt="Dmitrii Pershin" width="626" height="132" fetchpriority="high" /></a>
     </header>
     <section class="cv-profile" aria-labelledby="cv-role" data-node-id="586:26">
       <h1 id="cv-role" data-node-id="586:28">{cv.role}</h1>
       <p class="cv-subtitle" data-node-id="586:27">{cv.subtitle}</p>
       <p class="cv-summary" data-node-id="586:29">{cv.summary}</p>
       <nav class="cv-actions" aria-label="CV actions">
-        <button class="cv-action cv-action--filled" type="button" disabled title="PDF coming soon" data-pdf-download>Download PDF ↓</button>
-        <a class="cv-action" href="/">View portfolio →</a>
-        <a class="cv-action" href={cv.contact}>Contact</a>
+        <button class="cv-action cv-action--filled" type="button" aria-haspopup="dialog" data-cv-dialog="cv-pdf-dialog" data-pdf-download>{labels.download}</button>
+        <a class="cv-action" href={portfolio}>{labels.portfolio}</a><a class="cv-action" href={cv.contact}>{labels.contact}</a>
       </nav>
     </section>
     <div class="cv-content" data-node-id="586:35">
       <section class="cv-experience" aria-labelledby="experience-heading" data-node-id="586:36">
-        <h2 id="experience-heading">Experience</h2>
-        {recent.map((entry, index) => (
-          <article class="cv-job" data-node-id={index === 0 ? "586:40" : "586:45"}>
-            <h3>{entry.title}</h3><p class="cv-job__meta">{entry.meta}</p><p class="cv-job__dates">{entry.dates}</p>
-            <ul>{entry.bullets.map((bullet) => <li>{bullet}</li>)}</ul>
-          </article>
-        ))}
-        <h2>Earlier experience</h2>
-        {earlier.map((entry, index) => (
-          <article class="cv-job" data-node-id={index === 0 ? "586:51" : "586:56"}>
-            <h3>{entry.title}</h3><p class="cv-job__meta">{entry.meta}</p><p class="cv-job__dates">{entry.dates}</p>
-            <ul>{entry.bullets.map((bullet) => <li>{bullet}</li>)}</ul>
-          </article>
-        ))}
+        <h2 id="experience-heading">{labels.experience}</h2>
+        {recent.map((entry,index) => <article class="cv-job" data-node-id={index === 0 ? "586:40" : "586:45"}><h3>{entry.title}</h3><p class="cv-job__meta">{entry.meta}</p><p class="cv-job__dates">{entry.dates}</p><ul>{entry.bullets.map(bullet => <li>{bullet}</li>)}</ul></article>)}
+        <h2>{labels.earlier}</h2>
+        {earlier.map((entry,index) => <article class="cv-job" data-node-id={index === 0 ? "586:51" : "586:56"}><h3>{entry.title}</h3><p class="cv-job__meta">{entry.meta}</p><p class="cv-job__dates">{entry.dates}</p><ul>{entry.bullets.map(bullet => <li>{bullet}</li>)}</ul></article>)}
       </section>
       <aside class="cv-practice" aria-label="Focus and background" data-node-id="586:61">
-        <section data-node-id="586:62"><h2>Focus</h2><ul class="cv-lines">{cv.focus.map(line => <li>{line}</li>)}</ul></section>
-        <section data-node-id="586:65"><h2>Capabilities</h2><ul class="cv-lines">{cv.capabilities.map(line => <li>{line}</li>)}</ul></section>
-        <section data-node-id="586:71"><h2>Independent product</h2><p class="cv-lines">{cv.independent.split("\n").map(line => <span>{line}</span>)}</p><a class="cv-action cv-project-link" href={cv.timer} target="_blank" rel="noreferrer">View project →</a></section>
-        <section data-node-id="590:18"><h2>Earlier career</h2><p class="cv-lines">{cv.earlierCareer.split("\n").map(line => <span>{line}</span>)}</p></section>
-        <section data-node-id="590:21"><h2>Education</h2><p class="cv-lines">{cv.education.split("\n").map(line => <span>{line}</span>)}</p></section>
+        <section id="cv-focus" data-node-id="586:62"><h2>{labels.focus}</h2><ul class="cv-lines">{cv.focus.map(line => <li>{line}</li>)}</ul></section>
+        <section data-node-id="586:65"><h2>{labels.capabilities}</h2><ul class="cv-lines">{cv.capabilities.map(line => <li>{line}</li>)}</ul></section>
+        <section data-node-id="586:71"><h2>{labels.independent}</h2><p class="cv-lines">{cv.independent.split("\n").map(line => <span>{line}</span>)}</p><a class="cv-action cv-project-link" href={cv.timer} target="_blank" rel="noreferrer">{labels.project}</a></section>
+        <section data-node-id="590:18"><h2>{labels.career}</h2><p class="cv-lines">{cv.earlierCareer.split("\n").map(line => <span>{line}</span>)}</p></section>
+        <section data-node-id="590:21"><h2>{labels.education}</h2><p class="cv-lines">{cv.education.split("\n").map(line => <span>{line}</span>)}</p></section>
       </aside>
     </div>
-    <footer class="cv-footer" data-node-id="586:80">
-      <nav class="cv-actions" aria-label="CV footer actions">
-        <a class="cv-action cv-action--filled" href={cv.contact}>Contact</a>
-        <a class="cv-action" href="/">View portfolio →</a>
-        <button class="cv-action" type="button" disabled title="PDF coming soon" data-pdf-download>Download PDF ↓</button>
-      </nav>
-    </footer>
+    <footer class="cv-footer" id="cv-contact" data-node-id="586:80"><nav class="cv-actions" aria-label="CV footer actions"><a class="cv-action cv-action--filled" href={cv.contact}>{labels.contact}</a><a class="cv-action" href={portfolio}>{labels.portfolio}</a><button class="cv-action" type="button" aria-haspopup="dialog" data-cv-dialog="cv-pdf-dialog" data-pdf-download>{labels.download}</button></nav></footer>
   </main>
+  <dialog class="cv-dialog" id="cv-language-dialog" aria-labelledby="cv-language-title"><form method="dialog"><button class="cv-dialog__close" aria-label={labels.close}>×</button></form><h2 id="cv-language-title">{labels.language}</h2><nav class="cv-dialog__choices"><a class="cv-action" href={preferenceURL("en")} aria-current={lang === "en" ? "true" : undefined}>English</a><a class="cv-action" href={preferenceURL("ru")} aria-current={lang === "ru" ? "true" : undefined}>Русский</a></nav></dialog>
+  <dialog class="cv-dialog" id="cv-menu-dialog" aria-labelledby="cv-menu-title"><form method="dialog"><button class="cv-dialog__close" aria-label={labels.close}>×</button></form><h2 id="cv-menu-title">CV</h2><nav class="cv-dialog__choices"><a class="cv-action" href="#experience-heading" data-cv-close>{labels.experience}</a><a class="cv-action" href="#cv-focus" data-cv-close>{labels.focus}</a><a class="cv-action" href="#cv-contact" data-cv-close>{labels.contact}</a><a class="cv-action" href={portfolio}>{labels.portfolio}</a></nav></dialog>
+  <dialog class="cv-dialog" id="cv-pdf-dialog" aria-labelledby="cv-pdf-title"><form method="dialog"><button class="cv-dialog__close" aria-label={labels.close}>×</button></form><h2 id="cv-pdf-title">{labels.pdfTitle}</h2><p data-pdf-selection>{labels.pdfState}</p><div class="cv-dialog__choices">{["desktop","mobile"].map(layout => pdfURL(layout) ? <a class="cv-action" href={pdfURL(layout)} download data-pdf-format={layout}>{layout === "desktop" ? "Desktop PDF" : "Mobile PDF"}</a> : <button class="cv-action" type="button" disabled data-pdf-format={layout}>{layout === "desktop" ? "Desktop PDF" : "Mobile PDF"}</button>)}</div>{!pdfManifest.approved && <p class="cv-dialog__note">{labels.pending}</p>}</dialog>
+  <noscript><p class="cv-nojs">{labels.language}: <a href={preferenceURL("en")}>English</a> · <a href={preferenceURL("ru")}>Русский</a></p></noscript>
+  <script>import { initCvControls } from "../scripts/cv-controls"; initCvControls();</script>
 </BaseLayout>

@@ -21,7 +21,12 @@ test("CV follows the edited content, links and responsive composition", async ({
   for (const contact of await page.getByRole("link", { name: "Contact", exact: true }).all()) await expect(contact).toHaveAttribute("href", cv.contact);
   for (const portfolio of await page.getByRole("link", { name: "View portfolio →" }).all()) await expect(portfolio).toHaveAttribute("href", "/");
   await expect(page.locator("[data-pdf-download]")).toHaveCount(2);
-  for (const download of await page.locator("[data-pdf-download]").all()) await expect(download).toBeDisabled();
+  for (const download of await page.locator("[data-pdf-download]").all()) await expect(download).toBeEnabled();
+  await page.locator("[data-pdf-download]").first().click();
+  await expect(page.locator("#cv-pdf-dialog")).toBeVisible();
+  await expect(page.getByRole("button", {name:"Desktop PDF",exact:true})).toBeDisabled();
+  await expect(page.getByRole("button", {name:"Mobile PDF",exact:true})).toBeDisabled();
+  await page.keyboard.press("Escape");
   const width = page.viewportSize()!.width;
   const geometry = await page.evaluate(() => {
     const rect = (selector: string) => { const r = document.querySelector(selector)!.getBoundingClientRect(); return { x:r.x,y:r.y,width:r.width,height:r.height }; };
@@ -29,17 +34,16 @@ test("CV follows the edited content, links and responsive composition", async ({
   });
   expect(geometry.overflow).toBe(false);
   expect(geometry.img).toBeGreaterThan(0);
-  expect(geometry.logo.y).toBe(width <= 640 ? 48 : 170);
+  expect(geometry.logo.y).toBe(width <= 640 ? 104 : 170);
   if (width === 1440) { expect(geometry.logo.x).toBe(136);expect(geometry.logo.width).toBeCloseTo(625.334,1);expect(geometry.experience.width).toBe(800);expect(geometry.practice.width).toBe(320); }
   if (width <= 640) { expect(geometry.logo.x).toBe(24);expect(geometry.logo.width).toBe(342);expect(geometry.practice.y).toBeGreaterThan(geometry.experience.y+geometry.experience.height); }
   expect(errors).toEqual([]);
 });
 
-test("main menu opens CV through a shrinking logo and browser back remains usable", async ({ page }) => {
+test("header opens CV through a shrinking logo and browser back remains usable", async ({ page }) => {
   await page.goto("/");
   await page.waitForFunction(() => document.documentElement.dataset.motion === "full");
   await page.waitForFunction(() => getComputedStyle(document.querySelector("[data-hero-logo]")!).clipPath === "none");
-  await page.locator("[data-menu-toggle]").click();
   await page.locator("[data-cv-link]").click({ noWaitAfter: true });
   await expect(page.locator(".cv-route-transition")).toBeAttached();
   const before = await page.locator(".cv-route-transition__logo").evaluate(el => el.getBoundingClientRect().width);
@@ -56,7 +60,6 @@ test("main menu opens CV through a shrinking logo and browser back remains usabl
 test("reduced motion keeps immediate CV navigation", async ({ page }) => {
   await page.emulateMedia({ reducedMotion:"reduce" });
   await page.goto("/");
-  await page.locator("[data-menu-toggle]").click();
   await page.locator("[data-cv-link]").click();
   await page.waitForURL("**/cv");
   await expect(page.locator(".cv-route-transition")).toHaveCount(0);
@@ -66,9 +69,37 @@ test("CV is accessible without JavaScript and at narrow widths", async ({ browse
   const context = await browser.newContext({ baseURL, javaScriptEnabled:false, viewport:{width:320,height:640} });
   const page = await context.newPage();
   await page.goto("/");
-  await page.locator(".cv-fallback-link").click();
+  await page.locator("[data-cv-link]").click();
   await expect(page).toHaveURL(/\/cv$/);
   await expect(page.getByRole("heading", { name:"Premium Exchanger" })).toBeVisible();
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   await context.close();
+});
+
+
+test("CV language and theme preserve each other and the PDF format choice", async ({ page }) => {
+  await page.goto("/cv");
+  await expect(page.locator("html")).toHaveAttribute("data-cv-theme", "dark");
+  await expect(page.locator(".cv-summary")).toContainText("around 20 years");
+  await expect(page.locator(".cv-control--theme img")).toHaveAttribute("src", "/assets/cv-theme-light.svg");
+  await page.getByRole("link", {name:"Switch to light theme"}).click();
+  await expect(page.locator("html")).toHaveAttribute("data-cv-theme", "light");
+  await expect(page.locator(".cv-control--theme img")).toHaveAttribute("src", "/assets/cv-theme-dark.svg");
+  await page.getByRole("button", {name:"Choose language"}).click();
+  await page.getByRole("link", {name:"Русский",exact:true}).click();
+  await expect(page.locator("html")).toHaveAttribute("lang", "ru");
+  await expect(page.locator("html")).toHaveAttribute("data-cv-theme", "light");
+  await expect(page.locator(".cv-summary")).toContainText("около 20 лет опыта в дизайне");
+  await page.reload();
+  await expect(page.getByRole("heading", {name:"Опыт",exact:true})).toBeVisible();
+  await page.locator("[data-pdf-download]").first().click();
+  await expect(page.locator("[data-pdf-selection]")).toHaveText("Светлая тема · Русский");
+  await expect(page.locator("[data-pdf-format=desktop]")).toBeDisabled();
+  await expect(page.locator("[data-pdf-format=mobile]")).toBeDisabled();
+  await page.keyboard.press("Escape");
+  await expect(page.locator("[data-pdf-download]").first()).toBeFocused();
+  await page.locator(".cv-control--theme").click();
+  await expect(page.locator("html")).toHaveAttribute("data-cv-theme", "dark");
+  await expect(page.locator("html")).toHaveAttribute("lang", "ru");
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
 });

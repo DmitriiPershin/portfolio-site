@@ -8,14 +8,14 @@ Production portfolio implemented from the current desktop and mobile Figma layou
 ## Current state
 
 - `/cv` implements the edited desktop `584:3` and mobile `584:4` layouts in English, with selectable experience text and a local exact SVG wordmark. Contact, portfolio and timer links use their intended destinations.
-- The main section menu includes CV. Full-motion navigation shrinks/moves the live hero logo into the CV wordmark slot and crossfades to the exact CV artwork over 900 ms. Reduced-motion, modified-click/new-tab and no-JavaScript paths keep normal links. Browser back clears the transition layer.
-- A two-page PDF review is stored separately in the current Codex task workspace, with a vector logo, section dividers and contact links at the beginning/end. It is **awaiting Dmitrii’s approval** and not included in GitHub or Railway uploads. Download PDF buttons remain disabled until approval; no unapproved PDF is publicly served.
+- The fixed header includes a direct CV link matching Figma `601:78` / `372:929`. Full-motion navigation shrinks/moves the live hero logo into the CV wordmark slot and crossfades to the exact CV artwork over 900 ms. Reduced-motion, modified-click/new-tab and no-JavaScript paths keep normal links. Browser back clears the transition layer.
+- PDF now derives from the same `/cv` layout: one continuous screen-reading page at Desktop 1440 px or Mobile 390 px, with the selected EN/RU language and dark/light theme. Eight editable review frames are in the Figma CV page, and generated validation files remain outside the repository. They are **awaiting Dmitrii’s approval**. Download PDF opens a Desktop PDF / Mobile PDF dialog; the format buttons remain disabled until approval, and no unapproved PDF is publicly served. The earlier separate two-page print layout is superseded.
 
 - All portfolio sections are implemented in Astro + TypeScript with GSAP/ScrollTrigger as the only motion runtime.
 - Exact Figma section icons, desktop AI routes, project visuals, and avatar are stored locally. Hero, section headings, overlays, closing title, and metrics are selectable live Joyride text.
 - The language selector opens on every breakpoint. Desktop follows `501:2`/`501:45`; mobile follows `530:1103`. RU/EN persists locally.
-- Desktop controls retain the Figma `64 px` geometry at `top: 64/148 px; right: 48 px`. Mobile controls align to the hero logo's outer edges, with the role centred between them. After `40 px`, downward scrolling hides the header and upward scrolling restores it on both breakpoints.
-- The desktop menu scales as one group to fit all nine entries even in a short viewport. Menu and RUS/ENG use the same smooth Outline→Regular crossfade at full control opacity, with the border highlight's response timing. Both faces remain live text and label geometry stays fixed.
+- Desktop menu / CV / language form a `64 px` column at `top: 64/132/200 px; right: 48 px`, with `4 px` gaps. Mobile uses `12 px` side gutters, `48 px` globe/menu controls and a centred CV link; Senior Product Designer appears beneath the logo. After `40 px`, downward scrolling hides the header and upward scrolling restores it on both breakpoints.
+- The desktop menu scales as one group to fit all eight section entries even in a short viewport. Menu and RUS/ENG use the same smooth Outline→Regular crossfade at full control opacity, with the border highlight's response timing. Both faces remain live text and label geometry stays fixed.
 - The avatar opens the responsive Figma contact overlay. It is `120 × 120 px` desktop and `60 × 60 px` mobile, with `110.118/55.059 px` inner crops. It remains visible in the authored desktop contact composition, while mobile uses the overlay's central avatar; it hides over the final contacts and non-contact overlays.
 - AI Workflow keeps seven crisp desktop SVG route groups. The three translated route labels are live text inside their original SVG chips, never a second chip over a Russian export. Each `150/54 px` application frame retains the exact Figma artwork; its baked outer rim is clipped and replaced by one animated contour. Mobile keeps the authored centred arrow groups.
 - Focus follows the separate desktop/mobile copy composition: `40/52 px` headline and `16/32 px` body on desktop; `14/22 px` body with the authored break and `20 px` paragraph gap on mobile.
@@ -135,6 +135,7 @@ The `.railwayignore` file keeps committed QA screenshots, tests, reports, and do
 - File: `RohXp9xh64xj3NpvNcCe4j`.
 - Desktop full frame: `358:434`.
 - Mobile full frame: `372:928`.
+- Desktop header control group: `601:78` (menu / CV / language); mobile header: `372:929`, hero wrapper `581:13`.
 - Desktop menu and language selector: `473:110`, `501:2`, `501:45`.
 - Desktop sections: `358:512`, `358:519`, `358:537`, `358:631`, `358:762`, `358:808`, `358:837`, `358:892`, `358:909`.
 - Mobile hero/header and sections: `523:123`, `372:935`, `372:952`, `372:1042`, `372:1106`, `372:1136`, `372:1157`, `372:1205`, `530:1050`.
@@ -142,8 +143,11 @@ The `.railwayignore` file keeps committed QA screenshots, tests, reports, and do
 
 ## CV source and review
 
-- Figma CV: `584:3` desktop, `584:4` mobile; checked 2026-10-11.
+- Figma CV: `584:3` desktop, `584:4` mobile; navigation `612:61`, light-state moon `617:107`; checked 2026-10-12.
+- CV controls: desktop menu / language / theme at y=64 / 136 / 208 with 8 px gaps. Mobile controls use a horizontal row and reserve 104 px above the logo. The sun switches to light, and the moon switches to dark.
+- The summary includes “around 20 years of experience in design” / “около 20 лет опыта в дизайне”; it does not claim 20 years specifically in product design.
+- Editable PDF review IDs and the publication procedure: `docs/cv-pdf-review.md`.
 - `src/data/cv.json` is the rendered-content snapshot from these frames. Career evidence remains in the existing career-context registry linked from the parent workspace.
-- `/cv` is English only. Portfolio RU/EN preference remains unchanged.
-- Product review: open the main menu → CV on desktop/mobile, check the logo transition, use browser Back, and verify Contact / View portfolio / View project. Review the PDF’s spacing, section separators and final Contact row before approving public downloads.
+- `/cv` supports EN/RU and dark/light using URL preferences (`?lang=ru&theme=light`); direct `/cv` defaults to English and dark. Switching either preference preserves the other and survives reload, without changing the portfolio’s separate RU/EN preference.
+- Product review: use the header CV link on desktop/mobile, check the logo transition, use browser Back, and verify Contact / View portfolio / View project. Switch language/theme, open Download PDF and check both format options. Review the Figma PDF layouts before approving public downloads.
 - No database, new secrets or environment variables are required.

@@ -9,9 +9,14 @@
 
 ## Resolved
 
+- 2026-10-12: A three-control mobile CV toolbar would overlap the original logo at y=48. Reserve 104 px in the website header; the navigation-free PDF keeps its authored 48 px margin. The logo transition uses the website destination token.
+- 2026-10-12: Figma cloning reads inherited instance text during the initial write before materialized overrides are refreshed. Finalized PDF projections by component properties in a subsequent call, removed download instances, and verified all actual text after commit.
+
+- 2026-10-11: The new direct CV link inherited the browser underline, absent in Figma. Set explicit text-decoration and visually checked desktop / 390 / 320 px headers.
+
 - 2026-10-11: CV footer labels in Figma retained unrelated hyperlinks (Download PDF → email; View portfolio → email). The website maps actions by intent and holds PDF downloads until approval; Figma source is not silently edited.
 - 2026-10-11: CSS minification normalized duration tokens from ms to s; a numeric-only reader made the new logo transition nearly instantaneous. Added unit-aware time parsing; regression checks sample intermediate width before navigation.
-- 2026-10-11: The no-JavaScript CV shortcut overlapped the mobile language control. Moved it to the unoccupied bottom-left area and checked at 320 px.
+- 2026-10-11: The no-JavaScript CV shortcut overlapped the mobile language control. Initially moved it to bottom-left; the subsequent authored header CV link supersedes the shortcut and works natively.
 
 - 2026-09-05 (motion revision): Replacing the previous conic light with a rotating linear gradient changed the motion character. Restored the previous light profile/timing within one shared mask, with ordinary corners at the unchanged radius values requested by Dmitrii.
 - 2026-09-05 (motion revision): App/Process icon frames no longer had moving border light. Their original baked contours are now clipped away and replaced by the same single animated mask, preserving artwork size and avoiding double rings.
@@ -24,7 +29,7 @@
 - 2026-09-05: Hero i dots clipped during entry and popped out at reveal completion. The mask now includes ink overhang throughout the reveal, which starts after font loading without resizing the logo.
 - 2026-09-05: English Context/Context interpretation/Styles labels overlaid the original Russian SVG chips. Labels now switch inside the single existing chip and share its transform.
 - 2026-09-05: Menu hover dimmed the active entry and the last entries could fall below a short desktop screen. Full-opacity hover and viewport-fit scaling preserve all eight links.
-- 2026-09-05: Mobile header edges did not align with the logo and two-chip skill rows left unused horizontal space. Header/logo now share a width token; every chip row stretches edge to edge.
+- 2026-09-05: Mobile header edges did not align with the then-authored logo gutter and two-chip skill rows left unused horizontal space. Shared header/logo width resolved that revision; 2026-10-11 Figma now explicitly uses 12 px header gutters. Chip rows continue to stretch edge to edge.
 - 2026-09-05: The Theme Builder `250` roll felt too fast. Doubled only its duration; other counters keep their previous timing.
 
 - 2026-08-31: The cursor glow still occupied the old `380 px` footprint. Reduced its diameter by 30% to `266 px` while retaining the section-colour response.

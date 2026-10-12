@@ -38,7 +38,7 @@ export function initCvNavigation() {
       const width = Math.min(token("--cv-logo-width"), contentWidth);
       const height = width * token("--cv-logo-height") / token("--cv-logo-width");
       const x = (window.innerWidth - contentWidth) / 2;
-      const y = token("--cv-top");
+      const y = token(window.innerWidth <= 640 ? "--cv-mobile-screen-top" : "--cv-top");
       const rect = hero.getBoundingClientRect();
       const inView = rect.bottom > 0 && rect.top < window.innerHeight;
       const sourceWidth = inView ? rect.width : Math.min(token("--cv-transition-source-max"), contentWidth);
