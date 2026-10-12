@@ -146,7 +146,7 @@ The `.railwayignore` file keeps committed QA screenshots, tests, reports, and do
 - Figma CV: `584:3` desktop, `584:4` mobile; navigation `612:61`, light-state moon `617:107`; checked 2026-10-12.
 - CV controls: desktop menu / language / theme at y=64 / 136 / 208 with 8 px gaps. Mobile controls use a horizontal row and reserve 104 px above the logo. The sun switches to light, and the moon switches to dark.
 - The summary includes “around 20 years of experience in design” / “около 20 лет опыта в дизайне”; it does not claim 20 years specifically in product design.
-- Editable PDF review IDs and the publication procedure: `docs/cv-pdf-review.md`.
+- Editable PDF review IDs and the publication procedure: `docs/cv-pdf-review.md`. Validation: `docs/test-log-2026-10-12-cv.md`.
 - `src/data/cv.json` is the rendered-content snapshot from these frames. Career evidence remains in the existing career-context registry linked from the parent workspace.
 - `/cv` supports EN/RU and dark/light using URL preferences (`?lang=ru&theme=light`); direct `/cv` defaults to English and dark. Switching either preference preserves the other and survives reload, without changing the portfolio’s separate RU/EN preference.
 - Product review: use the header CV link on desktop/mobile, check the logo transition, use browser Back, and verify Contact / View portfolio / View project. Switch language/theme, open Download PDF and check both format options. Review the Figma PDF layouts before approving public downloads.
