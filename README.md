@@ -7,6 +7,8 @@ Production portfolio implemented from the current desktop and mobile Figma layou
 
 ## Current state
 
+Latest verification (2026-10-14):99 passed/21 intentional skips locally and on production; all eight downloadable PDF byte/hash checks PASS. Release evidence: `docs/test-log-2026-10-14-cv-release.md`.
+
 - `/cv` implements the edited desktop `584:3` and mobile `584:4` layouts in EN/RU, with selectable experience text and a local exact SVG wordmark. Contact opens the shared Nice to meet you overlay on the website and mailto in PDF. Both action rows use Contact → Download PDF → View portfolio.
 - Both routes use the exact user-supplied `Group 3.svg` (951×214), stored as `public/assets/cv-wordmark.svg`. One SVG shrinks into CV and expands back into the portfolio, including browser Back. Menu/globe positions are identical; the middle slot is CV on the portfolio and theme on CV. Reduced-motion/modified-click/no-JavaScript paths keep native links.
 - Eight public PDFs derive from `/cv`: EN/RU × dark/light × Desktop 1440 px/Mobile 390 px. Download PDF opens a centred full-screen picker with Desktop PDF / Mobile PDF and inherits the current language/theme. Each file preserves selectable text, vector logo and live links. Publication was explicitly authorized on 2026-10-14. See `docs/cv-pdf-review.md`.

@@ -1,0 +1,32 @@
+[
+  {
+    "path": "/",
+    "status": 200,
+    "bytes": 83324,
+    "sha256": "33564bd376ebfbb90e8caec67985adf23897f9eb6f17a94f1745054b538860a0"
+  },
+  {
+    "path": "/cv",
+    "status": 200,
+    "bytes": 13713,
+    "sha256": "ff4c3031e99c4dd0d8c849c146c12d9b0c2ee7e7e40c816f5b004a43b1e45689"
+  },
+  {
+    "path": "/cv?lang=ru&theme=light",
+    "status": 200,
+    "bytes": 16240,
+    "sha256": "433713f71743b6e381023019900a23913ea8588f2cc826538968a93e52482a72"
+  },
+  {
+    "path": "/api/health",
+    "status": 200,
+    "bytes": 15,
+    "sha256": "a29ee2b15c494311c52521766e44af56a3ad2248e7a8ab465e5206463c13d288"
+  },
+  {
+    "path": "/assets/cv-wordmark.svg",
+    "status": 200,
+    "bytes": 8498,
+    "sha256": "3fe4a3d13ca25eef926b764c5f8642e9cd616ecb8fbdcb19fa0e9571306c823c"
+  }
+]

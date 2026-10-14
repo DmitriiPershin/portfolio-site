@@ -7,7 +7,7 @@ Implementation: exact supplied Group 3.svg, aligned toolbar slots, reverse/logo 
 - `npm run build`: Astro diagnostics zero errors/warnings/hints; production build PASS.
 - `npm test -- tests/cv.spec.ts --workers=2` before publication: 24 passed, zero failures.
 - Full pre-publication suite: 98 passed,19 intentional skips,zero failures.
-- Final local suite:99 passed,21 intentional skips,zero failures in1.3min. Includes native browser Back flight and all eight public PDF byte/hash checks. Production verification recorded below after deployment.
+- Final local suite:99 passed,21 intentional skips,zero failures in1.3min. Includes native browser Back flight and all eight public PDF byte/hash checks. Production full suite:99 passed,21 intentional skips,zero failures in1.8min.
 - All eight PDFs reopened through pypdf: one page; all four employers and 20-years sentence; no raster XObjects; eight URI annotations, including two mailto and two same-variant public PDF links; no local/undefined URLs. Poppler renders inspected for all eight. Screenshots and correct-size public downloads retain the supplied vector wordmark.
 - SVG: 951×214,8498 bytes,SHA256 `3fe4a3d13ca25eef926b764c5f8642e9cd616ecb8fbdcb19fa0e9571306c823c`; byte-identical to supplied Downloads/Group 3.svg.
 - UI captures: `artifacts/qa/cv-release-2026-10-14/`, desktop1440×900/mobile390×844/small320×640, including Contact/language/PDF overlays and hero. Small-phone contact wrap/email clipping found during inspection and fixed before final tests.
@@ -20,3 +20,12 @@ Implementation: exact supplied Group 3.svg, aligned toolbar slots, reverse/logo 
 3. Download Desktop/Mobile in dark English and light Russian; inspect text and click Contact to open email.
 
 Known format choice: each PDF is a continuous page for screen reading, not A4 pagination. Earlier Figma review frames predate this release’s SVG/action change; no Figma write is claimed.
+
+## Production receipt
+
+- Tested runtime/main commit: `f0175c7670731071c4814d99a18cbfc8c33c6b26`.
+- Railway deployment `9bd7b7dd-c668-4a9d-9fd8-fdcfc92085f8`: SUCCESS,2026-10-14.
+- Public `/`, `/cv`, Russian/light CV, health and supplied SVG:HTTP200; SVG byte/hash equality PASS. All eight public PDF files passed size/MIME/SHA verification in the production suite.
+- Live desktop/mobile dark CV, light language/contact/PDF overlays inspected; captures and HTTP receipt in `artifacts/qa/cv-release-2026-10-14/production/`.
+- Logs: `cv-build-2026-10-14.txt`, `cv-local-tests-2026-10-14.txt`, `cv-production-tests-2026-10-14.txt`, `cv-pdf-validation-2026-10-14.json`.
+- The following commit adds QA/docs evidence only. Runtime/source/public PDFs are unchanged; final pushed main is redeployed and receipt is recorded in the calling task outputs.
