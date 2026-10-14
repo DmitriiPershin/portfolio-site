@@ -7,7 +7,7 @@ Production portfolio implemented from the current desktop and mobile Figma layou
 
 ## Current state
 
-Latest motion/layout refinement is documented in `docs/motion-system.md`; verification is in `docs/test-log-2026-10-14-cv-system.md`. The earlier99-test release is historical (`docs/test-log-2026-10-14-cv-release.md`).
+Latest verification:112 passed/26 intentional skips locally and on production;all8public PDF hash checks PASS. Latest motion/layout refinement is documented in `docs/motion-system.md`; verification is in `docs/test-log-2026-10-14-cv-system.md`. The earlier99-test release is historical (`docs/test-log-2026-10-14-cv-release.md`).
 
 - `/cv` implements the edited desktop `584:3` and mobile `584:4` layouts in EN/RU, with selectable experience text and a local exact SVG wordmark. The floating avatar opens Nice to meet you on CV and portfolio. Website action rows use filled Download PDF → outlined View portfolio with identical hover response and Figma sizing. PDF retains Contact/mailto and View portfolio, without Download PDF.
 - Both routes use the exact user-supplied `Group 3.svg` (951×214), stored as `public/assets/cv-wordmark.svg`. One SVG shrinks into CV and expands back on desktop, including browser Back; Senior Product Designer replays its entry animation on return. Mobile uses identical full-width SVG bounds at y80px on both pages and performs no logo flight. One shared header preserves menu/CV/globe at64/132/200px on desktop; CV theme occupies its own268px slot. Reduced-motion/modified-click/no-JavaScript paths keep native links.
