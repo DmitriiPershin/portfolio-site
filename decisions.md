@@ -267,3 +267,11 @@ Decision, requested by Dmitrii: replace CV’s small menu/language dialogs with 
 Decision: interpolate theme background/text/accent in place over 720 ms, with a soft sun/moon change; update the URL and PDF theme selection without reloading. Update language content in place from the server-rendered CV, preserving theme and reading position. Abort superseded language requests and keep native navigation as a fetch-failure/no-JavaScript fallback.
 
 Decision: use public/assets/cv-wordmark.svg for both the hero and CV and only one image in the transition layer. Scale uniformly over 1040 ms; no replacement glyphs, opacity handoff or second target logo. Destination geometry must match the final SVG within one pixel. This explicitly supersedes the live-text requirement for the hero wordmark only; section headings, overlays and metrics retain live Joyride.
+
+### 2026-10-14 - Exact supplied logo, stable reverse navigation and published PDFs
+
+Decision, explicit user request: replace both wordmarks with unchanged bytes from Downloads/Group 3.svg (951×214). Use one uniformly scaled SVG for entry, View portfolio return and browser Back. Preserve portfolio toolbar slots: desktop menu64/theme-or-CV132/globe200; mobile globe/theme-or-CV/menu. This supersedes the previous CV toolbar spacing.
+
+Decision: language and PDF choices are centred fullscreen overlays with sharp vector closes, scroll locking and shared keyboard focus behaviour. Contact uses the same Nice to meet you overlay on both website routes, but retains mailto in PDF. Contact → Download PDF → View portfolio is the order in both action rows and exports. A small mobile contact layout must fit email and the three-line title.
+
+Resolved constraint: user explicitly authorized generating and publishing all PDFs; earlier approval gates dated 2026-10-11/12 are superseded. Eight exported files are public assets with measured metadata/hashes in src/data/cv-pdf-manifest.json. Desktop/Mobile format selection is explicit; selected language/theme determines the download. PDF Download links target the same public variant. Existing Figma review frames predate this supplied SVG/action change; the shared website source is the current export source.

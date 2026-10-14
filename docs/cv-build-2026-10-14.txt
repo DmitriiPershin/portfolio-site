@@ -1,0 +1,28 @@
+
+> dmitrii-pershin-portfolio@0.1.0 build
+> astro check && astro build
+
+09:09:48 [@astrojs/node] Enabling sessions with filesystem storage
+09:09:48 [types] Generated 44ms
+09:09:48 [check] Getting diagnostics for Astro files in /Users/dmitriipershin/Vibecoding/I am/portfolio-site...
+Result (34 files): 
+- 0 errors
+- 0 warnings
+- 0 hints
+
+09:09:51 [@astrojs/node] Enabling sessions with filesystem storage
+09:09:51 [types] Generated 24ms
+09:09:51 [build] output: "server"
+09:09:51 [build] mode: "server"
+09:09:51 [build] directory: /Users/dmitriipershin/Vibecoding/I am/portfolio-site/dist/
+09:09:51 [build] adapter: @astrojs/node
+09:09:51 [build] Collecting build info...
+09:09:51 [build] ✓ Completed in 60ms.
+09:09:51 [build] Building server entrypoints...
+09:09:51 [vite] ✓ built in 105ms
+09:09:51 [vite] ✓ built in 132ms
+09:09:52 [vite] ✓ built in 106ms
+09:09:52 [build] Rearranging server assets...
+09:09:52 [build] ✓ Completed in 363ms.
+09:09:52 [build] Server built in 439ms
+09:09:52 [build] Complete!

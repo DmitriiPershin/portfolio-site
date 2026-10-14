@@ -24,8 +24,8 @@ test("CV follows the edited content, links and responsive composition", async ({
   for (const download of await page.locator("[data-pdf-download]").all()) await expect(download).toBeEnabled();
   await page.locator("[data-pdf-download]").first().click();
   await expect(page.locator("#cv-pdf-dialog")).toBeVisible();
-  await expect(page.getByRole("button", {name:"Desktop PDF",exact:true})).toBeDisabled();
-  await expect(page.getByRole("button", {name:"Mobile PDF",exact:true})).toBeDisabled();
+  await expect(page.getByRole("link", {name:"Desktop PDF",exact:true})).toHaveAttribute("href", "/cv/dmitrii-pershin-cv-en-dark-desktop.pdf");
+  await expect(page.getByRole("link", {name:"Mobile PDF",exact:true})).toHaveAttribute("href", "/cv/dmitrii-pershin-cv-en-dark-mobile.pdf");
   await page.keyboard.press("Escape");
   const width = page.viewportSize()!.width;
   const geometry = await page.evaluate(() => {
@@ -70,7 +70,8 @@ test("header opens CV through a shrinking logo and browser back remains usable",
   expect(Math.abs(arriving.height-landed!.height)).toBeLessThan(1);
   await expect(page.getByRole("heading", { name: cv.role, exact: true })).toBeVisible();
   await page.goBack();
-  await expect(page.locator(".cv-route-transition")).toHaveCount(0);
+  await expect(page.locator(".cv-route-transition")).toBeAttached();
+  await page.waitForFunction(() => !document.querySelector(".cv-route-transition"));
   await expect(page.locator("[data-menu-toggle]")).toBeVisible();
   await expect(page.locator(".hero__logo img")).toHaveCSS("visibility", "visible");
 });
@@ -111,9 +112,9 @@ test("CV language and theme preserve each other and the PDF format choice", asyn
   await page.reload();
   await expect(page.getByRole("heading", {name:"Опыт",exact:true})).toBeVisible();
   await page.locator("[data-pdf-download]").first().click();
-  await expect(page.locator("[data-pdf-selection]")).toHaveText("Светлая тема · Русский");
-  await expect(page.locator("[data-pdf-format=desktop]")).toBeDisabled();
-  await expect(page.locator("[data-pdf-format=mobile]")).toBeDisabled();
+  await expect(page.locator("#cv-pdf-dialog")).toHaveAttribute("aria-hidden", "false");
+  await expect(page.locator("[data-pdf-format=desktop]")).toHaveAttribute("href", "/cv/dmitrii-pershin-cv-ru-light-desktop.pdf");
+  await expect(page.locator("[data-pdf-format=mobile]")).toHaveAttribute("href", "/cv/dmitrii-pershin-cv-ru-light-mobile.pdf");
   await page.keyboard.press("Escape");
   await expect(page.locator("[data-pdf-download]").first()).toBeFocused();
   await page.locator(".cv-control--theme").click();
@@ -168,4 +169,59 @@ test("CV theme interpolates without reload and both overlays match portfolio beh
   await expect(page.locator("body")).toHaveCSS("background-color", "rgb(0, 0, 0)");
   await expect(page.locator(".cv-control--theme img")).toHaveAttribute("src", "/assets/cv-theme-light.svg");
   await expect(page).toHaveURL(/theme=dark/);
+});
+
+test("CV toolbar stays aligned on return and the same logo expands smoothly", async ({page})=>{
+  await page.goto('/cv');await page.locator('html[data-cv-controls-ready]').waitFor();
+  const rects=await page.locator('[data-menu-toggle], [data-language-toggle]').evaluateAll(els=>els.map(el=>{const r=el.getBoundingClientRect();return {x:r.x,y:r.y,width:r.width,height:r.height};}));
+  await page.locator('.cv-profile [data-portfolio-link]').click({noWaitAfter:true});
+  await expect(page.locator('.cv-route-transition')).toBeAttached();
+  const start=await page.locator('.cv-route-transition__logo').evaluate(el=>el.getBoundingClientRect().width);
+  await page.waitForTimeout(400);
+  expect(await page.locator('.cv-route-transition__logo').evaluate(el=>el.getBoundingClientRect().width)).toBeGreaterThan(start);
+  await page.waitForURL('**/');
+  const arrived=await page.locator('[data-menu-toggle], [data-language-toggle]').evaluateAll(els=>els.map(el=>{const r=el.getBoundingClientRect();return {x:r.x,y:r.y,width:r.width,height:r.height};}));
+  // Main markup orders language/menu; compare by position rather than DOM order.
+  expect(arrived.sort((a,b)=>a.x-b.x||a.y-b.y)).toEqual(rects.sort((a,b)=>a.x-b.x||a.y-b.y));
+  await expect(page.locator('.hero__logo img')).toHaveCSS('visibility','visible');
+  expect(await page.evaluate(()=>scrollY)).toBe(0);
+});
+
+test("pickers are viewport-centred, contacts share one overlay and wheel scrolling is locked", async ({page})=>{
+  for(const route of ['/','/cv?theme=light']) {
+    await page.goto(route);await page.evaluate(()=>document.fonts.ready);
+    if(route==='/')await page.waitForFunction(()=>document.documentElement.dataset.motion==='full');
+    await page.locator('[data-language-toggle]').click();
+    const box=await page.locator('[data-language-overlay] .language-dialog').boundingBox();
+    expect(Math.abs(box!.y+box!.height/2-page.viewportSize()!.height/2)).toBeLessThan(1);
+    expect(Math.abs(box!.x+box!.width/2-page.viewportSize()!.width/2)).toBeLessThan(1);
+    await expect(page.locator('[data-language-close] svg')).toBeVisible();
+    const y=await page.evaluate(()=>scrollY);await page.mouse.wheel(0,900);await page.waitForTimeout(200);
+    expect(await page.evaluate(()=>scrollY)).toBe(y);await page.keyboard.press('Escape');
+    const contact=page.locator('[data-contact-toggle]').first();await contact.click();
+    await expect(page.locator('[data-contact-overlay]')).toHaveAttribute('aria-hidden','false');
+    await expect(page.locator('[data-contact-overlay] a[href="mailto:pershindmitrii@gmail.com"]')).toBeVisible();
+    await page.mouse.wheel(0,900);await page.waitForTimeout(200);expect(await page.evaluate(()=>scrollY)).toBe(y);
+    await page.keyboard.press('Escape');await expect(contact).toBeFocused();
+    if(route.includes('cv')){
+      await expect(page.locator('.cv-burger')).toHaveCSS('filter','none');
+      for(const nav of await page.locator('.cv-actions').all())expect(await nav.locator(':scope > *').allTextContents()).toEqual(['Contact','Download PDF ↓','View portfolio →']);
+      await page.locator('[data-pdf-download]').first().click();
+      const pdf=await page.locator('.pdf-overlay .language-dialog').boundingBox();
+      expect(Math.abs(pdf!.y+pdf!.height/2-page.viewportSize()!.height/2)).toBeLessThan(1);
+      await expect(page.locator('.pdf-overlay [data-pdf-format]')).toHaveCount(2);
+    }
+  }
+});
+
+test('all eight published PDF variants match their manifest hashes', async ({request},testInfo)=>{
+  test.skip(testInfo.project.name!=='chromium','Binary exports need one verification per server');
+  const {default:manifest}=await import('../src/data/cv-pdf-manifest.json',{with:{type:'json'}});
+  const {createHash}=await import('node:crypto');
+  for(const entry of Object.values(manifest.variants)){
+    const response=await request.get(entry.url);expect(response.status()).toBe(200);
+    expect(response.headers()['content-type']).toContain('application/pdf');
+    const bytes=await response.body();expect(bytes.subarray(0,5).toString()).toBe('%PDF-');
+    expect(bytes.length).toBe(entry.bytes);expect(createHash('sha256').update(bytes).digest('hex')).toBe(entry.sha256);
+  }
 });

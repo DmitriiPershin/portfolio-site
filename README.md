@@ -7,9 +7,9 @@ Production portfolio implemented from the current desktop and mobile Figma layou
 
 ## Current state
 
-- `/cv` implements the edited desktop `584:3` and mobile `584:4` layouts in EN/RU, with selectable experience text and a local exact SVG wordmark. Contact, portfolio and timer links use their intended destinations.
-- The fixed header includes a direct CV link matching Figma `601:78` / `372:929`. Full-motion navigation moves and uniformly scales one exact SVG wordmark into the CV slot over 1040 ms, with no shape replacement or logo crossfade. Reduced-motion, modified-click/new-tab and no-JavaScript paths keep normal links. Browser back clears the transition layer.
-- PDF now derives from the same `/cv` layout: one continuous screen-reading page at Desktop 1440 px or Mobile 390 px, with the selected EN/RU language and dark/light theme. Eight editable review frames are in the Figma CV page, and generated validation files remain outside the repository. They are **awaiting Dmitrii’s approval**. Download PDF opens a Desktop PDF / Mobile PDF dialog; the format buttons remain disabled until approval, and no unapproved PDF is publicly served. The earlier separate two-page print layout is superseded.
+- `/cv` implements the edited desktop `584:3` and mobile `584:4` layouts in EN/RU, with selectable experience text and a local exact SVG wordmark. Contact opens the shared Nice to meet you overlay on the website and mailto in PDF. Both action rows use Contact → Download PDF → View portfolio.
+- Both routes use the exact user-supplied `Group 3.svg` (951×214), stored as `public/assets/cv-wordmark.svg`. One SVG shrinks into CV and expands back into the portfolio, including browser Back. Menu/globe positions are identical; the middle slot is CV on the portfolio and theme on CV. Reduced-motion/modified-click/no-JavaScript paths keep native links.
+- Eight public PDFs derive from `/cv`: EN/RU × dark/light × Desktop 1440 px/Mobile 390 px. Download PDF opens a centred full-screen picker with Desktop PDF / Mobile PDF and inherits the current language/theme. Each file preserves selectable text, vector logo and live links. Publication was explicitly authorized on 2026-10-14. See `docs/cv-pdf-review.md`.
 
 - All portfolio sections are implemented in Astro + TypeScript with GSAP/ScrollTrigger as the only motion runtime.
 - Exact Figma section icons, desktop AI routes, project visuals, and avatar are stored locally. Section headings, overlays, closing title, and metrics are selectable live Joyride text. At Dmitrii’s explicit request the hero and CV use the same exact SVG; accessible name text remains in the DOM.
@@ -78,7 +78,7 @@ npm run qa:screenshots
 ```
 
 The product review checklist is in `checks.md`. Reduced-motion desktop/mobile renders are written to `artifacts/qa/`.
-The CV implementation and checks are recorded in `docs/test-log-2026-10-11-cv.md`, `docs/test-log-2026-10-12-cv.md` and `docs/test-log-2026-10-12-cv-motion.md`.
+The current release checks are in `docs/test-log-2026-10-14-cv-release.md`. Earlier CV implementation and checks are recorded in `docs/test-log-2026-10-11-cv.md`, `docs/test-log-2026-10-12-cv.md` and `docs/test-log-2026-10-12-cv-motion.md`.
 The latest earlier motion revision is recorded in `docs/test-log-2026-09-05-motion.md`; the earlier contour correction remains in `docs/test-log-2026-09-05.md`.
 For an already running deployment, use `PORTFOLIO_BASE_URL=https://your-deployment npm test` (no local server is started).
 
@@ -150,5 +150,5 @@ The `.railwayignore` file keeps committed QA screenshots, tests, reports, and do
 - Editable PDF review IDs and the publication procedure: `docs/cv-pdf-review.md`. Validation: `docs/test-log-2026-10-12-cv.md`.
 - `src/data/cv.json` is the rendered-content snapshot from these frames. Career evidence remains in the existing career-context registry linked from the parent workspace.
 - `/cv` supports EN/RU and dark/light using URL preferences (`?lang=ru&theme=light`); direct `/cv` defaults to English and dark. Switching either preference preserves the other and survives reload, without changing the portfolio’s separate RU/EN preference. JavaScript switches themes and languages in place; direct URL / no-JavaScript paths remain server-rendered.
-- Product review: use the header CV link on desktop/mobile, check the logo transition, use browser Back, and verify Contact / View portfolio / View project. Switch language/theme, open Download PDF and check both format options. Review the Figma PDF layouts before approving public downloads.
+- Product review: open CV and return through View portfolio and browser Back on desktop/mobile; check stable controls and the logo flight. Open Contact, language and PDF overlays: centred content, sharp SVG close, no scrolling. Change theme/language and download both formats; verify PDF Contact opens email.
 - No database, new secrets or environment variables are required.

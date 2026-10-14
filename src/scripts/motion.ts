@@ -16,86 +16,53 @@ const readMotionNumber = (name: string, fallback: number) => {
   return Number.isFinite(value) ? value : fallback;
 };
 
-function setBodyLocked() {
-  const openOverlay = select<HTMLElement>('[data-menu-overlay][aria-hidden="false"], [data-language-overlay][aria-hidden="false"], [data-contact-overlay][aria-hidden="false"]');
-  document.body.classList.toggle("overlay-open", Boolean(openOverlay));
-}
-
 export function initOverlays() {
-  const menuToggle = select<HTMLButtonElement>("[data-menu-toggle]");
-  const menuOverlay = select<HTMLElement>("[data-menu-overlay]");
-  const menuClose = select<HTMLButtonElement>("[data-menu-close]");
-  const languageToggle = select<HTMLButtonElement>("[data-language-toggle]");
-  const languageOverlay = select<HTMLElement>("[data-language-overlay]");
-  const languageClose = select<HTMLButtonElement>("[data-language-close]");
-  const contactToggle = select<HTMLButtonElement>("[data-contact-toggle]");
-  const contactOverlay = select<HTMLElement>("[data-contact-overlay]");
-  const contactClose = select<HTMLButtonElement>("[data-contact-close]");
-
-  const setMenu = (open: boolean) => {
-    if (!menuToggle || !menuOverlay) return;
-    menuToggle.setAttribute("aria-expanded", String(open));
-    menuOverlay.setAttribute("aria-hidden", String(!open));
-    if (open && contactOverlay?.getAttribute("aria-hidden") === "false") setContact(false);
-    if (open && languageOverlay?.getAttribute("aria-hidden") === "false") setLanguage(false);
-    setBodyLocked();
-    if (open) menuOverlay.focus({ preventScroll: true });
-  };
-
-  const setLanguage = (open: boolean) => {
-    if (!languageToggle || !languageOverlay) return;
-    languageToggle.setAttribute("aria-expanded", String(open));
-    languageOverlay.setAttribute("aria-hidden", String(!open));
-    if (open && menuOverlay?.getAttribute("aria-hidden") === "false") setMenu(false);
-    if (open && contactOverlay?.getAttribute("aria-hidden") === "false") setContact(false);
-    setBodyLocked();
-    if (open) languageOverlay.focus({ preventScroll: true });
-  };
-
-  const setContact = (open: boolean) => {
-    if (!contactToggle || !contactOverlay) return;
-    contactToggle.setAttribute("aria-expanded", String(open));
-    contactOverlay.setAttribute("aria-hidden", String(!open));
-    document.body.classList.toggle("contact-open", open);
-    if (open && menuOverlay?.getAttribute("aria-hidden") === "false") setMenu(false);
-    if (open && languageOverlay?.getAttribute("aria-hidden") === "false") setLanguage(false);
-    setBodyLocked();
-    if (open) contactOverlay.focus({ preventScroll: true });
-  };
-
-  menuToggle?.addEventListener("click", () => setMenu(menuToggle.getAttribute("aria-expanded") !== "true"));
-  menuClose?.addEventListener("click", () => {
-    setMenu(false);
-    menuToggle?.focus();
-  });
-  selectAll<HTMLAnchorElement>("a", menuOverlay ?? document).forEach((link) => link.addEventListener("click", () => setMenu(false)));
-  languageToggle?.addEventListener("click", () => setLanguage(languageToggle.getAttribute("aria-expanded") !== "true"));
-  languageClose?.addEventListener("click", () => {
-    setLanguage(false);
-    languageToggle?.focus();
-  });
-  selectAll<HTMLButtonElement>("[data-language-option]", languageOverlay ?? document).forEach((button) => button.addEventListener("click", () => setLanguage(false)));
-  contactToggle?.addEventListener("click", () => setContact(contactToggle.getAttribute("aria-expanded") !== "true"));
-  contactClose?.addEventListener("click", () => {
-    setContact(false);
-    contactToggle?.focus();
-  });
-
-  document.addEventListener("keydown", (event) => {
-    if (event.key !== "Escape") return;
-    if (menuToggle?.getAttribute("aria-expanded") === "true") {
-      setMenu(false);
-      menuToggle.focus();
+  const kinds = ['menu', 'language', 'contact', 'pdf'] as const;
+  let opener: HTMLElement | null = null;
+  const closeAll = (restoreFocus = false) => {
+    for (const kind of kinds) {
+      select<HTMLElement>(`[data-${kind}-overlay]`)?.setAttribute('aria-hidden', 'true');
+      selectAll<HTMLElement>(`[data-${kind}-toggle]`).forEach(button => button.setAttribute('aria-expanded', 'false'));
     }
-    if (languageToggle?.getAttribute("aria-expanded") === "true") {
-      setLanguage(false);
-      languageToggle.focus();
+    document.body.classList.remove('overlay-open', 'contact-open');
+    document.documentElement.classList.remove('overlay-open');
+    if (restoreFocus) opener?.focus({preventScroll:true});
+  };
+  document.addEventListener('click', event => {
+    const target = event.target instanceof Element ? event.target : null;
+    for (const kind of kinds) {
+      const toggle = target?.closest<HTMLElement>(`[data-${kind}-toggle]`);
+      const overlay = select<HTMLElement>(`[data-${kind}-overlay]`);
+      if (toggle && overlay) {
+        event.preventDefault();
+        const opening = overlay.getAttribute('aria-hidden') !== 'false';
+        closeAll();
+        if (!opening) return;
+        opener = toggle;
+        overlay.setAttribute('aria-hidden', 'false');
+        toggle.setAttribute('aria-expanded', 'true');
+        document.body.classList.add('overlay-open');
+        document.documentElement.classList.add('overlay-open');
+        document.body.classList.toggle('contact-open', kind === 'contact');
+        overlay.focus({preventScroll:true});
+        return;
+      }
+      if (target?.closest(`[data-${kind}-close]`)) { closeAll(true); return; }
     }
-    if (contactToggle?.getAttribute("aria-expanded") === "true") {
-      setContact(false);
-      contactToggle.focus();
+    if (target?.closest('[data-menu-overlay] a, [data-language-option]')) closeAll();
+  });
+  document.addEventListener('keydown', event => {
+    const overlay = select<HTMLElement>(kinds.map(kind=>`[data-${kind}-overlay][aria-hidden="false"]`).join(','));
+    if (!overlay) return;
+    if (event.key === 'Escape') { event.preventDefault(); closeAll(true); }
+    if (event.key === 'Tab') {
+      const items = selectAll<HTMLElement>('button:not(:disabled),a[href]', overlay);
+      const first=items[0],last=items.at(-1);
+      if (event.shiftKey && (document.activeElement===first || document.activeElement===overlay)) {event.preventDefault();last?.focus();}
+      else if (!event.shiftKey && (document.activeElement===last || document.activeElement===overlay)) {event.preventDefault();first?.focus();}
     }
   });
+  window.addEventListener('pageshow', () => closeAll());
 }
 
 function initLanguage() {
@@ -637,7 +604,8 @@ export async function initPortfolioMotion() {
   initCardBorders();
   initBorderGlow();
   initMobileScrollGlow();
-  initHero();
+  if (!document.documentElement.hasAttribute("data-route-arrival")) initHero();
+  else gsap.set(["[data-hero-logo]", "[data-hero-role]"], {clipPath:"none", opacity:1, y:0});
   initSectionReveals();
   initWorkflowReveals();
   initRollingNumbers();

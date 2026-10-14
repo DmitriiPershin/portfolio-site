@@ -72,8 +72,7 @@ export async function initCvControls() {
       for(const selector of ['.cv-control--menu','.cv-control--language','[data-language-close]','[data-menu-close]','.language-dialog']){
         const target=document.querySelector(selector);const source=incoming.querySelector(selector);const label=source?.getAttribute('aria-label');if(target&&label)target.setAttribute('aria-label',label);
       }
-      const pdf=document.querySelector('#cv-pdf-dialog');const translatedPdf=incoming.querySelector('#cv-pdf-dialog');
-      if(pdf&&translatedPdf)pdf.replaceChildren(...Array.from(translatedPdf.childNodes));
+
       const toggle=document.querySelector<HTMLButtonElement>('[data-language-toggle]');toggle?.focus({preventScroll:true});
       syncPreferences();
     } catch(error) {
@@ -88,11 +87,6 @@ export async function initCvControls() {
     if(theme&&event instanceof MouseEvent&&event.button===0&&!event.metaKey&&!event.ctrlKey&&!event.shiftKey&&!event.altKey){event.preventDefault();setTheme(root.dataset.cvTheme === 'dark' ? 'light' : 'dark');return;}
     const language=target?.closest<HTMLElement>('[data-language-option]');
     if(language){const next=language.dataset.languageOption;if(next==='en'||next==='ru')void setLanguage(next);return;}
-    const opener=target?.closest<HTMLElement>('[data-cv-dialog]');
-    if(opener){const dialog=document.getElementById(opener.dataset.cvDialog || '');if(dialog instanceof HTMLDialogElement)dialog.showModal();}
-  });
-  document.querySelectorAll<HTMLDialogElement>('.cv-dialog').forEach(dialog => {
-    dialog.addEventListener('click',event => {if(event.target!==dialog)return;const rect=dialog.getBoundingClientRect();if(event.clientX<rect.left||event.clientX>rect.right||event.clientY<rect.top||event.clientY>rect.bottom)dialog.close();});
   });
   window.addEventListener('pagehide',()=>{themeTimeline?.kill();languageRequest?.abort();});
   await Promise.allSettled([document.fonts.load('16px "Joyride Outline"'),document.fonts.load('16px "Joyride Regular"'),document.fonts.load('16px "LINE Seed JP"')]);

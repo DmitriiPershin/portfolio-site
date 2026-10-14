@@ -1,63 +1,75 @@
 import { gsap } from 'gsap';
 import { motionNumber as token, motionSeconds } from './motion-tokens';
 
-/** One SVG and uniform scaling; real anchors retain native navigation fallbacks. */
+type Arrival = {x:number;y:number;width:number;height:number;time:number;settled:boolean};
+const returnKey = 'portfolio-return';
+/** One exact SVG, uniform scaling in both directions and native anchors as fallback. */
 export function initCvNavigation() {
-  let navigating = false;
-  window.addEventListener('pageshow', () => {
-    document.querySelectorAll('.cv-route-transition').forEach(layer => layer.remove());
-    document.querySelectorAll<HTMLElement>('[data-cv-source-hidden]').forEach(source => {
-      source.style.removeProperty('visibility');delete source.dataset.cvSourceHidden;
-    });
-    delete document.documentElement.dataset.cvNavigating;
-    navigating = false;
-  });
-  document.querySelectorAll<HTMLAnchorElement>('[data-cv-link]').forEach(link => {
-    link.addEventListener('click', async event => {
-      if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey ||
-          window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-      const hero = document.querySelector<HTMLImageElement>('.hero__logo [data-shared-wordmark]');
-      if (!hero) return;
-      event.preventDefault();
-      if (navigating) return;
-      navigating = true;
-      const go = () => window.location.assign(link.href);
-      try {
-        await Promise.race([hero.decode(), new Promise((_, reject) => window.setTimeout(reject, motionSeconds('--cv-transition-font-ready') * 1000))]);
-      } catch { go(); return; }
-      const gutter = token('--cv-gutter');
-      const contentWidth = Math.min(token('--cv-width'), innerWidth - gutter * 2);
-      const width = Math.min(token('--cv-logo-width'), contentWidth);
-      const x = (innerWidth - contentWidth) / 2;
-      const y = token(innerWidth <= 640 ? '--cv-mobile-screen-top' : '--cv-top');
-      const rect = hero.getBoundingClientRect();
-      const inView = rect.bottom > 0 && rect.top < innerHeight;
-      const sourceWidth = inView ? rect.width : Math.min(token('--cv-transition-source-max'), contentWidth);
-      const sourceHeight = sourceWidth * hero.naturalHeight / hero.naturalWidth;
-      const sourceX = inView ? rect.left : (innerWidth - sourceWidth) / 2;
-      const sourceY = inView ? rect.top : Math.max(y, (innerHeight - sourceHeight) / 2);
-      const layer = document.createElement('div');
-      layer.className = 'cv-route-transition';
-      layer.setAttribute('aria-hidden', 'true');
-      const backdrop = document.createElement('div');
-      backdrop.className = 'cv-route-transition__backdrop';
-      const logo = hero.cloneNode(false) as HTMLImageElement;
-      logo.className = 'cv-route-transition__logo';
-      logo.removeAttribute('id');
-      logo.style.width = `${sourceWidth}px`;
-      logo.style.height = `${sourceHeight}px`;
-      layer.append(backdrop, logo);
-      document.body.append(layer);
-      hero.style.visibility='hidden';hero.dataset.cvSourceHidden='';
-      document.documentElement.dataset.cvNavigating = 'true';
-      gsap.set(logo, { x: sourceX, y: sourceY, opacity: inView ? 1 : 0 });
-      gsap.set(backdrop, { opacity: 0 });
-      const duration = motionSeconds('--cv-duration-logo');
-      const background = motionSeconds('--cv-duration-backdrop');
-      const timeline = gsap.timeline({ onComplete: go });
-      timeline.to(backdrop, {opacity: 1, duration: background, ease: 'sine.out'}, 0);
-      if (!inView) timeline.to(logo, {opacity: 1, duration: background, ease:'sine.out'}, 0);
-      timeline.to(logo, {x, y, scale: width / sourceWidth, duration, ease:'power3.inOut'}, 0);
+  let navigating=false;
+  let explicitReturn=false;
+  const reduced=()=>matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const reset=()=>{
+    document.querySelectorAll('.cv-route-transition').forEach(layer=>layer.remove());
+    document.querySelectorAll<HTMLElement>('[data-cv-source-hidden]').forEach(source=>{source.style.removeProperty('visibility');delete source.dataset.cvSourceHidden;});
+    document.querySelector('.floating-header')?.removeAttribute('data-scroll-hidden');
+    delete document.documentElement.dataset.cvNavigating;navigating=false;
+  };
+  const saveReturn=(settled:boolean)=>{
+    const source=document.querySelector<HTMLImageElement>('.cv-wordmark img');if(!source)return;
+    const r=source.getBoundingClientRect();
+    try {sessionStorage.setItem(returnKey,JSON.stringify({x:r.x,y:r.y,width:r.width,height:r.height,time:Date.now(),settled}));}catch{}
+  };
+  const flight=(source:HTMLImageElement,from:Arrival,to:{x:number;y:number;width:number},done:()=>void)=>{
+    const layer=document.createElement('div');layer.className='cv-route-transition';layer.setAttribute('aria-hidden','true');
+    const backdrop=document.createElement('div');backdrop.className='cv-route-transition__backdrop';
+    // Portfolio is always dark. The background settles while the single wordmark moves.
+    backdrop.style.background='#000';
+    const logo=source.cloneNode(false) as HTMLImageElement;logo.className='cv-route-transition__logo';logo.style.width=`${from.width}px`;logo.style.height=`${from.height}px`;
+    layer.append(backdrop,logo);document.body.append(layer);source.style.visibility='hidden';source.dataset.cvSourceHidden='';
+    document.documentElement.dataset.cvNavigating='true';
+    gsap.set(logo,{x:from.x,y:from.y,opacity:1});gsap.set(backdrop,{opacity:0});
+    gsap.timeline({onComplete:done})
+      .to(backdrop,{opacity:1,duration:motionSeconds('--cv-duration-backdrop'),ease:'sine.out'},0)
+      .to(logo,{x:to.x,y:to.y,scale:to.width/from.width,duration:motionSeconds('--cv-duration-logo'),ease:'power3.inOut'},0);
+  };
+  const portfolioTarget=()=>{
+    const width=innerWidth<=640?Math.min(token('--portfolio-logo-mobile-max'), innerWidth-token('--portfolio-logo-mobile-gutters')):Math.min(token('--cv-transition-source-max'),innerWidth-2*token('--page-gutter'));
+    return {x:(innerWidth-width)/2,y:token(innerWidth<=640?'--portfolio-logo-mobile-top':'--portfolio-logo-top'),width};
+  };
+  const arrive=async()=>{
+    if(location.pathname!=='/')return;
+    let stored:Arrival|null=null;
+    try{stored=JSON.parse(sessionStorage.getItem(returnKey)||'null');sessionStorage.removeItem(returnKey);}catch{}
+    if(!stored||Date.now()-stored.time>10000){delete document.documentElement.dataset.routeArrival;return;}
+    window.scrollTo({top:0,behavior:'instant'});reset();
+    const hero=document.querySelector<HTMLImageElement>('.hero__logo img');
+    if(!hero||stored.settled||reduced())return;
+    await hero.decode().catch(()=>{});
+    const target=portfolioTarget();
+    if(stored.y<0||stored.y>innerHeight)stored.y=token('--cv-top');
+    flight(hero,stored,target,()=>{reset();delete document.documentElement.dataset.routeArrival;});
+  };
+  window.addEventListener('pageshow',()=>{reset();void arrive();});
+  window.addEventListener('pagehide',()=>{if(location.pathname==='/cv'&&!explicitReturn)saveReturn(false);});
+  if(document.readyState==='complete')void arrive();
+  document.addEventListener('click',async event=>{
+    const target=event.target instanceof Element?event.target:null;
+    const link=target?.closest<HTMLAnchorElement>('[data-cv-link], [data-portfolio-link]');
+    if(!link||event.button!==0||event.metaKey||event.ctrlKey||event.shiftKey||event.altKey||reduced())return;
+    const reverse=link.hasAttribute('data-portfolio-link');
+    const source=document.querySelector<HTMLImageElement>(reverse?'.cv-wordmark img':'.hero__logo img');if(!source)return;
+    event.preventDefault();if(navigating)return;navigating=true;
+    await source.decode().catch(()=>{});
+    const r=source.getBoundingClientRect();
+    const gutter=token('--cv-gutter');const contentWidth=Math.min(token('--cv-width'),innerWidth-2*gutter);
+    const to=reverse?portfolioTarget():{x:(innerWidth-contentWidth)/2,y:token(innerWidth<=640?'--cv-mobile-screen-top':'--cv-top'),width:Math.min(token('--cv-logo-width'),contentWidth)};
+    const inView=r.bottom>0&&r.top<innerHeight;
+    const width=inView?r.width:Math.min(token('--cv-logo-width'),contentWidth);
+    const height=width*source.naturalHeight/source.naturalWidth;
+    const from={x:inView?r.x:(innerWidth-width)/2,y:inView?r.y:to.y,width,height,time:Date.now(),settled:false};
+    flight(source,from,to,()=>{
+      if(reverse){explicitReturn=true;saveReturn(true);}
+      location.assign(link.href);
     });
   });
 }

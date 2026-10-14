@@ -1,4 +1,6 @@
 ---
+import CloseIcon from "./CloseIcon.astro";
+import ContactOverlay from "./ContactOverlay.astro";
 import MorphLabel from "./MorphLabel.astro";
 const sections = [
   ["#focus", "FOCUS"],
@@ -27,7 +29,7 @@ const sections = [
 
 <div class="language-overlay" id="language-selector" aria-hidden="true" tabindex="-1" data-language-overlay>
   <button class="overlay-close" type="button" aria-label="Закрыть выбор языка" data-language-close>
-    <img src="/assets/close-icon.png" alt="" width="64" height="64" />
+    <CloseIcon />
   </button>
   <div class="language-dialog" role="dialog" aria-modal="true" aria-label="Выбор языка">
     <button class="language-choice" type="button" data-language-option="en" aria-pressed="false"><MorphLabel text="ENG" /></button>
@@ -37,7 +39,7 @@ const sections = [
 
 <div class="menu-overlay" id="site-menu" aria-hidden="true" tabindex="-1" data-menu-overlay>
   <button class="overlay-close" type="button" aria-label="Закрыть меню" data-menu-close>
-    <img src="/assets/close-icon.png" alt="" width="64" height="64" />
+    <CloseIcon />
   </button>
   <nav aria-label="Разделы портфолио">
     {sections.map(([href, label], index) => (
@@ -54,29 +56,4 @@ const sections = [
   <span class="avatar-button__status" aria-hidden="true"></span>
 </button>
 
-<div class="contact-overlay" id="contact-overlay" aria-hidden="true" tabindex="-1" data-contact-overlay>
-  <button class="overlay-close" type="button" aria-label="Закрыть контакты" data-contact-close>
-    <img src="/assets/close-icon.png" alt="" width="64" height="64" />
-  </button>
-  <div class="contact-dialog" role="dialog" aria-modal="true" aria-labelledby="contact-title">
-    <div class="contact-avatar" aria-hidden="true">
-      <span class="contact-avatar__photo-shell"><img src="/assets/avatar.png" alt="" /></span>
-      <img class="contact-avatar__ring" src="/assets/avatar-ring.svg" alt="" />
-      <span class="contact-avatar__status"></span>
-    </div>
-    <h2 class="contact-heading" id="contact-title">
-      <span class="contact-heading__outline">NICE<br />TO MEET</span>
-      <span class="contact-heading__fill">YOU</span>
-    </h2>
-    <div class="contact-links">
-      <a href="https://t.me/dmitrii_pershin" target="_blank" rel="noreferrer">
-        <img src="/assets/contact-telegram.svg" alt="" width="62" height="62" />
-        <span>dmitrii_pershin</span>
-      </a>
-      <a href="mailto:pershindmitrii@gmail.com">
-        <img src="/assets/contact-email.svg" alt="" width="62" height="62" />
-        <span>pershindmitrii@gmail.com</span>
-      </a>
-    </div>
-  </div>
-</div>
+<ContactOverlay />

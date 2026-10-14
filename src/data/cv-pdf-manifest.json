@@ -1,4 +1,62 @@
 {
-  "approved": false,
-  "variants": {}
+  "approved": true,
+  "approval": "User explicitly authorized PDF publication, 2026-10-14",
+  "variants": {
+    "en-dark-desktop": {
+      "url": "/cv/dmitrii-pershin-cv-en-dark-desktop.pdf",
+      "sha256": "4da6e589da0d65fda4ef030662dd27edf227e995ef4bef2b1630cfefec30c55b",
+      "bytes": 57014,
+      "width": 1440,
+      "height": 2471
+    },
+    "en-dark-mobile": {
+      "url": "/cv/dmitrii-pershin-cv-en-dark-mobile.pdf",
+      "sha256": "6f7c31626b3c7dc90a0b7dbc8f4419fc7b54ad3fe2c16b521ff2cc24140ac698",
+      "bytes": 56027,
+      "width": 390,
+      "height": 3415
+    },
+    "en-light-desktop": {
+      "url": "/cv/dmitrii-pershin-cv-en-light-desktop.pdf",
+      "sha256": "9e81780d888aeb97a8df9fb052344ac4dde004065bd0b45737af7cf9cb33f8e9",
+      "bytes": 56924,
+      "width": 1440,
+      "height": 2471
+    },
+    "en-light-mobile": {
+      "url": "/cv/dmitrii-pershin-cv-en-light-mobile.pdf",
+      "sha256": "9b334e328932062f091c9bbbcb3ef3a0ddcb947faa6275e47d73b328aa655ee7",
+      "bytes": 55931,
+      "width": 390,
+      "height": 3415
+    },
+    "ru-dark-desktop": {
+      "url": "/cv/dmitrii-pershin-cv-ru-dark-desktop.pdf",
+      "sha256": "1de4b35bc7db81e5b71ac9182c11c83c308dac32ebc4530bb2a51a908322821e",
+      "bytes": 62476,
+      "width": 1440,
+      "height": 2543
+    },
+    "ru-dark-mobile": {
+      "url": "/cv/dmitrii-pershin-cv-ru-dark-mobile.pdf",
+      "sha256": "7db7977cd50fb129a5242a363a2a355886b99381a2ded34fe0a6ffdb92982613",
+      "bytes": 61379,
+      "width": 390,
+      "height": 3679
+    },
+    "ru-light-desktop": {
+      "url": "/cv/dmitrii-pershin-cv-ru-light-desktop.pdf",
+      "sha256": "2b8696a0328fc69d5a187e2a7642f7bb0ff4f37a8b97c1b81a553dc726f11e19",
+      "bytes": 62385,
+      "width": 1440,
+      "height": 2543
+    },
+    "ru-light-mobile": {
+      "url": "/cv/dmitrii-pershin-cv-ru-light-mobile.pdf",
+      "sha256": "abebb26d3c21c32162739e8ed06a55485ca624e0d6f185f249f747de0db51f83",
+      "bytes": 61288,
+      "width": 390,
+      "height": 3679
+    }
+  }
 }

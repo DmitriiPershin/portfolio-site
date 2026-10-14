@@ -30,6 +30,7 @@ const { title, description, lang = "ru", cvTheme, cvView } = Astro.props;
     <title>{title}</title>
     <script is:inline>
       document.documentElement.classList.add("motion-enabled");
+      try { const arrival=JSON.parse(sessionStorage.getItem("portfolio-return") || "null"); if(location.pathname==="/" && arrival && Date.now()-arrival.time<10000) document.documentElement.dataset.routeArrival=""; } catch {}
     </script>
   </head>
   <body>

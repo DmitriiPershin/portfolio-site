@@ -95,7 +95,9 @@
   --cursor-glow-rgb: 118, 85, 146;
   --scrollbar-rgb: 118, 85, 146;
   --menu-viewport-margin: 40;
-  --mobile-logo-width: min(347.547px, calc(100vw - 42.453px));
+  --portfolio-logo-mobile-max: 347.547;
+  --portfolio-logo-mobile-gutters: 42.453;
+  --mobile-logo-width: min(calc(var(--portfolio-logo-mobile-max) * 1px), calc(100vw - var(--portfolio-logo-mobile-gutters) * 1px));
   --nav-top: 64px;
   --nav-right: 48px;
   --nav-control-size: 64px;
@@ -132,8 +134,8 @@
   --cv-duration-theme-icon: 240ms;
   --cv-theme-icon-scale: .85;
   --cv-theme-icon-rotation: 25;
-  --wordmark-native-width: 626;
-  --wordmark-native-height: 132;
+  --wordmark-native-width: 951;
+  --wordmark-native-height: 214;
   --cv-transition-font-ready: 1200ms;
   --cv-transition-source-max: 950px;
   --cv-menu-link-count: 8;
@@ -565,14 +567,14 @@ p {
 
 .language-dialog {
   position: absolute;
-  top: 386px;
+  top: 50%;
   left: 50%;
   display: flex;
-  width: 926px;
+  width: min(926px, calc(100% - 48px));
   flex-direction: column;
   align-items: center;
   gap: 40px;
-  transform: translateX(-50%);
+  transform: translate(-50%, -50%);
 }
 
 .language-choice {
@@ -1948,12 +1950,12 @@ html.motion-enabled [data-mobile-flow] {
   }
 
   .language-dialog {
-    top: 68px;
-    bottom: 68px;
-    width: 342px;
+    top: 50%;
+    bottom: auto;
+    width: min(342px, calc(100% - 48px));
     height: auto;
     justify-content: center;
-    transform: translateX(-50%);
+    transform: translate(-50%, -50%);
   }
 
   .language-choice,
@@ -2957,7 +2959,7 @@ html.motion-enabled [data-mobile-flow] {
 }
 
 /* CV preferences are URL-addressable and server-rendered: dark is the default. */
-html[data-cv-theme] { --cv-control-gap: 8px; --cv-dialog-width: 480px; --cv-control-size: 64px; }
+html[data-cv-theme] { --cv-control-gap: var(--nav-control-gap); --cv-dialog-width: 480px; --cv-control-size: 64px; }
 html[data-cv-theme="light"] { color-scheme: light; --color-bg: #f6f4ff; --color-text: #000; --cv-accent: #765592; scrollbar-color: #765592 #f6f4ff; }
 html[data-cv-theme] body { background: var(--color-bg); }
 html[data-cv-theme] .cv-action--filled { color: #f6f4ff; }
@@ -2995,8 +2997,8 @@ html[data-cv-view] .cv-controls, html[data-cv-view] .cv-dialog, html[data-cv-vie
 /* CV and portfolio share the same overlay layout, transition and live-text hover. */
 html[data-cv-theme] .menu-overlay, html[data-cv-theme] .language-overlay { background: var(--color-bg); z-index: 80; }
 html[data-cv-theme] .overlay-close { z-index: 82; }
-html[data-cv-theme="light"] .overlay-close { mix-blend-mode: multiply; }
-html[data-cv-theme="light"] .overlay-close img { filter: invert(1); }
+
+
 body.overlay-open .cv-controls { opacity: 0; pointer-events: none; }
 .cv-controls { transition: opacity 550ms var(--ease-ui); }
 .cv-control--menu img, .cv-control--language img { transition: filter var(--cv-duration-theme) var(--ease-ui); }
@@ -3009,4 +3011,41 @@ html[data-cv-view] .menu-overlay, html[data-cv-view] .language-overlay { display
 }
 @media (prefers-reduced-motion: reduce) {
   .cv-control--menu img, .cv-control--language img, .cv-controls { transition-duration: 0s; }
+}
+
+/* Identical toolbar slots on both routes; the middle CV/theme slot changes in place. */
+.cv-control--menu { order: 0; }
+.cv-control--theme { order: 1; }
+.cv-control--language { order: 2; }
+.cv-burger { display: none; width: 100%; height: 100%; }
+html[data-cv-theme="light"] .cv-control--menu img { display: none; }
+html[data-cv-theme="light"] .cv-burger { display: block; filter: none; }
+.overlay-close { color: var(--color-text); }
+.overlay-close-icon { display: block; width: 100%; height: 100%; }
+.menu-overlay, .language-overlay, .contact-overlay { overflow: hidden; overscroll-behavior: none; }
+html.overlay-open { overflow: hidden; overscroll-behavior: none; }
+.language-choice { text-decoration: none; white-space: nowrap; }
+html[data-cv-theme] .contact-overlay { background: var(--color-bg); z-index: 80; }
+html[data-cv-view] .contact-overlay, html[data-cv-view] .pdf-overlay { display: none; }
+@media (max-width: 640px) {
+  .cv-control--language { order: 0; }
+  .cv-control--theme { order: 1; }
+  .cv-control--menu { order: 2; }
+  .cv-control--menu img { display: none; }
+  .cv-burger { display: block; }
+}
+@media print { .contact-overlay, .pdf-overlay { display: none !important; } }
+:root { --portfolio-logo-top: 170; --portfolio-logo-mobile-top: 80; }
+html[data-route-arrival] [data-hero-logo] { clip-path: none !important; }
+html[data-route-arrival] [data-hero-role] { opacity: 1 !important; transform: none !important; }
+/* Keep the toolbar above the wordmark flight and fit contact content on small phones. */
+.cv-route-transition { z-index: 65; }
+@media (max-width: 640px) {
+  .contact-dialog { top: 50%; transform: translate(-50%, -50%); }
+  .contact-heading { height: auto; font-size: clamp(24px, calc((100vw - 48px) * .09), 36px); line-height: 1.1; }
+  .contact-heading__outline { white-space: nowrap; }
+  .contact-heading__fill { line-height: 1.2; }
+  .contact-links a { color: #f6f4ff; }
+  .contact-links span { color: #f6f4ff; font-size: clamp(16px, 5vw, 20px); }
+  .contact-links a[href^="mailto:"] span { font-size: clamp(14px, calc((100vw - 48px) * .052), 18px); }
 }

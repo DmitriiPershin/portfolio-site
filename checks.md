@@ -80,3 +80,9 @@
 - Select RUS/ENG and verify the same document remains, content/metadata update, theme persists, and translated Download PDF buttons still work.
 - Hero and CV use the same SVG URL. During entry exactly one transition image remains visible and keeps its aspect ratio; compare settled transition bounds with the destination image within 1 px. Test modified clicks, reduced motion, no JavaScript, direct CV visits and Back.
 - Dmitrii: compare theme switching in both directions, section/menu/language interaction, and the logo flight on desktop/mobile. PDF approval remains separate.
+
+## Current CV release (2026-10-14; supersedes earlier PDF approval checks)
+
+Technical: build/typecheck and full Playwright suite at desktop/tablet/mobile. Compare control rectangles on both routes; sample forward/reverse SVG sizes including browser Back. Verify centred language/PDF groups, vector closes, locked wheel scroll, Contact overlay/focus return, and three-action ordering. Fetch all eight public PDFs, check MIME/header/size/SHA against manifest. Reopen PDFs: one continuous page, all four employers, around-20-years sentence, eight URI annotations (two mailto, two same-variant PDF, three portfolio, one project). Poppler-render and visually inspect all eight. Deployment must match pushed main and actual public bytes.
+
+Dmitrii: 1) CV → View portfolio → CV → browser Back; inspect logo motion and toolbar on phone/desktop. 2) Open language, Contact and PDF; try scrolling and closing. 3) Select Russian/light and English/dark, download Desktop and Mobile; verify appearance and email link. PDFs are authorized for publication; no further approval gate applies.

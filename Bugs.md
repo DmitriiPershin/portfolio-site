@@ -9,6 +9,12 @@
 
 ## Resolved
 
+- 2026-10-14: CV controls used a different order/gap from the portfolio, making the globe jump on return. Aligned shared slots and kept controls above the logo flight.
+- 2026-10-14: Return links lacked the wordmark animation and the chosen logo differed from the user’s asset. Installed exact Group 3.svg; added reverse and browser-Back flights.
+- 2026-10-14: Desktop language choices had a fixed 386 px offset; overlays could scroll and raster closes looked blurred. Centred choice groups, locked root/body scrolling and used a vector close. Contact/PDF share the overlay controller.
+- 2026-10-14: Light CV burger retained the exported glow after black filtering. Use crisp vector strokes in light/mobile CV.
+- 2026-10-14: At 320 px contacts wrapped TO MEET and clipped the email. Fit typography to available width, centre the panel and retain white link text in both themes.
+
 - 2026-10-12: Theme/language preference anchors reloaded CV, causing abrupt page and colour changes. Added in-place theme interpolation and server-content language updates with native fallbacks.
 - 2026-10-12: Logo handoff crossfaded between live hero glyphs and different CV SVG geometry. Both endpoints now use one SVG, uniform scaling and a single transition image; final geometry is checked against the landed image.
 - 2026-10-12: CV’s separate compact menu/language dialogs diverged from portfolio navigation. Both now share its overlays, motion, fitting and hover helpers.
