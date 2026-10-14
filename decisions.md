@@ -275,3 +275,11 @@ Decision, explicit user request: replace both wordmarks with unchanged bytes fro
 Decision: language and PDF choices are centred fullscreen overlays with sharp vector closes, scroll locking and shared keyboard focus behaviour. Contact uses the same Nice to meet you overlay on both website routes, but retains mailto in PDF. Contact → Download PDF → View portfolio is the order in both action rows and exports. A small mobile contact layout must fit email and the three-line title.
 
 Resolved constraint: user explicitly authorized generating and publishing all PDFs; earlier approval gates dated 2026-10-11/12 are superseded. Eight exported files are public assets with measured metadata/hashes in src/data/cv-pdf-manifest.json. Desktop/Mobile format selection is explicit; selected language/theme determines the download. PDF Download links target the same public variant. Existing Figma review frames predate this supplied SVG/action change; the shared website source is the current export source.
+
+### 2026-10-14 - Shared header and motion system refinement
+
+Decision,latest explicit user request superseding the earlier same-day action/header/mobile-flight choices: website Contact buttons are removed in favour of the shared floating avatar. Website actions follow Figma (filled Download PDF,outlined View portfolio); both share hover. PDF has no Download PDF and retains Contact/mailto plus portfolio. Picker labels are lowercase desktop pdf/mobile pdf.
+
+Decision: one SiteHeader component preserves desktop menu/CV/language slots; theme is an additional fourth control. Mobile header belongs to document flow and scrolls away; logo has identical viewport-responsive bounds on both pages and no route flight. Desktop route motion remains. Return to portfolio replays the original role entry. Theme icons fade without scale/rotation; light burger ink aligns with the dark export rather than merely aligning the control rectangles.
+
+Decision: CV content reveals on scroll with the same curve/duration family as portfolio. Shared motion families/tokens and verification policy are canonical in docs/motion-system.md. Retain hero cursor glow on CV; PDF/reduced-motion/no-JavaScript content remains complete.

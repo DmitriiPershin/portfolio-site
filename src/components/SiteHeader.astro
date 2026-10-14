@@ -1,0 +1,13 @@
+---
+interface Props { cv?: boolean; lang?: string; theme?: string; }
+const {cv=false,lang="ru",theme="dark"}=Astro.props;
+const russian=lang==="ru";
+const menuId=cv?"cv-menu-overlay":"site-menu";
+const languageId=cv?"cv-language-overlay":"language-selector";
+---
+<header class:list={["floating-header",cv && "cv-controls"]} aria-label={russian?"Быстрая навигация":"Navigation"} data-node-id={cv?"612:61":"601:78"}>
+  <button class:list={["language-button",cv && "cv-control cv-control--language"]} type="button" aria-label={russian?"Открыть выбор языка":"Choose language"} aria-expanded="false" aria-controls={languageId} data-language-toggle><img src="/assets/control-language.svg" alt="" width="64" height="64" /></button>
+  <a class="floating-header__cv" href={cv?`/cv?lang=${lang}&theme=${theme}`:"/cv"} data-cv-link={!cv?"":undefined} aria-current={cv?"page":undefined}>CV</a>
+  <button class:list={["menu-button",cv && "cv-control cv-control--menu"]} type="button" aria-label={russian?"Открыть меню":"Open navigation"} aria-expanded="false" aria-controls={menuId} data-menu-toggle><img class="menu-button__desktop-icon" src="/assets/control-menu.svg" alt="" width="72" height="74" /><span></span><span></span><span></span></button>
+  {cv && <a class="cv-control cv-control--theme" href={`/cv?lang=${lang}&theme=${theme==="dark"?"light":"dark"}`} aria-label={russian?(theme==="dark"?"Включить светлую тему":"Включить тёмную тему"):(theme==="dark"?"Switch to light theme":"Switch to dark theme")}><img src={theme==="dark"?"/assets/cv-theme-light.svg":"/assets/cv-theme-dark.svg"} alt="" width="64" height="64" /></a>}
+</header>

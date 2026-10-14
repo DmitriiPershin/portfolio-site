@@ -1,5 +1,6 @@
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { motionEase, motionNumber, motionSeconds } from "./motion-tokens";
 import { initCardBorders } from "./borders";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -125,7 +126,7 @@ function initScrollVisibility() {
     if (nextScrollY <= 40) controlsHidden = false;
     else if (delta > 5) controlsHidden = true;
     else if (delta < -5) controlsHidden = false;
-    controls?.toggleAttribute("data-scroll-hidden", controlsHidden);
+    controls?.toggleAttribute("data-scroll-hidden", innerWidth > 640 && controlsHidden);
     lastScrollY = nextScrollY;
 
     const closingRect = closing?.getBoundingClientRect();
@@ -183,7 +184,7 @@ function initDetails() {
       }
 
       gsap.timeline({
-        defaults: { ease: "power3.out" },
+        defaults: { ease: motionEase("reveal") },
         onComplete: () => {
           card.classList.add("is-revealed");
           button.hidden = true;
@@ -201,8 +202,8 @@ function initDetails() {
           height: "auto",
           opacity: 1,
           y: 0,
-          duration: 0.72,
-          stagger: 0.08,
+          duration: motionSeconds("--motion-workflow-duration"),
+          stagger: motionSeconds("--motion-flow-stagger"),
         })
         .to(button, { opacity: 0, y: 8, height: 0, paddingTop: 0, paddingBottom: 0, duration: 0.32 }, "-=0.18");
     }, { once: true });
@@ -245,7 +246,7 @@ export function initTypeCrossfades() {
   });
 }
 
-function initSectionFeedback() {
+export function initSectionFeedback() {
   const root = document.documentElement;
   const sections = selectAll<HTMLElement>("[data-section]");
   const glow = select<HTMLElement>("[data-cursor-glow]");
@@ -470,11 +471,19 @@ function showEverything() {
   selectAll<HTMLElement>("[data-rolling-number]").forEach((number) => number.classList.add("is-complete"));
 }
 
+export function revealHeroRole() {
+  const role = select<HTMLElement>('[data-hero-role]');
+  if (!role) return;
+  gsap.killTweensOf(role);
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) { gsap.set(role,{opacity:1,y:0}); return; }
+  gsap.fromTo(role,{opacity:0,y:motionNumber('--motion-role-distance')},{opacity:1,y:0,duration:motionSeconds('--motion-reveal-duration'),ease:motionEase('reveal')});
+}
+
 function initHero() {
-  gsap.timeline({ defaults: { ease: "power3.out" } })
-    .to("[data-hero-logo]", { clipPath: "inset(-40px -40px -40px -40px)", duration: 1.1 })
+  gsap.timeline({ defaults: { ease: motionEase("reveal") } })
+    .to("[data-hero-logo]", { clipPath: "inset(-40px -40px -40px -40px)", duration: motionSeconds("--motion-hero-duration") })
     .set("[data-hero-logo]", { clipPath: "none", willChange: "auto" })
-    .fromTo("[data-hero-role]", { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.8 }, "-=0.55");
+    .fromTo("[data-hero-role]", { opacity: 0, y: motionNumber("--motion-role-distance") }, { opacity: 1, y: 0, duration: motionSeconds("--motion-reveal-duration") }, `-=${motionSeconds("--motion-role-overlap")}`);
 }
 
 function initRollingNumbers() {
@@ -509,8 +518,8 @@ function initSectionReveals() {
       gsap.fromTo(icon, { opacity: 0, scale: 0.975 }, {
         opacity: 1,
         scale: 1,
-        duration: 0.9,
-        ease: "power3.out",
+        duration: motionSeconds("--motion-reveal-duration"),
+        ease: motionEase("reveal"),
         scrollTrigger: { trigger: icon, start: "top 84%", once: true },
       });
     }
@@ -521,8 +530,8 @@ function initSectionReveals() {
       if (!headingImage) return;
       gsap.fromTo(headingImage, { yPercent: 112 }, {
         yPercent: 0,
-        duration: 0.8,
-        ease: "power3.out",
+        duration: motionSeconds("--motion-reveal-duration"),
+        ease: motionEase("reveal"),
         onComplete: () => { heading.style.overflow = "visible"; },
         scrollTrigger: { trigger: heading, start: "top 88%", once: true },
       });
@@ -532,8 +541,8 @@ function initSectionReveals() {
       gsap.fromTo(item, { opacity: 0, y: 18 }, {
         opacity: 1,
         y: 0,
-        duration: 0.8,
-        ease: "power3.out",
+        duration: motionSeconds("--motion-reveal-duration"),
+        ease: motionEase("reveal"),
         scrollTrigger: { trigger: item, start: "top 90%", once: true },
       });
     });
@@ -542,9 +551,9 @@ function initSectionReveals() {
       gsap.fromTo(cards, { opacity: 0, y: 22 }, {
         opacity: 1,
         y: 0,
-        duration: 0.9,
-        stagger: 0.1,
-        ease: "power3.out",
+        duration: motionSeconds("--motion-reveal-duration"),
+        stagger: motionSeconds("--motion-reveal-stagger"),
+        ease: motionEase("reveal"),
         scrollTrigger: { trigger: cards[0], start: "top 88%", once: true },
       });
     }
@@ -561,17 +570,17 @@ function initWorkflowReveals() {
 
   const timeline = gsap.timeline({
     scrollTrigger: { trigger: scene, start: "top 76%", once: true },
-    defaults: { ease: "power3.out" },
+    defaults: { ease: motionEase("reveal") },
   });
   timeline
-    .fromTo(cards, { opacity: 0, y: 20, scale: 0.992 }, { opacity: 1, y: 0, scale: 1, duration: 0.72, stagger: 0.11 })
-    .fromTo(inputs, { opacity: 0, scale: 0.97 }, { opacity: 1, scale: 1, duration: 0.4, stagger: 0.04 }, "-=0.7");
+    .fromTo(cards, { opacity: 0, y: 20, scale: 0.992 }, { opacity: 1, y: 0, scale: 1, duration: motionSeconds("--motion-workflow-duration"), stagger: motionSeconds("--motion-reveal-stagger") })
+    .fromTo(inputs, { opacity: 0, scale: 0.97 }, { opacity: 1, scale: 1, duration: motionSeconds("--motion-workflow-input-duration"), stagger: motionSeconds("--motion-chip-stagger") }, "-=0.7");
 
   if (desktopConnectors.length) {
-    timeline.fromTo(desktopConnectors, { opacity: 0, clipPath: "inset(0 100% 0 0)" }, { opacity: 1, clipPath: "inset(0 0% 0 0)", duration: 0.8, stagger: 0.08 }, "-=0.4");
+    timeline.fromTo(desktopConnectors, { opacity: 0, clipPath: "inset(0 100% 0 0)" }, { opacity: 1, clipPath: "inset(0 0% 0 0)", duration: motionSeconds("--motion-reveal-duration"), stagger: motionSeconds("--motion-flow-stagger") }, "-=0.4");
   }
   if (mobileFlows.length) {
-    timeline.fromTo(mobileFlows, { opacity: 0, clipPath: "inset(0 0 100% 0)" }, { opacity: 1, clipPath: "inset(0 0 0% 0)", duration: 0.62, stagger: 0.08 }, "-=1.4");
+    timeline.fromTo(mobileFlows, { opacity: 0, clipPath: "inset(0 0 100% 0)" }, { opacity: 1, clipPath: "inset(0 0 0% 0)", duration: 0.62, stagger: motionSeconds("--motion-flow-stagger") }, "-=1.4");
   }
 }
 
@@ -605,10 +614,10 @@ export async function initPortfolioMotion() {
   initBorderGlow();
   initMobileScrollGlow();
   if (!document.documentElement.hasAttribute("data-route-arrival")) initHero();
-  else gsap.set(["[data-hero-logo]", "[data-hero-role]"], {clipPath:"none", opacity:1, y:0});
+  else { gsap.set("[data-hero-logo]", {clipPath:"none", opacity:1}); gsap.set("[data-hero-role]", {opacity:0,y:motionNumber("--motion-role-distance")}); }
   initSectionReveals();
   initWorkflowReveals();
   initRollingNumbers();
 
-  window.addEventListener("pagehide", () => ScrollTrigger.getAll().forEach((trigger) => trigger.kill()), { once: true });
+  window.addEventListener("pagehide", event => { if (!event.persisted) ScrollTrigger.getAll().forEach((trigger) => trigger.kill()); });
 }

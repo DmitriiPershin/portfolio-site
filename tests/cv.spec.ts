@@ -24,8 +24,8 @@ test("CV follows the edited content, links and responsive composition", async ({
   for (const download of await page.locator("[data-pdf-download]").all()) await expect(download).toBeEnabled();
   await page.locator("[data-pdf-download]").first().click();
   await expect(page.locator("#cv-pdf-dialog")).toBeVisible();
-  await expect(page.getByRole("link", {name:"Desktop PDF",exact:true})).toHaveAttribute("href", "/cv/dmitrii-pershin-cv-en-dark-desktop.pdf");
-  await expect(page.getByRole("link", {name:"Mobile PDF",exact:true})).toHaveAttribute("href", "/cv/dmitrii-pershin-cv-en-dark-mobile.pdf");
+  await expect(page.getByRole("link", {name:"desktop pdf",exact:true})).toHaveAttribute("href", "/cv/dmitrii-pershin-cv-en-dark-desktop.pdf");
+  await expect(page.getByRole("link", {name:"mobile pdf",exact:true})).toHaveAttribute("href", "/cv/dmitrii-pershin-cv-en-dark-mobile.pdf");
   await page.keyboard.press("Escape");
   const width = page.viewportSize()!.width;
   const geometry = await page.evaluate(() => {
@@ -34,8 +34,8 @@ test("CV follows the edited content, links and responsive composition", async ({
   });
   expect(geometry.overflow).toBe(false);
   expect(geometry.img).toBeGreaterThan(0);
-  expect(geometry.logo.y).toBe(width <= 640 ? 104 : 170);
-  if (width === 1440) { expect(geometry.logo.x).toBe(136);expect(geometry.logo.width).toBeCloseTo(625.334,1);expect(geometry.experience.width).toBe(800);expect(geometry.practice.width).toBe(320); }
+  expect(geometry.logo.y).toBe(width <= 640 ? 80 : 170);
+  if (width === 1440) { expect(geometry.logo.x).toBe((await page.evaluate(()=>document.documentElement.clientWidth)-1168)/2);expect(geometry.logo.width).toBeCloseTo(625.334,1);expect(geometry.experience.width).toBe(800);expect(geometry.practice.width).toBe(320); }
   if (width <= 640) { expect(geometry.logo.x).toBe(24);expect(geometry.logo.width).toBe(342);expect(geometry.practice.y).toBeGreaterThan(geometry.experience.y+geometry.experience.height); }
   expect(errors).toEqual([]);
 });
@@ -50,6 +50,12 @@ test("header opens CV through a shrinking logo and browser back remains usable",
   await page.goto("/");
   await page.waitForFunction(() => document.documentElement.dataset.motion === "full");
   await page.waitForFunction(() => getComputedStyle(document.querySelector("[data-hero-logo]")!).clipPath === "none");
+  if(page.viewportSize()!.width<=640){
+    const original=await page.locator('.hero__logo img').boundingBox();
+    await page.locator('[data-cv-link]').click();await page.locator('html[data-cv-controls-ready]').waitFor();
+    const current=await page.locator('.cv-wordmark img').boundingBox();expect(current).toEqual(original);
+    await expect(page.locator('.cv-route-transition')).toHaveCount(0);return;
+  }
   await page.locator("[data-cv-link]").click({ noWaitAfter: true });
   await expect(page.locator(".cv-route-transition")).toBeAttached();
   await expect(page.locator(".cv-route-transition img")).toHaveCount(1);
@@ -174,6 +180,10 @@ test("CV theme interpolates without reload and both overlays match portfolio beh
 test("CV toolbar stays aligned on return and the same logo expands smoothly", async ({page})=>{
   await page.goto('/cv');await page.locator('html[data-cv-controls-ready]').waitFor();
   const rects=await page.locator('[data-menu-toggle], [data-language-toggle]').evaluateAll(els=>els.map(el=>{const r=el.getBoundingClientRect();return {x:r.x,y:r.y,width:r.width,height:r.height};}));
+  if(page.viewportSize()!.width<=640){
+    const original=await page.locator('.cv-wordmark img').boundingBox();await page.locator('.cv-profile [data-portfolio-link]').click();await page.waitForURL('**/');
+    expect(await page.locator('.hero__logo img').boundingBox()).toEqual(original);await expect(page.locator('.cv-route-transition')).toHaveCount(0);return;
+  }
   await page.locator('.cv-profile [data-portfolio-link]').click({noWaitAfter:true});
   await expect(page.locator('.cv-route-transition')).toBeAttached();
   const start=await page.locator('.cv-route-transition__logo').evaluate(el=>el.getBoundingClientRect().width);
@@ -204,8 +214,8 @@ test("pickers are viewport-centred, contacts share one overlay and wheel scrolli
     await page.mouse.wheel(0,900);await page.waitForTimeout(200);expect(await page.evaluate(()=>scrollY)).toBe(y);
     await page.keyboard.press('Escape');await expect(contact).toBeFocused();
     if(route.includes('cv')){
-      await expect(page.locator('.cv-burger')).toHaveCSS('filter','none');
-      for(const nav of await page.locator('.cv-actions').all())expect(await nav.locator(':scope > *').allTextContents()).toEqual(['Contact','Download PDF ↓','View portfolio →']);
+      await expect(page.locator('.menu-button')).toHaveCSS('filter','none');
+      for(const nav of await page.locator('.cv-actions').all())expect(await nav.locator(':scope > *').allTextContents()).toEqual(['Download PDF ↓','View portfolio →']);
       await page.locator('[data-pdf-download]').first().click();
       const pdf=await page.locator('.pdf-overlay .language-dialog').boundingBox();
       expect(Math.abs(pdf!.y+pdf!.height/2-page.viewportSize()!.height/2)).toBeLessThan(1);

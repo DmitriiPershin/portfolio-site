@@ -10,7 +10,7 @@ Hiring managers, design leaders, founders, and product teams evaluating senior p
 
 ## Current scope
 
-The EN/RU `/cv` page uses the user-edited Figma desktop/mobile layouts (`584:3` / `584:4`). Entry from the direct header CV link shares one SVG with uniform GSAP scaling; reduced-motion/no-JavaScript navigation is immediate. CV defaults to dark and supports an explicit light theme. Theme/language changes happen in place; CV menu and language screens reuse the portfolio overlay/hover helpers. PDF uses the same page content and layout in two explicit formats, Desktop and Mobile, with matching theme/language. Decision, 2026-10-14: explicit user approval permits eight public PDF variants, selected through a fullscreen Desktop/Mobile picker. Website Contact opens the shared contacts overlay; PDF Contact uses mailto. Both action rows use Contact → Download PDF → View portfolio. The exact supplied Group 3.svg replaces the prior logo; one wordmark animates in both route directions.
+The EN/RU `/cv` page uses the edited Figma layout (`584:3` / `584:4`) with the exact supplied SVG. Its current interactions, shared header/mobile logo geometry and PDF export rules are canonical in [motion-system.md](docs/motion-system.md) and README. Explicit PDF publication authorization remains valid. Career copy and NDA constraints are unchanged.
 
 The full Russian desktop and mobile portfolio is implemented, with an English content layer:
 

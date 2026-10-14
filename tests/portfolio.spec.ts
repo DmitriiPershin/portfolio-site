@@ -50,7 +50,7 @@ test("navigation controls follow the intended responsive scroll behaviour", asyn
   const cvBounds = await cvLink.boundingBox();
   expect(cvBounds!.y).toBe(mobile ? 20 : 132);
   expect(cvBounds!.width).toBeGreaterThanOrEqual(64);
-  if (!mobile) expect(cvBounds!.x).toBe(page.viewportSize()!.width - 112);
+  if (!mobile) expect(cvBounds!.x).toBe((await page.evaluate(()=>document.documentElement.clientWidth)) - 112);
   expect(await menuButton.evaluate((element) => getComputedStyle(element).boxShadow)).toBe("none");
   const menuTop = await menuButton.evaluate((element) => element.getBoundingClientRect().top);
   const languageTop = await languageButton.evaluate((element) => element.getBoundingClientRect().top);
@@ -64,10 +64,15 @@ test("navigation controls follow the intended responsive scroll behaviour", asyn
     expect(roleFits).toBe(true);
     expect(await menuButton.locator("span").evaluateAll((elements) => elements.map((element) => getComputedStyle(element).top))).toEqual(["16.5px", "23.25px", "30px"]);
   }
-  await expect(page.locator(".floating-header")).toHaveAttribute("data-scroll-hidden", "");
-  await expect(menuButton).toHaveCSS("visibility", "hidden");
-  await expect(languageButton).toHaveCSS("visibility", "hidden");
-  await expect(cvLink).toHaveCSS("visibility", "hidden");
+  if (mobile) {
+    await expect(page.locator(".floating-header")).not.toHaveAttribute("data-scroll-hidden", "");
+    await expect.poll(()=>menuButton.evaluate(el=>el.getBoundingClientRect().bottom)).toBeLessThan(0);
+  } else {
+    await expect(page.locator(".floating-header")).toHaveAttribute("data-scroll-hidden", "");
+    await expect(menuButton).toHaveCSS("visibility", "hidden");
+    await expect(languageButton).toHaveCSS("visibility", "hidden");
+    await expect(cvLink).toHaveCSS("visibility", "hidden");
+  }
 
   await page.evaluate(() => window.scrollBy(0, -80));
   await expect(page.locator(".floating-header")).not.toHaveAttribute("data-scroll-hidden", "");

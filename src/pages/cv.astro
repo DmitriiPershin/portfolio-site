@@ -1,4 +1,6 @@
 ---
+import SiteHeader from "../components/SiteHeader.astro";
+import AvatarButton from "../components/AvatarButton.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import en from "../data/cv.json";
 import ru from "../data/cv-ru.json";
@@ -21,12 +23,8 @@ const pdfURL = (layout:string) => pdfManifest.approved ? variants[`${lang}-${the
 ---
 
 <BaseLayout title="Dmitrii Pershin — CV | AI-assisted Design & DesignOps" description={cv.summary} lang={lang} cvTheme={theme} cvView={view}>
-  <header class="cv-controls" aria-label={labels.menu} data-node-id="612:61">
-    <button class="cv-control cv-control--menu" type="button" aria-label={labels.menu} aria-expanded="false" aria-controls="cv-menu-overlay" data-menu-toggle><svg class="cv-burger" viewBox="0 0 64 64" fill="none" aria-hidden="true"><path d="M20 23H44M24 32H40M20 41H44" stroke="currentColor" stroke-width="2" stroke-linecap="round" /></svg><img src="/assets/control-menu.svg" alt="" width="64" height="64" /></button>
-    <button class="cv-control cv-control--language" type="button" aria-label={labels.language} aria-expanded="false" aria-controls="cv-language-overlay" data-language-toggle data-node-id="612:69"><img src="/assets/cv-language.svg" alt="" width="64" height="64" /></button>
-    <a class="cv-control cv-control--theme" href={preferenceURL(lang,theme === "dark" ? "light" : "dark")} aria-label={theme === "dark" ? labels.light : labels.dark} data-node-id={theme === "dark" ? "613:85" : "617:107"}><img src={theme === "dark" ? "/assets/cv-theme-light.svg" : "/assets/cv-theme-dark.svg"} alt="" width="64" height="64" /></a>
-  </header>
-  <main class="cv-page" data-node-id="584:3" data-mobile-node-id="584:4">
+  <SiteHeader cv lang={lang} theme={theme} />
+  <main class="cv-page" data-section="hero" data-node-id="584:3" data-mobile-node-id="584:4">
     <header class="cv-header" data-node-id="586:2">
       <a class="cv-wordmark" href={portfolio} data-portfolio-link aria-label="Dmitrii Pershin — portfolio" data-cv-wordmark><img src="/assets/cv-wordmark.svg" alt="Dmitrii Pershin" width="951" height="214" fetchpriority="high" data-shared-wordmark /></a>
     </header>
@@ -34,9 +32,11 @@ const pdfURL = (layout:string) => pdfManifest.approved ? variants[`${lang}-${the
       <h1 id="cv-role" data-node-id="586:28">{cv.role}</h1>
       <p class="cv-subtitle" data-node-id="586:27">{cv.subtitle}</p>
       <p class="cv-summary" data-node-id="586:29">{cv.summary}</p>
-      <nav class="cv-actions" aria-label="CV actions"><a class="cv-action cv-action--filled" href={cv.contact} data-contact-toggle={!view ? "" : undefined} aria-haspopup={!view ? "dialog" : undefined} aria-controls={!view ? "contact-overlay" : undefined}>{labels.contact}</a>
-        {view ? <a class="cv-action" href={`https://portfolio-production-e2d0.up.railway.app${pdfURL(view)}`} download>{labels.download}</a> : <button class="cv-action" type="button" aria-haspopup="dialog" data-pdf-toggle data-pdf-download>{labels.download}</button>}
-        <a class="cv-action" href={portfolio} data-portfolio-link>{labels.portfolio}</a></nav>
+      <nav class="cv-actions" aria-label="CV actions">
+        {!view && <button class="cv-action cv-action--filled" type="button" aria-haspopup="dialog" data-pdf-toggle data-pdf-download>{labels.download}</button>}
+        {view && <a class="cv-action" href={cv.contact}>{labels.contact}</a>}
+        <a class="cv-action" href={portfolio} data-portfolio-link>{labels.portfolio}</a>
+      </nav>
     </section>
     <div class="cv-content" data-node-id="586:35">
       <section class="cv-experience" aria-labelledby="experience-heading" data-node-id="586:36">
@@ -53,9 +53,11 @@ const pdfURL = (layout:string) => pdfManifest.approved ? variants[`${lang}-${the
         <section data-node-id="590:21"><h2>{labels.education}</h2><p class="cv-lines">{cv.education.split("\n").map(line => <span>{line}</span>)}</p></section>
       </aside>
     </div>
-    <footer class="cv-footer" id="cv-contact" data-node-id="586:80"><nav class="cv-actions" aria-label="CV footer actions"><a class="cv-action cv-action--filled" href={cv.contact} data-contact-toggle={!view ? "" : undefined} aria-haspopup={!view ? "dialog" : undefined} aria-controls={!view ? "contact-overlay" : undefined}>{labels.contact}</a>
-        {view ? <a class="cv-action" href={`https://portfolio-production-e2d0.up.railway.app${pdfURL(view)}`} download>{labels.download}</a> : <button class="cv-action" type="button" aria-haspopup="dialog" data-pdf-toggle data-pdf-download>{labels.download}</button>}
-        <a class="cv-action" href={portfolio} data-portfolio-link>{labels.portfolio}</a></nav></footer>
+    <footer class="cv-footer" id="cv-contact" data-node-id="586:80"><nav class="cv-actions" aria-label="CV footer actions">
+        {!view && <button class="cv-action cv-action--filled" type="button" aria-haspopup="dialog" data-pdf-toggle data-pdf-download>{labels.download}</button>}
+        {view && <a class="cv-action" href={cv.contact}>{labels.contact}</a>}
+        <a class="cv-action" href={portfolio} data-portfolio-link>{labels.portfolio}</a>
+      </nav></footer>
   </main>
   <div class="language-overlay" id="cv-language-overlay" aria-hidden="true" tabindex="-1" data-language-overlay>
     <button class="overlay-close" type="button" aria-label={labels.close} data-language-close><CloseIcon /></button>
@@ -73,10 +75,11 @@ const pdfURL = (layout:string) => pdfManifest.approved ? variants[`${lang}-${the
   <div class="language-overlay pdf-overlay" id="cv-pdf-dialog" aria-hidden="true" tabindex="-1" data-pdf-overlay>
     <button class="overlay-close" type="button" aria-label={labels.close} data-pdf-close><CloseIcon /></button>
     <div class="language-dialog" role="dialog" aria-modal="true" aria-label="PDF format">
-      {["desktop","mobile"].map(layout => <a class="language-choice" href={pdfURL(layout)} download data-pdf-format={layout}><MorphLabel text={layout === "desktop" ? "Desktop PDF" : "Mobile PDF"} /></a>)}
+      {["desktop","mobile"].map(layout => <a class="language-choice" href={pdfURL(layout)} download data-pdf-format={layout}><MorphLabel text={layout === "desktop" ? "desktop pdf" : "mobile pdf"} /></a>)}
     </div>
   </div>
+  {!view && <AvatarButton />}
   <ContactOverlay />
-  <noscript><p class="cv-nojs">{labels.language}: <a href={preferenceURL("en")}>English</a> · <a href={preferenceURL("ru")}>Русский</a> · <a href={pdfURL("desktop")} download>Desktop PDF</a> · <a href={pdfURL("mobile")} download>Mobile PDF</a></p></noscript>
+  <noscript><p class="cv-nojs">{labels.language}: <a href={preferenceURL("en")}>English</a> · <a href={preferenceURL("ru")}>Русский</a> · <a href={pdfURL("desktop")} download>desktop pdf</a> · <a href={pdfURL("mobile")} download>mobile pdf</a></p></noscript>
   <script>import { initCvNavigation } from "../scripts/cv-navigation"; initCvNavigation(); import { initCvControls } from "../scripts/cv-controls"; initCvControls();</script>
 </BaseLayout>

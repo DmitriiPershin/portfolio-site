@@ -9,6 +9,14 @@
 
 ## Resolved
 
+- 2026-10-14 (system refinement): Joyride renders lowercase inputs as capital glyphs. PDF picker now uses existing LINE Seed JP regular/bold live text so desktop pdf/mobile pdf actually appear lowercase and stay compact.
+
+- 2026-10-14 (system refinement): Light burger strokes were5px below the dark SVG’s ink although both button rectangles matched. Pixel-row regression verifies the optical offset. Theme icon scale/rotation is removed.
+- 2026-10-14 (system refinement): Prior mobile hero was capped to a390px container while CV adapted to the window; the route flight also moved a near-identical logo. Shared full-width bounds and native mobile routes remove movement at320–640px.
+- 2026-10-14 (system refinement): CV theme replaced the CV navigation slot; independent header markup diverged. Shared SiteHeader retains menu/CV/language and adds theme in its own desktop slot.
+- 2026-10-14 (system refinement): Download lacked link hover and PDFs included recursive download buttons. Shared avatar/actions and six-link exports resolve these issues.
+- 2026-10-14 (system refinement): CV content appeared immediately and portfolio role was forced visible on return. Shared content reveals and replayed role entry restore motion; reduced/PDF paths stay static.
+
 - 2026-10-14: CV controls used a different order/gap from the portfolio, making the globe jump on return. Aligned shared slots and kept controls above the logo flight.
 - 2026-10-14: Return links lacked the wordmark animation and the chosen logo differed from the user’s asset. Installed exact Group 3.svg; added reverse and browser-Back flights.
 - 2026-10-14: Desktop language choices had a fixed 386 px offset; overlays could scroll and raster closes looked blurred. Centred choice groups, locked root/body scrolling and used a vector close. Contact/PDF share the overlay controller.

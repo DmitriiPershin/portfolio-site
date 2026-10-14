@@ -1,6 +1,7 @@
 import { gsap } from 'gsap';
-import { initOverlays, initMenuFit, initTypeCrossfades } from './motion';
-import { motionNumber, motionSeconds } from './motion-tokens';
+import { initOverlays, initMenuFit, initTypeCrossfades, initSectionFeedback } from './motion';
+import { initCvReveals } from "./cv-motion";
+import { motionEase, motionSeconds } from './motion-tokens';
 import pdfManifest from '../data/cv-pdf-manifest.json';
 
 type Theme = 'dark' | 'light';
@@ -23,13 +24,13 @@ export async function initCvControls() {
       toggle.setAttribute('aria-label', lang === 'ru' ? (theme === 'dark' ? 'Включить светлую тему' : 'Включить тёмную тему') : (theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'));
     }
     document.querySelectorAll<HTMLElement>('[data-language-option]').forEach(choice => choice.setAttribute('aria-pressed', String(choice.dataset.languageOption === lang)));
-    const selection = document.querySelector<HTMLElement>('[data-pdf-selection]');
-    if (selection) selection.textContent = lang === 'ru' ? `${theme === 'dark' ? 'Тёмная' : 'Светлая'} тема · Русский` : `${theme === 'dark' ? 'Dark' : 'Light'} theme · English`;
+
     document.querySelectorAll<HTMLElement>('[data-pdf-format]').forEach(choice => {
       const url = pdfManifest.approved ? (pdfManifest.variants as Record<string,{url:string}>)[`${lang}-${theme}-${choice.dataset.pdfFormat}`]?.url : undefined;
       if (choice instanceof HTMLAnchorElement) { if (url) choice.href=url; else {choice.removeAttribute('href');choice.setAttribute('aria-disabled','true');} }
     });
     document.querySelectorAll<HTMLAnchorElement>('.cv-nojs a').forEach(link => {const target = new URL(link.href).searchParams.get('lang') || 'en';link.href=preferenceURL(target,theme);});
+    const cvLink=document.querySelector<HTMLAnchorElement>(".cv-controls .floating-header__cv");if(cvLink)cvLink.href=preferenceURL(lang,theme);
     history.replaceState(history.state, '', preferenceURL(lang, theme) + location.hash);
   };
 
@@ -47,11 +48,11 @@ export async function initCvControls() {
     syncPreferences();
     if (reduced()) {swapIcon();finish();return;}
     themeTimeline=gsap.timeline({onComplete:finish});
-    themeTimeline.to(root,{...colors[next],duration:motionSeconds('--cv-duration-theme'),ease:'sine.inOut'},0);
+    themeTimeline.to(root,{...colors[next],duration:motionSeconds('--cv-duration-theme'),ease:motionEase('change')},0);
     if(icon){
-      themeTimeline.to(icon,{opacity:0,scale:motionNumber('--cv-theme-icon-scale'),rotation:motionNumber('--cv-theme-icon-rotation'),duration:motionSeconds('--cv-duration-theme-icon'),ease:'sine.inOut'},0)
+      themeTimeline.to(icon,{opacity:0,duration:motionSeconds('--cv-duration-theme-icon'),ease:motionEase('change')},0)
         .call(swapIcon,[],motionSeconds('--cv-duration-theme-icon'))
-        .to(icon,{opacity:1,scale:1,rotation:0,duration:motionSeconds('--cv-duration-theme-icon'),ease:'sine.out'},motionSeconds('--cv-duration-theme-icon'));
+        .to(icon,{opacity:1,duration:motionSeconds('--cv-duration-theme-icon'),ease:motionEase('change')},motionSeconds('--cv-duration-theme-icon'));
     }
   };
 
@@ -67,6 +68,7 @@ export async function initCvControls() {
       const main=document.querySelector('.cv-page');const translated=incoming.querySelector('.cv-page');
       if(!main||!translated)throw new Error('CV content missing');
       main.replaceChildren(...Array.from(translated.childNodes));
+      initCvReveals(false);
       root.lang=lang;document.title=incoming.title;
       document.querySelector('meta[name="description"]')?.setAttribute('content',incoming.querySelector('meta[name="description"]')?.getAttribute('content') || '');
       for(const selector of ['.cv-control--menu','.cv-control--language','[data-language-close]','[data-menu-close]','.language-dialog']){
@@ -81,6 +83,8 @@ export async function initCvControls() {
   };
 
   initOverlays();
+  initSectionFeedback();
+  initCvReveals();
   document.addEventListener('click',event => {
     const target=event.target instanceof Element ? event.target : null;
     const theme=target?.closest<HTMLAnchorElement>('.cv-control--theme');

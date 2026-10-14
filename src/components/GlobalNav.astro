@@ -1,4 +1,6 @@
 ---
+import SiteHeader from "./SiteHeader.astro";
+import AvatarButton from "./AvatarButton.astro";
 import CloseIcon from "./CloseIcon.astro";
 import ContactOverlay from "./ContactOverlay.astro";
 import MorphLabel from "./MorphLabel.astro";
@@ -14,18 +16,7 @@ const sections = [
 ];
 ---
 
-<header class="floating-header" aria-label="Быстрая навигация" data-node-id="601:78" data-mobile-node-id="372:929">
-  <button class="language-button" type="button" aria-label="Открыть выбор языка" aria-expanded="false" aria-controls="language-selector" data-language-toggle>
-    <img src="/assets/control-language.svg" alt="" width="64" height="64" />
-  </button>
-
-  <a class="floating-header__cv" href="/cv" data-cv-link data-node-id="581:8" data-mobile-node-id="523:124">CV</a>
-
-  <button class="menu-button" type="button" aria-label="Открыть меню" aria-expanded="false" aria-controls="site-menu" data-menu-toggle>
-    <img class="menu-button__desktop-icon" src="/assets/control-menu.svg" alt="" width="72" height="74" />
-    <span></span><span></span><span></span>
-  </button>
-</header>
+<SiteHeader />
 
 <div class="language-overlay" id="language-selector" aria-hidden="true" tabindex="-1" data-language-overlay>
   <button class="overlay-close" type="button" aria-label="Закрыть выбор языка" data-language-close>
@@ -48,12 +39,6 @@ const sections = [
   </nav>
 </div>
 
-<button class="avatar-button" type="button" aria-label="Открыть контакты" aria-expanded="false" aria-controls="contact-overlay" data-contact-toggle>
-  <span class="avatar-button__photo-shell">
-    <img class="avatar-button__photo" src="/assets/avatar.png" alt="Dmitrii Pershin" width="198" height="198" />
-  </span>
-  <img class="avatar-button__ring" src="/assets/avatar-ring.svg" alt="" width="120" height="120" />
-  <span class="avatar-button__status" aria-hidden="true"></span>
-</button>
+<AvatarButton />
 
 <ContactOverlay />

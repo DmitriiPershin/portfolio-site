@@ -4,59 +4,59 @@
   "variants": {
     "en-dark-desktop": {
       "url": "/cv/dmitrii-pershin-cv-en-dark-desktop.pdf",
-      "sha256": "4da6e589da0d65fda4ef030662dd27edf227e995ef4bef2b1630cfefec30c55b",
-      "bytes": 57014,
+      "sha256": "543df752b93fb417f979eb6626a09f5e44f2985b74fac78f9f25c4934d6ad7f4",
+      "bytes": 54524,
       "width": 1440,
       "height": 2471
     },
     "en-dark-mobile": {
       "url": "/cv/dmitrii-pershin-cv-en-dark-mobile.pdf",
-      "sha256": "6f7c31626b3c7dc90a0b7dbc8f4419fc7b54ad3fe2c16b521ff2cc24140ac698",
-      "bytes": 56027,
+      "sha256": "ef8509508285596f7fe71f48284f82f5fa08258cfc62fe08b3c18d016524d5f2",
+      "bytes": 53574,
       "width": 390,
-      "height": 3415
+      "height": 3343
     },
     "en-light-desktop": {
       "url": "/cv/dmitrii-pershin-cv-en-light-desktop.pdf",
-      "sha256": "9e81780d888aeb97a8df9fb052344ac4dde004065bd0b45737af7cf9cb33f8e9",
-      "bytes": 56924,
+      "sha256": "8f60f77ad1e35d08742b6cb7dc78ca25dce68b93df13166fa30952b89655a06f",
+      "bytes": 54430,
       "width": 1440,
       "height": 2471
     },
     "en-light-mobile": {
       "url": "/cv/dmitrii-pershin-cv-en-light-mobile.pdf",
-      "sha256": "9b334e328932062f091c9bbbcb3ef3a0ddcb947faa6275e47d73b328aa655ee7",
-      "bytes": 55931,
+      "sha256": "7db4e3e41c64bdf955211e15c9e6a6cca95a6746253759a7cba453db425f6851",
+      "bytes": 53471,
       "width": 390,
-      "height": 3415
+      "height": 3343
     },
     "ru-dark-desktop": {
       "url": "/cv/dmitrii-pershin-cv-ru-dark-desktop.pdf",
-      "sha256": "1de4b35bc7db81e5b71ac9182c11c83c308dac32ebc4530bb2a51a908322821e",
-      "bytes": 62476,
+      "sha256": "2a1b9b6e1bf6e217a480b2bc5bb1a0cf7e91f6d48a0d8668d315b3ae40f10b7c",
+      "bytes": 60002,
       "width": 1440,
       "height": 2543
     },
     "ru-dark-mobile": {
       "url": "/cv/dmitrii-pershin-cv-ru-dark-mobile.pdf",
-      "sha256": "7db7977cd50fb129a5242a363a2a355886b99381a2ded34fe0a6ffdb92982613",
-      "bytes": 61379,
+      "sha256": "3d34539668943681a4b71bf09ded8c23256b9908c6003c67fdfa2beef3a18da1",
+      "bytes": 58842,
       "width": 390,
-      "height": 3679
+      "height": 3607
     },
     "ru-light-desktop": {
       "url": "/cv/dmitrii-pershin-cv-ru-light-desktop.pdf",
-      "sha256": "2b8696a0328fc69d5a187e2a7642f7bb0ff4f37a8b97c1b81a553dc726f11e19",
-      "bytes": 62385,
+      "sha256": "346c31c564934119d69248e4eccd0c5e1978002d06b0cc0ab15b128dda67fbac",
+      "bytes": 59896,
       "width": 1440,
       "height": 2543
     },
     "ru-light-mobile": {
       "url": "/cv/dmitrii-pershin-cv-ru-light-mobile.pdf",
-      "sha256": "abebb26d3c21c32162739e8ed06a55485ca624e0d6f185f249f747de0db51f83",
-      "bytes": 61288,
+      "sha256": "0fcb3f684b1ad83ccbea039c16457f20b1b0e9bbd150f659125eeffd70e912a6",
+      "bytes": 58739,
       "width": 390,
-      "height": 3679
+      "height": 3607
     }
   }
 }

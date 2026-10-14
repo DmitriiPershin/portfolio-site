@@ -1,5 +1,6 @@
 import { gsap } from 'gsap';
-import { motionNumber as token, motionSeconds } from './motion-tokens';
+import { revealHeroRole } from './motion';
+import { motionEase, motionNumber as token, motionSeconds } from './motion-tokens';
 
 type Arrival = {x:number;y:number;width:number;height:number;time:number;settled:boolean};
 const returnKey = 'portfolio-return';
@@ -29,12 +30,12 @@ export function initCvNavigation() {
     document.documentElement.dataset.cvNavigating='true';
     gsap.set(logo,{x:from.x,y:from.y,opacity:1});gsap.set(backdrop,{opacity:0});
     gsap.timeline({onComplete:done})
-      .to(backdrop,{opacity:1,duration:motionSeconds('--cv-duration-backdrop'),ease:'sine.out'},0)
-      .to(logo,{x:to.x,y:to.y,scale:to.width/from.width,duration:motionSeconds('--cv-duration-logo'),ease:'power3.inOut'},0);
+      .to(backdrop,{opacity:1,duration:motionSeconds('--cv-duration-backdrop'),ease:motionEase('change')},0)
+      .to(logo,{x:to.x,y:to.y,scale:to.width/from.width,duration:motionSeconds('--cv-duration-logo'),ease:motionEase('route')},0);
   };
   const portfolioTarget=()=>{
-    const width=innerWidth<=640?Math.min(token('--portfolio-logo-mobile-max'), innerWidth-token('--portfolio-logo-mobile-gutters')):Math.min(token('--cv-transition-source-max'),innerWidth-2*token('--page-gutter'));
-    return {x:(innerWidth-width)/2,y:token(innerWidth<=640?'--portfolio-logo-mobile-top':'--portfolio-logo-top'),width};
+    const width=innerWidth<=640?Math.min(token('--portfolio-logo-mobile-max'), innerWidth-token('--portfolio-logo-mobile-gutters')):Math.min(token('--cv-transition-source-max'),document.documentElement.clientWidth-2*token('--page-gutter'));
+    return {x:(document.documentElement.clientWidth-width)/2,y:token(innerWidth<=640?'--portfolio-logo-mobile-top':'--portfolio-logo-top'),width};
   };
   const arrive=async()=>{
     if(location.pathname!=='/')return;
@@ -43,11 +44,12 @@ export function initCvNavigation() {
     if(!stored||Date.now()-stored.time>10000){delete document.documentElement.dataset.routeArrival;return;}
     window.scrollTo({top:0,behavior:'instant'});reset();
     const hero=document.querySelector<HTMLImageElement>('.hero__logo img');
-    if(!hero||stored.settled||reduced())return;
+    await document.fonts.ready;
+    if(!hero||stored.settled||reduced()||innerWidth<=640){revealHeroRole();delete document.documentElement.dataset.routeArrival;return;}
     await hero.decode().catch(()=>{});
     const target=portfolioTarget();
     if(stored.y<0||stored.y>innerHeight)stored.y=token('--cv-top');
-    flight(hero,stored,target,()=>{reset();delete document.documentElement.dataset.routeArrival;});
+    flight(hero,stored,target,()=>{reset();revealHeroRole();delete document.documentElement.dataset.routeArrival;});
   };
   window.addEventListener('pageshow',()=>{reset();void arrive();});
   window.addEventListener('pagehide',()=>{if(location.pathname==='/cv'&&!explicitReturn)saveReturn(false);});
@@ -59,10 +61,12 @@ export function initCvNavigation() {
     const reverse=link.hasAttribute('data-portfolio-link');
     const source=document.querySelector<HTMLImageElement>(reverse?'.cv-wordmark img':'.hero__logo img');if(!source)return;
     event.preventDefault();if(navigating)return;navigating=true;
+    document.querySelector('.floating-header')?.removeAttribute('data-scroll-hidden');
+    if(innerWidth<=640){if(reverse){explicitReturn=true;saveReturn(true);}location.assign(link.href);return;}
     await source.decode().catch(()=>{});
     const r=source.getBoundingClientRect();
-    const gutter=token('--cv-gutter');const contentWidth=Math.min(token('--cv-width'),innerWidth-2*gutter);
-    const to=reverse?portfolioTarget():{x:(innerWidth-contentWidth)/2,y:token(innerWidth<=640?'--cv-mobile-screen-top':'--cv-top'),width:Math.min(token('--cv-logo-width'),contentWidth)};
+    const gutter=token('--cv-gutter');const contentWidth=Math.min(token('--cv-width'),document.documentElement.clientWidth-2*gutter);
+    const to=reverse?portfolioTarget():{x:(document.documentElement.clientWidth-contentWidth)/2,y:token(innerWidth<=640?'--cv-mobile-screen-top':'--cv-top'),width:Math.min(token('--cv-logo-width'),contentWidth)};
     const inView=r.bottom>0&&r.top<innerHeight;
     const width=inView?r.width:Math.min(token('--cv-logo-width'),contentWidth);
     const height=width*source.naturalHeight/source.naturalWidth;
