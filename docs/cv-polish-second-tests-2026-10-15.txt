@@ -1,0 +1,278 @@
+
+> dmitrii-pershin-portfolio@0.1.0 test
+> playwright test --workers=2
+
+[WebServer] (node:30846) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 144 tests using 2 workers
+
+(node:30853) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:30854) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓    1 [chromium] › tests/cv-polish.spec.ts:3:1 › CV from a lower section fades in one logo before settling into its final slot (2.3s)
+  ✓    2 [chromium] › tests/cv-polish.spec.ts:32:1 › CV actions keep the soft-skill contour after theme and language changes (3.4s)
+  ✓    3 [chromium] › tests/cv-refinement.spec.ts:3:1 › CV reveals content gradually on entry and when reading further (2.8s)
+  ✓    5 [chromium] › tests/cv-refinement.spec.ts:27:1 › theme and route changes leave desktop controls and their icons in stable slots (3.6s)
+  -    6 [chromium] › tests/cv-refinement.spec.ts:43:1 › phone logo fits the same width and position on both pages and headers scroll away
+  ✓    7 [chromium] › tests/cv-refinement.spec.ts:54:1 › CV retains the portfolio hero cursor glow and static export content (1.1s)
+  ✓    8 [chromium] › tests/cv-refinement.spec.ts:62:1 › burger strokes stay at the same visible rows when changing theme (365ms)
+  ✘    4 [chromium] › tests/cv-refinement.spec.ts:13:1 › Download and portfolio share hover treatment and Contact is the floating avatar (7.2s)
+  ✓    9 [chromium] › tests/cv.spec.ts:4:1 › CV follows the edited content, links and responsive composition (1.2s)
+(node:30894) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   10 [chromium] › tests/cv.spec.ts:85:1 › reduced motion keeps immediate CV navigation (353ms)
+  ✓   12 [chromium] › tests/cv.spec.ts:93:1 › CV is accessible without JavaScript and at narrow widths (658ms)
+  ✓   13 [chromium] › tests/cv.spec.ts:105:1 › CV language and theme preserve each other and the PDF format choice (2.1s)
+  ✓   11 [chromium] › tests/cv.spec.ts:43:1 › header opens CV through a shrinking logo and browser back remains usable (3.5s)
+  ✓   15 [chromium] › tests/cv.spec.ts:180:1 › CV toolbar stays aligned on return and the same logo expands smoothly (2.8s)
+  ✓   14 [chromium] › tests/cv.spec.ts:133:1 › CV theme interpolates without reload and both overlays match portfolio behaviour (4.2s)
+  ✓   17 [chromium] › tests/cv.spec.ts:227:1 › all eight published PDF variants match their manifest hashes (33ms)
+  ✓   18 [chromium] › tests/portfolio.spec.ts:3:1 › renders every portfolio section without horizontal overflow (393ms)
+  ✓   16 [chromium] › tests/cv.spec.ts:200:1 › pickers are viewport-centred, contacts share one overlay and wheel scrolling is locked (2.7s)
+  ✓   19 [chromium] › tests/portfolio.spec.ts:14:1 › page has no runtime console errors (2.0s)
+  ✓   20 [chromium] › tests/portfolio.spec.ts:26:1 › language switch changes copy and persists the choice (822ms)
+  ✓   21 [chromium] › tests/portfolio.spec.ts:41:1 › navigation controls follow the intended responsive scroll behaviour (2.0s)
+  ✓   23 [chromium] › tests/portfolio.spec.ts:105:1 › avatar opens contact details (702ms)
+  ✓   24 [chromium] › tests/portfolio.spec.ts:142:1 › reduced motion keeps content and joined Figma routes visible (332ms)
+  ✓   22 [chromium] › tests/portfolio.spec.ts:84:1 › menu is keyboard accessible and contains every section (3.4s)
+  ✓   26 [chromium] › tests/portfolio.spec.ts:194:1 › Skills hover stays purple and eases into the border highlight (1.5s)
+  ✓   25 [chromium] › tests/portfolio.spec.ts:154:1 › desktop hover animates one contour without moving its geometry (2.4s)
+  -   28 [chromium] › tests/portfolio.spec.ts:258:1 › mobile Workflow, Skills and Interfaces match Figma geometry
+  ✓   27 [chromium] › tests/portfolio.spec.ts:224:1 › desktop Theme Builder and Interfaces cards match Figma geometry (619ms)
+  -   30 [chromium] › tests/portfolio.spec.ts:350:1 › mobile details reveal on demand
+  -   31 [chromium] › tests/portfolio.spec.ts:373:1 › mobile card borders rotate their gradient with scroll
+  ✓   29 [chromium] › tests/portfolio.spec.ts:308:1 › Focus, Process and closing contacts follow the Figma formatting (505ms)
+  ✓   32 [chromium] › tests/portfolio.spec.ts:392:1 › pet project uses the verified destinations and exact portfolio font (357ms)
+  ✓   33 [chromium] › tests/portfolio.spec.ts:401:1 › desktop AI routes, Pet Project and closing section use the latest Figma structure (1.3s)
+  ✓   35 [chromium] › tests/portfolio.spec.ts:455:1 › AI context, tool cards and app icons use the exact Figma geometry (537ms)
+  ✓   34 [chromium] › tests/portfolio.spec.ts:429:1 › Joyride headings remain live text and the hero uses the shared SVG (1.7s)
+  ✓   37 [chromium] › tests/portfolio.spec.ts:503:1 › health endpoint responds (11ms)
+  ✓   38 [chromium] › tests/portfolio.spec.ts:509:1 › all cards have one painted border and icon exports have no extra ring (380ms)
+  ✓   39 [chromium] › tests/portfolio.spec.ts:526:1 › AI route translations replace their labels without adding another chip (563ms)
+  -   40 [chromium] › tests/portfolio.spec.ts:539:1 › mobile header follows the authored gutter and skill rows fill their width
+  ✓   41 [chromium] › tests/portfolio.spec.ts:567:1 › every desktop menu item fits on a short viewport (493ms)
+  ✓   36 [chromium] › tests/portfolio.spec.ts:489:1 › Theme and Interfaces metrics use live staggered odometer digits (2.8s)
+  ✓   43 [chromium] › tests/portfolio.spec.ts:604:3 › without JavaScript › essential portfolio content and final numbers remain readable (269ms)
+  ✓   44 [chromium] › tests/portfolio.spec.ts:615:1 › ordinary circular corners keep Figma radii and one mask (351ms)
+  ✓   42 [chromium] › tests/portfolio.spec.ts:586:1 › cold font loading waits before the padded hero reveal without layout shift (1.7s)
+  ✓   45 [chromium] › tests/portfolio.spec.ts:630:1 › icon frame lights move again without an unmasked original ring (3.1s)
+  ✓   46 [chromium] › tests/portfolio.spec.ts:649:1 › scrollbar and stationary cursor follow sections during fast bidirectional scroll (4.3s)
+  ✓   48 [chromium] › tests/portfolio.spec.ts:689:1 › avatar ring and portrait have an opaque backing (365ms)
+(node:31013) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   49 [tablet] › tests/cv-polish.spec.ts:3:1 › CV from a lower section fades in one logo before settling into its final slot (2.0s)
+  ✓   47 [chromium] › tests/portfolio.spec.ts:669:1 › menu and language use the same smooth full-opacity font crossfade (6.5s)
+(node:31043) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   51 [tablet] › tests/cv-refinement.spec.ts:3:1 › CV reveals content gradually on entry and when reading further (2.8s)
+  ✘   50 [tablet] › tests/cv-polish.spec.ts:32:1 › CV actions keep the soft-skill contour after theme and language changes (7.2s)
+(node:31050) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   53 [tablet] › tests/cv-refinement.spec.ts:27:1 › theme and route changes leave desktop controls and their icons in stable slots (3.6s)
+  -   54 [tablet] › tests/cv-refinement.spec.ts:43:1 › phone logo fits the same width and position on both pages and headers scroll away
+  ✓   55 [tablet] › tests/cv-refinement.spec.ts:54:1 › CV retains the portfolio hero cursor glow and static export content (1.1s)
+  ✓   56 [tablet] › tests/cv-refinement.spec.ts:62:1 › burger strokes stay at the same visible rows when changing theme (350ms)
+  ✘   52 [tablet] › tests/cv-refinement.spec.ts:13:1 › Download and portfolio share hover treatment and Contact is the floating avatar (7.3s)
+(node:31064) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   57 [tablet] › tests/cv.spec.ts:4:1 › CV follows the edited content, links and responsive composition (1.2s)
+  ✓   59 [tablet] › tests/cv.spec.ts:85:1 › reduced motion keeps immediate CV navigation (363ms)
+  ✓   60 [tablet] › tests/cv.spec.ts:93:1 › CV is accessible without JavaScript and at narrow widths (638ms)
+  ✓   58 [tablet] › tests/cv.spec.ts:43:1 › header opens CV through a shrinking logo and browser back remains usable (3.6s)
+  ✓   61 [tablet] › tests/cv.spec.ts:105:1 › CV language and theme preserve each other and the PDF format choice (2.1s)
+  ✓   63 [tablet] › tests/cv.spec.ts:180:1 › CV toolbar stays aligned on return and the same logo expands smoothly (2.9s)
+  ✓   62 [tablet] › tests/cv.spec.ts:133:1 › CV theme interpolates without reload and both overlays match portfolio behaviour (4.2s)
+  -   65 [tablet] › tests/cv.spec.ts:227:1 › all eight published PDF variants match their manifest hashes
+  ✓   66 [tablet] › tests/portfolio.spec.ts:3:1 › renders every portfolio section without horizontal overflow (343ms)
+  ✓   64 [tablet] › tests/cv.spec.ts:200:1 › pickers are viewport-centred, contacts share one overlay and wheel scrolling is locked (2.7s)
+  ✓   68 [tablet] › tests/portfolio.spec.ts:26:1 › language switch changes copy and persists the choice (807ms)
+  ✓   67 [tablet] › tests/portfolio.spec.ts:14:1 › page has no runtime console errors (2.0s)
+  ✓   69 [tablet] › tests/portfolio.spec.ts:41:1 › navigation controls follow the intended responsive scroll behaviour (1.8s)
+  ✓   71 [tablet] › tests/portfolio.spec.ts:105:1 › avatar opens contact details (681ms)
+  ✓   72 [tablet] › tests/portfolio.spec.ts:142:1 › reduced motion keeps content and joined Figma routes visible (313ms)
+  -   73 [tablet] › tests/portfolio.spec.ts:154:1 › desktop hover animates one contour without moving its geometry
+  -   74 [tablet] › tests/portfolio.spec.ts:194:1 › Skills hover stays purple and eases into the border highlight
+  -   75 [tablet] › tests/portfolio.spec.ts:224:1 › desktop Theme Builder and Interfaces cards match Figma geometry
+  -   76 [tablet] › tests/portfolio.spec.ts:258:1 › mobile Workflow, Skills and Interfaces match Figma geometry
+  ✓   70 [tablet] › tests/portfolio.spec.ts:84:1 › menu is keyboard accessible and contains every section (3.3s)
+  ✓   77 [tablet] › tests/portfolio.spec.ts:308:1 › Focus, Process and closing contacts follow the Figma formatting (483ms)
+  -   78 [tablet] › tests/portfolio.spec.ts:350:1 › mobile details reveal on demand
+  -   79 [tablet] › tests/portfolio.spec.ts:373:1 › mobile card borders rotate their gradient with scroll
+  -   81 [tablet] › tests/portfolio.spec.ts:401:1 › desktop AI routes, Pet Project and closing section use the latest Figma structure
+  ✓   80 [tablet] › tests/portfolio.spec.ts:392:1 › pet project uses the verified destinations and exact portfolio font (346ms)
+  ✓   83 [tablet] › tests/portfolio.spec.ts:455:1 › AI context, tool cards and app icons use the exact Figma geometry (522ms)
+  ✓   82 [tablet] › tests/portfolio.spec.ts:429:1 › Joyride headings remain live text and the hero uses the shared SVG (1.7s)
+  ✓   85 [tablet] › tests/portfolio.spec.ts:503:1 › health endpoint responds (13ms)
+  ✓   86 [tablet] › tests/portfolio.spec.ts:509:1 › all cards have one painted border and icon exports have no extra ring (393ms)
+  ✓   87 [tablet] › tests/portfolio.spec.ts:526:1 › AI route translations replace their labels without adding another chip (585ms)
+  -   88 [tablet] › tests/portfolio.spec.ts:539:1 › mobile header follows the authored gutter and skill rows fill their width
+  ✓   89 [tablet] › tests/portfolio.spec.ts:567:1 › every desktop menu item fits on a short viewport (434ms)
+  ✓   84 [tablet] › tests/portfolio.spec.ts:489:1 › Theme and Interfaces metrics use live staggered odometer digits (2.8s)
+  ✓   91 [tablet] › tests/portfolio.spec.ts:604:3 › without JavaScript › essential portfolio content and final numbers remain readable (244ms)
+  ✓   92 [tablet] › tests/portfolio.spec.ts:615:1 › ordinary circular corners keep Figma radii and one mask (336ms)
+  ✓   90 [tablet] › tests/portfolio.spec.ts:586:1 › cold font loading waits before the padded hero reveal without layout shift (1.7s)
+  ✓   93 [tablet] › tests/portfolio.spec.ts:630:1 › icon frame lights move again without an unmasked original ring (2.9s)
+  ✓   94 [tablet] › tests/portfolio.spec.ts:649:1 › scrollbar and stationary cursor follow sections during fast bidirectional scroll (4.0s)
+  ✓   96 [tablet] › tests/portfolio.spec.ts:689:1 › avatar ring and portrait have an opaque backing (340ms)
+(node:31115) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  -   97 [mobile] › tests/cv-polish.spec.ts:3:1 › CV from a lower section fades in one logo before settling into its final slot
+  ✓   98 [mobile] › tests/cv-polish.spec.ts:32:1 › CV actions keep the soft-skill contour after theme and language changes (643ms)
+  ✓   99 [mobile] › tests/cv-refinement.spec.ts:3:1 › CV reveals content gradually on entry and when reading further (2.7s)
+  ✓   95 [tablet] › tests/portfolio.spec.ts:669:1 › menu and language use the same smooth full-opacity font crossfade (6.4s)
+(node:31143) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  -  101 [mobile] › tests/cv-refinement.spec.ts:27:1 › theme and route changes leave desktop controls and their icons in stable slots
+  ✓  100 [mobile] › tests/cv-refinement.spec.ts:13:1 › Download and portfolio share hover treatment and Contact is the floating avatar (1.7s)
+  -  103 [mobile] › tests/cv-refinement.spec.ts:54:1 › CV retains the portfolio hero cursor glow and static export content
+  -  104 [mobile] › tests/cv-refinement.spec.ts:62:1 › burger strokes stay at the same visible rows when changing theme
+  ✓  102 [mobile] › tests/cv-refinement.spec.ts:43:1 › phone logo fits the same width and position on both pages and headers scroll away (1.3s)
+  ✓  105 [mobile] › tests/cv.spec.ts:4:1 › CV follows the edited content, links and responsive composition (1.3s)
+  ✓  106 [mobile] › tests/cv.spec.ts:43:1 › header opens CV through a shrinking logo and browser back remains usable (1.4s)
+  ✓  107 [mobile] › tests/cv.spec.ts:85:1 › reduced motion keeps immediate CV navigation (392ms)
+  ✓  108 [mobile] › tests/cv.spec.ts:93:1 › CV is accessible without JavaScript and at narrow widths (693ms)
+  ✓  109 [mobile] › tests/cv.spec.ts:105:1 › CV language and theme preserve each other and the PDF format choice (2.9s)
+  ✓  111 [mobile] › tests/cv.spec.ts:180:1 › CV toolbar stays aligned on return and the same logo expands smoothly (1.8s)
+  ✓  110 [mobile] › tests/cv.spec.ts:133:1 › CV theme interpolates without reload and both overlays match portfolio behaviour (4.2s)
+  -  113 [mobile] › tests/cv.spec.ts:227:1 › all eight published PDF variants match their manifest hashes
+  ✓  114 [mobile] › tests/portfolio.spec.ts:3:1 › renders every portfolio section without horizontal overflow (395ms)
+  ✓  112 [mobile] › tests/cv.spec.ts:200:1 › pickers are viewport-centred, contacts share one overlay and wheel scrolling is locked (2.4s)
+  ✓  115 [mobile] › tests/portfolio.spec.ts:14:1 › page has no runtime console errors (2.1s)
+  ✓  116 [mobile] › tests/portfolio.spec.ts:26:1 › language switch changes copy and persists the choice (663ms)
+  ✓  118 [mobile] › tests/portfolio.spec.ts:84:1 › menu is keyboard accessible and contains every section (422ms)
+  ✓  117 [mobile] › tests/portfolio.spec.ts:41:1 › navigation controls follow the intended responsive scroll behaviour (990ms)
+  ✓  120 [mobile] › tests/portfolio.spec.ts:142:1 › reduced motion keeps content and joined Figma routes visible (373ms)
+  -  121 [mobile] › tests/portfolio.spec.ts:154:1 › desktop hover animates one contour without moving its geometry
+  -  122 [mobile] › tests/portfolio.spec.ts:194:1 › Skills hover stays purple and eases into the border highlight
+  -  123 [mobile] › tests/portfolio.spec.ts:224:1 › desktop Theme Builder and Interfaces cards match Figma geometry
+  ✓  119 [mobile] › tests/portfolio.spec.ts:105:1 › avatar opens contact details (1.3s)
+  ✓  124 [mobile] › tests/portfolio.spec.ts:258:1 › mobile Workflow, Skills and Interfaces match Figma geometry (607ms)
+  ✓  125 [mobile] › tests/portfolio.spec.ts:308:1 › Focus, Process and closing contacts follow the Figma formatting (592ms)
+  ✓  127 [mobile] › tests/portfolio.spec.ts:373:1 › mobile card borders rotate their gradient with scroll (909ms)
+  ✓  128 [mobile] › tests/portfolio.spec.ts:392:1 › pet project uses the verified destinations and exact portfolio font (406ms)
+  -  129 [mobile] › tests/portfolio.spec.ts:401:1 › desktop AI routes, Pet Project and closing section use the latest Figma structure
+  ✓  126 [mobile] › tests/portfolio.spec.ts:350:1 › mobile details reveal on demand (2.9s)
+  ✓  131 [mobile] › tests/portfolio.spec.ts:455:1 › AI context, tool cards and app icons use the exact Figma geometry (600ms)
+  ✓  130 [mobile] › tests/portfolio.spec.ts:429:1 › Joyride headings remain live text and the hero uses the shared SVG (1.7s)
+  ✓  133 [mobile] › tests/portfolio.spec.ts:503:1 › health endpoint responds (11ms)
+  ✓  134 [mobile] › tests/portfolio.spec.ts:509:1 › all cards have one painted border and icon exports have no extra ring (411ms)
+  -  135 [mobile] › tests/portfolio.spec.ts:526:1 › AI route translations replace their labels without adding another chip
+  ✓  136 [mobile] › tests/portfolio.spec.ts:539:1 › mobile header follows the authored gutter and skill rows fill their width (405ms)
+  -  137 [mobile] › tests/portfolio.spec.ts:567:1 › every desktop menu item fits on a short viewport
+  ✓  138 [mobile] › tests/portfolio.spec.ts:586:1 › cold font loading waits before the padded hero reveal without layout shift (1.7s)
+  ✓  132 [mobile] › tests/portfolio.spec.ts:489:1 › Theme and Interfaces metrics use live staggered odometer digits (2.8s)
+  ✓  139 [mobile] › tests/portfolio.spec.ts:604:3 › without JavaScript › essential portfolio content and final numbers remain readable (349ms)
+  ✓  140 [mobile] › tests/portfolio.spec.ts:615:1 › ordinary circular corners keep Figma radii and one mask (401ms)
+  ✓  141 [mobile] › tests/portfolio.spec.ts:630:1 › icon frame lights move again without an unmasked original ring (2.8s)
+  -  143 [mobile] › tests/portfolio.spec.ts:669:1 › menu and language use the same smooth full-opacity font crossfade
+  ✓  144 [mobile] › tests/portfolio.spec.ts:689:1 › avatar ring and portrait have an opaque backing (385ms)
+  ✓  142 [mobile] › tests/portfolio.spec.ts:649:1 › scrollbar and stationary cursor follow sections during fast bidirectional scroll (3.6s)
+
+
+  1) [chromium] › tests/cv-refinement.spec.ts:13:1 › Download and portfolio share hover treatment and Contact is the floating avatar 
+
+    Error: expect(received).toBeGreaterThan(expected)
+
+    Expected: > 0.7
+    Received:   0.547
+
+    Call Log:
+    - Timeout 5000ms exceeded while waiting on the predicate
+
+      19 |  for(const action of [download,portfolio])await expect(action.locator(':scope > .card-border')).toHaveCount(1);
+      20 |  if(await page.evaluate(()=>matchMedia('(hover: hover)').matches)){
+    > 21 |   for(const action of [download,portfolio]){await action.hover();await expect.poll(()=>action.evaluate(el=>Number(getComputedStyle(el).getPropertyValue('--glow-opacity')))).toBeGreaterThan(.7);}
+         |                                                                                                                                                                              ^
+      22 |  }
+      23 |  await download.click();await expect(page.getByRole('link',{name:'desktop pdf',exact:true})).toBeVisible();await expect(page.getByRole('link',{name:'mobile pdf',exact:true})).toBeVisible();const pdfFont=await page.locator('.pdf-overlay .morph-label__base').first().evaluate(el=>getComputedStyle(el).fontFamily);const languageFont=await page.locator('[data-language-overlay] .morph-label__base').first().evaluate(el=>getComputedStyle(el).fontFamily);expect(pdfFont).toBe(languageFont);
+      24 |  await page.keyboard.press('Escape');await page.locator('.avatar-button').click();await expect(page.locator('[data-contact-overlay]')).toHaveAttribute('aria-hidden','false');
+        at /Users/dmitriipershin/Vibecoding/I am/portfolio-site/tests/cv-refinement.spec.ts:21:174
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/cv-refinement-Download-and-2ea38-tact-is-the-floating-avatar-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/cv-refinement-Download-and-2ea38-tact-is-the-floating-avatar-chromium/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/cv-refinement-Download-and-2ea38-tact-is-the-floating-avatar-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/cv-refinement-Download-and-2ea38-tact-is-the-floating-avatar-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) [tablet] › tests/cv-polish.spec.ts:32:1 › CV actions keep the soft-skill contour after theme and language changes 
+
+    Error: expect(received).toBeGreaterThan(expected)
+
+    Expected: > 0.7
+    Received:   0.288
+
+    Call Log:
+    - Timeout 5000ms exceeded while waiting on the predicate
+
+      38 |   await expect(page.locator('.cv-profile [data-pdf-download]')).toBeVisible();
+      39 |   const bounds=await action.boundingBox();const before=await action.evaluate(el=>getComputedStyle(el).getPropertyValue('--glow-angle'));
+    > 40 |   if(page.viewportSize()!.width>640){await action.hover({position:{x:bounds!.width-12,y:bounds!.height/2}});await expect.poll(()=>action.evaluate(el=>getComputedStyle(el).getPropertyValue('--glow-angle'))).not.toBe(before);await expect.poll(()=>action.evaluate(el=>Number(getComputedStyle(el).getPropertyValue('--glow-opacity')))).toBeGreaterThan(.7);}
+         |                                                                                                                                                                                                                                                                                                                                            ^
+      41 |   else {await page.evaluate(()=>scrollBy({top:80,behavior:'instant'}));await expect.poll(()=>action.evaluate(el=>getComputedStyle(el).getPropertyValue('--glow-angle'))).not.toBe(before);}
+      42 |   expect(await stroke.evaluate(el=>getComputedStyle(el,'::before').backgroundImage)).toContain('conic-gradient');
+      43 |  }
+        at /Users/dmitriipershin/Vibecoding/I am/portfolio-site/tests/cv-polish.spec.ts:40:332
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/cv-polish-CV-actions-keep--f254f--theme-and-language-changes-tablet/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/cv-polish-CV-actions-keep--f254f--theme-and-language-changes-tablet/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/cv-polish-CV-actions-keep--f254f--theme-and-language-changes-tablet/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/cv-polish-CV-actions-keep--f254f--theme-and-language-changes-tablet/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3) [tablet] › tests/cv-refinement.spec.ts:13:1 › Download and portfolio share hover treatment and Contact is the floating avatar 
+
+    Error: expect(received).toBeGreaterThan(expected)
+
+    Expected: > 0.7
+    Received:   0.291
+
+    Call Log:
+    - Timeout 5000ms exceeded while waiting on the predicate
+
+      19 |  for(const action of [download,portfolio])await expect(action.locator(':scope > .card-border')).toHaveCount(1);
+      20 |  if(await page.evaluate(()=>matchMedia('(hover: hover)').matches)){
+    > 21 |   for(const action of [download,portfolio]){await action.hover();await expect.poll(()=>action.evaluate(el=>Number(getComputedStyle(el).getPropertyValue('--glow-opacity')))).toBeGreaterThan(.7);}
+         |                                                                                                                                                                              ^
+      22 |  }
+      23 |  await download.click();await expect(page.getByRole('link',{name:'desktop pdf',exact:true})).toBeVisible();await expect(page.getByRole('link',{name:'mobile pdf',exact:true})).toBeVisible();const pdfFont=await page.locator('.pdf-overlay .morph-label__base').first().evaluate(el=>getComputedStyle(el).fontFamily);const languageFont=await page.locator('[data-language-overlay] .morph-label__base').first().evaluate(el=>getComputedStyle(el).fontFamily);expect(pdfFont).toBe(languageFont);
+      24 |  await page.keyboard.press('Escape');await page.locator('.avatar-button').click();await expect(page.locator('[data-contact-overlay]')).toHaveAttribute('aria-hidden','false');
+        at /Users/dmitriipershin/Vibecoding/I am/portfolio-site/tests/cv-refinement.spec.ts:21:174
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/cv-refinement-Download-and-2ea38-tact-is-the-floating-avatar-tablet/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/cv-refinement-Download-and-2ea38-tact-is-the-floating-avatar-tablet/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/cv-refinement-Download-and-2ea38-tact-is-the-floating-avatar-tablet/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/cv-refinement-Download-and-2ea38-tact-is-the-floating-avatar-tablet/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3 failed
+    [chromium] › tests/cv-refinement.spec.ts:13:1 › Download and portfolio share hover treatment and Contact is the floating avatar 
+    [tablet] › tests/cv-polish.spec.ts:32:1 › CV actions keep the soft-skill contour after theme and language changes 
+    [tablet] › tests/cv-refinement.spec.ts:13:1 › Download and portfolio share hover treatment and Contact is the floating avatar 
+  27 skipped
+  114 passed (1.8m)
