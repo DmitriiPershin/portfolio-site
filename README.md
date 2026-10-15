@@ -7,7 +7,7 @@ Production portfolio implemented from the current desktop and mobile Figma layou
 
 ## Current state
 
-Latest refinement (2026-10-15): floating avatar halved to60px desktop/30px mobile; off-screen CV navigation fades in the one exact SVG before settling; PDF picker inherits ENG/RUS typography; both website action rows remain visible, with the portfolio soft-skill contour shared by Download and View portfolio. Verification: `docs/test-log-2026-10-15-cv-polish.md`.
+Latest refinement (2026-10-15): floating avatar halved to60px desktop/30px mobile; off-screen CV navigation fades in the one exact SVG before settling; PDF picker inherits ENG/RUS typography; both website action rows remain visible, with the portfolio soft-skill contour shared by Download and View portfolio. Verification:117passed/27intentional skips/zero failures locally and on production;all8public PDF hashes pass. Logs: `docs/test-log-2026-10-15-cv-polish.md`.
 
 - `/cv` implements the edited desktop `584:3` and mobile `584:4` layouts in EN/RU, with selectable experience text and a local exact SVG wordmark. The floating avatar opens Nice to meet you on CV and portfolio. Website action rows use filled Download PDF → outlined View portfolio with the Soft Skills contour/light response and Figma sizing. PDF retains Contact/mailto and View portfolio, without Download PDF.
 - Both routes use the exact user-supplied `Group 3.svg` (951×214), stored as `public/assets/cv-wordmark.svg`. One SVG shrinks into CV and expands back on desktop, including browser Back; Senior Product Designer replays its entry animation on return. Mobile uses identical full-width SVG bounds at y80px on both pages and performs no logo flight. One shared header preserves menu/CV/globe at64/132/200px on desktop; CV theme occupies its own268px slot. Reduced-motion/modified-click/no-JavaScript paths keep native links.
@@ -128,6 +128,8 @@ The `.railwayignore` file keeps committed QA screenshots, tests, reports, and do
 4. Run the production checks with `PORTFOLIO_BASE_URL=https://portfolio-production-e2d0.up.railway.app npm test -- --workers=2`.
 
 ## Known limitations
+
+- Dependency advisories found during Railway installation are recorded for separate triage in `Bugs.md`; the CV change does not update dependencies.
 
 - Final spacing tokens still need Dmitrii's visual approval; they are intentionally centralized for quick adjustment.
 - The English content is a parallel content layer. Figma currently defines Russian desktop/mobile geometry only.

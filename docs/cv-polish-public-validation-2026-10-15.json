@@ -1,0 +1,71 @@
+{
+  "date": "2026-10-15T18:26:30.378Z",
+  "routes": [
+    {
+      "path": "/",
+      "status": 200
+    },
+    {
+      "path": "/cv",
+      "status": 200
+    },
+    {
+      "path": "/cv?lang=ru&theme=light",
+      "status": 200
+    },
+    {
+      "path": "/api/health",
+      "status": 200
+    }
+  ],
+  "pdfs": [
+    {
+      "variant": "en-dark-desktop",
+      "status": 200,
+      "bytes": 54524,
+      "sha256": "543df752b93fb417f979eb6626a09f5e44f2985b74fac78f9f25c4934d6ad7f4"
+    },
+    {
+      "variant": "en-dark-mobile",
+      "status": 200,
+      "bytes": 53574,
+      "sha256": "ef8509508285596f7fe71f48284f82f5fa08258cfc62fe08b3c18d016524d5f2"
+    },
+    {
+      "variant": "en-light-desktop",
+      "status": 200,
+      "bytes": 54430,
+      "sha256": "8f60f77ad1e35d08742b6cb7dc78ca25dce68b93df13166fa30952b89655a06f"
+    },
+    {
+      "variant": "en-light-mobile",
+      "status": 200,
+      "bytes": 53471,
+      "sha256": "7db4e3e41c64bdf955211e15c9e6a6cca95a6746253759a7cba453db425f6851"
+    },
+    {
+      "variant": "ru-dark-desktop",
+      "status": 200,
+      "bytes": 60002,
+      "sha256": "2a1b9b6e1bf6e217a480b2bc5bb1a0cf7e91f6d48a0d8668d315b3ae40f10b7c"
+    },
+    {
+      "variant": "ru-dark-mobile",
+      "status": 200,
+      "bytes": 58842,
+      "sha256": "3d34539668943681a4b71bf09ded8c23256b9908c6003c67fdfa2beef3a18da1"
+    },
+    {
+      "variant": "ru-light-desktop",
+      "status": 200,
+      "bytes": 59896,
+      "sha256": "346c31c564934119d69248e4eccd0c5e1978002d06b0cc0ab15b128dda67fbac"
+    },
+    {
+      "variant": "ru-light-mobile",
+      "status": 200,
+      "bytes": 58739,
+      "sha256": "0fcb3f684b1ad83ccbea039c16457f20b1b0e9bbd150f659125eeffd70e912a6"
+    }
+  ]
+}

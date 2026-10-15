@@ -8,7 +8,7 @@ Decision,2026-10-14: portfolio and CV use the same semantic motion families thro
 | Hero mask | `--motion-hero-duration`1100ms; same reveal curve | Initial portfolio SVG reveal; role overlaps by550ms |
 | Route | `--motion-route-duration`1040ms,`--motion-ease-route`power3.inOut | One SVG desktop logo flight; no mobile flight |
 | Theme | `--motion-theme-duration`720ms,`--motion-ease-change`sine.inOut | Background/text/accent interpolation; icon changes opacity only |
-| UI | `--motion-ui-duration`240ms; CSS`--ease-ui` | Shared CV action hover; theme-icon alpha |
+| UI | `--motion-ui-duration`240ms; CSS`--ease-ui` | Control transitions; theme-icon alpha |
 | Overlay | `--motion-overlay-duration`550ms; CSS`--ease-ui` | Header/overlay/contact response |
 | Workflow | `--motion-workflow-duration`720ms / input400ms; reveal curve | Existing staged portfolio diagram |
 

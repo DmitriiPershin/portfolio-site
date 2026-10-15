@@ -4,12 +4,14 @@
 
 ## Open
 
+- 2026-10-15 — Dependency advisory triage: Railway install and `npm audit --omit=dev` report9 production advisories (1critical,7high,1moderate). Evidence: `docs/dependency-audit-2026-10-15.json`; Railway build log in `docs/cv-polish-railway-build-2026-10-15.txt`. The critical Astro advisory concerns processing untrusted AVIF images ([upstream advisory](https://github.com/advisories/GHSA-26w7-cxv4-gfx2)); this site uses raw public assets and has no `astro:assets` imports or emitted image-optimization page. This is an advisory finding,not a demonstrated exploit in this application. Other advisory paths still need triage; dependencies were not changed by the CV styling task.
+
 - Final spacing values remain provisional until Dmitrii reviews the deployed desktop and mobile renders against Figma.
 - English has no dedicated Figma frame, so long English labels may need a later typography pass.
 
 ## Resolved
 
-- 2026-10-14 (system refinement): Joyride renders lowercase inputs as capital glyphs. PDF picker now uses existing LINE Seed JP regular/bold live text so desktop pdf/mobile pdf actually appear lowercase and stay compact.
+- Historical, superseded2026-10-15: the2026-10-14 PDF-only LINE font workaround rendered lowercase shapes. Latest user decision restores the same typography as ENG/RUS; see `docs/motion-system.md`.
 
 - 2026-10-14 (system refinement): Light burger strokes were5px below the dark SVG’s ink although both button rectangles matched. Pixel-row regression verifies the optical offset. Theme icon scale/rotation is removed.
 - 2026-10-14 (system refinement): Prior mobile hero was capped to a390px container while CV adapted to the window; the route flight also moved a near-identical logo. Shared full-width bounds and native mobile routes remove movement at320–640px.

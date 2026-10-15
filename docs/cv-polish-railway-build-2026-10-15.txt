@@ -1,0 +1,151 @@
+scheduling build on Metal builder "production-builderv3-us-east4-tl0t"
+scheduling build on Metal builder "production-builderv3-us-east4-l0kj"
+fetched snapshot sha256:176e199229c56b03f471be9035abb1acf72cdde192ad3e0088390ded9f267671 (7.4 MB bytes)
+[INFO] fetching snapshot
+[INFO] unpacking archive
+[INFO] [internal] load build definition from Dockerfile
+[INFO] [internal] load build definition from Dockerfile
+[INFO] [internal] load build definition from Dockerfile
+[INFO] [internal] load build definition from Dockerfile
+[INFO] [internal] load metadata for docker.io/library/node:22-alpine
+[INFO] [internal] load metadata for docker.io/library/node:22-alpine
+[INFO] [internal] load .dockerignore
+[INFO] [internal] load .dockerignore
+[INFO] [internal] load .dockerignore
+[INFO] [internal] load .dockerignore
+[INFO] [runtime 5/5] COPY --from=build /app/dist ./dist
+[INFO] [runtime 4/5] RUN npm ci --omit=dev
+[INFO] [runtime 3/5] COPY --from=build /app/package.json /app/package-lock.json ./
+[INFO] [build 6/6] RUN npm run build
+[INFO] [build 5/6] COPY . .
+[INFO] [build 4/6] RUN npm ci
+[INFO] [build 3/6] COPY package.json package-lock.json ./
+[INFO] [internal] load build context
+[INFO] [build 2/6] WORKDIR /app
+[INFO] [build 1/6] FROM docker.io/library/node:22-alpine@sha256:0a7108bf6c7bf5de370ffb1a3ed6be93d405b43ff159f681a8d18c0e2bc2e402
+[INFO] [internal] load build context
+[INFO] [build 1/6] FROM docker.io/library/node:22-alpine@sha256:0a7108bf6c7bf5de370ffb1a3ed6be93d405b43ff159f681a8d18c0e2bc2e402
+[INFO] [build 1/6] FROM docker.io/library/node:22-alpine@sha256:0a7108bf6c7bf5de370ffb1a3ed6be93d405b43ff159f681a8d18c0e2bc2e402
+[INFO] [internal] load build context
+[INFO] [internal] load build context
+[INFO] [build 2/6] WORKDIR /app
+[INFO] [build 2/6] WORKDIR /app
+[INFO] [build 3/6] COPY package.json package-lock.json ./
+[INFO] [build 3/6] COPY package.json package-lock.json ./
+[INFO] [build 4/6] RUN npm ci
+[INFO] 
+added 303 packages, and audited 304 packages in 6s
+
+[INFO] 
+91 packages are looking for funding
+  run `npm fund` for details
+
+[INFO] 
+10 vulnerabilities (1 moderate, 8 high, 1 critical)
+
+To address all issues, run:
+  npm audit fix
+
+Run `npm audit` for details.
+
+[INFO] npm notice
+npm notice New major version of npm available! 10.9.9 -> 12.2.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+npm notice To update run: npm install -g npm@12.2.0
+npm notice
+
+[INFO] [build 4/6] RUN npm ci
+[INFO] [build 5/6] COPY . .
+[INFO] [build 5/6] COPY . .
+[INFO] [build 6/6] RUN npm run build
+[INFO] 
+> dmitrii-pershin-portfolio@0.1.0 build
+> astro check && astro build
+
+
+[INFO] ▶ Astro collects anonymous usage data.
+  This information helps us improve Astro.
+  Run "astro telemetry disable" to opt-out.
+  https://astro.build/telemetry
+
+
+[INFO] 18:25:30 [@astrojs/node] Enabling sessions with filesystem storage
+
+[INFO] 18:25:30 [types] Generated 153ms
+
+[INFO] 18:25:30 [check] Getting diagnostics for Astro files in /app...
+
+[INFO] Result (31 files): 
+- 0 errors
+- 0 warnings
+- 0 hints
+
+
+[INFO] 18:25:36 [@astrojs/node] Enabling sessions with filesystem storage
+
+[INFO] 18:25:36 [types] Generated 133ms
+18:25:36 [build] output: "server"
+18:25:36 [build] mode: "server"
+18:25:36 [build] directory: /app/dist/
+18:25:36 [build] adapter: @astrojs/node
+18:25:36 [build] Collecting build info...
+18:25:36 [build] ✓ Completed in 210ms.
+18:25:36 [build] Building server entrypoints...
+
+[INFO] 18:25:37 [vite] ✓ built in 297ms
+
+[INFO] 18:25:37 [vite] ✓ built in 454ms
+
+[INFO] 18:25:37 [vite] ✓ built in 122ms
+
+[INFO] 18:25:37 [build] Rearranging server assets...
+
+[INFO] 18:25:37 [build] ✓ Completed in 927ms.
+
+[INFO] 18:25:37 [build] Server built in 1.14s
+18:25:37 [build] Complete!
+
+[INFO] [build 6/6] RUN npm run build
+[INFO] [runtime 3/5] COPY --from=build /app/package.json /app/package-lock.json ./
+[INFO] [runtime 3/5] COPY --from=build /app/package.json /app/package-lock.json ./
+[INFO] [runtime 4/5] RUN npm ci --omit=dev
+[INFO] 
+added 224 packages, and audited 225 packages in 6s
+
+
+[INFO] 78 packages are looking for funding
+  run `npm fund` for details
+
+[INFO] 
+9 vulnerabilities (1 moderate, 7 high, 1 critical)
+
+To address all issues, run:
+  npm audit fix
+
+Run `npm audit` for details.
+
+[INFO] npm notice
+npm notice New major version of npm available! 10.9.9 -> 12.2.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+npm notice To update run: npm install -g npm@12.2.0
+npm notice
+
+[INFO] [runtime 4/5] RUN npm ci --omit=dev
+[INFO] [runtime 5/5] COPY --from=build /app/dist ./dist
+[INFO] [runtime 5/5] COPY --from=build /app/dist ./dist
+[INFO] exporting to docker image format
+[INFO] exporting to docker image format
+containerimage.descriptor: eyJtZWRpYVR5cGUiOiJhcHBsaWNhdGlvbi92bmQub2NpLmltYWdlLm1hbmlmZXN0LnYxK2pzb24iLCJkaWdlc3QiOiJzaGEyNTY6ZjMzMThmYzM5YTBkNDUzYWYwZDI3Y2VhNDM0MzUyMjg1Yjk4NzM2Yzk0ZjkxNzFhMzQ3OGVjYjM2YWMxMmZlYyIsInNpemUiOjE4MTYsImFubm90YXRpb25zIjp7Im9yZy5vcGVuY29udGFpbmVycy5pbWFnZS5jcmVhdGVkIjoiMjAyNi0xMC0xNVQxODoyNTo1MloifSwicGxhdGZvcm0iOnsiYXJjaGl0ZWN0dXJlIjoiYW1kNjQiLCJvcyI6ImxpbnV4In19
+containerimage.config.digest: sha256:94f2503b3c77bb0a6fcb6a6cafe449ccfee8ec209ec32b51dced436ecd22c2e2
+containerimage.digest: sha256:f3318fc39a0d453af0d27cea434352285b98736c94f9171a3478ecb36ac12fec
+[INFO] image push
+[INFO] image push
+
+[35m====================
+Starting Healthcheck
+====================
+[0m
+[37mPath: /api/health[0m
+[37mRetry window: 2m0s[0m
+
+[92m[1/1] Healthcheck succeeded![0m

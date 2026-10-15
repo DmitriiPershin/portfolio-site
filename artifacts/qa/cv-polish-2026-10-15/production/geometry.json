@@ -1,0 +1,56 @@
+[
+  {
+    "width": 1440,
+    "scrollWidth": 1440,
+    "pdf": [
+      {
+        "text": "desktop pdfdesktop pdf",
+        "x": 472.703125,
+        "width": 494.59375,
+        "font": "\"Joyride Outline\", sans-serif"
+      },
+      {
+        "text": "mobile pdfmobile pdf",
+        "x": 506,
+        "width": 427.984375,
+        "font": "\"Joyride Outline\", sans-serif"
+      }
+    ]
+  },
+  {
+    "width": 1024,
+    "scrollWidth": 1024,
+    "pdf": [
+      {
+        "text": "desktop pdfdesktop pdf",
+        "x": 264.703125,
+        "width": 494.59375,
+        "font": "\"Joyride Outline\", sans-serif"
+      },
+      {
+        "text": "mobile pdfmobile pdf",
+        "x": 298,
+        "width": 427.984375,
+        "font": "\"Joyride Outline\", sans-serif"
+      }
+    ]
+  },
+  {
+    "width": 390,
+    "scrollWidth": 390,
+    "pdf": [
+      {
+        "text": "desktop pdfdesktop pdf",
+        "x": 134.328125,
+        "width": 121.328125,
+        "font": "\"LINE Seed JP\", sans-serif"
+      },
+      {
+        "text": "mobile pdfmobile pdf",
+        "x": 140.96875,
+        "width": 108.046875,
+        "font": "\"LINE Seed JP\", sans-serif"
+      }
+    ]
+  }
+]

@@ -1,0 +1,166 @@
+
+> dmitrii-pershin-portfolio@0.1.0 test
+> playwright test --workers=2
+
+
+Running 144 tests using 2 workers
+
+(node:31973) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:31972) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓    1 [chromium] › tests/cv-polish.spec.ts:3:1 › CV from a lower section fades in one logo before settling into its final slot (3.6s)
+  ✓    2 [chromium] › tests/cv-polish.spec.ts:32:1 › CV actions keep the soft-skill contour after theme and language changes (4.4s)
+  ✓    3 [chromium] › tests/cv-refinement.spec.ts:3:1 › CV reveals content gradually on entry and when reading further (3.8s)
+  ✓    4 [chromium] › tests/cv-refinement.spec.ts:13:1 › Download and portfolio share hover treatment and Contact is the floating avatar (3.0s)
+  -    6 [chromium] › tests/cv-refinement.spec.ts:43:1 › phone logo fits the same width and position on both pages and headers scroll away
+  ✓    7 [chromium] › tests/cv-refinement.spec.ts:54:1 › CV retains the portfolio hero cursor glow and static export content (2.2s)
+  ✓    8 [chromium] › tests/cv-refinement.spec.ts:62:1 › burger strokes stay at the same visible rows when changing theme (1.4s)
+  ✓    5 [chromium] › tests/cv-refinement.spec.ts:27:1 › theme and route changes leave desktop controls and their icons in stable slots (5.5s)
+  ✓    9 [chromium] › tests/cv.spec.ts:4:1 › CV follows the edited content, links and responsive composition (2.0s)
+  ✓   11 [chromium] › tests/cv.spec.ts:85:1 › reduced motion keeps immediate CV navigation (1.5s)
+  ✓   12 [chromium] › tests/cv.spec.ts:93:1 › CV is accessible without JavaScript and at narrow widths (2.2s)
+  ✓   10 [chromium] › tests/cv.spec.ts:43:1 › header opens CV through a shrinking logo and browser back remains usable (4.5s)
+  ✓   13 [chromium] › tests/cv.spec.ts:105:1 › CV language and theme preserve each other and the PDF format choice (2.3s)
+  ✓   14 [chromium] › tests/cv.spec.ts:133:1 › CV theme interpolates without reload and both overlays match portfolio behaviour (5.1s)
+  ✓   15 [chromium] › tests/cv.spec.ts:180:1 › CV toolbar stays aligned on return and the same logo expands smoothly (4.0s)
+  ✓   17 [chromium] › tests/cv.spec.ts:227:1 › all eight published PDF variants match their manifest hashes (1.7s)
+  ✓   16 [chromium] › tests/cv.spec.ts:200:1 › pickers are viewport-centred, contacts share one overlay and wheel scrolling is locked (2.9s)
+  ✓   18 [chromium] › tests/portfolio.spec.ts:3:1 › renders every portfolio section without horizontal overflow (1.1s)
+  ✓   20 [chromium] › tests/portfolio.spec.ts:26:1 › language switch changes copy and persists the choice (1.9s)
+  ✓   19 [chromium] › tests/portfolio.spec.ts:14:1 › page has no runtime console errors (2.7s)
+  ✓   21 [chromium] › tests/portfolio.spec.ts:41:1 › navigation controls follow the intended responsive scroll behaviour (2.7s)
+  ✓   23 [chromium] › tests/portfolio.spec.ts:105:1 › avatar opens contact details (1.6s)
+  ✓   22 [chromium] › tests/portfolio.spec.ts:84:1 › menu is keyboard accessible and contains every section (4.5s)
+  ✓   24 [chromium] › tests/portfolio.spec.ts:142:1 › reduced motion keeps content and joined Figma routes visible (1.1s)
+  ✓   26 [chromium] › tests/portfolio.spec.ts:194:1 › Skills hover stays purple and eases into the border highlight (2.7s)
+  ✓   25 [chromium] › tests/portfolio.spec.ts:154:1 › desktop hover animates one contour without moving its geometry (3.2s)
+  -   28 [chromium] › tests/portfolio.spec.ts:258:1 › mobile Workflow, Skills and Interfaces match Figma geometry
+  ✓   29 [chromium] › tests/portfolio.spec.ts:308:1 › Focus, Process and closing contacts follow the Figma formatting (1.8s)
+  -   30 [chromium] › tests/portfolio.spec.ts:350:1 › mobile details reveal on demand
+  ✓   27 [chromium] › tests/portfolio.spec.ts:224:1 › desktop Theme Builder and Interfaces cards match Figma geometry (2.0s)
+  -   31 [chromium] › tests/portfolio.spec.ts:373:1 › mobile card borders rotate their gradient with scroll
+  ✓   32 [chromium] › tests/portfolio.spec.ts:392:1 › pet project uses the verified destinations and exact portfolio font (1.1s)
+  ✓   33 [chromium] › tests/portfolio.spec.ts:401:1 › desktop AI routes, Pet Project and closing section use the latest Figma structure (2.0s)
+  ✓   35 [chromium] › tests/portfolio.spec.ts:455:1 › AI context, tool cards and app icons use the exact Figma geometry (1.3s)
+  ✓   34 [chromium] › tests/portfolio.spec.ts:429:1 › Joyride headings remain live text and the hero uses the shared SVG (2.4s)
+  ✓   37 [chromium] › tests/portfolio.spec.ts:503:1 › health endpoint responds (123ms)
+  ✓   38 [chromium] › tests/portfolio.spec.ts:509:1 › all cards have one painted border and icon exports have no extra ring (1.6s)
+  ✓   39 [chromium] › tests/portfolio.spec.ts:526:1 › AI route translations replace their labels without adding another chip (1.4s)
+  -   40 [chromium] › tests/portfolio.spec.ts:539:1 › mobile header follows the authored gutter and skill rows fill their width
+  ✓   36 [chromium] › tests/portfolio.spec.ts:489:1 › Theme and Interfaces metrics use live staggered odometer digits (3.6s)
+  ✓   41 [chromium] › tests/portfolio.spec.ts:567:1 › every desktop menu item fits on a short viewport (1.2s)
+  ✓   43 [chromium] › tests/portfolio.spec.ts:604:3 › without JavaScript › essential portfolio content and final numbers remain readable (1.1s)
+  ✓   42 [chromium] › tests/portfolio.spec.ts:586:1 › cold font loading waits before the padded hero reveal without layout shift (2.5s)
+  ✓   44 [chromium] › tests/portfolio.spec.ts:615:1 › ordinary circular corners keep Figma radii and one mask (1.7s)
+  ✓   45 [chromium] › tests/portfolio.spec.ts:630:1 › icon frame lights move again without an unmasked original ring (4.1s)
+  ✓   46 [chromium] › tests/portfolio.spec.ts:649:1 › scrollbar and stationary cursor follow sections during fast bidirectional scroll (4.9s)
+  ✓   48 [chromium] › tests/portfolio.spec.ts:689:1 › avatar ring and portrait have an opaque backing (1.1s)
+(node:32127) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   49 [tablet] › tests/cv-polish.spec.ts:3:1 › CV from a lower section fades in one logo before settling into its final slot (2.9s)
+  ✓   47 [chromium] › tests/portfolio.spec.ts:669:1 › menu and language use the same smooth full-opacity font crossfade (7.2s)
+(node:32152) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   50 [tablet] › tests/cv-polish.spec.ts:32:1 › CV actions keep the soft-skill contour after theme and language changes (4.4s)
+  ✓   51 [tablet] › tests/cv-refinement.spec.ts:3:1 › CV reveals content gradually on entry and when reading further (3.6s)
+  ✓   52 [tablet] › tests/cv-refinement.spec.ts:13:1 › Download and portfolio share hover treatment and Contact is the floating avatar (3.4s)
+  -   54 [tablet] › tests/cv-refinement.spec.ts:43:1 › phone logo fits the same width and position on both pages and headers scroll away
+  ✓   55 [tablet] › tests/cv-refinement.spec.ts:54:1 › CV retains the portfolio hero cursor glow and static export content (2.0s)
+  ✓   53 [tablet] › tests/cv-refinement.spec.ts:27:1 › theme and route changes leave desktop controls and their icons in stable slots (5.5s)
+  ✓   56 [tablet] › tests/cv-refinement.spec.ts:62:1 › burger strokes stay at the same visible rows when changing theme (1.4s)
+  ✓   57 [tablet] › tests/cv.spec.ts:4:1 › CV follows the edited content, links and responsive composition (2.1s)
+  ✓   59 [tablet] › tests/cv.spec.ts:85:1 › reduced motion keeps immediate CV navigation (1.4s)
+  ✓   60 [tablet] › tests/cv.spec.ts:93:1 › CV is accessible without JavaScript and at narrow widths (1.8s)
+  ✓   58 [tablet] › tests/cv.spec.ts:43:1 › header opens CV through a shrinking logo and browser back remains usable (4.6s)
+  ✓   61 [tablet] › tests/cv.spec.ts:105:1 › CV language and theme preserve each other and the PDF format choice (3.3s)
+  ✓   62 [tablet] › tests/cv.spec.ts:133:1 › CV theme interpolates without reload and both overlays match portfolio behaviour (5.3s)
+  ✓   63 [tablet] › tests/cv.spec.ts:180:1 › CV toolbar stays aligned on return and the same logo expands smoothly (3.3s)
+  -   65 [tablet] › tests/cv.spec.ts:227:1 › all eight published PDF variants match their manifest hashes
+  ✓   66 [tablet] › tests/portfolio.spec.ts:3:1 › renders every portfolio section without horizontal overflow (1.2s)
+  ✓   64 [tablet] › tests/cv.spec.ts:200:1 › pickers are viewport-centred, contacts share one overlay and wheel scrolling is locked (3.3s)
+  ✓   67 [tablet] › tests/portfolio.spec.ts:14:1 › page has no runtime console errors (2.8s)
+  ✓   68 [tablet] › tests/portfolio.spec.ts:26:1 › language switch changes copy and persists the choice (1.7s)
+  ✓   69 [tablet] › tests/portfolio.spec.ts:41:1 › navigation controls follow the intended responsive scroll behaviour (2.7s)
+  ✓   71 [tablet] › tests/portfolio.spec.ts:105:1 › avatar opens contact details (1.3s)
+  ✓   70 [tablet] › tests/portfolio.spec.ts:84:1 › menu is keyboard accessible and contains every section (4.0s)
+  -   73 [tablet] › tests/portfolio.spec.ts:154:1 › desktop hover animates one contour without moving its geometry
+  -   74 [tablet] › tests/portfolio.spec.ts:194:1 › Skills hover stays purple and eases into the border highlight
+  -   75 [tablet] › tests/portfolio.spec.ts:224:1 › desktop Theme Builder and Interfaces cards match Figma geometry
+  -   76 [tablet] › tests/portfolio.spec.ts:258:1 › mobile Workflow, Skills and Interfaces match Figma geometry
+  ✓   72 [tablet] › tests/portfolio.spec.ts:142:1 › reduced motion keeps content and joined Figma routes visible (1.0s)
+  -   78 [tablet] › tests/portfolio.spec.ts:350:1 › mobile details reveal on demand
+  -   79 [tablet] › tests/portfolio.spec.ts:373:1 › mobile card borders rotate their gradient with scroll
+  ✓   77 [tablet] › tests/portfolio.spec.ts:308:1 › Focus, Process and closing contacts follow the Figma formatting (1.3s)
+  -   81 [tablet] › tests/portfolio.spec.ts:401:1 › desktop AI routes, Pet Project and closing section use the latest Figma structure
+  ✓   80 [tablet] › tests/portfolio.spec.ts:392:1 › pet project uses the verified destinations and exact portfolio font (1.2s)
+  ✓   82 [tablet] › tests/portfolio.spec.ts:429:1 › Joyride headings remain live text and the hero uses the shared SVG (2.5s)
+  ✓   83 [tablet] › tests/portfolio.spec.ts:455:1 › AI context, tool cards and app icons use the exact Figma geometry (1.9s)
+  ✓   84 [tablet] › tests/portfolio.spec.ts:503:1 › health endpoint responds (229ms)
+  ✓   86 [tablet] › tests/portfolio.spec.ts:509:1 › all cards have one painted border and icon exports have no extra ring (1.3s)
+  ✓   87 [tablet] › tests/portfolio.spec.ts:526:1 › AI route translations replace their labels without adding another chip (1.2s)
+  -   88 [tablet] › tests/portfolio.spec.ts:539:1 › mobile header follows the authored gutter and skill rows fill their width
+  ✓   85 [tablet] › tests/portfolio.spec.ts:489:1 › Theme and Interfaces metrics use live staggered odometer digits (3.9s)
+  ✓   89 [tablet] › tests/portfolio.spec.ts:567:1 › every desktop menu item fits on a short viewport (1.1s)
+  ✓   91 [tablet] › tests/portfolio.spec.ts:604:3 › without JavaScript › essential portfolio content and final numbers remain readable (984ms)
+  ✓   92 [tablet] › tests/portfolio.spec.ts:615:1 › ordinary circular corners keep Figma radii and one mask (1.2s)
+  ✓   90 [tablet] › tests/portfolio.spec.ts:586:1 › cold font loading waits before the padded hero reveal without layout shift (2.5s)
+  ✓   93 [tablet] › tests/portfolio.spec.ts:630:1 › icon frame lights move again without an unmasked original ring (3.5s)
+  ✓   94 [tablet] › tests/portfolio.spec.ts:649:1 › scrollbar and stationary cursor follow sections during fast bidirectional scroll (4.8s)
+  ✓   96 [tablet] › tests/portfolio.spec.ts:689:1 › avatar ring and portrait have an opaque backing (1.1s)
+(node:32305) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  -   97 [mobile] › tests/cv-polish.spec.ts:3:1 › CV from a lower section fades in one logo before settling into its final slot
+  ✓   98 [mobile] › tests/cv-polish.spec.ts:32:1 › CV actions keep the soft-skill contour after theme and language changes (2.3s)
+  ✓   95 [tablet] › tests/portfolio.spec.ts:669:1 › menu and language use the same smooth full-opacity font crossfade (7.4s)
+(node:32339) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   99 [mobile] › tests/cv-refinement.spec.ts:3:1 › CV reveals content gradually on entry and when reading further (3.5s)
+  -  101 [mobile] › tests/cv-refinement.spec.ts:27:1 › theme and route changes leave desktop controls and their icons in stable slots
+  ✓  100 [mobile] › tests/cv-refinement.spec.ts:13:1 › Download and portfolio share hover treatment and Contact is the floating avatar (2.0s)
+  -  103 [mobile] › tests/cv-refinement.spec.ts:54:1 › CV retains the portfolio hero cursor glow and static export content
+  -  104 [mobile] › tests/cv-refinement.spec.ts:62:1 › burger strokes stay at the same visible rows when changing theme
+  ✓  105 [mobile] › tests/cv.spec.ts:4:1 › CV follows the edited content, links and responsive composition (2.1s)
+  ✓  102 [mobile] › tests/cv-refinement.spec.ts:43:1 › phone logo fits the same width and position on both pages and headers scroll away (5.2s)
+  ✓  106 [mobile] › tests/cv.spec.ts:43:1 › header opens CV through a shrinking logo and browser back remains usable (2.5s)
+  ✓  108 [mobile] › tests/cv.spec.ts:93:1 › CV is accessible without JavaScript and at narrow widths (1.7s)
+  ✓  107 [mobile] › tests/cv.spec.ts:85:1 › reduced motion keeps immediate CV navigation (2.1s)
+  ✓  109 [mobile] › tests/cv.spec.ts:105:1 › CV language and theme preserve each other and the PDF format choice (2.8s)
+  ✓  111 [mobile] › tests/cv.spec.ts:180:1 › CV toolbar stays aligned on return and the same logo expands smoothly (2.4s)
+  ✓  110 [mobile] › tests/cv.spec.ts:133:1 › CV theme interpolates without reload and both overlays match portfolio behaviour (5.7s)
+  -  113 [mobile] › tests/cv.spec.ts:227:1 › all eight published PDF variants match their manifest hashes
+  ✓  114 [mobile] › tests/portfolio.spec.ts:3:1 › renders every portfolio section without horizontal overflow (1.2s)
+  ✓  112 [mobile] › tests/cv.spec.ts:200:1 › pickers are viewport-centred, contacts share one overlay and wheel scrolling is locked (3.4s)
+  ✓  115 [mobile] › tests/portfolio.spec.ts:14:1 › page has no runtime console errors (2.8s)
+  ✓  116 [mobile] › tests/portfolio.spec.ts:26:1 › language switch changes copy and persists the choice (1.6s)
+  ✓  118 [mobile] › tests/portfolio.spec.ts:84:1 › menu is keyboard accessible and contains every section (1.3s)
+  ✓  117 [mobile] › tests/portfolio.spec.ts:41:1 › navigation controls follow the intended responsive scroll behaviour (1.8s)
+  ✓  120 [mobile] › tests/portfolio.spec.ts:142:1 › reduced motion keeps content and joined Figma routes visible (1.7s)
+  -  121 [mobile] › tests/portfolio.spec.ts:154:1 › desktop hover animates one contour without moving its geometry
+  -  122 [mobile] › tests/portfolio.spec.ts:194:1 › Skills hover stays purple and eases into the border highlight
+  -  123 [mobile] › tests/portfolio.spec.ts:224:1 › desktop Theme Builder and Interfaces cards match Figma geometry
+  ✓  119 [mobile] › tests/portfolio.spec.ts:105:1 › avatar opens contact details (2.5s)
+  ✓  124 [mobile] › tests/portfolio.spec.ts:258:1 › mobile Workflow, Skills and Interfaces match Figma geometry (1.3s)
+  ✓  125 [mobile] › tests/portfolio.spec.ts:308:1 › Focus, Process and closing contacts follow the Figma formatting (1.4s)
+  ✓  127 [mobile] › tests/portfolio.spec.ts:373:1 › mobile card borders rotate their gradient with scroll (1.7s)
+  ✓  126 [mobile] › tests/portfolio.spec.ts:350:1 › mobile details reveal on demand (3.6s)
+  -  129 [mobile] › tests/portfolio.spec.ts:401:1 › desktop AI routes, Pet Project and closing section use the latest Figma structure
+  ✓  128 [mobile] › tests/portfolio.spec.ts:392:1 › pet project uses the verified destinations and exact portfolio font (1.6s)
+  ✓  131 [mobile] › tests/portfolio.spec.ts:455:1 › AI context, tool cards and app icons use the exact Figma geometry (1.9s)
+  ✓  130 [mobile] › tests/portfolio.spec.ts:429:1 › Joyride headings remain live text and the hero uses the shared SVG (2.5s)
+  ✓  133 [mobile] › tests/portfolio.spec.ts:503:1 › health endpoint responds (278ms)
+  ✓  134 [mobile] › tests/portfolio.spec.ts:509:1 › all cards have one painted border and icon exports have no extra ring (1.1s)
+  -  135 [mobile] › tests/portfolio.spec.ts:526:1 › AI route translations replace their labels without adding another chip
+  ✓  136 [mobile] › tests/portfolio.spec.ts:539:1 › mobile header follows the authored gutter and skill rows fill their width (1.1s)
+  -  137 [mobile] › tests/portfolio.spec.ts:567:1 › every desktop menu item fits on a short viewport
+  ✓  132 [mobile] › tests/portfolio.spec.ts:489:1 › Theme and Interfaces metrics use live staggered odometer digits (3.5s)
+  ✓  139 [mobile] › tests/portfolio.spec.ts:604:3 › without JavaScript › essential portfolio content and final numbers remain readable (1.2s)
+  ✓  138 [mobile] › tests/portfolio.spec.ts:586:1 › cold font loading waits before the padded hero reveal without layout shift (2.5s)
+  ✓  140 [mobile] › tests/portfolio.spec.ts:615:1 › ordinary circular corners keep Figma radii and one mask (1.2s)
+  ✓  141 [mobile] › tests/portfolio.spec.ts:630:1 › icon frame lights move again without an unmasked original ring (3.5s)
+  -  143 [mobile] › tests/portfolio.spec.ts:669:1 › menu and language use the same smooth full-opacity font crossfade
+  ✓  142 [mobile] › tests/portfolio.spec.ts:649:1 › scrollbar and stationary cursor follow sections during fast bidirectional scroll (4.4s)
+  ✓  144 [mobile] › tests/portfolio.spec.ts:689:1 › avatar ring and portrait have an opaque backing (1.1s)
+
+  27 skipped
+  117 passed (2.5m)

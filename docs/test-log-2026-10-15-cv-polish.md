@@ -10,6 +10,10 @@ Runtime and test commit: `f6061fb4e9a72d8c7d2fac7b27d28370aeb7e270`, based on `0
 - Picker font matches ENG/RUS at each breakpoint. Desktop Joyride shows capital-shaped glyphs even for lowercase source labels. No overflow at1440/1024/390px.
 - Visual captures: `../artifacts/qa/cv-polish-2026-10-15/` (CV,picker and geometry per breakpoint). PDF data/content unchanged; all8manifest byte checks pass locally.
 
-Deployment/public verification: Open until Railway finishes and the production suite completes. Current interaction rules are in `motion-system.md`; resolved defects are in `../Bugs.md`.
+Deployment/public verification: Railway deployment `22c3eb3d-2bd4-4480-932e-715fa3301588` SUCCESS,from GitHub main `bb55a16112cefd7e27904a20e0bda2d743e0350b`;runtime remains `f6061fb`. `PORTFOLIO_BASE_URL=https://portfolio-production-e2d0.up.railway.app npm test -- --workers=2`:117passed,27intentional skips,zero failures (2.5minutes). Log: `cv-polish-production-tests-2026-10-15.txt`. Four public routes200 and all8PDF MIME/header/byte/SHA checks PASS (`cv-polish-public-validation-2026-10-15.json`). Production screenshots/geometry are in `../artifacts/qa/cv-polish-2026-10-15/production/`.
+
+Evidence-only commits after the runtime commit do not change deployed application inputs. Final main/deployment identity and post-publication smoke checks are recorded in the workspace release receipt `outputs/cv-polish-release-receipt-2026-10-15.json`.
+
+Railway also reported dependency advisories; `npm audit --omit=dev` confirms9findings. They are recorded as an independent Open triage item in `../Bugs.md`,with the audit JSON and primary advisory source. No dependency updates or assertion of application exploitability is part of this UI release. Current interaction rules are in `motion-system.md`; resolved defects are in `../Bugs.md`.
 
 Product check for Dmitrii: scroll below the portfolio hero,slightly back up,and click the returning CV control. Assess the fade/flight; compare the smaller floating avatar on both pages. Hover the two CV actions and compare PDF selector typography with ENG/RUS. Repeat Russian/light and phone.
