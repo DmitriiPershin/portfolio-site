@@ -33,3 +33,13 @@ test('mobile PDF action rows have full-width buttons in both themes and language
   for(const row of await page.locator('.cv-actions').all()){const parent=await row.boundingBox();expect(await row.locator('.cv-action').count()).toBe(2);for(const button of await row.locator('.cv-action').all()){const rect=await button.boundingBox();expect(rect!.x).toBeCloseTo(parent!.x,1);expect(rect!.width).toBeCloseTo(parent!.width,1);}}
  }
 });
+
+
+test('legacy automatic Russian storage does not override the browser language',async({browser,baseURL})=>{
+ const context=await browser.newContext({baseURL,locale:'en-US',reducedMotion:'reduce'});
+ await context.addInitScript(()=>localStorage.setItem('portfolio-language','ru'));
+ const page=await context.newPage();await page.goto('/');await page.waitForFunction(()=>document.documentElement.dataset.motion==='reduced');await expect(page.locator('html')).toHaveAttribute('lang','en');
+ await page.locator('[data-language-toggle]').click();await page.getByRole('button',{name:'russian',exact:true}).click();await expect(page.locator('html')).toHaveAttribute('lang','ru');
+ expect(await page.evaluate(()=>localStorage.getItem('portfolio-language-choice'))).toBe('ru');
+ await page.reload();await expect(page.locator('html')).toHaveAttribute('lang','ru');await context.close();
+});

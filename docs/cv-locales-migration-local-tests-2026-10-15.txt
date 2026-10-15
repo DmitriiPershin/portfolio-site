@@ -1,0 +1,36 @@
+
+> dmitrii-pershin-portfolio@0.1.0 test
+> playwright test tests/cv-locales.spec.ts --workers=2
+
+
+Running 15 tests using 2 workers
+
+(node:40203) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:40202) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   2 [chromium] › tests/cv-locales.spec.ts:3:1 › first paint and no-JS content follow Accept-Language, with English fallback (116ms)
+  ✓   3 [chromium] › tests/cv-locales.spec.ts:19:1 › lowercase language/PDF choices, experience actions and metric spacing match their surfaces (635ms)
+  ✓   4 [chromium] › tests/cv-locales.spec.ts:29:1 › mobile PDF action rows have full-width buttons in both themes and languages (658ms)
+  ✓   1 [chromium] › tests/cv-locales.spec.ts:9:1 › manual language survives CV/portfolio navigation and browser default can be overridden (1.7s)
+(node:40239) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   6 [tablet] › tests/cv-locales.spec.ts:3:1 › first paint and no-JS content follow Accept-Language, with English fallback (76ms)
+  ✓   5 [chromium] › tests/cv-locales.spec.ts:38:1 › legacy automatic Russian storage does not override the browser language (1.2s)
+(node:40249) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   8 [tablet] › tests/cv-locales.spec.ts:19:1 › lowercase language/PDF choices, experience actions and metric spacing match their surfaces (800ms)
+  ✓   7 [tablet] › tests/cv-locales.spec.ts:9:1 › manual language survives CV/portfolio navigation and browser default can be overridden (1.7s)
+  ✓   9 [tablet] › tests/cv-locales.spec.ts:29:1 › mobile PDF action rows have full-width buttons in both themes and languages (641ms)
+(node:40258) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  11 [mobile] › tests/cv-locales.spec.ts:3:1 › first paint and no-JS content follow Accept-Language, with English fallback (70ms)
+  ✓  10 [tablet] › tests/cv-locales.spec.ts:38:1 › legacy automatic Russian storage does not override the browser language (1.1s)
+(node:40260) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  13 [mobile] › tests/cv-locales.spec.ts:19:1 › lowercase language/PDF choices, experience actions and metric spacing match their surfaces (652ms)
+  ✓  12 [mobile] › tests/cv-locales.spec.ts:9:1 › manual language survives CV/portfolio navigation and browser default can be overridden (1.5s)
+  ✓  14 [mobile] › tests/cv-locales.spec.ts:29:1 › mobile PDF action rows have full-width buttons in both themes and languages (777ms)
+  ✓  15 [mobile] › tests/cv-locales.spec.ts:38:1 › legacy automatic Russian storage does not override the browser language (1.1s)
+
+  15 passed (8.7s)

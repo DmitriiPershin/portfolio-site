@@ -139,3 +139,5 @@ Portfolio hardcoded Russian while CV defaulted to English; initial/no-JS content
 Mobile PDF top actions retained intrinsic widths while the bottom website actions stretched. Both mobile PDF rows now use full-width buttons,validated in the four regenerated files. Website lower actions now follow Audiomania before phone sidebar content.
 
 Mobile ×2 inherited a28px gap absent from Figma node383:34 and used56/56text inside an86px slot. Restored gap0 and60/86type; desktop retains its28px gap. Pickers now use real lowercase LINE glyphs per latest request.
+
+Resolved —2026-10-15,locale migration: previous portfolio versions automatically wrote Russian to legacy local storage. Treating that as a manual preference suppressed browser detection for returning visitors. Manual selections now have their own explicit-choice key/cookie; the unmarked legacy value no longer overrides browser preferences.
