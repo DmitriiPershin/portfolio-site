@@ -141,3 +141,5 @@ Mobile PDF top actions retained intrinsic widths while the bottom website action
 Mobile ×2 inherited a28px gap absent from Figma node383:34 and used56/56text inside an86px slot. Restored gap0 and60/86type; desktop retains its28px gap. Pickers now use real lowercase LINE glyphs per latest request.
 
 Resolved —2026-10-15,locale migration: previous portfolio versions automatically wrote Russian to legacy local storage. Treating that as a manual preference suppressed browser detection for returning visitors. Manual selections now have their own explicit-choice key/cookie; the unmarked legacy value no longer overrides browser preferences.
+
+Resolved —2026-10-15,test infrastructure: overlapping local/production Playwright commands cleaned the same output folder,causing an ENOENT trace-close failure after the mobile no-JavaScript assertions had passed. Isolated target-specific trace/report directories in playwright.config.ts; the final production suite is rerun separately.

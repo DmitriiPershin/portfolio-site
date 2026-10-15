@@ -7,7 +7,7 @@ Production portfolio implemented from the current desktop and mobile Figma layou
 
 ## Current state
 
-Latest refinement (2026-10-15,locales/actions): floating avatar75px desktop/37.5px phone; lowercase english/russian and desktop pdf/mobile pdf share LINE Seed JP. First request follows explicit URL,manual preference,then browser language,with English fallback. Website lower actions now sit immediately below Audiomania; mobile PDF action rows stretch full width. Theme ×2 spacing matches its desktop/mobile Figma nodes. Verification: `docs/test-log-2026-10-15-cv-locales.md`.
+Latest refinement (2026-10-15,locales/actions): floating avatar75px desktop/37.5px phone; lowercase english/russian and desktop pdf/mobile pdf share LINE Seed JP. First request follows explicit URL,manual preference,then browser language,with English fallback. Website lower actions now sit immediately below Audiomania; mobile PDF action rows stretch full width. Theme ×2 spacing matches its desktop/mobile Figma nodes. Verification:local129full+15migration-focused cases;production132passed/27intentional skips/zero failures;all8public PDF hashes pass. Logs: `docs/test-log-2026-10-15-cv-locales.md`.
 
 - `/cv` implements the edited desktop `584:3` and mobile `584:4` layouts in EN/RU, with selectable experience text and a local exact SVG wordmark. The floating avatar opens Nice to meet you on CV and portfolio. Website action rows,above experience and directly after Audiomania,use filled Download PDF → outlined View portfolio with the Soft Skills contour/light response and Figma sizing. PDF retains Contact/mailto and View portfolio, without Download PDF.
 - Both routes use the exact user-supplied `Group 3.svg` (951×214), stored as `public/assets/cv-wordmark.svg`. One SVG shrinks into CV and expands back on desktop, including browser Back; Senior Product Designer replays its entry animation on return. Mobile uses identical full-width SVG bounds at y80px on both pages and performs no logo flight. One shared header preserves menu/CV/globe at64/132/200px on desktop; CV theme occupies its own268px slot. Reduced-motion/modified-click/no-JavaScript paths keep native links.
@@ -72,6 +72,8 @@ npm start
 
 ## Checks
 
+Playwright artifacts are isolated by target: `test-results/local` and `test-results/production`; HTML reports are in `playwright-report/local` and `playwright-report/production`.
+
 ```bash
 npm run check
 npm run build
@@ -80,7 +82,7 @@ npm run qa:screenshots
 ```
 
 The product review checklist is in `checks.md`. Reduced-motion desktop/mobile renders are written to `artifacts/qa/`.
-The current release checks are in `docs/test-log-2026-10-14-cv-release.md`. Earlier CV implementation and checks are recorded in `docs/test-log-2026-10-11-cv.md`, `docs/test-log-2026-10-12-cv.md` and `docs/test-log-2026-10-12-cv-motion.md`.
+The current release checks are in `docs/test-log-2026-10-15-cv-locales.md`. The earlier overlay release is in `docs/test-log-2026-10-14-cv-release.md`. Earlier CV implementation and checks are recorded in `docs/test-log-2026-10-11-cv.md`, `docs/test-log-2026-10-12-cv.md` and `docs/test-log-2026-10-12-cv-motion.md`.
 The latest earlier motion revision is recorded in `docs/test-log-2026-09-05-motion.md`; the earlier contour correction remains in `docs/test-log-2026-09-05.md`.
 For an already running deployment, use `PORTFOLIO_BASE_URL=https://your-deployment npm test` (no local server is started).
 

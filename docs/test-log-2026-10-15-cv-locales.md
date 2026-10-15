@@ -1,15 +1,19 @@
 # Browser locale, CV actions and mobile PDF verification — 2026-10-15
 
-Runtime/test commit:16c08fcfe0cb3576834213a9198bf8cd921e7153,based on5c9e273a90d4adb1067483dc255092bc80f7b37d. Build and full suite ran against the same final runtime/test/PDF tree; no subsequent runtime changes.
+Base UI/PDF runtime:16c08fcfe0cb3576834213a9198bf8cd921e7153,based on5c9e273a90d4adb1067483dc255092bc80f7b37d. Final runtime:9232117e46e3fe98034390f3bbd3f3acfbd92274 (adds explicit-preference migration for returning visitors). Build log is from the final runtime tree; visual/PDF source is unchanged by the migration.
 
 - `npm run build`:PASS,44Astro files,zero errors/warnings/hints. `cv-locales-build-2026-10-15.txt`.
-- `npm test -- --workers=2`:129passed,27intentional breakpoint-specific skips,zero failures (1.7minutes). `cv-locales-local-tests-2026-10-15.txt`.
+- Local full regression at base UI runtime:129passed,27intentional breakpoint-specific skips,zero failures (1.7minutes). `cv-locales-local-tests-2026-10-15.txt`. Final migration-focused run:15passed,zero failures at9232117 (`cv-locales-migration-local-tests-2026-10-15.txt`),including legacy automatic Russian storage and explicit preference persistence.
 - Browser/server locale coverage: Russian,English,unsupported French,missing preferences,q=0 exclusions,weighted language ordering; explicit URL override; manual preference persists across CV/portfolio and reload. First paint/no-JS HTML already has the right visible locale spans. Vary includes Accept-Language/Cookie.
 - Language/PDF pickers:LINE Seed JP and real lowercase english/russian,desktop pdf/mobile pdf. Existing section menu typography/motion is unchanged.
 - Avatar75px desktop/37.5px mobile; lower website actions sit immediately after Audiomania,before phone Focus/sidebar content. Exactly two website action rows remain.
 - Figma source metric spacing:desktop358:827gap28,font56/56;phone383:34gap0,font60/86. Evidence:`../reports/figma-theme-speed-gap-2026-10-15.md` and `../artifacts/qa/cv-locales-2026-10-15/local/`.
 - Regenerated only four mobile PDFs with `CV_PDF_LAYOUTS=mobile`. Chromium exports the same CV HTML/CSS; Poppler render inspected for every variant. Pypdf verifies one page,six working URI annotations,two full-width mailto links,selectable employer text,no Download PDF controls,no raster XObjects. `cv-locales-pdf-validation-2026-10-15.json`;renders in `../artifacts/qa/cv-locales-2026-10-15/pdf/`. Four desktop binaries/manifest entries are unchanged; final suite checks all8PDF bytes/SHA values.
 
-Production verification:Open until Railway deployment/public checks finish. Final release identity and post-publication smoke will be recorded in workspace `outputs/cv-locales-release-receipt-2026-10-15.json`.
+Initial production run at dc51f4fb-0802-4ed6-a459-e53fa5aae87f:128passed/27skipped; one test failed while closing a trace because a concurrent local run cleaned the common artifact directory after its app assertions had passed. Log retained as `cv-locales-initial-production-tests-2026-10-15.txt`. Target-specific trace/HTML directories now prevent this collision; final full production verification runs separately at migration deployment6cc8dc6b-b81b-4b88-84f2-736c8bcd273f.
+
+Production verification:PASS. Migration deployment6cc8dc6b-b81b-4b88-84f2-736c8bcd273f is SUCCESS,from GitHub main9232117. Final full production suite:132passed,27intentional skips,zero failures (2.7minutes); `cv-locales-production-tests-2026-10-15.txt`. This supersedes the initial artifact-collision run. The new migration case passes on desktop,tablet and phone. Four public routes200,all8PDF MIME/header/size/SHA checks and five HTTP language-precedence cases pass; `cv-locales-public-validation-2026-10-15.json`. Public PDFs use max-age=0,so replaced mobile files are revalidated on download. Production visual captures are in `../artifacts/qa/cv-locales-2026-10-15/production/`.
+
+Subsequent commits add test-report isolation,documentation and evidence; application sources/public files remain identical to the tested migration runtime. Final main/deployment identity and post-publication checks are recorded in the workspace receipt. Final release identity and post-publication smoke will be recorded in workspace `outputs/cv-locales-release-receipt-2026-10-15.json`.
 
 Dmitrii:use a private session with Russian/English browser preferences,choose the other language,then navigate CV↔portfolio. On phone,read through Audiomania,use the following actions,and compare the mobile PDF button widths and ×2text gap with the live page.

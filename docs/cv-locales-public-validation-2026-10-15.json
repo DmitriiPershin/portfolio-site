@@ -1,0 +1,121 @@
+{
+  "date": "2026-10-15T21:05:04.921Z",
+  "routes": [
+    {
+      "path": "/",
+      "status": 200
+    },
+    {
+      "path": "/cv",
+      "status": 200
+    },
+    {
+      "path": "/cv?lang=ru&theme=light",
+      "status": 200
+    },
+    {
+      "path": "/api/health",
+      "status": 200
+    }
+  ],
+  "pdfs": [
+    {
+      "variant": "en-dark-desktop",
+      "status": 200,
+      "bytes": 54524,
+      "sha256": "543df752b93fb417f979eb6626a09f5e44f2985b74fac78f9f25c4934d6ad7f4",
+      "cacheControl": "public, max-age=0"
+    },
+    {
+      "variant": "en-dark-mobile",
+      "status": 200,
+      "bytes": 53519,
+      "sha256": "f827b4ede853aae696bef75e2f3047a305ae0ebbc6aefd3d6c4a66bc169b3bc1",
+      "cacheControl": "public, max-age=0"
+    },
+    {
+      "variant": "en-light-desktop",
+      "status": 200,
+      "bytes": 54430,
+      "sha256": "8f60f77ad1e35d08742b6cb7dc78ca25dce68b93df13166fa30952b89655a06f",
+      "cacheControl": "public, max-age=0"
+    },
+    {
+      "variant": "en-light-mobile",
+      "status": 200,
+      "bytes": 53419,
+      "sha256": "e5ed3a15ba1c90e1c118c90d0b6e95a3b18aeaefec384734c3ad47d1f8521271",
+      "cacheControl": "public, max-age=0"
+    },
+    {
+      "variant": "ru-dark-desktop",
+      "status": 200,
+      "bytes": 60002,
+      "sha256": "2a1b9b6e1bf6e217a480b2bc5bb1a0cf7e91f6d48a0d8668d315b3ae40f10b7c",
+      "cacheControl": "public, max-age=0"
+    },
+    {
+      "variant": "ru-dark-mobile",
+      "status": 200,
+      "bytes": 58624,
+      "sha256": "2924301d13cd02c80a38c1b1d801d9675bc72fc784876a4f9d4ea3eb2cb684ca",
+      "cacheControl": "public, max-age=0"
+    },
+    {
+      "variant": "ru-light-desktop",
+      "status": 200,
+      "bytes": 59896,
+      "sha256": "346c31c564934119d69248e4eccd0c5e1978002d06b0cc0ab15b128dda67fbac",
+      "cacheControl": "public, max-age=0"
+    },
+    {
+      "variant": "ru-light-mobile",
+      "status": 200,
+      "bytes": 58527,
+      "sha256": "3636ccf875590382ffd5ac3b251b78eaa54598c651ef2beb9dbd295e3a125ed5",
+      "cacheControl": "public, max-age=0"
+    }
+  ],
+  "languages": [
+    {
+      "header": "ru-RU,ru;q=.9",
+      "cookie": "",
+      "query": "",
+      "expected": "ru",
+      "status": 200,
+      "vary": "Accept-Language, Cookie"
+    },
+    {
+      "header": "fr-FR",
+      "cookie": "",
+      "query": "",
+      "expected": "en",
+      "status": 200,
+      "vary": "Accept-Language, Cookie"
+    },
+    {
+      "header": "",
+      "cookie": "",
+      "query": "",
+      "expected": "en",
+      "status": 200,
+      "vary": "Accept-Language, Cookie"
+    },
+    {
+      "header": "en-US",
+      "cookie": "portfolio-language=ru",
+      "query": "",
+      "expected": "ru",
+      "status": 200,
+      "vary": "Accept-Language, Cookie"
+    },
+    {
+      "header": "ru-RU",
+      "cookie": "portfolio-language=ru",
+      "query": "?lang=en",
+      "expected": "en",
+      "status": 200,
+      "vary": "Accept-Language, Cookie"
+    }
+  ]
+}

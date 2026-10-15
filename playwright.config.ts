@@ -5,10 +5,10 @@ const externalBaseURL = process.env.PORTFOLIO_BASE_URL;
 
 export default defineConfig({
   testDir: "./tests",
-  outputDir: "./test-results",
+  outputDir: externalBaseURL ? "./test-results/production" : "./test-results/local",
   fullyParallel: true,
   retries: 0,
-  reporter: [["list"], ["html", { open: "never" }]],
+  reporter: [["list"], ["html", { open: "never", outputFolder: externalBaseURL ? "playwright-report/production" : "playwright-report/local" }]],
   use: {
     baseURL: externalBaseURL || "http://127.0.0.1:4321",
     trace: "retain-on-failure",
