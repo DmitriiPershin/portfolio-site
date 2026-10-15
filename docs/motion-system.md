@@ -27,3 +27,13 @@ Decision: when the source logo is off-screen, stage the same SVG at the portfoli
 CV website action borders reuse `initCardBorders`, `initBorderGlow` and `initMobileScrollGlow`: the same masked resting gradient, pointer smoothing and scroll response as Soft Skills. Filled Download keeps its purple fill; View portfolio inherits the CV theme background. Reinitialize/dispose borders after language replacement and browser cache restoration; avoid duplicate masks or listeners. Static PDF views retain their original Contact/portfolio actions and no Download button.
 
 PDF picker inherits the language picker's Joyride Outline→Regular on desktop and LINE Seed JP on mobile. Source labels remain desktop pdf/mobile pdf; Joyride renders their capital-shaped glyphs. This supersedes the2026-10-14 PDF-only LINE font override. Floating avatar size is controlled by `--avatar-size`:60px desktop/30px phone; photo,ring,status scale together.
+
+## Locale and actions update — 2026-10-15
+
+Decision superseding the prior same-day picker font choice: all language/PDF options now use LINE Seed JP regular→bold and real lowercase text. Labels are english/russian and desktop pdf/mobile pdf. Menu section labels retain Joyride Outline→Regular; the interaction runtime/easing stays shared. Avatar size increases25% from the preceding release to75px desktop/37.5px phone.
+
+Language precedence: explicit supported URL `lang`,saved manual preference,first supported browser preference,English fallback. SSR reads cookie and Accept-Language with quality weighting; locale spans/SVG text render in the selected language before JavaScript. Responses vary by Accept-Language/Cookie. Client reads an existing local-storage preference as a migration fallback; new explicit selections write both storage/cookie. Automatic detection does not create a manual preference. CV/portfolio selection stays consistent across navigation.
+
+One `CvActions` component owns action rows. Website top/lower rows retain Download PDF/View portfolio; lower row is immediately after Audiomania,inside Experience (before Focus on phones). PDF keeps its top/bottom Contact+portfolio rows; both stretch full width in Mobile PDF. Desktop PDF binaries are unchanged.
+
+Theme ×2: desktop text-box gap28px,font56/56; mobile gap0,font60/86,matching nodes358:827 and383:34. See `../reports/figma-theme-speed-gap-2026-10-15.md`.

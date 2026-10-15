@@ -1,3 +1,4 @@
+import {clientLanguage,saveLanguage} from "../lib/language";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { motionEase, motionNumber, motionSeconds } from "./motion-tokens";
@@ -71,13 +72,7 @@ function initLanguage() {
   const options = selectAll<HTMLButtonElement>("[data-language-option]");
   if (!toggle) return;
 
-  let language: Language = "ru";
-  try {
-    const saved = window.localStorage.getItem("portfolio-language");
-    if (saved === "ru" || saved === "en") language = saved;
-  } catch {
-    // The default Russian content remains usable when storage is unavailable.
-  }
+  let language: Language = clientLanguage();
 
   const apply = (next: Language) => {
     language = next;
@@ -94,17 +89,12 @@ function initLanguage() {
     document.title = next === "ru"
       ? "Dmitrii Pershin — Senior Product Designer"
       : "Dmitrii Pershin — Senior Product Designer Portfolio";
-    try {
-      window.localStorage.setItem("portfolio-language", next);
-    } catch {
-      // Language switching itself does not depend on storage.
-    }
     ScrollTrigger.refresh();
   };
 
   options.forEach((option) => option.addEventListener("click", () => {
     const next = option.dataset.languageOption;
-    if (next === "ru" || next === "en") apply(next);
+    if (next === "ru" || next === "en") {saveLanguage(next);apply(next);}
   }));
   apply(language);
 

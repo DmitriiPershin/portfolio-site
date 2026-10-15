@@ -289,3 +289,9 @@ Decision: CV content reveals on scroll with the same curve/duration family as po
 Decision: halve the floating contact avatar on both pages (60px desktop/30px mobile), retain the distinct central contact-overlay portrait. For entry from lower sections, introduce one SVG with the shared backdrop fade before the uniform desktop route flight. Native phone navigation remains unchanged.
 
 Decision: PDF-format choices inherit ENG/RUS typography; remove the special LINE-only override. Website Download PDF and View portfolio remain in both action rows, using the existing Soft Skills border implementation. PDF document actions remain Contact/mailto and View portfolio; no PDF re-authoring is required by this change. Source: Dmitrii’s2026-10-15 request.
+
+## Locale, CV action placement and mobile PDF — 2026-10-15
+
+Decision: increase the prior floating avatar by25%; use true lowercase english/russian with the same LINE Seed JP regular/bold treatment as PDF format choices. Initial language follows browser preferences with English fallback; explicit URL/manual choices take precedence and persist across the two routes. Canonical rules: `docs/motion-system.md`.
+
+Decision: place the existing lower website action row directly after Audiomania,rather than create a third duplicate row. PDF retains Contact/mailto and portfolio,with full-width buttons throughout its mobile exports. Regenerate only four mobile PDFs; preserve desktop binaries. Restore ×2 desktop/mobile text spacing from the current Figma nodes. Source: Dmitrii’s latest2026-10-15 request.

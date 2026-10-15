@@ -1,4 +1,5 @@
 import { expect, test } from "@playwright/test";
+test.use({locale:"ru-RU"});
 
 test("renders every portfolio section without horizontal overflow", async ({ page }) => {
   await page.goto("/");
@@ -107,10 +108,10 @@ test("avatar opens contact details", async ({ page }) => {
   const avatar = page.locator("[data-contact-toggle]");
   const status = avatar.locator(".avatar-button__status");
   const photoShell = avatar.locator(".avatar-button__photo-shell");
-  const expectedSize = (page.viewportSize()?.width ?? 1000) <= 640 ? 30 : 60;
+  const expectedSize = (page.viewportSize()?.width ?? 1000) <= 640 ? 37.5 : 75;
   const expectedStatus = Math.round(expectedSize * .15);
   const expectedInner = Math.round(expectedSize * .91765);
-  expect(await avatar.evaluate((element) => [element.clientWidth, element.clientHeight])).toEqual([expectedSize, expectedSize]);
+  expect(await avatar.evaluate((element) => [element.clientWidth, element.clientHeight])).toEqual([Math.round(expectedSize), Math.round(expectedSize)]);
   expect(await status.evaluate((element) => {
     const rect = element.getBoundingClientRect();
     return [Math.round(rect.width), Math.round(rect.height)];

@@ -10,11 +10,11 @@
       "height": 2471
     },
     "en-dark-mobile": {
-      "url": "/cv/dmitrii-pershin-cv-en-dark-mobile.pdf",
-      "sha256": "ef8509508285596f7fe71f48284f82f5fa08258cfc62fe08b3c18d016524d5f2",
-      "bytes": 53574,
       "width": 390,
-      "height": 3343
+      "height": 3395,
+      "bytes": 53519,
+      "sha256": "f827b4ede853aae696bef75e2f3047a305ae0ebbc6aefd3d6c4a66bc169b3bc1",
+      "url": "/cv/dmitrii-pershin-cv-en-dark-mobile.pdf"
     },
     "en-light-desktop": {
       "url": "/cv/dmitrii-pershin-cv-en-light-desktop.pdf",
@@ -24,11 +24,11 @@
       "height": 2471
     },
     "en-light-mobile": {
-      "url": "/cv/dmitrii-pershin-cv-en-light-mobile.pdf",
-      "sha256": "7db4e3e41c64bdf955211e15c9e6a6cca95a6746253759a7cba453db425f6851",
-      "bytes": 53471,
       "width": 390,
-      "height": 3343
+      "height": 3395,
+      "bytes": 53419,
+      "sha256": "e5ed3a15ba1c90e1c118c90d0b6e95a3b18aeaefec384734c3ad47d1f8521271",
+      "url": "/cv/dmitrii-pershin-cv-en-light-mobile.pdf"
     },
     "ru-dark-desktop": {
       "url": "/cv/dmitrii-pershin-cv-ru-dark-desktop.pdf",
@@ -38,11 +38,11 @@
       "height": 2543
     },
     "ru-dark-mobile": {
-      "url": "/cv/dmitrii-pershin-cv-ru-dark-mobile.pdf",
-      "sha256": "3d34539668943681a4b71bf09ded8c23256b9908c6003c67fdfa2beef3a18da1",
-      "bytes": 58842,
       "width": 390,
-      "height": 3607
+      "height": 3659,
+      "bytes": 58624,
+      "sha256": "2924301d13cd02c80a38c1b1d801d9675bc72fc784876a4f9d4ea3eb2cb684ca",
+      "url": "/cv/dmitrii-pershin-cv-ru-dark-mobile.pdf"
     },
     "ru-light-desktop": {
       "url": "/cv/dmitrii-pershin-cv-ru-light-desktop.pdf",
@@ -52,11 +52,11 @@
       "height": 2543
     },
     "ru-light-mobile": {
-      "url": "/cv/dmitrii-pershin-cv-ru-light-mobile.pdf",
-      "sha256": "0fcb3f684b1ad83ccbea039c16457f20b1b0e9bbd150f659125eeffd70e912a6",
-      "bytes": 58739,
       "width": 390,
-      "height": 3607
+      "height": 3659,
+      "bytes": 58527,
+      "sha256": "3636ccf875590382ffd5ac3b251b78eaa54598c651ef2beb9dbd295e3a125ed5",
+      "url": "/cv/dmitrii-pershin-cv-ru-light-mobile.pdf"
     }
   }
 }

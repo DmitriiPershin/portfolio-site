@@ -11,8 +11,10 @@ const base = process.env.PORTFOLIO_BASE_URL || 'http://127.0.0.1:4321';
 await fs.mkdir(output, { recursive: true });
 const browser = await chromium.launch();
 const variants = {};
+const layouts = (process.env.CV_PDF_LAYOUTS || 'desktop,mobile').split(',');
+if (layouts.some(layout => !['desktop','mobile'].includes(layout))) throw new Error('Unsupported PDF layout');
 try {
-  for (const lang of ['en', 'ru']) for (const theme of ['dark', 'light']) for (const layout of ['desktop', 'mobile']) {
+  for (const lang of ['en', 'ru']) for (const theme of ['dark', 'light']) for (const layout of layouts) {
     const width = layout === 'desktop' ? 1440 : 390;
     const key = `${lang}-${theme}-${layout}`;
     const page = await browser.newPage({ viewport: { width, height: 900 }, reducedMotion: 'reduce' });

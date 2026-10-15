@@ -9,7 +9,7 @@ interface Props {
   cvView?: "desktop" | "mobile";
 }
 
-const { title, description, lang = "ru", cvTheme, cvView } = Astro.props;
+const { title, description, lang = Astro.locals.language || "en", cvTheme, cvView } = Astro.props;
 ---
 
 <!doctype html>

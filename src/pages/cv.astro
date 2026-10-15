@@ -1,4 +1,5 @@
 ---
+import CvActions from "../components/CvActions.astro";
 import SiteHeader from "../components/SiteHeader.astro";
 import AvatarButton from "../components/AvatarButton.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
@@ -8,7 +9,7 @@ import pdfManifest from "../data/cv-pdf-manifest.json";
 import CloseIcon from "../components/CloseIcon.astro";
 import ContactOverlay from "../components/ContactOverlay.astro";
 import MorphLabel from "../components/MorphLabel.astro";
-const lang = Astro.url.searchParams.get("lang") === "ru" ? "ru" : "en";
+const lang = Astro.locals.language;
 const theme = Astro.url.searchParams.get("theme") === "light" ? "light" : "dark";
 const viewParam = Astro.url.searchParams.get("view");
 const view = viewParam === "pdf-desktop" ? "desktop" : viewParam === "pdf-mobile" ? "mobile" : undefined;
@@ -32,11 +33,7 @@ const pdfURL = (layout:string) => pdfManifest.approved ? variants[`${lang}-${the
       <h1 id="cv-role" data-node-id="586:28">{cv.role}</h1>
       <p class="cv-subtitle" data-node-id="586:27">{cv.subtitle}</p>
       <p class="cv-summary" data-node-id="586:29">{cv.summary}</p>
-      <nav class="cv-actions" aria-label="CV actions">
-        {!view && <button class="cv-action cv-action--filled interactive-card" type="button" aria-haspopup="dialog" data-pdf-toggle data-pdf-download>{labels.download}</button>}
-        {view && <a class="cv-action" href={cv.contact}>{labels.contact}</a>}
-        <a class:list={["cv-action", {"interactive-card": !view}]} href={portfolio} data-portfolio-link>{labels.portfolio}</a>
-      </nav>
+      <CvActions view={view} contact={cv.contact} portfolio={portfolio} labels={labels} />
     </section>
     <div class="cv-content" data-node-id="586:35">
       <section class="cv-experience" aria-labelledby="experience-heading" data-node-id="586:36">
@@ -44,6 +41,7 @@ const pdfURL = (layout:string) => pdfManifest.approved ? variants[`${lang}-${the
         {recent.map((entry,index) => <article class="cv-job" data-node-id={index === 0 ? "586:40" : "586:45"}><h3>{entry.title}</h3><p class="cv-job__meta">{entry.meta}</p><p class="cv-job__dates">{entry.dates}</p><ul>{entry.bullets.map(bullet => <li>{bullet}</li>)}</ul></article>)}
         <h2>{labels.earlier}</h2>
         {earlier.map((entry,index) => <article class="cv-job" data-node-id={index === 0 ? "586:51" : "586:56"}><h3>{entry.title}</h3><p class="cv-job__meta">{entry.meta}</p><p class="cv-job__dates">{entry.dates}</p><ul>{entry.bullets.map(bullet => <li>{bullet}</li>)}</ul></article>)}
+        {!view && <footer class="cv-footer" id="cv-contact"><CvActions contact={cv.contact} portfolio={portfolio} labels={labels} placement="experience" /></footer>}
       </section>
       <aside class="cv-practice" aria-label="Focus and background" data-node-id="586:61">
         <section id="cv-focus" data-node-id="586:62"><h2>{labels.focus}</h2><ul class="cv-lines">{cv.focus.map(line => <li>{line}</li>)}</ul></section>
@@ -53,17 +51,13 @@ const pdfURL = (layout:string) => pdfManifest.approved ? variants[`${lang}-${the
         <section data-node-id="590:21"><h2>{labels.education}</h2><p class="cv-lines">{cv.education.split("\n").map(line => <span>{line}</span>)}</p></section>
       </aside>
     </div>
-    <footer class="cv-footer" id="cv-contact" data-node-id="586:80"><nav class="cv-actions" aria-label="CV footer actions">
-        {!view && <button class="cv-action cv-action--filled interactive-card" type="button" aria-haspopup="dialog" data-pdf-toggle data-pdf-download>{labels.download}</button>}
-        {view && <a class="cv-action" href={cv.contact}>{labels.contact}</a>}
-        <a class:list={["cv-action", {"interactive-card": !view}]} href={portfolio} data-portfolio-link>{labels.portfolio}</a>
-      </nav></footer>
+    {view && <footer class="cv-footer" id="cv-contact" data-node-id="586:80"><CvActions view={view} contact={cv.contact} portfolio={portfolio} labels={labels} placement="footer" /></footer>}
   </main>
   <div class="language-overlay" id="cv-language-overlay" aria-hidden="true" tabindex="-1" data-language-overlay>
     <button class="overlay-close" type="button" aria-label={labels.close} data-language-close><CloseIcon /></button>
     <div class="language-dialog" role="dialog" aria-modal="true" aria-label={labels.language}>
-      <button class="language-choice" type="button" data-language-option="en" aria-pressed={lang === "en" ? "true" : "false"}><MorphLabel text="ENG" /></button>
-      <button class="language-choice" type="button" data-language-option="ru" aria-pressed={lang === "ru" ? "true" : "false"}><MorphLabel text="RUS" /></button>
+      <button class="language-choice" type="button" data-language-option="en" aria-pressed={lang === "en" ? "true" : "false"}><MorphLabel text="english" /></button>
+      <button class="language-choice" type="button" data-language-option="ru" aria-pressed={lang === "ru" ? "true" : "false"}><MorphLabel text="russian" /></button>
     </div>
   </div>
   <div class="menu-overlay" id="cv-menu-overlay" aria-hidden="true" tabindex="-1" data-menu-overlay>

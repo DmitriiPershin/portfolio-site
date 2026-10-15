@@ -41,5 +41,5 @@ test('CV actions keep the soft-skill contour after theme and language changes',a
   else {await page.evaluate(()=>scrollBy({top:80,behavior:'instant'}));await expect.poll(()=>action.evaluate(el=>getComputedStyle(el).getPropertyValue('--glow-angle'))).not.toBe(before);}
   expect(await stroke.evaluate(el=>getComputedStyle(el,'::before').backgroundImage)).toContain('conic-gradient');
  }
- await expect(page.locator('.avatar-button')).toHaveCSS('width',page.viewportSize()!.width<=640?'30px':'60px');
+ await expect(page.locator('.avatar-button')).toHaveCSS('width',page.viewportSize()!.width<=640?'37.5px':'75px');
 });

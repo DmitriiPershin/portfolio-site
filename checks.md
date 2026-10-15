@@ -98,3 +98,9 @@ Dmitrii: desktop switch theme and go CV↔portfolio (also browser Back); inspect
 Technical: build/typecheck; full desktop/tablet/mobile suite; sample off-screen CV transition alpha/geometry; check both action rows, shared one-mask/conic border response after language/theme changes; compare PDF picker font with ENG/RUS; avatar60/30px and proportional crops/status. Existing reduced-motion/no-JS, header stability, mobile native route and eight PDF-byte checks remain required. Save logs in `docs/cv-polish-*-2026-10-15.txt`.
 
 Dmitrii: 1) scroll down portfolio, then slightly up; open CV using the returning CV control and assess the logo fade/flight. 2) Check smaller avatar on both pages. 3) Hover Download PDF/View portfolio and open PDF selection; compare its typography with ENG/RUS. Repeat CV in Russian/light and on phone.
+
+## Locale/actions/mobile PDF — 2026-10-15
+
+Technical: build and full suite on final assets; SSR/no-JS language negotiation with weighted Accept-Language,unsupported/missing language→English,URL override,manual cookie/storage preference across CV/portfolio; lowercase LINE picker typography. Verify75/37.5px avatar,lower actions after Audiomania,×2gap28desktop/0phone and60/86mobile type. Render all4mobile PDFs with Poppler; one page,six links,two full-width mailto buttons,selectable text,zero raster images. Preserve4desktop PDF SHA values and verify all8public bytes after Railway deployment.
+
+Dmitrii: open privately with Russian/English browser language; choose the other language and navigate CV↔portfolio. On phone,read through Audiomania and use the following actions; compare mobile PDF button widths and ×2text spacing.

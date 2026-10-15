@@ -1,0 +1,9 @@
+---
+interface Props {view?:string;contact:string;portfolio:string;labels:{download:string;contact:string;portfolio:string};placement?:'profile'|'experience'|'footer'}
+const {view,contact,portfolio,labels,placement='profile'}=Astro.props;
+---
+<nav class:list={["cv-actions",`cv-actions--${placement}`]} aria-label={`CV ${placement} actions`}>
+  {!view && <button class="cv-action cv-action--filled interactive-card" type="button" aria-haspopup="dialog" data-pdf-toggle data-pdf-download>{labels.download}</button>}
+  {view && <a class="cv-action" href={contact}>{labels.contact}</a>}
+  <a class:list={["cv-action",{"interactive-card":!view}]} href={portfolio} data-portfolio-link>{labels.portfolio}</a>
+</nav>

@@ -1,3 +1,4 @@
+import {saveLanguage} from "../lib/language";
 import { gsap } from 'gsap';
 import { initOverlays, initMenuFit, initTypeCrossfades, initSectionFeedback, initBorderGlow, initMobileScrollGlow } from './motion';
 import { initCardBorders } from "./borders";
@@ -100,7 +101,7 @@ export async function initCvControls() {
     const theme=target?.closest<HTMLAnchorElement>('.cv-control--theme');
     if(theme&&event instanceof MouseEvent&&event.button===0&&!event.metaKey&&!event.ctrlKey&&!event.shiftKey&&!event.altKey){event.preventDefault();setTheme(root.dataset.cvTheme === 'dark' ? 'light' : 'dark');return;}
     const language=target?.closest<HTMLElement>('[data-language-option]');
-    if(language){const next=language.dataset.languageOption;if(next==='en'||next==='ru')void setLanguage(next);return;}
+    if(language){const next=language.dataset.languageOption;if(next==='en'||next==='ru'){saveLanguage(next);void setLanguage(next);}return;}
   });
   window.addEventListener('pageshow',event=>{if(event.persisted)initActionBorders();});
   window.addEventListener('pagehide',()=>{themeTimeline?.kill();languageRequest?.abort();disposeBorders?.();disposeGlow?.();});

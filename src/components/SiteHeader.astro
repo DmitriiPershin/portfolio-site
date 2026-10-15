@@ -1,6 +1,6 @@
 ---
 interface Props { cv?: boolean; lang?: string; theme?: string; }
-const {cv=false,lang="ru",theme="dark"}=Astro.props;
+const {cv=false,lang=Astro.locals.language||"en",theme="dark"}=Astro.props;
 const russian=lang==="ru";
 const menuId=cv?"cv-menu-overlay":"site-menu";
 const languageId=cv?"cv-language-overlay":"language-selector";

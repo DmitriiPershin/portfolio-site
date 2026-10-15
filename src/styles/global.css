@@ -59,7 +59,7 @@
 
   /* Layout controls: adjust these values when the Figma spacing changes. */
   --page-gutter: 48px;
-  --avatar-size: 60px;
+  --avatar-size: 75px;
   --section-gap: 200px;
   --section-content-gap: 72px;
   --copy-gap: 28px;
@@ -1980,7 +1980,7 @@ html.motion-enabled [data-mobile-flow] {
   .avatar-button {
     right: 14px;
     bottom: 14px;
-    --avatar-size: 30px;
+    --avatar-size: 37.5px;
   }
 
   .contact-dialog {
@@ -3081,3 +3081,20 @@ body.overlay-open .cv-control--theme { opacity: 0; pointer-events: none; }
 /* PDF choices inherit the language picker typography and outline/fill morph. */
 .cv-actions .interactive-card { --card-fill: var(--color-bg); }
 .cv-actions .cv-action--filled { --card-fill: var(--color-purple); }
+
+/* Both pickers use true lowercase glyphs and the same regular/bold crossfade. */
+.language-choice { font-family: "LINE Seed JP", sans-serif; }
+.language-choice .morph-label { --morph-base-font: "LINE Seed JP", sans-serif; --morph-hover-font: "LINE Seed JP", sans-serif; }
+.language-choice .morph-label__fill { font-weight: 700; }
+.language-choice[aria-pressed="true"] { font-family: "LINE Seed JP", sans-serif; }
+:root { --theme-speed-gap: 28px; }
+.theme-metric--speed { gap: var(--theme-speed-gap); }
+.theme-metric--speed > strong, .theme-metric--speed > p { flex-shrink: 0; }
+@media (max-width: 640px) {
+  .theme-metric--speed { --theme-speed-gap: 0px; }
+  .theme-metric--speed .joyride-metric { font-size: 60px; line-height: 86px; }
+  .cv-actions--experience { flex-direction: column; }
+  .cv-actions--experience .cv-action { width: 100%; }
+}
+html[data-cv-view="mobile"] .cv-actions { flex-direction: column; width: 100%; }
+html[data-cv-view="mobile"] .cv-actions .cv-action { width: 100%; }

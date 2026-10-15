@@ -131,3 +131,11 @@
 Fact: off-screen logo entry created a fully opaque clone immediately at the small target size. Resolved: stage zero-alpha portfolio-sized SVG, fade with the shared backdrop and then settle into the exact CV logo bounds. Automated samples verify intermediate opacity, uniform aspect ratio and final bounds.
 
 Resolved: PDF picker used a separate font override instead of the requested ENG/RUS treatment. It now inherits language-picker typography. Website action borders now reuse the actual Soft Skills mask/light runtime, including after language changes. Reinitialization observes existing masks without duplicating them and restores behaviour after cached navigation.
+
+## Resolved — 2026-10-15: initial locale, mobile PDF actions and ×2 spacing
+
+Portfolio hardcoded Russian while CV defaulted to English; initial/no-JS content now negotiates browser language with English fallback,and manual preference is shared across routes. URL overrides and Vary headers preserve explicit selection/cache correctness.
+
+Mobile PDF top actions retained intrinsic widths while the bottom website actions stretched. Both mobile PDF rows now use full-width buttons,validated in the four regenerated files. Website lower actions now follow Audiomania before phone sidebar content.
+
+Mobile ×2 inherited a28px gap absent from Figma node383:34 and used56/56text inside an86px slot. Restored gap0 and60/86type; desktop retains its28px gap. Pickers now use real lowercase LINE glyphs per latest request.

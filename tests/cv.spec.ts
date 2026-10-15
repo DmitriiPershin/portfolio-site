@@ -111,7 +111,7 @@ test("CV language and theme preserve each other and the PDF format choice", asyn
   await expect(page.locator("html")).toHaveAttribute("data-cv-theme", "light");
   await expect(page.locator(".cv-control--theme img")).toHaveAttribute("src", "/assets/cv-theme-dark.svg");
   await page.getByRole("button", {name:"Choose language"}).click();
-  await page.getByRole("button", {name:"RUS",exact:true}).click();
+  await page.getByRole("button", {name:"russian",exact:true}).click();
   await expect(page.locator("html")).toHaveAttribute("lang", "ru");
   await expect(page.locator("html")).toHaveAttribute("data-cv-theme", "light");
   await expect(page.locator(".cv-summary")).toContainText("около 20 лет опыта в дизайне");
@@ -158,7 +158,7 @@ test("CV theme interpolates without reload and both overlays match portfolio beh
   expect(Math.abs(positions.at(-1)!-targetY)).toBeLessThan(2);
   await page.locator("[data-language-toggle]").click();
   await expect(page.locator("[data-language-overlay]")).toHaveAttribute("aria-hidden", "false");
-  await page.getByRole("button", {name:"RUS",exact:true}).click();
+  await page.getByRole("button", {name:"russian",exact:true}).click();
   await expect(page.locator("html")).toHaveAttribute("lang", "ru");
   await expect(page.locator("[data-language-overlay]")).toHaveAttribute("aria-hidden", "true");
   expect(await page.evaluate(() => Boolean((window as Window & { cvIdentity?: object }).cvIdentity))).toBe(true);
