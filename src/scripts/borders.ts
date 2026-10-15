@@ -45,15 +45,18 @@ export function initCardBorders() {
   }
 
   cards.forEach((card) => {
-    if (card.dataset.borderReady) return;
-    const border = document.createElement("span");
-    border.className = "card-border";
-    border.setAttribute("aria-hidden", "true");
-    card.prepend(border);
+    if (!card.dataset.borderReady) {
+      const border = document.createElement("span");
+      border.className = "card-border";
+      border.setAttribute("aria-hidden", "true");
+      card.prepend(border);
+    }
     updateGeometry(card);
     card.dataset.borderReady = "true";
     resize.observe(card);
   });
 
-  window.addEventListener("pagehide", () => resize.disconnect(), { once: true });
+  const dispose = () => resize.disconnect();
+  window.addEventListener("pagehide", dispose, { once: true });
+  return () => {dispose();window.removeEventListener("pagehide",dispose);};
 }

@@ -123,3 +123,9 @@
 - Do not hand-redraw section icons or desktop AI Workflow connectors when exact Figma exports exist. Mobile connectors are intentionally local layout primitives because their chip groups must remain responsively centred.
 - Do not add React, Motion, Lenis, Three.js, or another animation library without a demonstrated need.
 - Do not replace the user-supplied live Joyride typography with image exports; check licensing again before reusing the font files outside this portfolio.
+
+## Resolved — 2026-10-15: CV from below the hero and inconsistent action contours
+
+Fact: off-screen logo entry created a fully opaque clone immediately at the small target size. Resolved: stage zero-alpha portfolio-sized SVG, fade with the shared backdrop and then settle into the exact CV logo bounds. Automated samples verify intermediate opacity, uniform aspect ratio and final bounds.
+
+Resolved: PDF picker used a separate font override instead of the requested ENG/RUS treatment. It now inherits language-picker typography. Website action borders now reuse the actual Soft Skills mask/light runtime, including after language changes. Reinitialization observes existing masks without duplicating them and restores behaviour after cached navigation.

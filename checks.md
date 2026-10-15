@@ -92,3 +92,9 @@ Dmitrii: 1) CV → View portfolio → CV → browser Back; inspect logo motion a
 Technical: full build/suite; exact desktop header slots throughout theme and route changes; pixel-row equality for light/dark burger; gradual CV entry and future-block reveal; return role fades; mobile logos equal viewport minus48px,y80px,951:214 ratio at320/390/480/640px,without flight; mobile header scrolls away while avatar remains. Check common Download/View hover,Figma164/160 widths,lowercase PDF labels,cursor glow,reduced/no-JavaScript paths and exported content. All8 PDFs:one page,zero raster images,zero Download PDF labels,6 URI links incl2 mailto; verify public bytes/hashes after Railway deploy.
 
 Dmitrii: desktop switch theme and go CV↔portfolio (also browser Back); inspect header and role reveal. Phone:compare the logo,scroll until the header leaves,and open contacts from the fixed avatar. Read down CV to assess reveal speed,then download both PDF formats in matching theme/language.
+
+## CV/avatar polish — 2026-10-15
+
+Technical: build/typecheck; full desktop/tablet/mobile suite; sample off-screen CV transition alpha/geometry; check both action rows, shared one-mask/conic border response after language/theme changes; compare PDF picker font with ENG/RUS; avatar60/30px and proportional crops/status. Existing reduced-motion/no-JS, header stability, mobile native route and eight PDF-byte checks remain required. Save logs in `docs/cv-polish-*-2026-10-15.txt`.
+
+Dmitrii: 1) scroll down portfolio, then slightly up; open CV using the returning CV control and assess the logo fade/flight. 2) Check smaller avatar on both pages. 3) Hover Download PDF/View portfolio and open PDF selection; compare its typography with ENG/RUS. Repeat CV in Russian/light and on phone.

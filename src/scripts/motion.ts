@@ -338,7 +338,7 @@ export function initSectionFeedback() {
   updateColors();
 }
 
-function initBorderGlow() {
+export function initBorderGlow() {
   const supportsHover = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
   const mobileLayout = window.matchMedia("(max-width: 640px)").matches;
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -422,9 +422,16 @@ function initBorderGlow() {
   window.addEventListener("scroll", scheduleFrame, { passive: true });
   document.documentElement.addEventListener("pointerleave", clear);
   window.addEventListener("blur", clear);
+  return () => {
+    cancelAnimationFrame(frame);
+    window.removeEventListener("pointermove", schedule);
+    window.removeEventListener("scroll", scheduleFrame);
+    document.documentElement.removeEventListener("pointerleave", clear);
+    window.removeEventListener("blur", clear);
+  };
 }
 
-function initMobileScrollGlow() {
+export function initMobileScrollGlow() {
   if (!window.matchMedia("(max-width: 640px)").matches) return;
 
   const cards = selectAll<HTMLElement>(".interactive-card");
@@ -448,7 +455,7 @@ function initMobileScrollGlow() {
     });
   };
 
-  ScrollTrigger.create({
+  const trigger = ScrollTrigger.create({
     start: 0,
     end: () => ScrollTrigger.maxScroll(window),
     onRefresh: () => {
@@ -459,6 +466,7 @@ function initMobileScrollGlow() {
   });
   refreshGeometry();
   updateAngles();
+  return () => trigger.kill();
 }
 
 function showEverything() {

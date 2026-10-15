@@ -107,9 +107,9 @@ test("avatar opens contact details", async ({ page }) => {
   const avatar = page.locator("[data-contact-toggle]");
   const status = avatar.locator(".avatar-button__status");
   const photoShell = avatar.locator(".avatar-button__photo-shell");
-  const expectedSize = (page.viewportSize()?.width ?? 1000) <= 640 ? 60 : 120;
-  const expectedStatus = expectedSize === 60 ? 9 : 18;
-  const expectedInner = expectedSize === 60 ? 55 : 110;
+  const expectedSize = (page.viewportSize()?.width ?? 1000) <= 640 ? 30 : 60;
+  const expectedStatus = Math.round(expectedSize * .15);
+  const expectedInner = Math.round(expectedSize * .91765);
   expect(await avatar.evaluate((element) => [element.clientWidth, element.clientHeight])).toEqual([expectedSize, expectedSize]);
   expect(await status.evaluate((element) => {
     const rect = element.getBoundingClientRect();

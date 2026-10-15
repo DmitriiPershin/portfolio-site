@@ -1,5 +1,6 @@
 import { gsap } from 'gsap';
-import { initOverlays, initMenuFit, initTypeCrossfades, initSectionFeedback } from './motion';
+import { initOverlays, initMenuFit, initTypeCrossfades, initSectionFeedback, initBorderGlow, initMobileScrollGlow } from './motion';
+import { initCardBorders } from "./borders";
 import { initCvReveals } from "./cv-motion";
 import { motionEase, motionSeconds } from './motion-tokens';
 import pdfManifest from '../data/cv-pdf-manifest.json';
@@ -14,6 +15,14 @@ export async function initCvControls() {
   const reduced = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
   let themeTimeline: gsap.core.Timeline | undefined;
   let languageRequest: AbortController | undefined;
+  let disposeBorders: (() => void) | undefined;
+  let disposeGlow: (() => void) | undefined;
+  const initActionBorders = () => {
+    disposeBorders?.();disposeGlow?.();
+    if(root.dataset.cvView)return;
+    disposeBorders=initCardBorders();
+    if(!reduced())disposeGlow=innerWidth<=640?initMobileScrollGlow():initBorderGlow();
+  };
 
   const syncPreferences = () => {
     const lang = root.lang === 'ru' ? 'ru' : 'en';
@@ -69,6 +78,7 @@ export async function initCvControls() {
       if(!main||!translated)throw new Error('CV content missing');
       main.replaceChildren(...Array.from(translated.childNodes));
       initCvReveals(false);
+      initActionBorders();
       root.lang=lang;document.title=incoming.title;
       document.querySelector('meta[name="description"]')?.setAttribute('content',incoming.querySelector('meta[name="description"]')?.getAttribute('content') || '');
       for(const selector of ['.cv-control--menu','.cv-control--language','[data-language-close]','[data-menu-close]','.language-dialog']){
@@ -92,7 +102,8 @@ export async function initCvControls() {
     const language=target?.closest<HTMLElement>('[data-language-option]');
     if(language){const next=language.dataset.languageOption;if(next==='en'||next==='ru')void setLanguage(next);return;}
   });
-  window.addEventListener('pagehide',()=>{themeTimeline?.kill();languageRequest?.abort();});
+  window.addEventListener('pageshow',event=>{if(event.persisted)initActionBorders();});
+  window.addEventListener('pagehide',()=>{themeTimeline?.kill();languageRequest?.abort();disposeBorders?.();disposeGlow?.();});
   await Promise.allSettled([document.fonts.load('16px "Joyride Outline"'),document.fonts.load('16px "Joyride Regular"'),document.fonts.load('16px "LINE Seed JP"')]);
-  initMenuFit();initTypeCrossfades();root.dataset.cvControlsReady='';
+  initMenuFit();initTypeCrossfades();initActionBorders();root.dataset.cvControlsReady='';
 }

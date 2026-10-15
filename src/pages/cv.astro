@@ -33,9 +33,9 @@ const pdfURL = (layout:string) => pdfManifest.approved ? variants[`${lang}-${the
       <p class="cv-subtitle" data-node-id="586:27">{cv.subtitle}</p>
       <p class="cv-summary" data-node-id="586:29">{cv.summary}</p>
       <nav class="cv-actions" aria-label="CV actions">
-        {!view && <button class="cv-action cv-action--filled" type="button" aria-haspopup="dialog" data-pdf-toggle data-pdf-download>{labels.download}</button>}
+        {!view && <button class="cv-action cv-action--filled interactive-card" type="button" aria-haspopup="dialog" data-pdf-toggle data-pdf-download>{labels.download}</button>}
         {view && <a class="cv-action" href={cv.contact}>{labels.contact}</a>}
-        <a class="cv-action" href={portfolio} data-portfolio-link>{labels.portfolio}</a>
+        <a class:list={["cv-action", {"interactive-card": !view}]} href={portfolio} data-portfolio-link>{labels.portfolio}</a>
       </nav>
     </section>
     <div class="cv-content" data-node-id="586:35">
@@ -54,9 +54,9 @@ const pdfURL = (layout:string) => pdfManifest.approved ? variants[`${lang}-${the
       </aside>
     </div>
     <footer class="cv-footer" id="cv-contact" data-node-id="586:80"><nav class="cv-actions" aria-label="CV footer actions">
-        {!view && <button class="cv-action cv-action--filled" type="button" aria-haspopup="dialog" data-pdf-toggle data-pdf-download>{labels.download}</button>}
+        {!view && <button class="cv-action cv-action--filled interactive-card" type="button" aria-haspopup="dialog" data-pdf-toggle data-pdf-download>{labels.download}</button>}
         {view && <a class="cv-action" href={cv.contact}>{labels.contact}</a>}
-        <a class="cv-action" href={portfolio} data-portfolio-link>{labels.portfolio}</a>
+        <a class:list={["cv-action", {"interactive-card": !view}]} href={portfolio} data-portfolio-link>{labels.portfolio}</a>
       </nav></footer>
   </main>
   <div class="language-overlay" id="cv-language-overlay" aria-hidden="true" tabindex="-1" data-language-overlay>

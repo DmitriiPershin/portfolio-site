@@ -283,3 +283,9 @@ Decision,latest explicit user request superseding the earlier same-day action/he
 Decision: one SiteHeader component preserves desktop menu/CV/language slots; theme is an additional fourth control. Mobile header belongs to document flow and scrolls away; logo has identical viewport-responsive bounds on both pages and no route flight. Desktop route motion remains. Return to portfolio replays the original role entry. Theme icons fade without scale/rotation; light burger ink aligns with the dark export rather than merely aligning the control rectangles.
 
 Decision: CV content reveals on scroll with the same curve/duration family as portfolio. Shared motion families/tokens and verification policy are canonical in docs/motion-system.md. Retain hero cursor glow on CV; PDF/reduced-motion/no-JavaScript content remains complete.
+
+## CV controls refinement — 2026-10-15
+
+Decision: halve the floating contact avatar on both pages (60px desktop/30px mobile), retain the distinct central contact-overlay portrait. For entry from lower sections, introduce one SVG with the shared backdrop fade before the uniform desktop route flight. Native phone navigation remains unchanged.
+
+Decision: PDF-format choices inherit ENG/RUS typography; remove the special LINE-only override. Website Download PDF and View portfolio remain in both action rows, using the existing Soft Skills border implementation. PDF document actions remain Contact/mailto and View portfolio; no PDF re-authoring is required by this change. Source: Dmitrii’s2026-10-15 request.

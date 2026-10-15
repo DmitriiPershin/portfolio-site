@@ -11,19 +11,22 @@ test('CV reveals content gradually on entry and when reading further',async({pag
 });
 
 test('Download and portfolio share hover treatment and Contact is the floating avatar',async({page})=>{
- await page.goto('/cv');await page.locator('html[data-cv-controls-ready]').waitFor();
+ await page.goto('/cv');await page.locator('html[data-cv-controls-ready]').waitFor();await page.evaluate(()=>document.fonts.ready);await expect(page.locator('.cv-profile .cv-actions')).toHaveCSS('opacity','1');
  await expect(page.locator('.cv-actions [href^="mailto:"]')).toHaveCount(0);
  await expect(page.locator('.avatar-button[data-contact-toggle]')).toBeVisible();
  const download=page.locator('.cv-profile [data-pdf-download]');const portfolio=page.locator('.cv-profile [data-portfolio-link]');
- if(await page.evaluate(()=>matchMedia('(hover: hover)').matches)){await download.hover();await expect(download).toHaveCSS('border-color','rgb(185, 149, 220)');const border=await download.evaluate(el=>getComputedStyle(el).borderColor);
- await portfolio.hover();await expect(portfolio).toHaveCSS('border-color',border);}
- await download.click();await expect(page.getByRole('link',{name:'desktop pdf',exact:true})).toBeVisible();await expect(page.getByRole('link',{name:'mobile pdf',exact:true})).toBeVisible();await expect(page.locator('.pdf-overlay .morph-label__base').first()).toHaveCSS('font-family',/LINE Seed JP/);
+ await expect(download).toBeVisible();await expect(portfolio).toBeVisible();
+ for(const action of [download,portfolio])await expect(action.locator(':scope > .card-border')).toHaveCount(1);
+ if(await page.evaluate(()=>matchMedia('(hover: hover)').matches)){
+  for(const action of [download,portfolio]){await action.hover();await expect.poll(()=>action.evaluate(el=>Number(getComputedStyle(el).getPropertyValue('--glow-opacity')))).toBeGreaterThan(.7);}
+ }
+ await download.click();await expect(page.getByRole('link',{name:'desktop pdf',exact:true})).toBeVisible();await expect(page.getByRole('link',{name:'mobile pdf',exact:true})).toBeVisible();const pdfFont=await page.locator('.pdf-overlay .morph-label__base').first().evaluate(el=>getComputedStyle(el).fontFamily);const languageFont=await page.locator('[data-language-overlay] .morph-label__base').first().evaluate(el=>getComputedStyle(el).fontFamily);expect(pdfFont).toBe(languageFont);
  await page.keyboard.press('Escape');await page.locator('.avatar-button').click();await expect(page.locator('[data-contact-overlay]')).toHaveAttribute('aria-hidden','false');
 });
 
 test('theme and route changes leave desktop controls and their icons in stable slots',async({page})=>{
  test.skip(page.viewportSize()!.width<=640,'Desktop toolbar');
- await page.goto('/cv');await page.locator('html[data-cv-controls-ready]').waitFor();
+ await page.goto('/cv');await page.locator('html[data-cv-controls-ready]').waitFor();await page.evaluate(()=>document.fonts.ready);await expect(page.locator('.cv-profile .cv-actions')).toHaveCSS('opacity','1');
  const snapshots=await page.evaluate(async()=>{
   const read=()=>Array.from(document.querySelectorAll('.menu-button,.language-button,.floating-header__cv,.cv-control--theme')).map(el=>{const r=el.getBoundingClientRect();return [r.x,r.y,r.width,r.height];});
   const values=[read()];(document.querySelector('.cv-control--theme') as HTMLElement).click();const start=performance.now();await new Promise<void>(resolve=>{const tick=()=>{values.push(read());if(performance.now()-start<850)requestAnimationFrame(tick);else resolve();};tick();});return values;

@@ -20,7 +20,7 @@ export function initCvNavigation() {
     const r=source.getBoundingClientRect();
     try {sessionStorage.setItem(returnKey,JSON.stringify({x:r.x,y:r.y,width:r.width,height:r.height,time:Date.now(),settled}));}catch{}
   };
-  const flight=(source:HTMLImageElement,from:Arrival,to:{x:number;y:number;width:number},done:()=>void)=>{
+  const flight=(source:HTMLImageElement,from:Arrival,to:{x:number;y:number;width:number},done:()=>void,introduce=false)=>{
     const layer=document.createElement('div');layer.className='cv-route-transition';layer.setAttribute('aria-hidden','true');
     const backdrop=document.createElement('div');backdrop.className='cv-route-transition__backdrop';
     // Portfolio is always dark. The background settles while the single wordmark moves.
@@ -28,10 +28,12 @@ export function initCvNavigation() {
     const logo=source.cloneNode(false) as HTMLImageElement;logo.className='cv-route-transition__logo';logo.style.width=`${from.width}px`;logo.style.height=`${from.height}px`;
     layer.append(backdrop,logo);document.body.append(layer);source.style.visibility='hidden';source.dataset.cvSourceHidden='';
     document.documentElement.dataset.cvNavigating='true';
-    gsap.set(logo,{x:from.x,y:from.y,opacity:1});gsap.set(backdrop,{opacity:0});
-    gsap.timeline({onComplete:done})
+    gsap.set(logo,{x:from.x,y:from.y,opacity:introduce?0:1});gsap.set(backdrop,{opacity:0});
+    const intro=introduce?motionSeconds('--cv-duration-backdrop'):0;
+    const timeline=gsap.timeline({onComplete:done})
       .to(backdrop,{opacity:1,duration:motionSeconds('--cv-duration-backdrop'),ease:motionEase('change')},0)
-      .to(logo,{x:to.x,y:to.y,scale:to.width/from.width,duration:motionSeconds('--cv-duration-logo'),ease:motionEase('route')},0);
+      .to(logo,{x:to.x,y:to.y,scale:to.width/from.width,duration:motionSeconds('--cv-duration-logo'),ease:motionEase('route')},intro/2);
+    if(introduce)timeline.to(logo,{opacity:1,duration:intro,ease:motionEase('change')},0);
   };
   const portfolioTarget=()=>{
     const width=innerWidth<=640?Math.min(token('--portfolio-logo-mobile-max'), innerWidth-token('--portfolio-logo-mobile-gutters')):Math.min(token('--cv-transition-source-max'),document.documentElement.clientWidth-2*token('--page-gutter'));
@@ -68,12 +70,13 @@ export function initCvNavigation() {
     const gutter=token('--cv-gutter');const contentWidth=Math.min(token('--cv-width'),document.documentElement.clientWidth-2*gutter);
     const to=reverse?portfolioTarget():{x:(document.documentElement.clientWidth-contentWidth)/2,y:token(innerWidth<=640?'--cv-mobile-screen-top':'--cv-top'),width:Math.min(token('--cv-logo-width'),contentWidth)};
     const inView=r.bottom>0&&r.top<innerHeight;
-    const width=inView?r.width:Math.min(token('--cv-logo-width'),contentWidth);
+    const staging=reverse?{...to,width:Math.min(token('--cv-logo-width'),contentWidth)}:portfolioTarget();
+    const width=inView?r.width:staging.width;
     const height=width*source.naturalHeight/source.naturalWidth;
-    const from={x:inView?r.x:(innerWidth-width)/2,y:inView?r.y:to.y,width,height,time:Date.now(),settled:false};
+    const from={x:inView?r.x:(document.documentElement.clientWidth-width)/2,y:inView?r.y:staging.y,width,height,time:Date.now(),settled:false};
     flight(source,from,to,()=>{
       if(reverse){explicitReturn=true;saveReturn(true);}
       location.assign(link.href);
-    });
+    },!inView);
   });
 }

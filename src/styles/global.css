@@ -59,6 +59,7 @@
 
   /* Layout controls: adjust these values when the Figma spacing changes. */
   --page-gutter: 48px;
+  --avatar-size: 60px;
   --section-gap: 200px;
   --section-content-gap: 72px;
   --copy-gap: 28px;
@@ -658,12 +659,12 @@ body.overlay-open .floating-header {
 .avatar-button {
   right: 32px;
   bottom: 32px;
-  width: 120px;
-  height: 120px;
+  width: var(--avatar-size);
+  height: var(--avatar-size);
   padding: 0;
   border-radius: 50%;
   background: #000;
-  filter: drop-shadow(0 10px 26px rgba(118, 85, 146, 0.4));
+  filter: drop-shadow(0 5px 13px rgba(118, 85, 146, 0.4));
   transition: opacity var(--motion-overlay-duration) var(--ease-ui), transform var(--motion-overlay-duration) var(--ease-ui), filter var(--motion-overlay-duration) var(--ease-ui), visibility 0s linear 0s;
 }
 
@@ -678,7 +679,7 @@ body.overlay-open .floating-header {
 .avatar-button:hover,
 .avatar-button:focus-visible {
   transform: scale(1.045);
-  filter: drop-shadow(0 12px 34px rgba(118, 85, 146, 0.76));
+  filter: drop-shadow(0 6px 17px rgba(118, 85, 146, 0.76));
 }
 
 .avatar-button__ring {
@@ -691,10 +692,10 @@ body.overlay-open .floating-header {
 
 .avatar-button__photo-shell {
   position: absolute;
-  top: 5px;
-  left: 5px;
-  width: 110.118px;
-  height: 110.118px;
+  top: 4.166667%;
+  left: 4.166667%;
+  width: 91.765%;
+  height: 91.765%;
   overflow: hidden;
   border-radius: 50%;
 }
@@ -714,14 +715,14 @@ body.overlay-open .floating-header {
 
 .avatar-button__status {
   position: absolute;
-  right: 12px;
-  bottom: 7px;
-  width: 18px;
-  height: 18px;
-  border: 3px solid #080808;
+  right: 10%;
+  bottom: 5.833333%;
+  width: 15%;
+  height: 15%;
+  border: calc(var(--avatar-size) * .025) solid #080808;
   border-radius: 50%;
   background: #4bd563;
-  box-shadow: 0 0 16px rgba(75, 213, 99, 0.8);
+  box-shadow: 0 0 8px rgba(75, 213, 99, 0.8);
 }
 
 .contact-dialog {
@@ -1979,23 +1980,7 @@ html.motion-enabled [data-mobile-flow] {
   .avatar-button {
     right: 14px;
     bottom: 14px;
-    width: 60px;
-    height: 60px;
-  }
-
-  .avatar-button__photo-shell {
-    top: 2.5px;
-    left: 2.5px;
-    width: 55.059px;
-    height: 55.059px;
-  }
-
-  .avatar-button__status {
-    right: 6px;
-    bottom: 3.5px;
-    width: 9px;
-    height: 9px;
-    border-width: 1.5px;
+    --avatar-size: 30px;
   }
 
   .contact-dialog {
@@ -3093,7 +3078,6 @@ body.overlay-open .cv-control--theme { opacity: 0; pointer-events: none; }
 }
 
 :root { --motion-flow-stagger: 80ms; --motion-chip-stagger: 40ms; }
-/* Joyride maps lowercase letters to capitals; the PDF picker needs real lowercase. */
-.pdf-overlay .language-choice { font-family: "LINE Seed JP", sans-serif; }
-.pdf-overlay .morph-label { --morph-base-font: "LINE Seed JP", sans-serif; --morph-hover-font: "LINE Seed JP", sans-serif; }
-.pdf-overlay .morph-label__fill { font-weight: 700; }
+/* PDF choices inherit the language picker typography and outline/fill morph. */
+.cv-actions .interactive-card { --card-fill: var(--color-bg); }
+.cv-actions .cv-action--filled { --card-fill: var(--color-purple); }

@@ -19,3 +19,11 @@ CV content is always in HTML. Full motion fades/translates elements as they ente
 Both routes use `SiteHeader.astro` and `AvatarButton.astro`. Desktop menu/CV/language occupy64/132/200px; CV theme occupies268px. Mobile header is absolute in the document (scrolls away); avatar remains fixed. Mobile logo is viewport minus48px,at y80px,with original951:214 ratio on both routes. Desktop gutter reservation avoids scrollbar-induced layout shifts. Light burger stroke ink uses a-5px optical offset to align with the exported dark SVG, independently of the unchanged64px control box.
 
 Return to portfolio replays `revealHeroRole()` with the same entry settings. Desktop logo flight remains; phone changes routes natively with identical SVG bounds. Modifier clicks,reduced motion,no-JavaScript links remain native.
+
+## CV refinement — 2026-10-15
+
+Decision: when the source logo is off-screen, stage the same SVG at the portfolio logo bounds with zero alpha. Fade it in over the shared backdrop360ms; start the existing1040ms uniform flight halfway through that fade. In-view desktop flights and native mobile routes retain their previous behaviour. Desktop scroll position is preserved behind the backdrop until navigation.
+
+CV website action borders reuse `initCardBorders`, `initBorderGlow` and `initMobileScrollGlow`: the same masked resting gradient, pointer smoothing and scroll response as Soft Skills. Filled Download keeps its purple fill; View portfolio inherits the CV theme background. Reinitialize/dispose borders after language replacement and browser cache restoration; avoid duplicate masks or listeners. Static PDF views retain their original Contact/portfolio actions and no Download button.
+
+PDF picker inherits the language picker's Joyride Outline→Regular on desktop and LINE Seed JP on mobile. Source labels remain desktop pdf/mobile pdf; Joyride renders their capital-shaped glyphs. This supersedes the2026-10-14 PDF-only LINE font override. Floating avatar size is controlled by `--avatar-size`:60px desktop/30px phone; photo,ring,status scale together.
