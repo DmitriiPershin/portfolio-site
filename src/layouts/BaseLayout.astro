@@ -1,15 +1,15 @@
 ---
 import "../styles/global.css";
+import {socialMetadata, SOCIAL_IMAGE} from "../lib/social";
 
 interface Props {
-  title: string;
-  description: string;
   lang?: "ru" | "en";
   cvTheme?: "dark" | "light";
   cvView?: "desktop" | "mobile";
 }
 
-const { title, description, lang = Astro.locals.language || "en", cvTheme, cvView } = Astro.props;
+const { lang = Astro.locals.language || "en", cvTheme, cvView } = Astro.props;
+const social = socialMetadata(lang, Astro.url.pathname === "/cv");
 ---
 
 <!doctype html>
@@ -18,7 +18,25 @@ const { title, description, lang = Astro.locals.language || "en", cvTheme, cvVie
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
     <meta name="theme-color" content={cvTheme === "light" ? "#f6f4ff" : "#000000"} />
-    <meta name="description" content={description} />
+    <meta name="description" content={social.description} />
+    <link rel="canonical" href={social.url} />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Dmitrii Pershin" />
+    <meta property="og:title" content={social.title} />
+    <meta property="og:description" content={social.description} />
+    <meta property="og:url" content={social.url} />
+    <meta property="og:locale" content={social.locale} />
+    <meta property="og:locale:alternate" content={social.alternateLocale} />
+    <meta property="og:image" content={SOCIAL_IMAGE} />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1280" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={social.imageAlt} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={social.title} />
+    <meta name="twitter:description" content={social.description} />
+    <meta name="twitter:image" content={SOCIAL_IMAGE} />
+    <meta name="twitter:image:alt" content={social.imageAlt} />
     <link rel="preload" href="/fonts/LINESeedJP-Regular.ttf" as="font" type="font/ttf" crossorigin />
     <link rel="preload" href="/assets/cv-wordmark.svg" as="image" />
     <link rel="preload" href="/fonts/Joyride-Extended-Regular.otf" as="font" type="font/otf" crossorigin />
@@ -26,8 +44,10 @@ const { title, description, lang = Astro.locals.language || "en", cvTheme, cvVie
     <link rel="preload" href="/fonts/Joyride-WIDE.otf" as="font" type="font/otf" crossorigin />
     <link rel="preload" href="/fonts/Joyride-Regular.otf" as="font" type="font/otf" crossorigin />
     <link rel="preload" href="/fonts/Joyride-Outline-Regular.otf" as="font" type="font/otf" crossorigin />
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2224%22 fill=%22%235946c9%22/><text x=%2250%22 y=%2264%22 font-size=%2246%22 text-anchor=%22middle%22 fill=%22white%22>DP</text></svg>" />
-    <title>{title}</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" sizes="any" />
+    <link rel="icon" href="/favicon-32.png" type="image/png" sizes="32x32" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
+    <title>{social.title}</title>
     <script is:inline>
       document.documentElement.classList.add("motion-enabled");
       if (location.pathname === "/" && location.hash) document.documentElement.dataset.sectionArrival = "";

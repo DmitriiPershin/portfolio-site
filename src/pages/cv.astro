@@ -1,5 +1,6 @@
 ---
 import SiteMenu from "../components/SiteMenu.astro";
+import {cvPdfFilename} from "../lib/cv-pdf";
 import LanguageOverlay from "../components/LanguageOverlay.astro";
 import CvActions from "../components/CvActions.astro";
 import SiteHeader from "../components/SiteHeader.astro";
@@ -25,7 +26,7 @@ const variants = pdfManifest.variants as Record<string, {url:string}>;
 const pdfURL = (layout:string) => pdfManifest.approved ? variants[`${lang}-${theme}-${layout}`]?.url : undefined;
 ---
 
-<BaseLayout title="Dmitrii Pershin — CV | AI-assisted Design & DesignOps" description={cv.summary} lang={lang} cvTheme={theme} cvView={view}>
+<BaseLayout lang={lang} cvTheme={theme} cvView={view}>
   <SiteHeader cv lang={lang} theme={theme} />
   <main class="cv-page" data-section="hero" data-node-id="584:3" data-mobile-node-id="584:4">
     <header class="cv-header" data-node-id="586:2">
@@ -57,14 +58,17 @@ const pdfURL = (layout:string) => pdfManifest.approved ? variants[`${lang}-${the
   </main>
   <LanguageOverlay cv lang={lang} />
   <SiteMenu cv lang={lang} theme={theme} />
-  <div class="language-overlay pdf-overlay" id="cv-pdf-dialog" aria-hidden="true" tabindex="-1" data-pdf-overlay>
+  <div class="language-overlay pdf-overlay" id="cv-pdf-dialog" aria-hidden="true" tabindex="-1" data-pdf-overlay data-node-id="633:668">
     <button class="overlay-close" type="button" aria-label={labels.close} data-pdf-close><CloseIcon /></button>
-    <div class="language-dialog" role="dialog" aria-modal="true" aria-label="PDF format">
-      {["desktop","mobile"].map(layout => <a class="language-choice" href={pdfURL(layout)} download data-pdf-format={layout}><MorphLabel text={layout === "desktop" ? "desktop pdf" : "mobile pdf"} /></a>)}
+    <div class="language-dialog" role="dialog" aria-modal="true" aria-label="PDF format" data-node-id="633:673">
+      {["desktop","mobile"].map(layout => <a class="language-choice" href={pdfURL(layout)} download={cvPdfFilename(lang,layout)} data-pdf-format={layout} aria-label={`${layout === "desktop" ? "Desktop" : "Mobile"} PDF`} data-node-id={layout === "desktop" ? "633:674" : "633:675"}>
+        <span class="language-name--desktop"><MorphLabel text={layout === "desktop" ? "dEsktOp" : "mObile"} /></span>
+        <span class="language-name--mobile"><MorphLabel text={layout} /></span>
+      </a>)}
     </div>
   </div>
   {!view && <AvatarButton />}
   <ContactOverlay />
-  <noscript><p class="cv-nojs">{labels.language}: <a href={preferenceURL("en")}>English</a> · <a href={preferenceURL("ru")}>Русский</a> · <a href={pdfURL("desktop")} download>desktop pdf</a> · <a href={pdfURL("mobile")} download>mobile pdf</a></p></noscript>
+  <noscript><p class="cv-nojs">{labels.language}: <a href={preferenceURL("en")}>English</a> · <a href={preferenceURL("ru")}>Русский</a> · <a href={pdfURL("desktop")} download={cvPdfFilename(lang,"desktop")}>desktop pdf</a> · <a href={pdfURL("mobile")} download={cvPdfFilename(lang,"mobile")}>mobile pdf</a></p></noscript>
   <script>import { initCvNavigation } from "../scripts/cv-navigation"; initCvNavigation(); import { initCvControls } from "../scripts/cv-controls"; initCvControls();</script>
 </BaseLayout>

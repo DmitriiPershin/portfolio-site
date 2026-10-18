@@ -1,0 +1,57 @@
+[
+  {
+    "viewport": 900,
+    "sceneWidth": 836,
+    "routeStartOffset": 307.5,
+    "routeStartY": 318.359375,
+    "inputRows": 2,
+    "lastInputBottom": 378,
+    "contextBottom": 381.703125,
+    "routeRight": 1216.5,
+    "viewportRight": 900
+  },
+  {
+    "viewport": 1024,
+    "sceneWidth": 928,
+    "routeStartOffset": 307.5,
+    "routeStartY": 318.359375,
+    "inputRows": 1,
+    "lastInputBottom": 318,
+    "contextBottom": 423.71875,
+    "routeRight": 1232.5,
+    "viewportRight": 1024
+  },
+  {
+    "viewport": 1248,
+    "sceneWidth": 1152,
+    "routeStartOffset": 307.5,
+    "routeStartY": 318.359375,
+    "inputRows": 1,
+    "lastInputBottom": 318,
+    "contextBottom": 525.984375,
+    "routeRight": 1232.5,
+    "viewportRight": 1248
+  },
+  {
+    "viewport": 1280,
+    "sceneWidth": 1152,
+    "routeStartOffset": 307.5,
+    "routeStartY": 318.359375,
+    "inputRows": 1,
+    "lastInputBottom": 318,
+    "contextBottom": 525.984375,
+    "routeRight": 1248.5,
+    "viewportRight": 1280
+  },
+  {
+    "viewport": 1440,
+    "sceneWidth": 1152,
+    "routeStartOffset": 307.5,
+    "routeStartY": 318.359375,
+    "inputRows": 1,
+    "lastInputBottom": 318,
+    "contextBottom": 525.984375,
+    "routeRight": 1328.5,
+    "viewportRight": 1440
+  }
+]

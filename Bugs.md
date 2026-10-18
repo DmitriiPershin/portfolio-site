@@ -151,3 +151,9 @@ CV had a separate reduced section menu,so it could not navigate to all portfolio
 Resolved: the Figma-plugin export bullet incorrectly said Figma→Figma in RU/EN. Corrected it to GitLab and matched the updated Russian synchronisation phrase from358:791.
 
 Resolved: lower website actions disagreed with the latest Audiomania-footer design. The lower row now uses Contact→View portfolio,with exact desktop dimensions and stacked phone widths. Latest typography and ×2 gap rules supersede the preceding language-picker/desktop-gap choices; canonical values are in `docs/motion-system.md`.
+
+## Resolved — 2026-10-18: workflow routes on narrow desktop screens
+
+Fact: at900px,the desktop scene shrank to836px but the Context route still began307.5px into the canvas and extended to x1216.5 outside the viewport. The900px media rule also wrapped inputs into two rows without making the desktop Context card taller. At1024px,the route still extended to x1232.5. Evidence:`artifacts/qa/pdf-workflow-2026-10-18/before.json`.
+
+Resolved: container-based switch to the existing vertical sequence below1152px available width. Cards no longer shrink independently of the original SVG coordinates; all compact arrows stay in the gaps between their source/target cards. Desktop native geometry remains above the threshold; the rest of the site's breakpoints are unchanged. Width/language/resize/no-JS regression coverage is in `tests/pdf-workflow.spec.ts`.

@@ -1,0 +1,316 @@
+{
+  "base": "http://127.0.0.1:4321",
+  "checkedAt": "2026-10-18T16:31:31.591Z",
+  "workflow": [
+    {
+      "viewport": 320,
+      "width": 272,
+      "height": 1844,
+      "compact": true,
+      "stageWidth": 272,
+      "overflow": 0
+    },
+    {
+      "viewport": 390,
+      "width": 342,
+      "height": 1844,
+      "compact": true,
+      "stageWidth": 342,
+      "overflow": 0
+    },
+    {
+      "viewport": 640,
+      "width": 342,
+      "height": 1844,
+      "compact": true,
+      "stageWidth": 342,
+      "overflow": 0
+    },
+    {
+      "viewport": 641,
+      "width": 500,
+      "height": 1844,
+      "compact": true,
+      "stageWidth": 577,
+      "overflow": 0
+    },
+    {
+      "viewport": 768,
+      "width": 500,
+      "height": 1844,
+      "compact": true,
+      "stageWidth": 704,
+      "overflow": 0
+    },
+    {
+      "viewport": 900,
+      "width": 500,
+      "height": 1844,
+      "compact": true,
+      "stageWidth": 836,
+      "overflow": 0
+    },
+    {
+      "viewport": 1024,
+      "width": 500,
+      "height": 1844,
+      "compact": true,
+      "stageWidth": 928,
+      "overflow": 0
+    },
+    {
+      "viewport": 1200,
+      "width": 500,
+      "height": 1844,
+      "compact": true,
+      "stageWidth": 1104,
+      "overflow": 0
+    },
+    {
+      "viewport": 1247,
+      "width": 500,
+      "height": 1844,
+      "compact": true,
+      "stageWidth": 1151,
+      "overflow": 0
+    },
+    {
+      "viewport": 1248,
+      "width": 1152,
+      "height": 2128,
+      "compact": false,
+      "stageWidth": 1152,
+      "overflow": 0
+    },
+    {
+      "viewport": 1280,
+      "width": 1152,
+      "height": 2128,
+      "compact": false,
+      "stageWidth": 1169,
+      "overflow": 0
+    },
+    {
+      "viewport": 1440,
+      "width": 1152,
+      "height": 2128,
+      "compact": false,
+      "stageWidth": 1169,
+      "overflow": 0
+    }
+  ],
+  "assets": [
+    {
+      "viewport": 1024,
+      "assets": [
+        {
+          "url": "/assets/icon-references.svg",
+          "loaded": true,
+          "width": 40,
+          "height": 40
+        },
+        {
+          "url": "/assets/icon-wishes.svg",
+          "loaded": true,
+          "width": 40,
+          "height": 40
+        },
+        {
+          "url": "/assets/icon-site.svg",
+          "loaded": true,
+          "width": 40,
+          "height": 40
+        },
+        {
+          "url": "/assets/icon-brandbook.svg",
+          "loaded": true,
+          "width": 40,
+          "height": 40
+        },
+        {
+          "url": "/assets/workflow-mobile-01.png",
+          "loaded": true,
+          "width": 54,
+          "height": 54
+        },
+        {
+          "url": "/assets/workflow-mobile-02.png",
+          "loaded": true,
+          "width": 54,
+          "height": 54
+        },
+        {
+          "url": "/assets/workflow-mobile-03.png",
+          "loaded": true,
+          "width": 54,
+          "height": 54
+        },
+        {
+          "url": "/assets/workflow-mobile-04.png",
+          "loaded": true,
+          "width": 54,
+          "height": 54
+        },
+        {
+          "url": "/assets/workflow-mobile-05.png",
+          "loaded": true,
+          "width": 54,
+          "height": 54
+        },
+        {
+          "url": "/assets/workflow-mobile-06.png",
+          "loaded": true,
+          "width": 54,
+          "height": 54
+        }
+      ]
+    },
+    {
+      "viewport": 1440,
+      "assets": [
+        {
+          "url": "/assets/workflow-route-variables.svg",
+          "loaded": true,
+          "width": 356,
+          "height": 104
+        },
+        {
+          "url": "/assets/workflow-route-template.svg",
+          "loaded": true,
+          "width": 261,
+          "height": 527
+        },
+        {
+          "url": "/assets/workflow-route-assets.svg",
+          "loaded": true,
+          "width": 306,
+          "height": 104
+        },
+        {
+          "url": "/assets/workflow-route-files.svg",
+          "loaded": true,
+          "width": 549,
+          "height": 240
+        },
+        {
+          "url": "/assets/icon-references.svg",
+          "loaded": true,
+          "width": 60,
+          "height": 60
+        },
+        {
+          "url": "/assets/icon-wishes.svg",
+          "loaded": true,
+          "width": 60,
+          "height": 60
+        },
+        {
+          "url": "/assets/icon-site.svg",
+          "loaded": true,
+          "width": 60,
+          "height": 60
+        },
+        {
+          "url": "/assets/icon-brandbook.svg",
+          "loaded": true,
+          "width": 60,
+          "height": 60
+        },
+        {
+          "url": "/assets/workflow-frame-claude-context.svg",
+          "loaded": true,
+          "width": 150,
+          "height": 150
+        },
+        {
+          "url": "/assets/workflow-frame-magnific.svg",
+          "loaded": true,
+          "width": 150,
+          "height": 150
+        },
+        {
+          "url": "/assets/workflow-frame-claude-style.svg",
+          "loaded": true,
+          "width": 150,
+          "height": 150
+        },
+        {
+          "url": "/assets/workflow-frame-figma.svg",
+          "loaded": true,
+          "width": 150,
+          "height": 150
+        },
+        {
+          "url": "/assets/workflow-frame-designer.svg",
+          "loaded": true,
+          "width": 150,
+          "height": 150
+        },
+        {
+          "url": "/assets/workflow-frame-frontend.png",
+          "loaded": true,
+          "width": 150,
+          "height": 150
+        }
+      ]
+    }
+  ],
+  "pdfs": [
+    {
+      "variant": "en-dark-desktop",
+      "status": 200,
+      "bytes": 54524,
+      "sha256": "543df752b93fb417f979eb6626a09f5e44f2985b74fac78f9f25c4934d6ad7f4",
+      "unchanged": true
+    },
+    {
+      "variant": "en-dark-mobile",
+      "status": 200,
+      "bytes": 53519,
+      "sha256": "f827b4ede853aae696bef75e2f3047a305ae0ebbc6aefd3d6c4a66bc169b3bc1",
+      "unchanged": true
+    },
+    {
+      "variant": "en-light-desktop",
+      "status": 200,
+      "bytes": 54430,
+      "sha256": "8f60f77ad1e35d08742b6cb7dc78ca25dce68b93df13166fa30952b89655a06f",
+      "unchanged": true
+    },
+    {
+      "variant": "en-light-mobile",
+      "status": 200,
+      "bytes": 53419,
+      "sha256": "e5ed3a15ba1c90e1c118c90d0b6e95a3b18aeaefec384734c3ad47d1f8521271",
+      "unchanged": true
+    },
+    {
+      "variant": "ru-dark-desktop",
+      "status": 200,
+      "bytes": 60002,
+      "sha256": "2a1b9b6e1bf6e217a480b2bc5bb1a0cf7e91f6d48a0d8668d315b3ae40f10b7c",
+      "unchanged": true
+    },
+    {
+      "variant": "ru-dark-mobile",
+      "status": 200,
+      "bytes": 58624,
+      "sha256": "2924301d13cd02c80a38c1b1d801d9675bc72fc784876a4f9d4ea3eb2cb684ca",
+      "unchanged": true
+    },
+    {
+      "variant": "ru-light-desktop",
+      "status": 200,
+      "bytes": 59896,
+      "sha256": "346c31c564934119d69248e4eccd0c5e1978002d06b0cc0ab15b128dda67fbac",
+      "unchanged": true
+    },
+    {
+      "variant": "ru-light-mobile",
+      "status": 200,
+      "bytes": 58527,
+      "sha256": "3636ccf875590382ffd5ac3b251b78eaa54598c651ef2beb9dbd295e3a125ed5",
+      "unchanged": true
+    }
+  ]
+}

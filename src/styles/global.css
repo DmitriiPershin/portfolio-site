@@ -66,6 +66,8 @@
   --card-gap: 40px;
   --content-wide: 1169px;
   --content-copy: 895px;
+  --workflow-desktop-width: 1152px;
+  --workflow-compact-width: 500px;
 
   --color-bg: #000;
   --color-text: #f6f4ff;
@@ -1050,11 +1052,12 @@ body.overlay-open .floating-header {
 
 .workflow-stage {
   width: 100%;
+  container: workflow / inline-size;
 }
 
 .workflow-scene {
   position: relative;
-  width: 1152px;
+  width: var(--workflow-desktop-width);
   max-width: 100%;
   aspect-ratio: 1152 / 2128;
   margin: 0 auto;
@@ -2258,171 +2261,6 @@ html.motion-enabled [data-mobile-flow] {
     align-items: center;
   }
 
-  .workflow-scene--desktop {
-    display: none;
-  }
-
-  .workflow-scene--mobile {
-    display: block;
-    width: 342px;
-    height: 1844px;
-    aspect-ratio: auto;
-    margin: 0;
-  }
-
-  .workflow-mobile-sequence {
-    position: relative;
-    z-index: 2;
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-  }
-
-  .workflow-scene--mobile .workflow-context {
-    position: relative;
-    inset: auto;
-    width: 100%;
-    height: 296px;
-    gap: 12px;
-    padding: 24px;
-    border: 2px dashed var(--color-blue);
-    border-radius: 44px;
-    background: rgba(21, 48, 72, 0.1);
-    box-shadow: none;
-  }
-
-  .workflow-context h3,
-  .workflow-tool h3 {
-    font-size: 20px;
-    line-height: 28px;
-  }
-
-  .workflow-inputs {
-    width: 100%;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 12px;
-  }
-
-  .workflow-input {
-    width: 100%;
-    height: 96px;
-    padding: 16px;
-    border-radius: 24px;
-  }
-
-  .workflow-input img {
-    width: 40px;
-    height: 40px;
-  }
-
-  .workflow-input > span {
-    font-size: 14px;
-  }
-
-  .workflow-scene--mobile .workflow-tool {
-    width: 100%;
-    height: 142px;
-    min-height: 142px;
-    flex-direction: column;
-    gap: 12px;
-    padding: 24px;
-    border-style: solid;
-    border-radius: 104px;
-    box-shadow: inset 0 0 60px 5.316px rgba(64, 88, 244, 0.3);
-  }
-
-  .workflow-scene--mobile .workflow-tool:last-child {
-    height: 142px;
-    min-height: 142px;
-  }
-
-  .workflow-scene--mobile .app-icon-frame {
-    width: 54px;
-    height: 54px;
-    flex-basis: 54px;
-    padding: 0;
-    border-radius: 12px;
-  }
-
-  .workflow-scene--mobile .app-icon-frame > img {
-    width: 54px;
-    height: 54px;
-  }
-
-  .mobile-flow {
-    position: relative;
-    display: grid;
-    width: 100%;
-    height: 116px;
-    align-self: center;
-    grid-template-columns: repeat(var(--flow-count), minmax(0, 1fr));
-  }
-
-  .mobile-flow--1 { --flow-count: 1; }
-  .mobile-flow--2 {
-    --flow-count: 2;
-    width: 238px;
-  }
-  .mobile-flow--3 { --flow-count: 3; }
-
-  .mobile-flow__track {
-    position: relative;
-    display: flex;
-    min-width: 0;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .mobile-flow__track::before {
-    position: absolute;
-    top: 8px;
-    bottom: 16px;
-    left: 50%;
-    width: 2px;
-    background: var(--color-blue);
-    content: "";
-    transform: translateX(-50%);
-  }
-
-  .mobile-flow__track::after {
-    position: absolute;
-    bottom: 8px;
-    left: 50%;
-    width: 0;
-    height: 0;
-    border-top: 10px solid var(--color-blue);
-    border-right: 5.774px solid transparent;
-    border-left: 5.774px solid transparent;
-    content: "";
-    transform: translateX(-50%);
-  }
-
-  .mobile-flow-label {
-    position: relative;
-    z-index: 2;
-    display: inline-flex;
-    width: fit-content;
-    height: 36px;
-    align-items: center;
-    align-self: center;
-    justify-content: center;
-    padding: 8px 16px;
-    border-radius: 30.389px;
-    background: var(--color-blue);
-    box-shadow: 0 0 114px var(--color-blue), 0 0 34px #000, 0 0 20px #131313;
-    font-size: 12px;
-    font-weight: 700;
-    line-height: 20px;
-    white-space: nowrap;
-  }
-
-  .mobile-flow--2 .mobile-flow-label,
-  .mobile-flow--3 .mobile-flow-label {
-    max-width: calc(100% - 8px);
-    padding-inline: 12px;
-    font-size: 11px;
-  }
-
   .process__headline,
   .theme__headline {
     width: 342px;
@@ -3079,7 +2917,7 @@ body.overlay-open .cv-control--theme { opacity: 0; pointer-events: none; }
 .cv-actions .interactive-card { --card-fill: var(--color-bg); }
 .cv-actions .cv-action--filled { --card-fill: var(--color-purple); }
 
-/* PDF choices keep lowercase LINE glyphs; language overlay fonts follow Figma below. */
+/* Base picker typography; responsive Joyride/LINE faces are scoped below. */
 .language-choice { font-family: "LINE Seed JP", sans-serif; }
 .language-choice .morph-label { --morph-base-font: "LINE Seed JP", sans-serif; --morph-hover-font: "LINE Seed JP", sans-serif; }
 .language-choice .morph-label__fill { font-weight: 700; }
@@ -3102,9 +2940,9 @@ html[data-section-arrival] { scroll-behavior:auto !important; }
 .menu-overlay nav { left:max(calc(var(--menu-viewport-margin)*1px),calc(50% - var(--menu-design-offset))); top:var(--menu-top,calc((100svh - var(--menu-design-height))/2)); }
 .menu-overlay a { height:var(--menu-item-height,var(--menu-tall-line)); line-height:var(--menu-item-height,var(--menu-tall-line)); flex-shrink:0; }
 .language-name--mobile { display:none; }
-[data-language-overlay] .language-choice { height:var(--language-desktop-line); line-height:var(--language-desktop-line); }
-[data-language-overlay] .language-choice .morph-label { --morph-base-font:"Joyride Outline",sans-serif; --morph-hover-font:"Joyride Regular",sans-serif; }
-[data-language-overlay] .language-choice .morph-label__fill { font-weight:400; }
+:is([data-language-overlay],[data-pdf-overlay]) .language-choice { height:var(--language-desktop-line); line-height:var(--language-desktop-line); }
+:is([data-language-overlay],[data-pdf-overlay]) .language-choice .morph-label { --morph-base-font:"Joyride Outline",sans-serif; --morph-hover-font:"Joyride Regular",sans-serif; }
+:is([data-language-overlay],[data-pdf-overlay]) .language-choice .morph-label__fill { font-weight:400; }
 .cv-actions--experience { --cv-portfolio-width:164px; }
 @media(max-width:640px){
  .menu-overlay nav { top:var(--cv-menu-mobile-top); bottom:var(--cv-menu-mobile-bottom); left:50%; }
@@ -3112,6 +2950,180 @@ html[data-section-arrival] { scroll-behavior:auto !important; }
  .menu-overlay a[aria-current="page"] { color:var(--color-text); }
  .language-name--desktop { display:none; }
  .language-name--mobile { display:inline-grid; }
- [data-language-overlay] .language-choice { height:var(--cv-menu-line-height); line-height:var(--cv-menu-line-height); }
- [data-language-overlay] .language-choice .morph-label { --morph-base-font:"LINE Seed JP",sans-serif; --morph-hover-font:"LINE Seed JP",sans-serif; }
+ :is([data-language-overlay],[data-pdf-overlay]) .language-choice { height:var(--cv-menu-line-height); line-height:var(--cv-menu-line-height); }
+ :is([data-language-overlay],[data-pdf-overlay]) .language-choice .morph-label { --morph-base-font:"LINE Seed JP",sans-serif; --morph-hover-font:"LINE Seed JP",sans-serif; }
+}
+
+/* Keep the authored desktop SVG coordinates at their native canvas size.
+   Switch the diagram alone when its container cannot fit that canvas. */
+@container workflow (width < 1152px) {
+  .workflow-scene--desktop {
+    display: none;
+  }
+
+  .workflow-scene--mobile {
+    display: block;
+    width: min(100%, var(--workflow-compact-width));
+    height: auto;
+    aspect-ratio: auto;
+    margin: 0 auto;
+  }
+
+  .workflow-mobile-sequence {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .workflow-scene--mobile .workflow-context {
+    position: relative;
+    inset: auto;
+    width: 100%;
+    height: 296px;
+    gap: 12px;
+    padding: 24px;
+    border: 2px dashed var(--color-blue);
+    border-radius: 44px;
+    background: rgba(21, 48, 72, 0.1);
+    box-shadow: none;
+  }
+
+  .workflow-context h3,
+  .workflow-tool h3 {
+    font-size: 20px;
+    line-height: 28px;
+  }
+
+  .workflow-inputs {
+    width: 100%;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .workflow-input {
+    width: 100%;
+    height: 96px;
+    padding: 16px;
+    border-radius: 24px;
+  }
+
+  .workflow-input img {
+    width: 40px;
+    height: 40px;
+  }
+
+  .workflow-input > span {
+    font-size: 14px;
+  }
+
+  .workflow-scene--mobile .workflow-tool {
+    width: 100%;
+    height: 142px;
+    min-height: 142px;
+    flex-direction: column;
+    gap: 12px;
+    padding: 24px;
+    border-style: solid;
+    border-radius: 104px;
+    box-shadow: inset 0 0 60px 5.316px rgba(64, 88, 244, 0.3);
+  }
+
+  .workflow-scene--mobile .workflow-tool:last-child {
+    height: 142px;
+    min-height: 142px;
+  }
+
+  .workflow-scene--mobile .app-icon-frame {
+    width: 54px;
+    height: 54px;
+    flex-basis: 54px;
+    padding: 0;
+    border-radius: 12px;
+  }
+
+  .workflow-scene--mobile .app-icon-frame > img {
+    width: 54px;
+    height: 54px;
+  }
+
+  .mobile-flow {
+    position: relative;
+    display: grid;
+    width: 100%;
+    height: 116px;
+    align-self: center;
+    grid-template-columns: repeat(var(--flow-count), minmax(0, 1fr));
+  }
+
+  .mobile-flow--1 { --flow-count: 1; }
+  .mobile-flow--2 {
+    --flow-count: 2;
+    width: 238px;
+  }
+  .mobile-flow--3 { --flow-count: 3; }
+
+  .mobile-flow__track {
+    position: relative;
+    display: flex;
+    min-width: 0;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .mobile-flow__track::before {
+    position: absolute;
+    top: 8px;
+    bottom: 16px;
+    left: 50%;
+    width: 2px;
+    background: var(--color-blue);
+    content: "";
+    transform: translateX(-50%);
+  }
+
+  .mobile-flow__track::after {
+    position: absolute;
+    bottom: 8px;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-top: 10px solid var(--color-blue);
+    border-right: 5.774px solid transparent;
+    border-left: 5.774px solid transparent;
+    content: "";
+    transform: translateX(-50%);
+  }
+
+  .mobile-flow-label {
+    position: relative;
+    z-index: 2;
+    display: inline-flex;
+    width: fit-content;
+    height: 36px;
+    align-items: center;
+    align-self: center;
+    justify-content: center;
+    padding: 8px 16px;
+    border-radius: 30.389px;
+    background: var(--color-blue);
+    box-shadow: 0 0 114px var(--color-blue), 0 0 34px #000, 0 0 20px #131313;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 20px;
+    white-space: nowrap;
+  }
+
+  .mobile-flow--2 .mobile-flow-label,
+  .mobile-flow--3 .mobile-flow-label {
+    max-width: calc(100% - 8px);
+    padding-inline: 12px;
+    font-size: 11px;
+  }
+
+}
+
+@media (max-width: 640px) {
+  [data-pdf-overlay] .morph-label__fill { font-weight: 700; }
 }

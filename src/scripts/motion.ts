@@ -1,4 +1,5 @@
 import {clientLanguage,saveLanguage} from "../lib/language";
+import {updateSocialMetadata} from "../lib/social";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { motionEase, motionNumber, motionSeconds } from "./motion-tokens";
@@ -87,9 +88,7 @@ function initLanguage() {
     const contactButton = select<HTMLButtonElement>("[data-contact-toggle]");
     if (menuButton) menuButton.setAttribute("aria-label", next === "ru" ? "Открыть меню" : "Open menu");
     if (contactButton) contactButton.setAttribute("aria-label", next === "ru" ? "Открыть контакты" : "Open contacts");
-    document.title = next === "ru"
-      ? "Dmitrii Pershin — Senior Product Designer"
-      : "Dmitrii Pershin — Senior Product Designer Portfolio";
+    updateSocialMetadata(next);
     ScrollTrigger.refresh();
   };
 

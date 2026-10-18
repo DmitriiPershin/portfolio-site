@@ -303,3 +303,15 @@ Decision: implement the user's latest Figma main/language menus as shared compon
 Decision: correct Process & AI Figma-plugin JSON export/synchronisation copy from Figma358:791 in RU and its EN translation.
 
 Fact/Decision,verified2026-10-18: user corrected the intended domain from pershindmitry.com to **pershindmitrii.com**. Attached that apex domain to Railway production `portfolio`,port8080; Railway provisioned DNS and TLS. It serves the existing application alongside the Railway fallback. No domain purchase was performed by the agent. Deployment and HTTP evidence live in the dated release log.
+
+## 2026-10-18 — PDF format menu, filenames and workflow compact layout
+
+Decision: follow updated PDF picker Figma633:668 using short Desktop/Mobile labels and the shared menu typography/crossfade. Use the exact user-specified download filename pattern,including Product_Senior_Designer word order,EN/RU and desktop/mobile. Keep stable public asset URLs and all8PDF bytes unchanged. Canonical rules and formatter location:`docs/motion-system.md`.
+
+Decision: switch only AI Workflow to its existing vertical sequence when the available canvas is below1152px. The screenshot failure came from proportional card positions mixed with fixed SVG route coordinates,and a separate900px two-column input override. A container-based diagram switch avoids altering the whole site's mobile breakpoint. Reuse all original local assets; do not rebuild or distort the desktop arrows. Compact maximum500px is a responsive extension of the same mobile composition,with unchanged342px geometry at390px.
+
+## 2026-10-18 — Favicon and social preview
+
+Decision: use exact Figma634:681 favicon and634:682 OG frame exports,with text outlined in SVG. Generate PNG32/180favicon variants and1280×630OG locally from those SVGs; never use an MCP reference screenshot as a runtime asset. Keep the provided black/purple composition in both website themes.
+
+Decision: server-render localized portfolio/CV share titles and descriptions,with Open Graph/Twitter image metadata and explicit-language canonical URLs on pershindmitrii.com. Client language changes reuse the same copy source,`src/lib/social.ts`; unsupported browser languages retain the existing English fallback. Copy focuses on AI-assisted design,design systems,fintech and around20years of design experience,as requested by Dmitrii.

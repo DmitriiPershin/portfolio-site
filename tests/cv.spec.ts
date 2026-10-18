@@ -24,8 +24,8 @@ test("CV follows the edited content, links and responsive composition", async ({
   for (const download of await page.locator("[data-pdf-download]").all()) await expect(download).toBeEnabled();
   await page.locator("[data-pdf-download]").first().click();
   await expect(page.locator("#cv-pdf-dialog")).toBeVisible();
-  await expect(page.getByRole("link", {name:"desktop pdf",exact:true})).toHaveAttribute("href", "/cv/dmitrii-pershin-cv-en-dark-desktop.pdf");
-  await expect(page.getByRole("link", {name:"mobile pdf",exact:true})).toHaveAttribute("href", "/cv/dmitrii-pershin-cv-en-dark-mobile.pdf");
+  await expect(page.locator('[data-pdf-format="desktop"]')).toHaveAttribute("href", "/cv/dmitrii-pershin-cv-en-dark-desktop.pdf");
+  await expect(page.locator('[data-pdf-format="mobile"]')).toHaveAttribute("href", "/cv/dmitrii-pershin-cv-en-dark-mobile.pdf");
   await page.keyboard.press("Escape");
   const width = page.viewportSize()!.width;
   const geometry = await page.evaluate(() => {
@@ -120,6 +120,7 @@ test("CV language and theme preserve each other and the PDF format choice", asyn
   await page.locator("[data-pdf-download]").first().click();
   await expect(page.locator("#cv-pdf-dialog")).toHaveAttribute("aria-hidden", "false");
   await expect(page.locator("[data-pdf-format=desktop]")).toHaveAttribute("href", "/cv/dmitrii-pershin-cv-ru-light-desktop.pdf");
+  await expect(page.locator("[data-pdf-format=desktop]")).toHaveAttribute("download", "Pershin_Dmitrii-Product_Senior_Designer-CV-RU-desktop.pdf");
   await expect(page.locator("[data-pdf-format=mobile]")).toHaveAttribute("href", "/cv/dmitrii-pershin-cv-ru-light-mobile.pdf");
   await page.keyboard.press("Escape");
   await expect(page.locator("[data-pdf-download]").first()).toBeFocused();

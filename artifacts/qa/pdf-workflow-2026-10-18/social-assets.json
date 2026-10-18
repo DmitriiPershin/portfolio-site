@@ -1,0 +1,47 @@
+{
+  "source": {
+    "fileKey": "RohXp9xh64xj3NpvNcCe4j",
+    "favicon": "634:681",
+    "og": "634:682",
+    "format": "SVG_STRING",
+    "svgOutlineText": true
+  },
+  "checkedAt": "2026-10-18T16:32:03.055Z",
+  "assets": [
+    {
+      "path": "public/favicon.svg",
+      "bytes": 927,
+      "sha256": "9c7acaa026c087a36b01d306fb1d3b531fdf5b2472b6f6c1ae314a324f9e29f2",
+      "width": 150,
+      "height": 150
+    },
+    {
+      "path": "public/favicon-32.png",
+      "bytes": 396,
+      "sha256": "73a7216544a529bb60cc0b0be4cbc38e602bb900f49ed8c1584bbfffb1c5d523",
+      "width": 32,
+      "height": 32
+    },
+    {
+      "path": "public/apple-touch-icon.png",
+      "bytes": 2124,
+      "sha256": "1d3edc20c8d050369bd1104b056b4e190becc8ec2077482802ef928ed91b0ad0",
+      "width": 180,
+      "height": 180
+    },
+    {
+      "path": "public/assets/og-image.svg",
+      "bytes": 28263,
+      "sha256": "450a632ed65690fa603f57288212ddf9b810d2a774cd7582f4191fd48aff4d2a",
+      "width": 1280,
+      "height": 630
+    },
+    {
+      "path": "public/assets/og-image.png",
+      "bytes": 43865,
+      "sha256": "ae5af8f030975cf72b1c2f6a7f7517420c2140da117ca5ab597e8b2b2b2fd963",
+      "width": 1280,
+      "height": 630
+    }
+  ]
+}

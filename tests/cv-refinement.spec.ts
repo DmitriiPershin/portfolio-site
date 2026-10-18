@@ -20,7 +20,7 @@ test('Download and portfolio share hover treatment and Contact is the floating a
  if(await page.evaluate(()=>matchMedia('(hover: hover)').matches)){
   for(const action of [download,portfolio]){await action.hover();await expect.poll(()=>action.evaluate(el=>Number(getComputedStyle(el).getPropertyValue('--glow-opacity')))).toBeGreaterThan(.7);}
  }
- await download.click();await expect(page.getByRole('link',{name:'desktop pdf',exact:true})).toBeVisible();await expect(page.getByRole('link',{name:'mobile pdf',exact:true})).toBeVisible();const pdfFont=await page.locator('.pdf-overlay .morph-label__base').first().evaluate(el=>getComputedStyle(el).fontFamily);expect(pdfFont).toContain('LINE Seed JP');
+ await download.click();await expect(page.locator('[data-pdf-format="desktop"]')).toBeVisible();await expect(page.locator('[data-pdf-format="mobile"]')).toBeVisible();const pdfFont=await page.locator('.pdf-overlay .morph-label__base:visible').first().evaluate(el=>getComputedStyle(el).fontFamily);expect(pdfFont).toContain(page.viewportSize()!.width<=640?'LINE Seed JP':'Joyride Outline');
  await page.keyboard.press('Escape');await page.locator('.avatar-button').click();await expect(page.locator('[data-contact-overlay]')).toHaveAttribute('aria-hidden','false');
 });
 

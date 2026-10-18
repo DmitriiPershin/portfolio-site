@@ -144,7 +144,7 @@ test("reduced motion keeps content and joined Figma routes visible", async ({ pa
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/");
   await expect(page.locator("html")).toHaveAttribute("data-motion", "reduced");
-  const frontend = (page.viewportSize()?.width ?? 1000) <= 640
+  const frontend = await page.locator(".workflow-scene--mobile").isVisible()
     ? page.locator("[data-mobile-workflow-node='frontend']")
     : page.locator("[data-workflow-node='frontend']");
   await expect(frontend).toBeVisible();
@@ -456,7 +456,8 @@ test("Joyride headings remain live text and the hero uses the shared SVG", async
 test("AI context, tool cards and app icons use the exact Figma geometry", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/");
-  const context = (page.viewportSize()?.width ?? 1000) <= 640
+  const compact = await page.locator(".workflow-scene--mobile").isVisible();
+  const context = compact
     ? page.locator(".workflow-scene--mobile .workflow-context")
     : page.locator(".workflow-scene--desktop .workflow-context");
   await context.scrollIntoViewIfNeeded();
@@ -468,10 +469,10 @@ test("AI context, tool cards and app icons use the exact Figma geometry", async 
   expect(await context.locator(":scope > .card-border").evaluate((el) => decodeURIComponent(getComputedStyle(el).maskImage))).toContain('stroke-dasharray="4 4"');
   await expect(context).toHaveCSS("border-top-color", "rgba(0, 0, 0, 0)");
 
-  const iconFrame = (page.viewportSize()?.width ?? 1000) <= 640
+  const iconFrame = compact
     ? page.locator(".workflow-scene--mobile .app-icon-frame").first()
     : page.locator(".workflow-scene--desktop .app-icon-frame").first();
-  const expected = (page.viewportSize()?.width ?? 1000) <= 640 ? [54, 54, "12px"] : [150, 150, "39px"];
+  const expected = compact ? [54, 54, "12px"] : [150, 150, "39px"];
   expect(await iconFrame.evaluate((element) => {
     const rect = element.getBoundingClientRect();
     return [Math.round(rect.width), Math.round(rect.height), getComputedStyle(element).borderRadius];
@@ -479,7 +480,7 @@ test("AI context, tool cards and app icons use the exact Figma geometry", async 
   expect(await iconFrame.evaluate((element) => getComputedStyle(element).backgroundImage)).toBe("none");
   expect(await iconFrame.locator("img").getAttribute("src")).toMatch(/^\/assets\/workflow-(frame|mobile)-/);
 
-  const tool = (page.viewportSize()?.width ?? 1000) <= 640
+  const tool = compact
     ? page.locator(".workflow-scene--mobile .workflow-tool").first()
     : page.locator(".workflow-scene--desktop .workflow-tool").first();
   await expect(tool).toHaveCSS("border-top", "2px solid rgba(0, 0, 0, 0)");
@@ -631,7 +632,8 @@ test("ordinary circular corners keep Figma radii and one mask", async ({ page })
 test("icon frame lights move again without an unmasked original ring", async ({ page }) => {
   await page.goto("/");
   const mobile = (page.viewportSize()?.width ?? 1000) <= 640;
-  const icons = [page.locator(mobile ? ".workflow-scene--mobile .app-icon-frame" : ".workflow-scene--desktop .app-icon-frame").first(), page.locator(".process-card__logo").first()];
+  const compact = await page.locator(".workflow-scene--mobile").isVisible();
+  const icons = [page.locator(compact ? ".workflow-scene--mobile .app-icon-frame" : ".workflow-scene--desktop .app-icon-frame").first(), page.locator(".process-card__logo").first()];
   for (const icon of icons) {
     await icon.scrollIntoViewIfNeeded();
     await page.waitForTimeout(900);

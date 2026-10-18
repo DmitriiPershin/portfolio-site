@@ -49,3 +49,11 @@ Figma language501:2: desktop labels ENGLiSH/RUSSiAN in Joyride56,selected Regula
 CV footer621:99/621:199: directly after Audiomania,filled Contact96×40 then outlined View portfolio164×40,12px gap. Phone buttons stack at full width with the same gap. Web Contact opens Nice to meet you with mailto fallback; PDF Contact stays mailto. Website top retains Download PDF/View portfolio. All eight approved PDF binaries remain unchanged.
 
 Theme ×2 desktop358:827 now has zero gap between metric and label,as explicitly requested. Phone retains its existing zero gap and60/86type. This supersedes the preceding28px desktop gap; see2026-10-18 release evidence.
+
+## PDF picker and responsive workflow — 2026-10-18
+
+Decision superseding the prior PDF-only LINE/lowercase-suffix treatment: Figma633:668/633:673 defines the PDF picker. Desktop uses Joyride56 Outline→Regular,40px gap and a centred128px group; display strings are the exact Figma dEsktOp/mObile glyph choices. Phone retains the existing LINE20/28 treatment with short desktop/mobile text. Download links retain accessible Desktop PDF/Mobile PDF names,shared crossfade/overlay behaviour,theme/language URL selection and keyboard/scroll locking. Existing sharp CloseIcon is reused per Dmitrii's prior explicit preference. The PDF files themselves are unchanged.
+
+Filename policy,explicit user request: `Pershin_Dmitrii-Product_Senior_Designer-CV-{EN|RU}-{desktop|mobile}.pdf`. No theme suffix. `src/lib/cv-pdf.ts` is the single formatter used by SSR/no-JS anchors and client preference updates. Stable public URLs/manifests remain unchanged,so existing shared PDF links continue to work.
+
+Workflow: `.workflow-stage` is a named inline-size container. Below1152px of available content width,the diagram alone uses the existing vertical mobile sequence,with adaptive width up to500px (342px at a390px viewport). Its cards/icons/arrow tracks retain authored heights and centre alignment; the scene height follows content. At1152px or wider,the desktop scene stays at its full native1152×2128canvas and all seven original SVG route groups preserve their coordinates. Other page sections,typography and the header retain their existing mobile breakpoint. CSS owns this choice,so no-JS and reduced-motion paths are complete,and resizing either direction needs no reload.

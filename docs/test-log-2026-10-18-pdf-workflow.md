@@ -1,0 +1,13 @@
+# PDF menu, responsive workflow, filenames and social preview — 2026-10-18
+
+Base GitHub main943d57af25f58b8fd05cb5da802317ee5860fbc1. Sources: PDF picker Figma633:668/633:673/633:674/633:675; desktop workflow358:647; existing authored mobile sequence and user screenshots of broken narrow-desktop routes. Current rules are in `motion-system.md`.
+
+Before evidence: `../artifacts/qa/pdf-workflow-2026-10-18/before.json` records the fixed Context route extending past900px/1024px viewports while cards shrank. Container queries now choose the existing vertical composition below1152px available width; the rest of the site keeps its breakpoints. All existing workflow assets and PDF contents were retained.
+
+Focused local verification:10passed,2intentional duplicate-matrix skips. Matrix covers both languages at12widths; live full-motion resizing,no-JS tablet content,4PDF preference combinations at each of3viewports,real downloads of both layouts and their suggested filenames. Keyboard crossfade checks use keyboard modality before programmatic focus to avoid macOS's native Tab-to-links preference affecting test order.
+
+Build:`pdf-workflow-build-2026-10-18.txt`,54 Astro diagnostics files,zero errors/warnings/hints. Visual captures/asset slot checks and8unchanged PDF SHA checks:`pdf-workflow-validation-local-2026-10-18.json`,screenshots in `../artifacts/qa/pdf-workflow-2026-10-18/local/`. Final full local/live test results and release identity follow after publication.
+
+Social sources: Figma634:681 (150×150favicon) and634:682 (1280×630OG),inspected via design context and exported directly with SVG_STRING/svgOutlineText. Public SVGs contain outlined paths rather than device-dependent font text; PNGs are derived with the existing Astro Sharp runtime via `scripts/export-social-assets.mjs`. OG render was visually inspected against the Figma reference. `tests/social.spec.ts` verifies crawler/no-JavaScript metadata for both routes/languages,absolute primary-domain image URLs,canonical languages,PNG dimensions,public-asset SHA equality and in-place client language changes. Focused run:7passed,2intentional viewport-duplicate skips.
+
+Final local verification on the working tree based on main 943d57a: `npm run build` passed (54 diagnostics files, zero errors/warnings/hints); `npm test -- --workers=2` passed 161 tests, with 31 intentional skips (desktop/phone-only checks and duplicate HTTP/width matrices), in 2.3 minutes. Full console log: `pdf-workflow-tests-local-2026-10-18.txt`. Local captures were refreshed on the final built runtime; all 8 approved PDF SHA values matched. Social asset provenance, dimensions and SHA values are recorded in `../artifacts/qa/pdf-workflow-2026-10-18/social-assets.json`.

@@ -1,4 +1,6 @@
 import {saveLanguage} from "../lib/language";
+import {cvPdfFilename} from "../lib/cv-pdf";
+import {updateSocialMetadata} from "../lib/social";
 import { gsap } from 'gsap';
 import { initOverlays, initMenuFit, initTypeCrossfades, initSectionFeedback, initBorderGlow, initMobileScrollGlow } from './motion';
 import { initCardBorders } from "./borders";
@@ -37,7 +39,7 @@ export async function initCvControls() {
 
     document.querySelectorAll<HTMLElement>('[data-pdf-format]').forEach(choice => {
       const url = pdfManifest.approved ? (pdfManifest.variants as Record<string,{url:string}>)[`${lang}-${theme}-${choice.dataset.pdfFormat}`]?.url : undefined;
-      if (choice instanceof HTMLAnchorElement) { if (url) choice.href=url; else {choice.removeAttribute('href');choice.setAttribute('aria-disabled','true');} }
+      if (choice instanceof HTMLAnchorElement) { choice.download=cvPdfFilename(lang,choice.dataset.pdfFormat || "desktop"); if (url) choice.href=url; else {choice.removeAttribute('href');choice.setAttribute('aria-disabled','true');} }
     });
     document.querySelectorAll<HTMLAnchorElement>('.cv-nojs a').forEach(link => {const target = new URL(link.href).searchParams.get('lang') || 'en';link.href=preferenceURL(target,theme);});
     document.querySelectorAll<HTMLAnchorElement>(".cv-controls .floating-header__cv, [data-site-menu-cv]").forEach(link=>link.href=preferenceURL(lang,theme));
@@ -80,8 +82,7 @@ export async function initCvControls() {
       main.replaceChildren(...Array.from(translated.childNodes));
       initCvReveals(false);
       initActionBorders();
-      root.lang=lang;document.title=incoming.title;
-      document.querySelector('meta[name="description"]')?.setAttribute('content',incoming.querySelector('meta[name="description"]')?.getAttribute('content') || '');
+      root.lang=lang;updateSocialMetadata(lang,true);
       for(const selector of ['.cv-control--menu','.cv-control--language','[data-language-close]','[data-menu-close]','.language-dialog']){
         const target=document.querySelector(selector);const source=incoming.querySelector(selector);const label=source?.getAttribute('aria-label');if(target&&label)target.setAttribute('aria-label',label);
       }
