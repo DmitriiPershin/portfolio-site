@@ -1,0 +1,25 @@
+{
+  "checkedAt": "2026-10-18T13:20:54.097034+00:00",
+  "runtimeCommit": "e189208416703f09b4853b440857b7bd297df53a",
+  "srcTree": "9615e192f07eafd47ff4470c029cd3f9907260ef",
+  "publicTree": "e7b10fe350e8383acb57857980109df3fff09342",
+  "runtimeDeploymentId": "47014dcb-1b01-4874-a324-e394b4f06840",
+  "deploymentStatus": "SUCCESS",
+  "domain": "https://pershindmitrii.com",
+  "local": {
+    "passed": 144,
+    "skipped": 27,
+    "failed": 0
+  },
+  "production": {
+    "passed": 144,
+    "skipped": 27,
+    "failed": 0
+  },
+  "pdfs": {
+    "checked": 8,
+    "unchanged": 8
+  },
+  "scope": "Shared menus, Figma typography, Audiomania Contact/portfolio footer, zero theme metric gap, corrected Process JSON/GitLab copy, custom domain",
+  "publicationNote": "Following QA/docs-only commit preserves the tested src/public trees and is uploaded from clean GitHub main. Final deployment identity is available in Railway CLI deployment metadata."
+}

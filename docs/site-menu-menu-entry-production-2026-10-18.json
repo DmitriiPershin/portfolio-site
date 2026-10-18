@@ -1,0 +1,14 @@
+[
+  {
+    "device": "desktop",
+    "menuCvEntry": "pass",
+    "browserBack": "pass",
+    "runtimeErrors": []
+  },
+  {
+    "device": "mobile",
+    "menuCvEntry": "pass",
+    "browserBack": "pass",
+    "runtimeErrors": []
+  }
+]

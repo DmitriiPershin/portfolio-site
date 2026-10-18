@@ -1,0 +1,26 @@
+{
+  "checkedAt": "2026-10-18T13:19:49.410059+00:00",
+  "domain": "pershindmitrii.com",
+  "certificateVerified": true,
+  "subjectAltName": [
+    [
+      "DNS",
+      "pershindmitrii.com"
+    ]
+  ],
+  "notBefore": "Oct 18 12:01:12 2026 GMT",
+  "notAfter": "Jan 16 12:01:11 2027 GMT",
+  "httpsHealth": {
+    "status": "ok"
+  },
+  "fallbackHealth": {
+    "status": "ok"
+  },
+  "railway": {
+    "projectId": "d2069e58-6cb0-4c01-a7af-192ec1c9596f",
+    "serviceId": "d8306ab0-1f51-4de6-a7d9-4291c97f8c3e",
+    "environment": "production",
+    "domainId": "9ee0417b-c32c-419a-a9fb-dc60c3e690ce",
+    "targetPort": 8080
+  }
+}
