@@ -91,7 +91,7 @@ test("menu is keyboard accessible and contains every section", async ({ page }) 
   await expect(menuButton).toHaveAttribute("aria-expanded", "true");
   const navigation = page.getByRole("navigation", { name: "Разделы портфолио" });
   await expect(navigation).toBeVisible();
-  await expect(navigation.getByRole("link")).toHaveCount(8);
+  await expect(navigation.getByRole("link")).toHaveCount(9);
   if ((page.viewportSize()?.width ?? 1000) > 640) {
     const focus = navigation.getByRole("link", { name: "FOCUS", exact: true });
     await focus.hover();
@@ -575,7 +575,7 @@ test("every desktop menu item fits on a short viewport", async ({ page }) => {
     const rect = link.getBoundingClientRect();
     return [rect.top, rect.left, rect.right, rect.bottom];
   }));
-  expect(bounds).toHaveLength(8);
+  expect(bounds).toHaveLength(9);
   for (const [top, left, right, bottom] of bounds) {
     expect(top).toBeGreaterThanOrEqual(0);
     expect(left).toBeGreaterThanOrEqual(0);
@@ -673,7 +673,7 @@ test("menu and language use the same smooth full-opacity font crossfade", async 
   for (const [toggle, selector, close] of [["[data-menu-toggle]", ".menu-overlay nav a", "[data-menu-close]"], ["[data-language-toggle]", ".language-choice", "[data-language-close]"]]) {
     await page.locator(toggle).click();
     const control = page.locator(selector).first();
-    const label = control.locator(".morph-label");
+    const label = control.locator(".morph-label:visible");
     const box = await control.boundingBox();
     await page.keyboard.press("Tab");
     await control.focus();

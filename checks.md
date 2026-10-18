@@ -27,7 +27,7 @@
 23. Confirm `/api/health` returns HTTP 200 locally and on Railway.
 24. Confirm Railway deployed the same GitHub `main` revision.
 25. Delay font requests and verify the hero waits, retains 40 px of reveal ink allowance, and never changes layout bounds when fonts load or the mask ends.
-26. At `1280 × 600`, all eight desktop section-menu links fit; hovered text stays at full opacity. Mobile skill rows fill their width, including paired chips. Only the `250` ribbon uses 1.8 s; Interfaces remain at 0.9 s.
+26. At `1280 × 600`, all nine desktop menu links fit; hovered text stays at full opacity. Mobile skill rows fill their width, including paired chips. Only the `250` ribbon uses 1.8 s; Interfaces remain at 0.9 s.
 27. Verify ordinary circular mask corners retain numeric Figma radii (Process: 80 px desktop / 26 px mobile), including reduced motion. The outer clip must not cut the stroke at the padding edge.
 28. Keep the pointer still and scroll quickly through Process → Theme → Workflow and back: cursor colour and native scrollbar colour must update without a mousemove; cursor screen position must not trail the scroll.
 29. Sample real browser frames during both section-menu and language-selector hover: full control opacity, stable bounds, smooth 0→1 type crossfade using the border intensity timing. The duplicate visual face is aria-hidden.
@@ -106,3 +106,9 @@ Technical: build and full suite on final assets; SSR/no-JS language negotiation 
 Dmitrii: open privately with Russian/English browser language; choose the other language and navigate CV↔portfolio. On phone,read through Audiomania and use the following actions; compare mobile PDF button widths and ×2text spacing.
 
 Resolved workflow —2026-10-15: local and production Playwright runs now have separate `test-results` and HTML report subdirectories. A shared output folder caused ENOENT during trace teardown when one run cleaned another run's artifacts. Keep simultaneous runs of the same target isolated with their own `--output`/HTML folder.
+
+## Shared menus and custom domain — 2026-10-18 (current)
+
+Technical: build/typecheck; full Playwright desktop/tablet/mobile suite; shared nine-item menu order/labels/current-CV close/focus return; all eight CV→portfolio section destinations in full and reduced motion. Verify desktop Joyride and phone LINE language labels/selected state,centred no-scroll overlays,short viewport fit1280×600/320×540. Assert Audiomania-footer96/164×40buttons with12gap,stacked full-width phone actions,Contact overlay and mailto fallback. Top Download PDF remains. Check ×2gap0 and corrected RU/EN Figma→GitLab copy. Preserve all8PDF hashes. Push main,deploy through Railway,wait SUCCESS,run live suite on pershindmitrii.com and check fallback/HTTPS/PDF bytes. Save screenshots and dated logs; exact revision/deployment identity belongs in the release receipt.
+
+Dmitrii: 1) open the menu on CV and choose any portfolio section; check its arrival and menu type against Figma. 2) compare desktop ENGLiSH/RUSSiAN with mobile ENG/RUS; switch language and reopen. 3) after Audiomania,use Contact and View portfolio on phone/desktop; compare ×2spacing. 4) open https://pershindmitrii.com and /cv.

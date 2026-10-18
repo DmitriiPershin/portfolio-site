@@ -143,3 +143,11 @@ Mobile ×2 inherited a28px gap absent from Figma node383:34 and used56/56text in
 Resolved —2026-10-15,locale migration: previous portfolio versions automatically wrote Russian to legacy local storage. Treating that as a manual preference suppressed browser detection for returning visitors. Manual selections now have their own explicit-choice key/cookie; the unmarked legacy value no longer overrides browser preferences.
 
 Resolved —2026-10-15,test infrastructure: overlapping local/production Playwright commands cleaned the same output folder,causing an ENOENT trace-close failure after the mobile no-JavaScript assertions had passed. Isolated target-specific trace/report directories in playwright.config.ts; the final production suite is rerun separately.
+
+## Resolved — 2026-10-18: divergent menus and cross-page anchors
+
+CV had a separate reduced section menu,so it could not navigate to all portfolio sections. Replaced both menu trees with one shared component,including CV first. Current CV closes in place. Font/load-triggered ScrollTrigger refreshes could reset a cross-page anchor to the hero; arrival now survives those measurements until the reader interacts. Regression coverage follows every section in full/reduced motion on all three breakpoints.
+
+Resolved: the Figma-plugin export bullet incorrectly said Figma→Figma in RU/EN. Corrected it to GitLab and matched the updated Russian synchronisation phrase from358:791.
+
+Resolved: lower website actions disagreed with the latest Audiomania-footer design. The lower row now uses Contact→View portfolio,with exact desktop dimensions and stacked phone widths. Latest typography and ×2 gap rules supersede the preceding language-picker/desktop-gap choices; canonical values are in `docs/motion-system.md`.

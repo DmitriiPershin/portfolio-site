@@ -1,0 +1,18 @@
+---
+import CloseIcon from "./CloseIcon.astro";
+import MorphLabel from "./MorphLabel.astro";
+interface Props { cv?:boolean;lang?:string;theme?:string }
+const {cv=false,lang=Astro.locals.language,theme='dark'}=Astro.props;
+const sections=[
+  ['focus','FOCUS','var(--menu-short-line)'],['hard-skills','HARDSKILLS','var(--menu-regular-line)'],['soft-skills','SOFTSKILLS','var(--menu-tall-line)'],
+  ['ai-workflow','AI WORKFLOW','var(--menu-tall-line)'],['process-ai','PROCESS & AI','var(--menu-short-line)'],
+  ['theme-builders','THEME BUILDERS','var(--menu-short-line)'],['interfaces','INTERFACES','var(--menu-tall-line)'],['pet-project','PET PROJECT','var(--menu-tall-line)'],
+];
+---
+<div class="menu-overlay" id={cv?'cv-menu-overlay':'site-menu'} aria-hidden="true" tabindex="-1" data-menu-overlay data-node-id="473:110" data-mobile-node-id="530:1051">
+  <button class="overlay-close" type="button" aria-label={lang==='ru'?'Закрыть меню':'Close menu'} data-menu-close><CloseIcon /></button>
+  <nav aria-label={lang==='ru'?'Разделы портфолио':'Portfolio sections'} data-node-id="473:115">
+    <a href={cv?`/cv?lang=${lang}&theme=${theme}`:'/cv'} style="--menu-item-height:var(--menu-short-line)" data-site-menu-cv data-menu-cv-link={!cv?'':undefined} data-menu-current={cv?'':undefined} aria-current={cv?'page':undefined}><MorphLabel text="CV" /></a>
+    {sections.map(([id,label,height])=><a href={`${cv?'/':''}#${id}`} style={`--menu-item-height:${height}`} data-portfolio-section-link><MorphLabel text={label} /></a>)}
+  </nav>
+</div>

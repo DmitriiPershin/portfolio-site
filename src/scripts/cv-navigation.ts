@@ -41,6 +41,7 @@ export function initCvNavigation() {
   };
   const arrive=async()=>{
     if(location.pathname!=='/')return;
+    if(location.hash){try{sessionStorage.removeItem(returnKey);}catch{}delete document.documentElement.dataset.routeArrival;return;}
     let stored:Arrival|null=null;
     try{stored=JSON.parse(sessionStorage.getItem(returnKey)||'null');sessionStorage.removeItem(returnKey);}catch{}
     if(!stored||Date.now()-stored.time>10000){delete document.documentElement.dataset.routeArrival;return;}
@@ -58,7 +59,8 @@ export function initCvNavigation() {
   if(document.readyState==='complete')void arrive();
   document.addEventListener('click',async event=>{
     const target=event.target instanceof Element?event.target:null;
-    const link=target?.closest<HTMLAnchorElement>('[data-cv-link], [data-portfolio-link]');
+    if(target?.closest('[data-portfolio-section-link]')){explicitReturn=true;try{sessionStorage.removeItem(returnKey);}catch{}return;}
+    const link=target?.closest<HTMLAnchorElement>('[data-cv-link], [data-menu-cv-link], [data-portfolio-link]');
     if(!link||event.button!==0||event.metaKey||event.ctrlKey||event.shiftKey||event.altKey||reduced())return;
     const reverse=link.hasAttribute('data-portfolio-link');
     const source=document.querySelector<HTMLImageElement>(reverse?'.cv-wordmark img':'.hero__logo img');if(!source)return;

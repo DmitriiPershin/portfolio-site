@@ -12,7 +12,7 @@ test('CV reveals content gradually on entry and when reading further',async({pag
 
 test('Download and portfolio share hover treatment and Contact is the floating avatar',async({page})=>{
  await page.goto('/cv');await page.locator('html[data-cv-controls-ready]').waitFor();await page.evaluate(()=>document.fonts.ready);await expect(page.locator('.cv-profile .cv-actions')).toHaveCSS('opacity','1');
- await expect(page.locator('.cv-actions [href^="mailto:"]')).toHaveCount(0);
+ await expect(page.locator('.cv-actions [href^="mailto:"]')).toHaveCount(1);
  await expect(page.locator('.avatar-button[data-contact-toggle]')).toBeVisible();
  const download=page.locator('.cv-profile [data-pdf-download]');const portfolio=page.locator('.cv-profile [data-portfolio-link]');
  await expect(download).toBeVisible();await expect(portfolio).toBeVisible();
@@ -20,7 +20,7 @@ test('Download and portfolio share hover treatment and Contact is the floating a
  if(await page.evaluate(()=>matchMedia('(hover: hover)').matches)){
   for(const action of [download,portfolio]){await action.hover();await expect.poll(()=>action.evaluate(el=>Number(getComputedStyle(el).getPropertyValue('--glow-opacity')))).toBeGreaterThan(.7);}
  }
- await download.click();await expect(page.getByRole('link',{name:'desktop pdf',exact:true})).toBeVisible();await expect(page.getByRole('link',{name:'mobile pdf',exact:true})).toBeVisible();const pdfFont=await page.locator('.pdf-overlay .morph-label__base').first().evaluate(el=>getComputedStyle(el).fontFamily);const languageFont=await page.locator('[data-language-overlay] .morph-label__base').first().evaluate(el=>getComputedStyle(el).fontFamily);expect(pdfFont).toBe(languageFont);
+ await download.click();await expect(page.getByRole('link',{name:'desktop pdf',exact:true})).toBeVisible();await expect(page.getByRole('link',{name:'mobile pdf',exact:true})).toBeVisible();const pdfFont=await page.locator('.pdf-overlay .morph-label__base').first().evaluate(el=>getComputedStyle(el).fontFamily);expect(pdfFont).toContain('LINE Seed JP');
  await page.keyboard.press('Escape');await page.locator('.avatar-button').click();await expect(page.locator('[data-contact-overlay]')).toHaveAttribute('aria-hidden','false');
 });
 

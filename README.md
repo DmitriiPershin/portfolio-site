@@ -2,23 +2,24 @@
 
 Production portfolio implemented from the current desktop and mobile Figma layouts.
 
-- Live site: https://portfolio-production-e2d0.up.railway.app
+- Live site: https://pershindmitrii.com
+- Railway fallback: https://portfolio-production-e2d0.up.railway.app
 - GitHub: https://github.com/DmitriiPershin/portfolio-site
 
 ## Current state
 
-Latest refinement (2026-10-15,locales/actions): floating avatar75px desktop/37.5px phone; lowercase english/russian and desktop pdf/mobile pdf share LINE Seed JP. First request follows explicit URL,manual preference,then browser language,with English fallback. Website lower actions now sit immediately below Audiomania; mobile PDF action rows stretch full width. Theme ×2 spacing matches its desktop/mobile Figma nodes. Verification:local129full+15migration-focused cases;production132passed/27intentional skips/zero failures;all8public PDF hashes pass. Logs: `docs/test-log-2026-10-15-cv-locales.md`.
+Latest refinement (2026-10-18): one shared nine-entry menu on portfolio/CV, with CV first and direct links from CV to every portfolio section. Menu and language typography follow the current desktop/mobile Figma frames. The Audiomania footer has Contact → View portfolio; ×2 has no extra text gap. Process/Figma-plugin copy now correctly exports JSON to GitLab in both languages. `pershindmitrii.com` is connected to the production service on port8080 with working HTTPS. Current interaction rules: [motion-system.md](docs/motion-system.md). Verification: [release log](docs/test-log-2026-10-18-site-menu.md).
 
-- `/cv` implements the edited desktop `584:3` and mobile `584:4` layouts in EN/RU, with selectable experience text and a local exact SVG wordmark. The floating avatar opens Nice to meet you on CV and portfolio. Website action rows,above experience and directly after Audiomania,use filled Download PDF → outlined View portfolio with the Soft Skills contour/light response and Figma sizing. PDF retains Contact/mailto and View portfolio, without Download PDF.
+- `/cv` implements the edited desktop `584:3` and mobile `584:4` layouts in EN/RU, with selectable experience text and a local exact SVG wordmark. The floating avatar opens Nice to meet you on CV and portfolio. Website top actions use Download PDF → View portfolio; immediately after Audiomania,Contact → View portfolio opens the shared contacts overlay. Both rows retain the Soft Skills contour/light response and Figma sizing. PDF retains Contact/mailto and View portfolio, without Download PDF.
 - Both routes use the exact user-supplied `Group 3.svg` (951×214), stored as `public/assets/cv-wordmark.svg`. One SVG shrinks into CV and expands back on desktop, including browser Back; Senior Product Designer replays its entry animation on return. Mobile uses identical full-width SVG bounds at y80px on both pages and performs no logo flight. One shared header preserves menu/CV/globe at64/132/200px on desktop; CV theme occupies its own268px slot. Reduced-motion/modified-click/no-JavaScript paths keep native links.
 - Eight public PDFs derive from `/cv`: EN/RU × dark/light × Desktop 1440 px/Mobile 390 px. Download PDF opens a centred full-screen picker with lowercase desktop pdf / mobile pdf and inherits the current language/theme. Each file preserves selectable text, vector logo and live links. Publication was explicitly authorized on 2026-10-14. See `docs/cv-pdf-review.md`.
 
 - All portfolio sections are implemented in Astro + TypeScript with GSAP/ScrollTrigger as the only motion runtime.
 - Exact Figma section icons, desktop AI routes, project visuals, and avatar are stored locally. Section headings, overlays, closing title, and metrics are selectable live Joyride text. At Dmitrii’s explicit request the hero and CV use the same exact SVG; accessible name text remains in the DOM.
 - CV reuses the portfolio’s full-screen menu/language overlays, opening/closing animation, keyboard behaviour, menu fitting and Outline→Regular hover implementation. CV copy/jobs/practice fade in on scroll using the portfolio’s shared1000ms reveal curve. Theme colours blend over720ms and the sun/moon fades without scale/rotation; language updates the same document without reloading, with native URL fallbacks.
-- The language selector opens on every breakpoint with lowercase english/russian. Explicit choices persist in a first-party cookie/local storage and apply across CV/portfolio. Server-rendered first paint and no-JavaScript content negotiate Accept-Language; unsupported/missing preferences fall back to English.
+- The language selector follows Figma: desktop ENGLiSH/RUSSiAN in Joyride; phone ENG/RUS in LINE Seed JP. Explicit choices persist in a first-party cookie/local storage and apply across CV/portfolio. Server-rendered first paint and no-JavaScript content negotiate Accept-Language; unsupported/missing preferences fall back to English.
 - Desktop menu / CV / language form a `64 px` column at `top: 64/132/200 px; right: 48 px`, with `4 px` gaps. Mobile uses `12 px` side gutters, `48 px` globe/menu controls and a centred CV link; Senior Product Designer appears beneath the logo. Desktop directional scrolling changes header visibility without translating controls. Mobile headers scroll away with the page; they do not float.
-- The desktop menu scales as one group to fit all eight section entries even in a short viewport. Menu uses Joyride Outline→Regular; language/PDF choices use LINE Seed JP regular→bold with the same smooth crossfade at full control opacity, with the border highlight's response timing. Both faces remain live text and label geometry stays fixed.
+- The desktop menu scales as one group to fit CV plus all eight section entries even in a short viewport. Desktop menu/language use Joyride Outline→Regular; phone uses LINE Seed JP. PDF choices retain lowercase LINE Seed JP regular→bold with the same smooth crossfade at full control opacity, with the border highlight's response timing. Both faces remain live text and label geometry stays fixed.
 - The avatar opens the responsive Figma contact overlay. It is `75 × 75 px` desktop and `37.5 × 37.5 px` mobile, with proportional inner crops; the mobile contact overlay retains its separate120px portrait. It remains visible in the authored desktop contact composition, while mobile uses the overlay's central avatar; it hides over the final contacts and non-contact overlays.
 - AI Workflow keeps seven crisp desktop SVG route groups. The three translated route labels are live text inside their original SVG chips, never a second chip over a Russian export. Each `150/54 px` application frame retains the exact Figma artwork; its baked outer rim is clipped and replaced by one animated contour. Mobile keeps the authored centred arrow groups.
 - Focus follows the separate desktop/mobile copy composition: `40/52 px` headline and `16/32 px` body on desktop; `14/22 px` body with the authored break and `20 px` paragraph gap on mobile.
@@ -82,7 +83,7 @@ npm run qa:screenshots
 ```
 
 The product review checklist is in `checks.md`. Reduced-motion desktop/mobile renders are written to `artifacts/qa/`.
-The current release checks are in `docs/test-log-2026-10-15-cv-locales.md`. The earlier overlay release is in `docs/test-log-2026-10-14-cv-release.md`. Earlier CV implementation and checks are recorded in `docs/test-log-2026-10-11-cv.md`, `docs/test-log-2026-10-12-cv.md` and `docs/test-log-2026-10-12-cv-motion.md`.
+The current release checks are in `docs/test-log-2026-10-18-site-menu.md`; prior locale/PDF checks are in `docs/test-log-2026-10-15-cv-locales.md`. The earlier overlay release is in `docs/test-log-2026-10-14-cv-release.md`. Earlier CV implementation and checks are recorded in `docs/test-log-2026-10-11-cv.md`, `docs/test-log-2026-10-12-cv.md` and `docs/test-log-2026-10-12-cv-motion.md`.
 The latest earlier motion revision is recorded in `docs/test-log-2026-09-05-motion.md`; the earlier contour correction remains in `docs/test-log-2026-09-05.md`.
 For an already running deployment, use `PORTFOLIO_BASE_URL=https://your-deployment npm test` (no local server is started).
 
@@ -124,10 +125,12 @@ LINE Seed JP is self-hosted under SIL Open Font License 1.1. The Joyride OTF fil
 The repository includes `railway.json` and a reproducible `Dockerfile`. The production service is `portfolio` in the Railway project `dmitrii-pershin-portfolio`.
 The `.railwayignore` file keeps committed QA screenshots, tests, reports, and documentation out of the direct CLI upload while retaining them in GitHub.
 
+The custom apex domain `pershindmitrii.com` is attached in Railway Networking to `portfolio`,target port8080. Railway manages DNS and TLS; keep the `.up.railway.app` fallback available. Existing approved PDF binaries retain their working Railway portfolio URLs; future export views use the custom domain.
+
 1. Push changes to GitHub `main`.
 2. From the clean checkout matching pushed `main`, run `railway up --service portfolio --detach`. The current service uses direct CLI uploads; pushing alone does not trigger it. The Docker build runs `npm ci && npm run build` and starts with `npm start`.
-3. Wait for that deployment to reach `SUCCESS`, then verify `https://portfolio-production-e2d0.up.railway.app/api/health` returns `{ "status": "ok" }`.
-4. Run the production checks with `PORTFOLIO_BASE_URL=https://portfolio-production-e2d0.up.railway.app npm test -- --workers=2`.
+3. Wait for that deployment to reach `SUCCESS`, then verify `https://pershindmitrii.com/api/health` returns `{ "status": "ok" }`.
+4. Run the production checks with `PORTFOLIO_BASE_URL=https://pershindmitrii.com npm test -- --workers=2`.
 
 ## Known limitations
 

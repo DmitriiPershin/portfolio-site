@@ -1,0 +1,15 @@
+---
+import CloseIcon from './CloseIcon.astro';
+import MorphLabel from './MorphLabel.astro';
+interface Props {cv?:boolean;lang?:string}
+const {cv=false,lang=Astro.locals.language}=Astro.props;
+---
+<div class="language-overlay" id={cv?'cv-language-overlay':'language-selector'} aria-hidden="true" tabindex="-1" data-language-overlay data-node-id="501:2" data-mobile-node-id="530:1103">
+  <button class="overlay-close" type="button" aria-label={lang==='ru'?'Закрыть выбор языка':'Close language selector'} data-language-close><CloseIcon /></button>
+  <div class="language-dialog" role="dialog" aria-modal="true" aria-label={lang==='ru'?'Выбор языка':'Choose language'}>
+    {[['en','ENGLiSH','ENG'],['ru','RUSSiAN','RUS']].map(([code,desktop,mobile])=><button class="language-choice" type="button" data-language-option={code} aria-pressed={code===lang}>
+      <span class="language-name--desktop"><MorphLabel text={desktop} /></span>
+      <span class="language-name--mobile"><MorphLabel text={mobile} /></span>
+    </button>)}
+  </div>
+</div>

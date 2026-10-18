@@ -10,13 +10,13 @@ const cards = [
     en: "A Figma plugin that turns 20 hours of manual work into 20 minutes",
     bulletsRu: [
       "Применение к макетам переменных, стилей и эффектов из JSON файлов",
-      "Экспорт JSON темы из Figma в Figma",
-      "Синхронизация JSON темы в Figma и в GitLab",
+      "Экспорт JSON темы из Figma в GitLab",
+      "Синхронизация JSON темы между Figma и GitLab",
       "Импорт JSON темы из GitLab в Figma",
     ],
     bulletsEn: [
       "Apply variables, styles and effects from JSON files to layouts",
-      "Export a theme JSON from Figma to Figma",
+      "Export a theme JSON from Figma to GitLab",
       "Synchronise theme JSON between Figma and GitLab",
       "Import a theme JSON from GitLab into Figma",
     ],
@@ -68,7 +68,7 @@ const cards = [
           <div class="process-card__details" id={`process-detail-${index}`}>
             {card.bulletsRu ? (
               <>
-                <ul data-locale="ru">{card.bulletsRu.map((item) => <li>{item}</li>)}</ul>
+                <ul data-locale="ru" data-node-id={index === 0 ? "358:791" : undefined}>{card.bulletsRu.map((item) => <li>{item}</li>)}</ul>
                 <ul data-locale="en" hidden>{card.bulletsEn?.map((item) => <li>{item}</li>)}</ul>
               </>
             ) : (

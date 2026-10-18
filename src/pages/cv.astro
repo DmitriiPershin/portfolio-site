@@ -1,4 +1,6 @@
 ---
+import SiteMenu from "../components/SiteMenu.astro";
+import LanguageOverlay from "../components/LanguageOverlay.astro";
 import CvActions from "../components/CvActions.astro";
 import SiteHeader from "../components/SiteHeader.astro";
 import AvatarButton from "../components/AvatarButton.astro";
@@ -18,7 +20,7 @@ const labels = lang === "ru" ? {download:"Скачать PDF ↓",portfolio:"П�
 const recent = cv.experience.slice(0, 2);
 const earlier = cv.experience.slice(2);
 const preferenceURL = (nextLang=lang,nextTheme=theme) => `/cv?lang=${nextLang}&theme=${nextTheme}`;
-const portfolio = view ? "https://portfolio-production-e2d0.up.railway.app/" : "/";
+const portfolio = view ? "https://pershindmitrii.com/" : "/";
 const variants = pdfManifest.variants as Record<string, {url:string}>;
 const pdfURL = (layout:string) => pdfManifest.approved ? variants[`${lang}-${theme}-${layout}`]?.url : undefined;
 ---
@@ -41,7 +43,7 @@ const pdfURL = (layout:string) => pdfManifest.approved ? variants[`${lang}-${the
         {recent.map((entry,index) => <article class="cv-job" data-node-id={index === 0 ? "586:40" : "586:45"}><h3>{entry.title}</h3><p class="cv-job__meta">{entry.meta}</p><p class="cv-job__dates">{entry.dates}</p><ul>{entry.bullets.map(bullet => <li>{bullet}</li>)}</ul></article>)}
         <h2>{labels.earlier}</h2>
         {earlier.map((entry,index) => <article class="cv-job" data-node-id={index === 0 ? "586:51" : "586:56"}><h3>{entry.title}</h3><p class="cv-job__meta">{entry.meta}</p><p class="cv-job__dates">{entry.dates}</p><ul>{entry.bullets.map(bullet => <li>{bullet}</li>)}</ul></article>)}
-        {!view && <footer class="cv-footer" id="cv-contact"><CvActions contact={cv.contact} portfolio={portfolio} labels={labels} placement="experience" /></footer>}
+        {!view && <footer class="cv-footer" id="cv-contact" data-node-id="621:99" data-mobile-node-id="621:199"><CvActions contact={cv.contact} portfolio={portfolio} labels={labels} placement="experience" /></footer>}
       </section>
       <aside class="cv-practice" aria-label="Focus and background" data-node-id="586:61">
         <section id="cv-focus" data-node-id="586:62"><h2>{labels.focus}</h2><ul class="cv-lines">{cv.focus.map(line => <li>{line}</li>)}</ul></section>
@@ -53,19 +55,8 @@ const pdfURL = (layout:string) => pdfManifest.approved ? variants[`${lang}-${the
     </div>
     {view && <footer class="cv-footer" id="cv-contact" data-node-id="586:80"><CvActions view={view} contact={cv.contact} portfolio={portfolio} labels={labels} placement="footer" /></footer>}
   </main>
-  <div class="language-overlay" id="cv-language-overlay" aria-hidden="true" tabindex="-1" data-language-overlay>
-    <button class="overlay-close" type="button" aria-label={labels.close} data-language-close><CloseIcon /></button>
-    <div class="language-dialog" role="dialog" aria-modal="true" aria-label={labels.language}>
-      <button class="language-choice" type="button" data-language-option="en" aria-pressed={lang === "en" ? "true" : "false"}><MorphLabel text="english" /></button>
-      <button class="language-choice" type="button" data-language-option="ru" aria-pressed={lang === "ru" ? "true" : "false"}><MorphLabel text="russian" /></button>
-    </div>
-  </div>
-  <div class="menu-overlay" id="cv-menu-overlay" aria-hidden="true" tabindex="-1" data-menu-overlay>
-    <button class="overlay-close" type="button" aria-label={labels.close} data-menu-close><CloseIcon /></button>
-    <nav aria-label="CV sections">
-      <a href="#experience-heading"><MorphLabel text="EXPERIENCE" /></a><a href="#cv-focus"><MorphLabel text="FOCUS" /></a><a href="#cv-contact"><MorphLabel text="CONTACT" /></a><a href={portfolio} data-portfolio-link><MorphLabel text="PORTFOLIO" /></a>
-    </nav>
-  </div>
+  <LanguageOverlay cv lang={lang} />
+  <SiteMenu cv lang={lang} theme={theme} />
   <div class="language-overlay pdf-overlay" id="cv-pdf-dialog" aria-hidden="true" tabindex="-1" data-pdf-overlay>
     <button class="overlay-close" type="button" aria-label={labels.close} data-pdf-close><CloseIcon /></button>
     <div class="language-dialog" role="dialog" aria-modal="true" aria-label="PDF format">

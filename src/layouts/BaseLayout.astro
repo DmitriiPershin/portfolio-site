@@ -30,7 +30,8 @@ const { title, description, lang = Astro.locals.language || "en", cvTheme, cvVie
     <title>{title}</title>
     <script is:inline>
       document.documentElement.classList.add("motion-enabled");
-      try { const arrival=JSON.parse(sessionStorage.getItem("portfolio-return") || "null"); if(location.pathname==="/" && arrival && Date.now()-arrival.time<10000) document.documentElement.dataset.routeArrival=""; } catch {}
+      if (location.pathname === "/" && location.hash) document.documentElement.dataset.sectionArrival = "";
+      try { const arrival=JSON.parse(sessionStorage.getItem("portfolio-return") || "null"); if(location.pathname==="/" && !location.hash && arrival && Date.now()-arrival.time<10000) document.documentElement.dataset.routeArrival=""; } catch {}
     </script>
   </head>
   <body>

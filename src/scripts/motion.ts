@@ -51,6 +51,7 @@ export function initOverlays() {
       }
       if (target?.closest(`[data-${kind}-close]`)) { closeAll(true); return; }
     }
+    if (target?.closest('[data-menu-current]')) {event.preventDefault();closeAll(true);return;}
     if (target?.closest('[data-menu-overlay] a, [data-language-option]')) closeAll();
   });
   document.addEventListener('keydown', event => {
@@ -132,21 +133,46 @@ function initScrollVisibility() {
   update();
 }
 
+// Keep the initial cross-page anchor through font/load-triggered measurements.
+// Stop as soon as the reader interacts, so later refreshes preserve their position.
+function initSectionArrival() {
+  const section = document.getElementById(location.hash.slice(1));
+  if (!section?.closest('[data-section]')) {delete document.documentElement.dataset.sectionArrival;return;}
+  const lifecycle = new AbortController();
+  let frame = 0;
+  const align = () => {
+    cancelAnimationFrame(frame);
+    frame = requestAnimationFrame(() => section.scrollIntoView({behavior:'instant'}));
+  };
+  const stop = () => {
+    lifecycle.abort();cancelAnimationFrame(frame);
+    ScrollTrigger.removeEventListener('refresh',align);
+    delete document.documentElement.dataset.sectionArrival;
+  };
+  ScrollTrigger.addEventListener('refresh',align);
+  window.addEventListener('load',align,{once:true,signal:lifecycle.signal});
+  window.addEventListener('pagehide',stop,{once:true,signal:lifecycle.signal});
+  for (const type of ['wheel','touchstart','pointerdown','keydown']) {
+    window.addEventListener(type,stop,{once:true,passive:true,signal:lifecycle.signal});
+  }
+  align();
+}
+
 export function initMenuFit() {
   const nav = select<HTMLElement>(".menu-overlay nav");
   if (!nav) return;
   const fit = () => {
     if (window.innerWidth <= 640) {
       nav.style.removeProperty("--menu-scale");
+      nav.style.removeProperty("--menu-top");
       return;
     }
     const style = getComputedStyle(nav);
     const left = Number.parseFloat(style.left);
-    const top = Number.parseFloat(style.top);
     const margin = readMotionNumber("--menu-viewport-margin", 40);
-    const scale = Math.min(1, (window.innerWidth - left - margin) / nav.scrollWidth,
-      (window.innerHeight - top - margin) / nav.scrollHeight);
-    nav.style.setProperty("--menu-scale", String(Math.max(0.1, scale)));
+    const scale = Math.min(1,(window.innerWidth-left-margin)/nav.scrollWidth,(window.innerHeight-2*margin)/nav.scrollHeight);
+    nav.style.setProperty("--menu-scale",String(Math.max(.1,scale)));
+    nav.style.setProperty("--menu-top",`${(window.innerHeight-nav.scrollHeight*scale)/2+readMotionNumber('--menu-center-offset',0)}px`);
   };
   fit();
   window.addEventListener("resize", fit, { passive: true });
@@ -222,7 +248,7 @@ export function initTypeCrossfades() {
       if (current !== target) frame = requestAnimationFrame(render);
     };
     const update = () => {
-      target = control.matches(":hover, :focus-visible") ? 1 : 0;
+      target = control.matches(':hover, :focus-visible, [aria-pressed="true"], [aria-current="page"]') ? 1 : 0;
       if (reduced) {
         current = target;
         label.style.setProperty("--label-progress", String(target));
@@ -232,6 +258,8 @@ export function initTypeCrossfades() {
       }
     };
     ["pointerenter", "pointerleave", "focus", "blur"].forEach((event) => control.addEventListener(event, update));
+    if(control.hasAttribute('data-language-option'))new MutationObserver(update).observe(control,{attributes:true,attributeFilter:['aria-pressed']});
+    update();
     window.addEventListener("pagehide", () => cancelAnimationFrame(frame), { once: true });
   });
 }
@@ -598,6 +626,7 @@ export async function initPortfolioMotion() {
   initMenuFit();
   initTypeCrossfades();
   initSectionFeedback();
+  initSectionArrival();
 
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   if (reducedMotion) {

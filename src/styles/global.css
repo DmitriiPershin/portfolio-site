@@ -137,9 +137,9 @@
   --wordmark-native-height: 214;
   --cv-transition-font-ready: 1200ms;
   --cv-transition-source-max: 950px;
-  --cv-menu-link-count: 8;
+  --cv-menu-link-count: 9;
   --cv-menu-mobile-top: 68px;
-  --cv-menu-mobile-bottom: 68px;
+  --cv-menu-mobile-bottom: 20px;
   --cv-menu-line-height: 28px;
 }
 
@@ -2971,9 +2971,6 @@ html[data-cv-theme] .overlay-close { z-index: 82; }
 body.overlay-open .cv-controls { opacity: 0; pointer-events: none; }
 .cv-control--menu img, .cv-control--language img { transition: filter var(--cv-duration-theme) var(--ease-ui); }
 html[data-cv-view] .menu-overlay, html[data-cv-view] .language-overlay { display: none; }
-@media (max-width: 640px) {
-  html[data-cv-theme] .menu-overlay nav { gap: 40px; }
-}
 @media print {
   html[data-cv-theme] .menu-overlay, html[data-cv-theme] .language-overlay { display: none !important; }
 }
@@ -3078,16 +3075,16 @@ body.overlay-open .cv-control--theme { opacity: 0; pointer-events: none; }
 }
 
 :root { --motion-flow-stagger: 80ms; --motion-chip-stagger: 40ms; }
-/* PDF choices inherit the language picker typography and outline/fill morph. */
+/* CV action contours share the existing soft-skill hover response. */
 .cv-actions .interactive-card { --card-fill: var(--color-bg); }
 .cv-actions .cv-action--filled { --card-fill: var(--color-purple); }
 
-/* Both pickers use true lowercase glyphs and the same regular/bold crossfade. */
+/* PDF choices keep lowercase LINE glyphs; language overlay fonts follow Figma below. */
 .language-choice { font-family: "LINE Seed JP", sans-serif; }
 .language-choice .morph-label { --morph-base-font: "LINE Seed JP", sans-serif; --morph-hover-font: "LINE Seed JP", sans-serif; }
 .language-choice .morph-label__fill { font-weight: 700; }
 .language-choice[aria-pressed="true"] { font-family: "LINE Seed JP", sans-serif; }
-:root { --theme-speed-gap: 28px; }
+:root { --theme-speed-gap: 0px; }
 .theme-metric--speed { gap: var(--theme-speed-gap); }
 .theme-metric--speed > strong, .theme-metric--speed > p { flex-shrink: 0; }
 @media (max-width: 640px) {
@@ -3098,3 +3095,23 @@ body.overlay-open .cv-control--theme { opacity: 0; pointer-events: none; }
 }
 html[data-cv-view="mobile"] .cv-actions { flex-direction: column; width: 100%; }
 html[data-cv-view="mobile"] .cv-actions .cv-action { width: 100%; }
+
+/* Shared site navigation: current Figma473:110/501:2,phone530:1051/530:1103. */
+html[data-section-arrival] { scroll-behavior:auto !important; }
+:root { --menu-design-height:767px; --menu-design-offset:634px; --menu-short-line:45px; --menu-regular-line:43px; --menu-tall-line:56px; --menu-center-offset:-.255; --language-desktop-line:44px; }
+.menu-overlay nav { left:max(calc(var(--menu-viewport-margin)*1px),calc(50% - var(--menu-design-offset))); top:var(--menu-top,calc((100svh - var(--menu-design-height))/2)); }
+.menu-overlay a { height:var(--menu-item-height,var(--menu-tall-line)); line-height:var(--menu-item-height,var(--menu-tall-line)); flex-shrink:0; }
+.language-name--mobile { display:none; }
+[data-language-overlay] .language-choice { height:var(--language-desktop-line); line-height:var(--language-desktop-line); }
+[data-language-overlay] .language-choice .morph-label { --morph-base-font:"Joyride Outline",sans-serif; --morph-hover-font:"Joyride Regular",sans-serif; }
+[data-language-overlay] .language-choice .morph-label__fill { font-weight:400; }
+.cv-actions--experience { --cv-portfolio-width:164px; }
+@media(max-width:640px){
+ .menu-overlay nav { top:var(--cv-menu-mobile-top); bottom:var(--cv-menu-mobile-bottom); left:50%; }
+ .menu-overlay a { height:var(--cv-menu-line-height); line-height:var(--cv-menu-line-height); }
+ .menu-overlay a[aria-current="page"] { color:var(--color-text); }
+ .language-name--desktop { display:none; }
+ .language-name--mobile { display:inline-grid; }
+ [data-language-overlay] .language-choice { height:var(--cv-menu-line-height); line-height:var(--cv-menu-line-height); }
+ [data-language-overlay] .language-choice .morph-label { --morph-base-font:"LINE Seed JP",sans-serif; --morph-hover-font:"LINE Seed JP",sans-serif; }
+}

@@ -49,3 +49,7 @@ The full Russian desktop and mobile portfolio is implemented, with an English co
 - LINE Seed JP is self-hosted under SIL OFL 1.1.
 - No database is required.
 - GitHub `main` is the deployment source for Railway.
+
+## Deployment follow-up — checked2026-10-18
+
+Open: Railway's current service-settings banner says legacy Config as Code remains supported only until2026-12-01. The existing railway.json deployment works today; plan a separate migration to supported service settings/Infrastructure as Code before that deadline. Source: authenticated service Settings,project d2069e58-6cb0-4c01-a7af-192ec1c9596f,service portfolio. This task does not change the deployment configuration.

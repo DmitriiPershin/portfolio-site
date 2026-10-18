@@ -1,43 +1,15 @@
 ---
 import SiteHeader from "./SiteHeader.astro";
 import AvatarButton from "./AvatarButton.astro";
-import CloseIcon from "./CloseIcon.astro";
 import ContactOverlay from "./ContactOverlay.astro";
-import MorphLabel from "./MorphLabel.astro";
-const sections = [
-  ["#focus", "FOCUS"],
-  ["#hard-skills", "HARDSKILLS"],
-  ["#soft-skills", "SOFTSKILLS"],
-  ["#ai-workflow", "AI WORKFLOW"],
-  ["#process-ai", "PROCESS & AI"],
-  ["#theme-builders", "THEME BUILDERS"],
-  ["#interfaces", "INTERFACES"],
-  ["#pet-project", "PET PROJECT"],
-];
+import SiteMenu from "./SiteMenu.astro";
+import LanguageOverlay from "./LanguageOverlay.astro";
 ---
 
 <SiteHeader />
 
-<div class="language-overlay" id="language-selector" aria-hidden="true" tabindex="-1" data-language-overlay>
-  <button class="overlay-close" type="button" aria-label="Закрыть выбор языка" data-language-close>
-    <CloseIcon />
-  </button>
-  <div class="language-dialog" role="dialog" aria-modal="true" aria-label="Выбор языка">
-    <button class="language-choice" type="button" data-language-option="en" aria-pressed="false"><MorphLabel text="english" /></button>
-    <button class="language-choice" type="button" data-language-option="ru" aria-pressed="true"><MorphLabel text="russian" /></button>
-  </div>
-</div>
-
-<div class="menu-overlay" id="site-menu" aria-hidden="true" tabindex="-1" data-menu-overlay>
-  <button class="overlay-close" type="button" aria-label="Закрыть меню" data-menu-close>
-    <CloseIcon />
-  </button>
-  <nav aria-label="Разделы портфолио">
-    {sections.map(([href, label], index) => (
-      <a href={href} class:list={[index === 1 && "is-current"]}><MorphLabel text={label} /></a>
-    ))}
-  </nav>
-</div>
+<LanguageOverlay />
+<SiteMenu />
 
 <AvatarButton />
 

@@ -37,3 +37,15 @@ Language precedence: explicit supported URL `lang`,saved manual preference,first
 One `CvActions` component owns action rows. Website top/lower rows retain Download PDF/View portfolio; lower row is immediately after Audiomania,inside Experience (before Focus on phones). PDF keeps its top/bottom Contact+portfolio rows; both stretch full width in Mobile PDF. Desktop PDF binaries are unchanged.
 
 Theme ×2: desktop text-box gap28px,font56/56; mobile gap0,font60/86,matching nodes358:827 and383:34. See `../reports/figma-theme-speed-gap-2026-10-15.md`.
+
+## Shared section menu and Figma typography — 2026-10-18
+
+Decision superseding the prior menu/language typography and lower website-action choices: `SiteMenu.astro` and `LanguageOverlay.astro` are used by both routes. CV is the first of nine entries,followed by all eight portfolio sections in the same order. On CV,current CV is marked with aria-current and closes the overlay without reloading; section links navigate natively to `/#section`. A section arrival skips the hero/logo return path. During initial font/load-triggered ScrollTrigger refreshes,CSS smooth scrolling is suspended and the section anchor is maintained until the first wheel,touch,pointer or keyboard interaction; thereafter the reader's scroll position is preserved. Reduced motion and no-JS retain ordinary anchor links. Desktop logo flights between CV and the hero remain unchanged.
+
+Figma desktop473:110/473:115: Joyride Outline56→Regular56 on hover/current,40px gap,natural767px group at x86/y66.24 on1440×900. Scale and recenter the group in shorter viewports. Phone530:1051/530:1081: LINE Seed JP20/28,40px gap when space permits,current/hover white; adapt the gap for nine entries in short viewports,centre below the68px header with20px bottom inset.
+
+Figma language501:2: desktop labels ENGLiSH/RUSSiAN in Joyride56,selected Regular and other Outline,40px gap,centred group. Phone530:1103 uses ENG/RUS in LINE Seed JP20/28 with selected white. The same shared crossfade runtime handles hover and persisted selected state without changing label bounds. PDF picker remains lowercase desktop pdf/mobile pdf in LINE Seed JP; it is intentionally unaffected by the language-menu type change.
+
+CV footer621:99/621:199: directly after Audiomania,filled Contact96×40 then outlined View portfolio164×40,12px gap. Phone buttons stack at full width with the same gap. Web Contact opens Nice to meet you with mailto fallback; PDF Contact stays mailto. Website top retains Download PDF/View portfolio. All eight approved PDF binaries remain unchanged.
+
+Theme ×2 desktop358:827 now has zero gap between metric and label,as explicitly requested. Phone retains its existing zero gap and60/86type. This supersedes the preceding28px desktop gap; see2026-10-18 release evidence.

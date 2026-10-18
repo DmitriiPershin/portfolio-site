@@ -295,3 +295,11 @@ Decision: PDF-format choices inherit ENG/RUS typography; remove the special LINE
 Decision: increase the prior floating avatar by25%; use true lowercase english/russian with the same LINE Seed JP regular/bold treatment as PDF format choices. Initial language follows browser preferences with English fallback; explicit URL/manual choices take precedence and persist across the two routes. Canonical rules: `docs/motion-system.md`.
 
 Decision: place the existing lower website action row directly after Audiomania,rather than create a third duplicate row. PDF retains Contact/mailto and portfolio,with full-width buttons throughout its mobile exports. Regenerate only four mobile PDFs; preserve desktop binaries. Restore ×2 desktop/mobile text spacing from the current Figma nodes. Source: Dmitrii’s latest2026-10-15 request.
+
+## 2026-10-18 — Shared menus, Audiomania actions and custom domain
+
+Decision: implement the user's latest Figma main/language menus as shared components on both routes,with CV first and portfolio-section access from CV. Use exact current desktop/mobile type choices. Replace the lower website Download action with Contact,keep the top Download action,and remove the desktop ×2 text gap. Canonical interaction/geometry rules and source nodes are in `docs/motion-system.md`; prior conflicting menu/picker/footer decisions are superseded. PDFs remain approved and unchanged.
+
+Decision: correct Process & AI Figma-plugin JSON export/synchronisation copy from Figma358:791 in RU and its EN translation.
+
+Fact/Decision,verified2026-10-18: user corrected the intended domain from pershindmitry.com to **pershindmitrii.com**. Attached that apex domain to Railway production `portfolio`,port8080; Railway provisioned DNS and TLS. It serves the existing application alongside the Railway fallback. No domain purchase was performed by the agent. Deployment and HTTP evidence live in the dated release log.

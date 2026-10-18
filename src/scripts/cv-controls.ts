@@ -40,7 +40,7 @@ export async function initCvControls() {
       if (choice instanceof HTMLAnchorElement) { if (url) choice.href=url; else {choice.removeAttribute('href');choice.setAttribute('aria-disabled','true');} }
     });
     document.querySelectorAll<HTMLAnchorElement>('.cv-nojs a').forEach(link => {const target = new URL(link.href).searchParams.get('lang') || 'en';link.href=preferenceURL(target,theme);});
-    const cvLink=document.querySelector<HTMLAnchorElement>(".cv-controls .floating-header__cv");if(cvLink)cvLink.href=preferenceURL(lang,theme);
+    document.querySelectorAll<HTMLAnchorElement>(".cv-controls .floating-header__cv, [data-site-menu-cv]").forEach(link=>link.href=preferenceURL(lang,theme));
     history.replaceState(history.state, '', preferenceURL(lang, theme) + location.hash);
   };
 
