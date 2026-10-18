@@ -1,0 +1,107 @@
+scheduling build on Metal builder "production-builderv3-us-east4-zbdj"
+scheduling build on Metal builder "production-builderv3-us-east4-zbdj"
+fetched snapshot sha256:1bc13b274fab9a152da4ece5f0098e6bb369b226b2c0e2eef4923efd88485be7 (7.4 MB bytes)
+[INFO] fetching snapshot
+[INFO] unpacking archive
+[INFO] [internal] load build definition from Dockerfile
+[INFO] [internal] load build definition from Dockerfile
+[INFO] [internal] load build definition from Dockerfile
+[INFO] [internal] load build definition from Dockerfile
+[INFO] [internal] load metadata for docker.io/library/node:22-alpine
+[INFO] [internal] load metadata for docker.io/library/node:22-alpine
+[INFO] [internal] load .dockerignore
+[INFO] [internal] load .dockerignore
+[INFO] [internal] load .dockerignore
+[INFO] [internal] load .dockerignore
+[INFO] [runtime 5/5] COPY --from=build /app/dist ./dist
+[INFO] [runtime 4/5] RUN npm ci --omit=dev
+[INFO] [runtime 3/5] COPY --from=build /app/package.json /app/package-lock.json ./
+[INFO] [build 6/6] RUN npm run build
+[INFO] [build 5/6] COPY . .
+[INFO] [build 4/6] RUN npm ci
+[INFO] [build 3/6] COPY package.json package-lock.json ./
+[INFO] [internal] load build context
+[INFO] [build 2/6] WORKDIR /app
+[INFO] [build 1/6] FROM docker.io/library/node:22-alpine@sha256:0a7108bf6c7bf5de370ffb1a3ed6be93d405b43ff159f681a8d18c0e2bc2e402
+[INFO] [internal] load build context
+[INFO] [build 1/6] FROM docker.io/library/node:22-alpine@sha256:0a7108bf6c7bf5de370ffb1a3ed6be93d405b43ff159f681a8d18c0e2bc2e402
+[INFO] [build 1/6] FROM docker.io/library/node:22-alpine@sha256:0a7108bf6c7bf5de370ffb1a3ed6be93d405b43ff159f681a8d18c0e2bc2e402
+[INFO] [internal] load build context
+[INFO] [internal] load build context
+[INFO] [build 2/6] WORKDIR /app
+[INFO] [build 3/6] COPY package.json package-lock.json ./
+[INFO] [build 4/6] RUN npm ci
+[INFO] [build 4/6] RUN npm ci
+[INFO] [build 5/6] COPY . .
+[INFO] [build 5/6] COPY . .
+[INFO] [build 6/6] RUN npm run build
+[INFO] 
+> dmitrii-pershin-portfolio@0.1.0 build
+> astro check && astro build
+
+
+[INFO] ▶ Astro collects anonymous usage data.
+  This information helps us improve Astro.
+  Run "astro telemetry disable" to opt-out.
+  https://astro.build/telemetry
+
+
+[INFO] 16:35:01 [@astrojs/node] Enabling sessions with filesystem storage
+
+[INFO] 16:35:02 [types] Generated 821ms
+
+[INFO] 16:35:02 [check] Getting diagnostics for Astro files in /app...
+
+[INFO] Result (39 files): 
+- 0 errors
+- 0 warnings
+- 0 hints
+
+
+[INFO] 16:35:07 [@astrojs/node] Enabling sessions with filesystem storage
+
+[INFO] 16:35:08 [types] Generated 81ms
+
+[INFO] 16:35:08 [build] output: "server"
+16:35:08 [build] mode: "server"
+16:35:08 [build] directory: /app/dist/
+16:35:08 [build] adapter: @astrojs/node
+16:35:08 [build] Collecting build info...
+
+[INFO] 16:35:08 [build] ✓ Completed in 134ms.
+
+[INFO] 16:35:08 [build] Building server entrypoints...
+
+[INFO] 16:35:08 [vite] ✓ built in 878ms
+
+[INFO] 16:35:10 [vite] ✓ built in 1.26s
+
+[INFO] 16:35:10 [vite] ✓ built in 430ms
+
+[INFO] 16:35:10 [build] Rearranging server assets...
+
+[INFO] 16:35:10 [build] ✓ Completed in 2.62s.
+
+[INFO] 16:35:10 [build] Server built in 2.75s
+16:35:10 [build] Complete!
+
+[INFO] [build 6/6] RUN npm run build
+[INFO] [runtime 3/5] COPY --from=build /app/package.json /app/package-lock.json ./
+[INFO] [runtime 4/5] RUN npm ci --omit=dev
+[INFO] [runtime 5/5] COPY --from=build /app/dist ./dist
+[INFO] [runtime 5/5] COPY --from=build /app/dist ./dist
+[INFO] exporting to docker image format
+[INFO] exporting to docker image format
+containerimage.digest: sha256:9838ab66206e0ac6a9caa95057b6ec0980558fb3da62b5099505605f60b8c4bd
+containerimage.descriptor: eyJtZWRpYVR5cGUiOiJhcHBsaWNhdGlvbi92bmQub2NpLmltYWdlLm1hbmlmZXN0LnYxK2pzb24iLCJkaWdlc3QiOiJzaGEyNTY6OTgzOGFiNjYyMDZlMGFjNmE5Y2FhOTUwNTdiNmVjMDk4MDU1OGZiM2RhNjJiNTA5OTUwNTYwNWY2MGI4YzRiZCIsInNpemUiOjE4MTYsImFubm90YXRpb25zIjp7Im9yZy5vcGVuY29udGFpbmVycy5pbWFnZS5jcmVhdGVkIjoiMjAyNi0xMC0xOFQxNjozNTo1OFoifSwicGxhdGZvcm0iOnsiYXJjaGl0ZWN0dXJlIjoiYW1kNjQiLCJvcyI6ImxpbnV4In19
+containerimage.config.digest: sha256:0f61b980acc8b4e8cd908b2871ed682120c7ccb84209b477c26d302f83eb6f8c
+[INFO] image push
+
+[35m====================
+Starting Healthcheck
+====================
+[0m
+[37mPath: /api/health[0m
+[37mRetry window: 2m0s[0m
+
+[92m[1/1] Healthcheck succeeded![0m

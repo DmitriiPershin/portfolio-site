@@ -1,0 +1,214 @@
+
+> dmitrii-pershin-portfolio@0.1.0 test
+> playwright test --workers=2
+
+
+Running 192 tests using 2 workers
+
+(node:77114) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:77115) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓    2 [chromium] › tests/cv-locales.spec.ts:3:1 › first paint and no-JS content follow Accept-Language, with English fallback (1.9s)
+  ✓    1 [chromium] › tests/cv-locales.spec.ts:9:1 › manual language survives CV/portfolio navigation and browser default can be overridden (3.1s)
+  ✓    3 [chromium] › tests/cv-locales.spec.ts:19:1 › language/PDF typography, experience actions and metric spacing match their surfaces (1.5s)
+  ✓    5 [chromium] › tests/cv-locales.spec.ts:38:1 › legacy automatic Russian storage does not override the browser language (1.8s)
+  ✓    4 [chromium] › tests/cv-locales.spec.ts:29:1 › mobile PDF action rows have full-width buttons in both themes and languages (2.0s)
+  ✓    6 [chromium] › tests/cv-polish.spec.ts:3:1 › CV from a lower section fades in one logo before settling into its final slot (2.9s)
+  ✓    7 [chromium] › tests/cv-polish.spec.ts:32:1 › CV actions keep the soft-skill contour after theme and language changes (4.2s)
+  ✓    8 [chromium] › tests/cv-refinement.spec.ts:3:1 › CV reveals content gradually on entry and when reading further (3.5s)
+  ✓    9 [chromium] › tests/cv-refinement.spec.ts:13:1 › Download and portfolio share hover treatment and Contact is the floating avatar (2.8s)
+  -   11 [chromium] › tests/cv-refinement.spec.ts:43:1 › phone logo fits the same width and position on both pages and headers scroll away
+  ✓   12 [chromium] › tests/cv-refinement.spec.ts:54:1 › CV retains the portfolio hero cursor glow and static export content (2.0s)
+  ✓   13 [chromium] › tests/cv-refinement.spec.ts:62:1 › burger strokes stay at the same visible rows when changing theme (1.3s)
+  ✓   10 [chromium] › tests/cv-refinement.spec.ts:27:1 › theme and route changes leave desktop controls and their icons in stable slots (5.2s)
+  ✓   14 [chromium] › tests/cv.spec.ts:4:1 › CV follows the edited content, links and responsive composition (1.9s)
+  ✓   16 [chromium] › tests/cv.spec.ts:85:1 › reduced motion keeps immediate CV navigation (1.1s)
+  ✓   17 [chromium] › tests/cv.spec.ts:93:1 › CV is accessible without JavaScript and at narrow widths (1.6s)
+  ✓   15 [chromium] › tests/cv.spec.ts:43:1 › header opens CV through a shrinking logo and browser back remains usable (4.2s)
+  ✓   18 [chromium] › tests/cv.spec.ts:105:1 › CV language and theme preserve each other and the PDF format choice (3.3s)
+  ✓   19 [chromium] › tests/cv.spec.ts:134:1 › CV theme interpolates without reload and both overlays match portfolio behaviour (4.0s)
+  ✓   20 [chromium] › tests/cv.spec.ts:178:1 › CV toolbar stays aligned on return and the same logo expands smoothly (3.6s)
+  ✓   21 [chromium] › tests/cv.spec.ts:198:1 › pickers are viewport-centred, contacts share one overlay and wheel scrolling is locked (2.6s)
+  ✓   22 [chromium] › tests/cv.spec.ts:226:1 › all eight published PDF variants match their manifest hashes (1.4s)
+  ✓   24 [chromium] › tests/pdf-workflow.spec.ts:33:1 › workflow can switch layout during reading without a reload or missing animation (3.7s)
+  ✓   25 [chromium] › tests/pdf-workflow.spec.ts:41:1 › PDF format overlay follows Figma typography, fits the viewport and keeps variant downloads (3.3s)
+  ✓   26 [chromium] › tests/pdf-workflow.spec.ts:60:1 › compact workflow is complete without JavaScript at a tablet width (1.3s)
+  ✓   27 [chromium] › tests/portfolio.spec.ts:4:1 › renders every portfolio section without horizontal overflow (842ms)
+  ✓   28 [chromium] › tests/portfolio.spec.ts:15:1 › page has no runtime console errors (2.6s)
+  ✓   29 [chromium] › tests/portfolio.spec.ts:27:1 › language switch changes copy and persists the choice (1.7s)
+  ✓   30 [chromium] › tests/portfolio.spec.ts:42:1 › navigation controls follow the intended responsive scroll behaviour (2.4s)
+  ✓   23 [chromium] › tests/pdf-workflow.spec.ts:3:1 › workflow stays connected across narrow desktop widths in both languages (16.9s)
+  ✓   32 [chromium] › tests/portfolio.spec.ts:106:1 › avatar opens contact details (1.2s)
+  ✓   33 [chromium] › tests/portfolio.spec.ts:143:1 › reduced motion keeps content and joined Figma routes visible (910ms)
+  ✓   31 [chromium] › tests/portfolio.spec.ts:85:1 › menu is keyboard accessible and contains every section (3.9s)
+  ✓   34 [chromium] › tests/portfolio.spec.ts:155:1 › desktop hover animates one contour without moving its geometry (3.1s)
+  ✓   35 [chromium] › tests/portfolio.spec.ts:195:1 › Skills hover stays purple and eases into the border highlight (2.0s)
+  -   37 [chromium] › tests/portfolio.spec.ts:259:1 › mobile Workflow, Skills and Interfaces match Figma geometry
+  ✓   36 [chromium] › tests/portfolio.spec.ts:225:1 › desktop Theme Builder and Interfaces cards match Figma geometry (1.1s)
+  -   39 [chromium] › tests/portfolio.spec.ts:351:1 › mobile details reveal on demand
+  -   40 [chromium] › tests/portfolio.spec.ts:374:1 › mobile card borders rotate their gradient with scroll
+  ✓   38 [chromium] › tests/portfolio.spec.ts:309:1 › Focus, Process and closing contacts follow the Figma formatting (1.1s)
+  ✓   41 [chromium] › tests/portfolio.spec.ts:393:1 › pet project uses the verified destinations and exact portfolio font (932ms)
+  ✓   42 [chromium] › tests/portfolio.spec.ts:402:1 › desktop AI routes, Pet Project and closing section use the latest Figma structure (1.8s)
+  ✓   43 [chromium] › tests/portfolio.spec.ts:430:1 › Joyride headings remain live text and the hero uses the shared SVG (2.3s)
+  ✓   44 [chromium] › tests/portfolio.spec.ts:456:1 › AI context, tool cards and app icons use the exact Figma geometry (1.1s)
+  ✓   46 [chromium] › tests/portfolio.spec.ts:505:1 › health endpoint responds (126ms)
+  ✓   47 [chromium] › tests/portfolio.spec.ts:511:1 › all cards have one painted border and icon exports have no extra ring (974ms)
+  ✓   48 [chromium] › tests/portfolio.spec.ts:528:1 › AI route translations replace their labels without adding another chip (1.1s)
+  -   49 [chromium] › tests/portfolio.spec.ts:541:1 › mobile header follows the authored gutter and skill rows fill their width
+  ✓   45 [chromium] › tests/portfolio.spec.ts:491:1 › Theme and Interfaces metrics use live staggered odometer digits (3.3s)
+  ✓   50 [chromium] › tests/portfolio.spec.ts:569:1 › every desktop menu item fits on a short viewport (984ms)
+  ✓   52 [chromium] › tests/portfolio.spec.ts:606:3 › without JavaScript › essential portfolio content and final numbers remain readable (869ms)
+  ✓   53 [chromium] › tests/portfolio.spec.ts:617:1 › ordinary circular corners keep Figma radii and one mask (906ms)
+  ✓   51 [chromium] › tests/portfolio.spec.ts:588:1 › cold font loading waits before the padded hero reveal without layout shift (2.4s)
+  ✓   54 [chromium] › tests/portfolio.spec.ts:632:1 › icon frame lights move again without an unmasked original ring (3.5s)
+  ✓   55 [chromium] › tests/portfolio.spec.ts:652:1 › scrollbar and stationary cursor follow sections during fast bidirectional scroll (4.6s)
+  ✓   57 [chromium] › tests/portfolio.spec.ts:692:1 › avatar ring and portrait have an opaque backing (971ms)
+  ✓   58 [chromium] › tests/site-menu.spec.ts:5:1 › CV and portfolio share all nine menu entries and current CV closes without navigating (1.5s)
+  ✓   56 [chromium] › tests/portfolio.spec.ts:672:1 › menu and language use the same smooth full-opacity font crossfade (7.1s)
+  ✓   60 [chromium] › tests/site-menu.spec.ts:45:1 › shared menu fits short desktop and mobile viewports on both routes (1.3s)
+  ✓   61 [chromium] › tests/site-menu.spec.ts:56:1 › Audiomania footer matches Figma actions and Contact opens the shared overlay (1.0s)
+  ✓   62 [chromium] › tests/social.spec.ts:10:1 › crawlers receive localized route metadata and exact public Figma assets without JavaScript (1.4s)
+  ✓   63 [chromium] › tests/social.spec.ts:42:33 › share copy follows in-place language changes on / (2.6s)
+  ✓   64 [chromium] › tests/social.spec.ts:42:33 › share copy follows in-place language changes on /cv (1.5s)
+(node:77370) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   59 [chromium] › tests/site-menu.spec.ts:24:1 › every CV menu section reaches its actual portfolio section without a hero return (13.0s)
+  ✓   65 [tablet] › tests/cv-locales.spec.ts:3:1 › first paint and no-JS content follow Accept-Language, with English fallback (1.8s)
+(node:77388) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   66 [tablet] › tests/cv-locales.spec.ts:19:1 › language/PDF typography, experience actions and metric spacing match their surfaces (1.6s)
+  ✓   67 [tablet] › tests/cv-locales.spec.ts:9:1 › manual language survives CV/portfolio navigation and browser default can be overridden (2.6s)
+  ✓   68 [tablet] › tests/cv-locales.spec.ts:29:1 › mobile PDF action rows have full-width buttons in both themes and languages (2.0s)
+  ✓   69 [tablet] › tests/cv-locales.spec.ts:38:1 › legacy automatic Russian storage does not override the browser language (1.7s)
+  ✓   70 [tablet] › tests/cv-polish.spec.ts:3:1 › CV from a lower section fades in one logo before settling into its final slot (2.7s)
+  ✓   71 [tablet] › tests/cv-polish.spec.ts:32:1 › CV actions keep the soft-skill contour after theme and language changes (3.8s)
+  ✓   72 [tablet] › tests/cv-refinement.spec.ts:3:1 › CV reveals content gradually on entry and when reading further (3.6s)
+  ✓   73 [tablet] › tests/cv-refinement.spec.ts:13:1 › Download and portfolio share hover treatment and Contact is the floating avatar (2.8s)
+  -   75 [tablet] › tests/cv-refinement.spec.ts:43:1 › phone logo fits the same width and position on both pages and headers scroll away
+  ✓   76 [tablet] › tests/cv-refinement.spec.ts:54:1 › CV retains the portfolio hero cursor glow and static export content (2.0s)
+  ✓   74 [tablet] › tests/cv-refinement.spec.ts:27:1 › theme and route changes leave desktop controls and their icons in stable slots (5.3s)
+  ✓   77 [tablet] › tests/cv-refinement.spec.ts:62:1 › burger strokes stay at the same visible rows when changing theme (2.0s)
+  ✓   78 [tablet] › tests/cv.spec.ts:4:1 › CV follows the edited content, links and responsive composition (1.9s)
+  ✓   80 [tablet] › tests/cv.spec.ts:85:1 › reduced motion keeps immediate CV navigation (1.2s)
+  ✓   81 [tablet] › tests/cv.spec.ts:93:1 › CV is accessible without JavaScript and at narrow widths (1.4s)
+  ✓   79 [tablet] › tests/cv.spec.ts:43:1 › header opens CV through a shrinking logo and browser back remains usable (4.5s)
+  ✓   82 [tablet] › tests/cv.spec.ts:105:1 › CV language and theme preserve each other and the PDF format choice (3.9s)
+  ✓   83 [tablet] › tests/cv.spec.ts:134:1 › CV theme interpolates without reload and both overlays match portfolio behaviour (4.0s)
+  ✓   84 [tablet] › tests/cv.spec.ts:178:1 › CV toolbar stays aligned on return and the same logo expands smoothly (3.1s)
+  -   86 [tablet] › tests/cv.spec.ts:226:1 › all eight published PDF variants match their manifest hashes
+  -   87 [tablet] › tests/pdf-workflow.spec.ts:3:1 › workflow stays connected across narrow desktop widths in both languages
+  ✓   85 [tablet] › tests/cv.spec.ts:198:1 › pickers are viewport-centred, contacts share one overlay and wheel scrolling is locked (3.4s)
+  ✓   88 [tablet] › tests/pdf-workflow.spec.ts:33:1 › workflow can switch layout during reading without a reload or missing animation (3.7s)
+  ✓   89 [tablet] › tests/pdf-workflow.spec.ts:41:1 › PDF format overlay follows Figma typography, fits the viewport and keeps variant downloads (3.6s)
+  ✓   91 [tablet] › tests/portfolio.spec.ts:4:1 › renders every portfolio section without horizontal overflow (827ms)
+  ✓   90 [tablet] › tests/pdf-workflow.spec.ts:60:1 › compact workflow is complete without JavaScript at a tablet width (1.3s)
+  ✓   93 [tablet] › tests/portfolio.spec.ts:27:1 › language switch changes copy and persists the choice (1.5s)
+  ✓   92 [tablet] › tests/portfolio.spec.ts:15:1 › page has no runtime console errors (2.6s)
+  ✓   94 [tablet] › tests/portfolio.spec.ts:42:1 › navigation controls follow the intended responsive scroll behaviour (2.5s)
+  ✓   96 [tablet] › tests/portfolio.spec.ts:106:1 › avatar opens contact details (1.5s)
+  ✓   95 [tablet] › tests/portfolio.spec.ts:85:1 › menu is keyboard accessible and contains every section (3.9s)
+  -   98 [tablet] › tests/portfolio.spec.ts:155:1 › desktop hover animates one contour without moving its geometry
+  ✓   97 [tablet] › tests/portfolio.spec.ts:143:1 › reduced motion keeps content and joined Figma routes visible (899ms)
+  -   99 [tablet] › tests/portfolio.spec.ts:195:1 › Skills hover stays purple and eases into the border highlight
+  -  101 [tablet] › tests/portfolio.spec.ts:259:1 › mobile Workflow, Skills and Interfaces match Figma geometry
+  -  100 [tablet] › tests/portfolio.spec.ts:225:1 › desktop Theme Builder and Interfaces cards match Figma geometry
+  -  103 [tablet] › tests/portfolio.spec.ts:351:1 › mobile details reveal on demand
+  -  104 [tablet] › tests/portfolio.spec.ts:374:1 › mobile card borders rotate their gradient with scroll
+  ✓  105 [tablet] › tests/portfolio.spec.ts:393:1 › pet project uses the verified destinations and exact portfolio font (910ms)
+  ✓  102 [tablet] › tests/portfolio.spec.ts:309:1 › Focus, Process and closing contacts follow the Figma formatting (1.0s)
+  -  106 [tablet] › tests/portfolio.spec.ts:402:1 › desktop AI routes, Pet Project and closing section use the latest Figma structure
+  ✓  108 [tablet] › tests/portfolio.spec.ts:456:1 › AI context, tool cards and app icons use the exact Figma geometry (1.1s)
+  ✓  107 [tablet] › tests/portfolio.spec.ts:430:1 › Joyride headings remain live text and the hero uses the shared SVG (2.2s)
+  ✓  110 [tablet] › tests/portfolio.spec.ts:505:1 › health endpoint responds (222ms)
+  ✓  111 [tablet] › tests/portfolio.spec.ts:511:1 › all cards have one painted border and icon exports have no extra ring (959ms)
+  ✓  109 [tablet] › tests/portfolio.spec.ts:491:1 › Theme and Interfaces metrics use live staggered odometer digits (3.3s)
+  -  113 [tablet] › tests/portfolio.spec.ts:541:1 › mobile header follows the authored gutter and skill rows fill their width
+  ✓  112 [tablet] › tests/portfolio.spec.ts:528:1 › AI route translations replace their labels without adding another chip (1.6s)
+  ✓  114 [tablet] › tests/portfolio.spec.ts:569:1 › every desktop menu item fits on a short viewport (1.8s)
+  ✓  116 [tablet] › tests/portfolio.spec.ts:606:3 › without JavaScript › essential portfolio content and final numbers remain readable (867ms)
+  ✓  115 [tablet] › tests/portfolio.spec.ts:588:1 › cold font loading waits before the padded hero reveal without layout shift (2.4s)
+  ✓  117 [tablet] › tests/portfolio.spec.ts:617:1 › ordinary circular corners keep Figma radii and one mask (877ms)
+  ✓  118 [tablet] › tests/portfolio.spec.ts:632:1 › icon frame lights move again without an unmasked original ring (4.4s)
+  ✓  119 [tablet] › tests/portfolio.spec.ts:652:1 › scrollbar and stationary cursor follow sections during fast bidirectional scroll (4.5s)
+  ✓  121 [tablet] › tests/portfolio.spec.ts:692:1 › avatar ring and portrait have an opaque backing (1.0s)
+  ✓  122 [tablet] › tests/site-menu.spec.ts:5:1 › CV and portfolio share all nine menu entries and current CV closes without navigating (1.4s)
+  ✓  120 [tablet] › tests/portfolio.spec.ts:672:1 › menu and language use the same smooth full-opacity font crossfade (6.9s)
+  ✓  124 [tablet] › tests/site-menu.spec.ts:45:1 › shared menu fits short desktop and mobile viewports on both routes (1.5s)
+  ✓  125 [tablet] › tests/site-menu.spec.ts:56:1 › Audiomania footer matches Figma actions and Contact opens the shared overlay (873ms)
+  -  126 [tablet] › tests/social.spec.ts:10:1 › crawlers receive localized route metadata and exact public Figma assets without JavaScript
+  ✓  127 [tablet] › tests/social.spec.ts:42:33 › share copy follows in-place language changes on / (2.9s)
+  ✓  128 [tablet] › tests/social.spec.ts:42:33 › share copy follows in-place language changes on /cv (1.5s)
+(node:77531) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  129 [mobile] › tests/cv-locales.spec.ts:3:1 › first paint and no-JS content follow Accept-Language, with English fallback (1.7s)
+  ✓  123 [tablet] › tests/site-menu.spec.ts:24:1 › every CV menu section reaches its actual portfolio section without a hero return (14.4s)
+(node:77538) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  130 [mobile] › tests/cv-locales.spec.ts:9:1 › manual language survives CV/portfolio navigation and browser default can be overridden (2.8s)
+  ✓  131 [mobile] › tests/cv-locales.spec.ts:19:1 › language/PDF typography, experience actions and metric spacing match their surfaces (1.6s)
+  ✓  132 [mobile] › tests/cv-locales.spec.ts:29:1 › mobile PDF action rows have full-width buttons in both themes and languages (2.0s)
+  -  134 [mobile] › tests/cv-polish.spec.ts:3:1 › CV from a lower section fades in one logo before settling into its final slot
+  ✓  133 [mobile] › tests/cv-locales.spec.ts:38:1 › legacy automatic Russian storage does not override the browser language (1.9s)
+  ✓  135 [mobile] › tests/cv-polish.spec.ts:32:1 › CV actions keep the soft-skill contour after theme and language changes (2.2s)
+  ✓  137 [mobile] › tests/cv-refinement.spec.ts:13:1 › Download and portfolio share hover treatment and Contact is the floating avatar (1.8s)
+  ✓  136 [mobile] › tests/cv-refinement.spec.ts:3:1 › CV reveals content gradually on entry and when reading further (3.5s)
+  -  138 [mobile] › tests/cv-refinement.spec.ts:27:1 › theme and route changes leave desktop controls and their icons in stable slots
+  -  140 [mobile] › tests/cv-refinement.spec.ts:54:1 › CV retains the portfolio hero cursor glow and static export content
+  -  141 [mobile] › tests/cv-refinement.spec.ts:62:1 › burger strokes stay at the same visible rows when changing theme
+  ✓  142 [mobile] › tests/cv.spec.ts:4:1 › CV follows the edited content, links and responsive composition (1.8s)
+  ✓  139 [mobile] › tests/cv-refinement.spec.ts:43:1 › phone logo fits the same width and position on both pages and headers scroll away (3.4s)
+  ✓  143 [mobile] › tests/cv.spec.ts:43:1 › header opens CV through a shrinking logo and browser back remains usable (2.3s)
+  ✓  144 [mobile] › tests/cv.spec.ts:85:1 › reduced motion keeps immediate CV navigation (1.3s)
+  ✓  145 [mobile] › tests/cv.spec.ts:93:1 › CV is accessible without JavaScript and at narrow widths (1.1s)
+  ✓  146 [mobile] › tests/cv.spec.ts:105:1 › CV language and theme preserve each other and the PDF format choice (2.7s)
+  ✓  147 [mobile] › tests/cv.spec.ts:134:1 › CV theme interpolates without reload and both overlays match portfolio behaviour (4.0s)
+  ✓  148 [mobile] › tests/cv.spec.ts:178:1 › CV toolbar stays aligned on return and the same logo expands smoothly (2.2s)
+  -  150 [mobile] › tests/cv.spec.ts:226:1 › all eight published PDF variants match their manifest hashes
+  -  151 [mobile] › tests/pdf-workflow.spec.ts:3:1 › workflow stays connected across narrow desktop widths in both languages
+  ✓  149 [mobile] › tests/cv.spec.ts:198:1 › pickers are viewport-centred, contacts share one overlay and wheel scrolling is locked (3.3s)
+  ✓  152 [mobile] › tests/pdf-workflow.spec.ts:33:1 › workflow can switch layout during reading without a reload or missing animation (4.3s)
+  ✓  154 [mobile] › tests/pdf-workflow.spec.ts:60:1 › compact workflow is complete without JavaScript at a tablet width (1.3s)
+  ✓  155 [mobile] › tests/portfolio.spec.ts:4:1 › renders every portfolio section without horizontal overflow (891ms)
+  ✓  153 [mobile] › tests/pdf-workflow.spec.ts:41:1 › PDF format overlay follows Figma typography, fits the viewport and keeps variant downloads (3.6s)
+  ✓  157 [mobile] › tests/portfolio.spec.ts:27:1 › language switch changes copy and persists the choice (1.4s)
+  ✓  156 [mobile] › tests/portfolio.spec.ts:15:1 › page has no runtime console errors (2.7s)
+  ✓  158 [mobile] › tests/portfolio.spec.ts:42:1 › navigation controls follow the intended responsive scroll behaviour (1.6s)
+  ✓  159 [mobile] › tests/portfolio.spec.ts:85:1 › menu is keyboard accessible and contains every section (1.0s)
+  ✓  161 [mobile] › tests/portfolio.spec.ts:143:1 › reduced motion keeps content and joined Figma routes visible (975ms)
+  -  162 [mobile] › tests/portfolio.spec.ts:155:1 › desktop hover animates one contour without moving its geometry
+  -  163 [mobile] › tests/portfolio.spec.ts:195:1 › Skills hover stays purple and eases into the border highlight
+  -  164 [mobile] › tests/portfolio.spec.ts:225:1 › desktop Theme Builder and Interfaces cards match Figma geometry
+  ✓  160 [mobile] › tests/portfolio.spec.ts:106:1 › avatar opens contact details (1.9s)
+  ✓  165 [mobile] › tests/portfolio.spec.ts:259:1 › mobile Workflow, Skills and Interfaces match Figma geometry (1.2s)
+  ✓  166 [mobile] › tests/portfolio.spec.ts:309:1 › Focus, Process and closing contacts follow the Figma formatting (1.2s)
+  ✓  168 [mobile] › tests/portfolio.spec.ts:374:1 › mobile card borders rotate their gradient with scroll (1.5s)
+  ✓  169 [mobile] › tests/portfolio.spec.ts:393:1 › pet project uses the verified destinations and exact portfolio font (937ms)
+  -  170 [mobile] › tests/portfolio.spec.ts:402:1 › desktop AI routes, Pet Project and closing section use the latest Figma structure
+  ✓  167 [mobile] › tests/portfolio.spec.ts:351:1 › mobile details reveal on demand (3.5s)
+  ✓  172 [mobile] › tests/portfolio.spec.ts:456:1 › AI context, tool cards and app icons use the exact Figma geometry (1.2s)
+  ✓  171 [mobile] › tests/portfolio.spec.ts:430:1 › Joyride headings remain live text and the hero uses the shared SVG (2.3s)
+  ✓  174 [mobile] › tests/portfolio.spec.ts:505:1 › health endpoint responds (118ms)
+  ✓  175 [mobile] › tests/portfolio.spec.ts:511:1 › all cards have one painted border and icon exports have no extra ring (942ms)
+  -  176 [mobile] › tests/portfolio.spec.ts:528:1 › AI route translations replace their labels without adding another chip
+  ✓  177 [mobile] › tests/portfolio.spec.ts:541:1 › mobile header follows the authored gutter and skill rows fill their width (952ms)
+  -  178 [mobile] › tests/portfolio.spec.ts:569:1 › every desktop menu item fits on a short viewport
+  ✓  173 [mobile] › tests/portfolio.spec.ts:491:1 › Theme and Interfaces metrics use live staggered odometer digits (3.4s)
+  ✓  180 [mobile] › tests/portfolio.spec.ts:606:3 › without JavaScript › essential portfolio content and final numbers remain readable (1.1s)
+  ✓  179 [mobile] › tests/portfolio.spec.ts:588:1 › cold font loading waits before the padded hero reveal without layout shift (2.5s)
+  ✓  181 [mobile] › tests/portfolio.spec.ts:617:1 › ordinary circular corners keep Figma radii and one mask (1.0s)
+  ✓  182 [mobile] › tests/portfolio.spec.ts:632:1 › icon frame lights move again without an unmasked original ring (3.5s)
+  -  184 [mobile] › tests/portfolio.spec.ts:672:1 › menu and language use the same smooth full-opacity font crossfade
+  ✓  185 [mobile] › tests/portfolio.spec.ts:692:1 › avatar ring and portrait have an opaque backing (917ms)
+  ✓  183 [mobile] › tests/portfolio.spec.ts:652:1 › scrollbar and stationary cursor follow sections during fast bidirectional scroll (4.2s)
+  ✓  186 [mobile] › tests/site-menu.spec.ts:5:1 › CV and portfolio share all nine menu entries and current CV closes without navigating (1.4s)
+  ✓  188 [mobile] › tests/site-menu.spec.ts:45:1 › shared menu fits short desktop and mobile viewports on both routes (1.3s)
+  ✓  189 [mobile] › tests/site-menu.spec.ts:56:1 › Audiomania footer matches Figma actions and Contact opens the shared overlay (1.0s)
+  -  190 [mobile] › tests/social.spec.ts:10:1 › crawlers receive localized route metadata and exact public Figma assets without JavaScript
+  ✓  191 [mobile] › tests/social.spec.ts:42:33 › share copy follows in-place language changes on / (1.3s)
+  ✓  192 [mobile] › tests/social.spec.ts:42:33 › share copy follows in-place language changes on /cv (1.5s)
+  ✓  187 [mobile] › tests/site-menu.spec.ts:24:1 › every CV menu section reaches its actual portfolio section without a hero return (12.5s)
+
+  31 skipped
+  161 passed (3.4m)

@@ -1,0 +1,63 @@
+{
+  "checkedAt": "2026-10-18T16:37:04.236Z",
+  "runtimeCommit": "12317e94f8e7ebc7a3b8119d6328d76b003388a7",
+  "deployment": "b6e332e7-5051-4447-89bd-82f6b9ead261",
+  "checks": [
+    {
+      "url": "https://pershindmitrii.com/api/health",
+      "status": 200,
+      "type": "application/json; charset=utf-8",
+      "bytes": 15,
+      "sha256": "a29ee2b15c494311c52521766e44af56a3ad2248e7a8ab465e5206463c13d288"
+    },
+    {
+      "url": "https://pershindmitrii.com/",
+      "status": 200,
+      "type": "text/html",
+      "bytes": 86007,
+      "sha256": "2594054617eb23cb60d7bca08729ffd4e3a23cfba44380eb1aa45e17c68e421f"
+    },
+    {
+      "url": "https://pershindmitrii.com/cv",
+      "status": 200,
+      "type": "text/html",
+      "bytes": 18508,
+      "sha256": "7208f80cd3b02526fdb0ce00ffe0e35a08094c3e3956e514486ab6d33aedbc8b"
+    },
+    {
+      "url": "https://pershindmitrii.com/favicon.svg",
+      "status": 200,
+      "type": "image/svg+xml",
+      "bytes": 927,
+      "sha256": "9c7acaa026c087a36b01d306fb1d3b531fdf5b2472b6f6c1ae314a324f9e29f2"
+    },
+    {
+      "url": "https://pershindmitrii.com/favicon-32.png",
+      "status": 200,
+      "type": "image/png",
+      "bytes": 396,
+      "sha256": "73a7216544a529bb60cc0b0be4cbc38e602bb900f49ed8c1584bbfffb1c5d523"
+    },
+    {
+      "url": "https://pershindmitrii.com/apple-touch-icon.png",
+      "status": 200,
+      "type": "image/png",
+      "bytes": 2124,
+      "sha256": "1d3edc20c8d050369bd1104b056b4e190becc8ec2077482802ef928ed91b0ad0"
+    },
+    {
+      "url": "https://pershindmitrii.com/assets/og-image.png",
+      "status": 200,
+      "type": "image/png",
+      "bytes": 43865,
+      "sha256": "ae5af8f030975cf72b1c2f6a7f7517420c2140da117ca5ab597e8b2b2b2fd963"
+    },
+    {
+      "url": "https://portfolio-production-e2d0.up.railway.app/api/health",
+      "status": 200,
+      "type": "application/json; charset=utf-8",
+      "bytes": 15,
+      "sha256": "a29ee2b15c494311c52521766e44af56a3ad2248e7a8ab465e5206463c13d288"
+    }
+  ]
+}
